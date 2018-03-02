@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-pppoeserver
 ##|*NAME=Services: PPPoE Server
@@ -75,7 +80,7 @@ if ($_POST['act'] == "del") {
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("PPPoE Server"));
+$pgtitle = array(gettext("Services"), gettext("PPPoE 서버"));
 $shortcut_section = "pppoes";
 include("head.inc");
 
@@ -84,20 +89,20 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('vpnpppoe')) {
-	print_apply_box(gettext('The PPPoE entry list has been changed.') . '<br />' . gettext('The changes must be applied for them to take effect.'));
+	print_apply_box(gettext('PPPoE 항목 리스트가 변경되었습니다.') . '<br />' . gettext('변경사항을 저장하시면 .'));
 }
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('PPPoE Server')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('PPPoE 서버')?></h2></div>
 	<div class="panel-body">
 
 	<div class="table-responsive">
 	<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 		<thead>
 			<tr>
-				<th><?=gettext("Interface")?></th>
-				<th><?=gettext("Local IP")?></th>
+				<th><?=gettext("인터페이스")?></th>
+				<th><?=gettext("로컬 IP")?></th>
 				<th><?=gettext("Number of users")?></th>
 				<th><?=gettext("Description")?></th>
 				<th><?=gettext("Actions")?></th>
@@ -122,8 +127,8 @@ foreach ($a_pppoes as $pppoe):
 					<?=htmlspecialchars($pppoe['descr'])?>
 				</td>
 				<td>
-					<a class="fa fa-pencil"	title="<?=gettext('Edit PPPoE instance')?>"	href="services_pppoe_edit.php?id=<?=$i?>"></a>
-					<a class="fa fa-trash" title="<?=gettext('Delete PPPoE instance')?>" href="services_pppoe.php?act=del&amp;id=<?=$i?>" usepost></a>
+					<a class="fa fa-pencil"	title="<?=gettext('PPPoE 사례 편집')?>"	href="services_pppoe_edit.php?id=<?=$i?>"></a>
+					<a class="fa fa-trash" title="<?=gettext('PPPoE 사례 삭제')?>" href="services_pppoe.php?act=del&amp;id=<?=$i?>" usepost></a>
 				</td>
 			</tr>
 <?php
@@ -140,7 +145,7 @@ endforeach;
 <nav class="action-buttons">
 	<a href="services_pppoe_edit.php" class="btn btn-success">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("")?>
 	</a>
 </nav>
 
