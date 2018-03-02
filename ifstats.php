@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 추가
+*/
+
 ##|+PRIV
 ##|*IDENT=page-xmlrpcinterfacestats
 ##|*NAME=XMLRPC Interface Stats
