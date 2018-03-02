@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-captiveportal-editallowedhostnames
 ##|*NAME=Services: Captive Portal: Edit Allowed Hostnames
@@ -60,7 +65,7 @@ if (!is_array($config['captiveportal'])) {
 
 $a_cp =& $config['captiveportal'];
 
-$pgtitle = array(gettext("Services"), gettext("Captive Portal"), $a_cp[$cpzone]['zone'], gettext("Allowed Hostnames"), gettext("Edit"));
+$pgtitle = array(gettext("서비스"), gettext("전속 포털"), $a_cp[$cpzone]['zone'], gettext("허용된 호스트 이름"), gettext(""));
 $pglinks = array("", "services_captiveportal_zones.php", "services_captiveportal.php?zone=" . $cpzone, "services_captiveportal_hostname.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal";
 
@@ -94,7 +99,7 @@ if ($_POST['save']) {
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (($_POST['hostname'] && !is_hostname($_POST['hostname']))) {
-		$input_errors[] = sprintf(gettext("A valid Hostname must be specified. [%s]"), $_POST['hostname']);
+		$input_errors[] = sprintf(gettext("유효한 호스트 이름을 지정해주십시오. [%s]"), $_POST['hostname']);
 	}
 
 	if ($_POST['bw_up'] && !is_numeric($_POST['bw_up'])) {
@@ -110,7 +115,7 @@ if ($_POST['save']) {
 		}
 
 		if ($ipent['hostname'] == $_POST['hostname']) {
-			$input_errors[] = sprintf(gettext("Hostname [%s] already allowed."), $_POST['hostname']) ;
+			$input_errors[] = sprintf(gettext("호스트 [%s]이(가) 이미 허용된 상태입니다."), $_POST['hostname']) ;
 			break ;
 		}
 	}
@@ -166,7 +171,7 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section('Captive Portal Hostname Settings');
+$section = new Form_Section('전속 포털 호스트 이름 설정');
 
 $section->addInput(new Form_Select(
 	'dir',
