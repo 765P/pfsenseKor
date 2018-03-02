@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-getstats
 ##|*NAME=AJAX: Get Stats
