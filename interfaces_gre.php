@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-gre
 ##|*NAME=Interfaces: GRE
@@ -50,12 +55,12 @@ function gre_inuse($num) {
 
 if ($_POST['act'] == "del") {
 	if (!isset($_POST['id'])) {
-		$input_errors[] = gettext("Wrong parameters supplied");
+		$input_errors[] = gettext("잘못된 파라미터입니다.");
 	} else if (empty($a_gres[$_POST['id']])) {
-		$input_errors[] = gettext("Wrong index supplied");
+		$input_errors[] = gettext("잘못된 색인입니다.");
 	/* check if still in use */
 	} else if (gre_inuse($_POST['id'])) {
-		$input_errors[] = gettext("This GRE tunnel cannot be deleted because it is still being used as an interface.");
+		$input_errors[] = gettext("해당 GRE 터널을 사용 중이므로 삭제할 수 없습니다.");
 	} else {
 		pfSense_interface_destroy($a_gres[$_POST['id']]['greif']);
 		unset($a_gres[$_POST['id']]);
@@ -88,13 +93,13 @@ $tab_array[] = array(gettext("LAGGs"), false, "interfaces_lagg.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('GRE Interfaces')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('GRE 인터페이스')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext("Interface"); ?></th>
+						<th><?=gettext("인터페이스"); ?></th>
 						<th><?=gettext("Tunnel to &hellip;"); ?></th>
 						<th><?=gettext("Description"); ?></th>
 						<th><?=gettext("Actions"); ?></th>
@@ -119,8 +124,8 @@ display_top_tabs($tab_array);
 							<?=htmlspecialchars($gre['descr'])?>
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit GRE interface')?>"	href="interfaces_gre_edit.php?id=<?=$i?>"></a>
-							<a class="fa fa-trash"	title="<?=gettext('Delete GRE interface')?>"	href="interfaces_gre.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil"	title="<?=gettext('GRE 인터페이스 편집')?>"	href="interfaces_gre_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-trash"	title="<?=gettext('GRE 인터페이스 삭제')?>"	href="interfaces_gre.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 					</tr>
 <?php endforeach; ?>
