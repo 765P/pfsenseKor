@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-carp
 ##|*NAME=Status: CARP
@@ -70,7 +75,7 @@ if ($_POST['disablecarp'] != "") {
 				interface_vip_bring_down($vip);
 			}
 		}
-		$savemsg = sprintf(gettext("%s IPs have been disabled. Please note that disabling does not survive a reboot and some configuration changes will re-enable."), $carp_counter);
+		$savemsg = sprintf(gettext("%s IP가 없습니다. 삭제가 필요한 변경사항입니다."), $carp_counter);
 		$status = 0;
 	} else {
 		$savemsg = gettext("CARP has been enabled.");
@@ -112,7 +117,7 @@ if ($savemsg) {
 }
 
 if ($status == 0 && $_POST['carp_maintenancemode'] != "") {
-	print_info_box('Please enable CARP before setting the maintenance mode.');
+	print_info_box('유지 관리 모드를 설정하기 전에 CARP를 활성화하십시오.');
 }
 
 $carpcount = 0;
@@ -129,9 +134,9 @@ if (is_array($config['virtualip']['vip'])) {
 // otherwise display error box and quit
 
 if ($carpcount == 0) {
-	print_info_box(gettext('No CARP interfaces have been defined.') . '<br />' .
+	print_info_box(gettext('CARP 인터페이스가 정의되지 않았습니다.') . '<br />' .
 				   '<a href="system_hasync.php" class="alert-link">' .
-				   gettext("High availability sync settings can be configured here.") .
+				   gettext("고 가용성 동기화 설정을 여기서 구성 할 수 있습니다.") .
 				   '</a>');
 } else {
 ?>
@@ -146,34 +151,34 @@ if ($carpcount == 0) {
 	// Sadly this needs to be here so that it is inside the form
 	if ($carp_detected_problems != 0) {
 		print_info_box(
-			gettext("CARP has detected a problem and this unit has a non-zero demotion status.") .
+			gettext("CARP가 문제를 발견했습니다.") .
 			"<br/>" .
-			gettext("Check the link status on all interfaces configured with CARP VIPs and ") .
-			sprintf(gettext('search the %1$sSystem Log%2$s for CARP demotion-related events.'), "<a href=\"/status_logs.php?filtertext=carp%3A+demoted+by\">", "</a>") .
+			gettext("CARPVIP로 구성된 모든 인터페이스에서 링크 상태 점검하시고, ") .
+			sprintf(gettext('CARP시스템 관련 이벤트에 대한 %1$sSystem 로그 %2$s를 찾으십시오.'), "<a href=\"/status_logs.php?filtertext=carp%3A+demoted+by\">", "</a>") .
 			"<br/><br/>" .
 			'<button type="submit" class="btn btn-warning" name="resetdemotion" id="resetdemotion" value="' .
-			gettext("Reset CARP Demotion Status") .
+			gettext("CARP 강등 상태 리셋") .
 			'"><i class="fa fa-undo icon-embed-btn"></i>' .
-			gettext("Reset CARP Demotion Status") .
+			gettext("CARP 강등 상태 리셋") .
 			'</button>',
 			'danger'
 		);
 	}
 
 ?>
-	<button type="submit" class="btn btn-warning" name="disablecarp" value="<?=($carp_enabled ? gettext("Temporarily Disable CARP") : gettext("Enable CARP"))?>" ><i class="fa fa-<?=($carp_enabled) ? 'ban' : 'check' ; ?> icon-embed-btn"></i><?=($carp_enabled ? gettext("Temporarily Disable CARP") : gettext("Enable CARP"))?></button>
-	<button type="submit" class="btn btn-info" name="carp_maintenancemode" id="carp_maintenancemode" value="<?=(isset($config["virtualip_carp_maintenancemode"]) ? gettext("Leave Persistent CARP Maintenance Mode") : gettext("Enter Persistent CARP Maintenance Mode"))?>" ><i class="fa fa-wrench icon-embed-btn"></i><?=(isset($config["virtualip_carp_maintenancemode"]) ? gettext("Leave Persistent CARP Maintenance Mode") : gettext("Enter Persistent CARP Maintenance Mode"))?></button>
+	<button type="submit" class="btn btn-warning" name="disablecarp" value="<?=($carp_enabled ? gettext("CARP 일시적 비활성화") : gettext("CARP 활성화"))?>" ><i class="fa fa-<?=($carp_enabled) ? 'ban' : 'check' ; ?> icon-embed-btn"></i><?=($carp_enabled ? gettext("CARP 일시적 비활성화") : gettext("CARP 활성화"))?></button>
+	<button type="submit" class="btn btn-info" name="carp_maintenancemode" id="carp_maintenancemode" value="<?=(isset($config["virtualip_carp_maintenancemode"]) ? gettext("CARP 영구적 유지 관리 모드에서 나가기") : gettext("CARP 영구적 유지 관리 모드에서 들어가기"))?>" ><i class="fa fa-wrench icon-embed-btn"></i><?=(isset($config["virtualip_carp_maintenancemode"]) ? gettext("Leave Persistent CARP Maintenance Mode") : gettext("Enter Persistent CARP Maintenance Mode"))?></button>
 
 	<br /><br />
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext('CARP Interfaces')?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext('CARP 인터페이스')?></h2></div>
 			<div class="panel-body table-responsive">
 				<table class="table table-striped table-condensed table-hover sortable-theme-bootstrap " data-sortable>
 					<thead>
 						<tr>
-							<th><?=gettext("CARP Interface")?></th>
-							<th><?=gettext("Virtual IP")?></th>
+							<th><?=gettext("CARP 인터페이스")?></th>
+							<th><?=gettext("가상 IP")?></th>
 							<th><?=gettext("Status")?></th>
 						</tr>
 					</thead>
@@ -222,7 +227,7 @@ if ($carpcount == 0) {
 </form>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('pfSync Nodes')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('pfSync ')?></h2></div>
 	<div class="panel-body">
 		<ul>
 <?php
