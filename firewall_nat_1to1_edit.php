@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 추가
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-nat-1-1-edit
 ##|*NAME=Firewall: NAT: 1:1: Edit
@@ -112,27 +117,27 @@ if ($_POST['save']) {
 		$newpost = htmlentities($temp);
 
 		if ($newpost != $temp) {
-			$input_errors[] = sprintf(gettext("Invalid characters detected (%s).  Please remove invalid characters and save again."), $temp);
+			$input_errors[] = sprintf(gettext("유효하지 않은 문자가 감지되었습니다(%s). 잘못된 문자를 삭제하고 다시 저장하십시오."), $temp);
 		}
 	}
 
 	/* input validation */
 	if (isset($_POST['nobinat'])) {
 		$reqdfields = explode(" ", "interface");
-		$reqdfieldsn = array(gettext("Interface"));
+		$reqdfieldsn = array(gettext("인터페이스"));
 	} else {
 		$reqdfields = explode(" ", "interface external");
-		$reqdfieldsn = array(gettext("Interface"), gettext("External subnet"));
+		$reqdfieldsn = array(gettext("인터페이스"), gettext("외부 서브넷"));
 	}
 
 	if ($_POST['srctype'] == "single" || $_POST['srctype'] == "network") {
 		$reqdfields[] = "src";
-		$reqdfieldsn[] = gettext("Source address");
+		$reqdfieldsn[] = gettext("발신지 주소");
 	}
 
 	if ($_POST['dsttype'] == "single" || $_POST['dsttype'] == "network") {
 		$reqdfields[] = "dst";
-		$reqdfieldsn[] = gettext("Destination address");
+		$reqdfieldsn[] = gettext("수신지 주소");
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
@@ -178,7 +183,7 @@ if ($_POST['save']) {
 
 	/* For dst, if user enters an alias and selects "network" then disallow. */
 	if ($_POST['dsttype'] == "network" && is_alias($_POST['dst'])) {
-		$input_errors[] = gettext("Alias entries must specify a single host or alias.");
+		$input_errors[] = gettext("올바른 단일 호스트 또는 alias 지정해야합니다.");
 	}
 
 	/* For src, user can enter only ips or networks */
@@ -190,7 +195,7 @@ if ($_POST['save']) {
 				// Check that the address family matches the other IP addresses entered.
 				if ($extipaddrtype && ($srcipaddrtype != $extipaddrtype)) {
 					$input_errors[] = sprintf(
-						gettext('The external IP address (%1$s) and internal IP address (%2$s) are of different address families.') .
+						gettext('외부IP 주소(%1$s)와 내부IP 주소(%2$s)는 서로 다른 주소 그룹에 속해있습니다.') .
 							get_must_be_both_text(),
 						$_POST['external'],
 						$_POST['src']);
@@ -199,7 +204,7 @@ if ($_POST['save']) {
 		}
 
 		if (($_POST['srcmask'] && !is_numericint($_POST['srcmask']))) {
-			$input_errors[] = gettext("A valid internal bit count must be specified.");
+			$input_errors[] = gettext("유효한 내부 비트 카운트를 지정하십시오.");
 		}
 	}
 
@@ -216,14 +221,14 @@ if ($_POST['save']) {
 				// Check that the address family matches the other IP addresses entered.
 				if ($extipaddrtype && ($dstipaddrtype != $extipaddrtype)) {
 					$input_errors[] = sprintf(
-						gettext('The external IP address (%1$s) and destination IP address (%2$s) are of different address families.') .
+						gettext('외부IP 주소(%1$s)와 대상IP 주소(%2$s)는 서로 다른 주소 그룹에 속해있습니다.') .
 							get_must_be_both_text(),
 						$_POST['external'],
 						$_POST['dst']);
 				}
 				if ($srcipaddrtype && ($dstipaddrtype != $srcipaddrtype)) {
 					$input_errors[] = sprintf(
-						gettext('The internal IP address (%1$s) and destination IP address (%2$s) are of different address families.') .
+						gettext('내부IP 주소(%1$s)와 대상IP 주소(%2$s)는 서로 다른 주소 그룹에 속해있습니다.') .
 							get_must_be_both_text(),
 						$_POST['src'],
 						$_POST['dst']);
@@ -232,7 +237,7 @@ if ($_POST['save']) {
 		}
 
 		if (($_POST['dstmask'] && !is_numericint($_POST['dstmask']))) {
-			$input_errors[] = gettext("A valid destination bit count must be specified.");
+			$input_errors[] = gettext("유효한 대상 비트 카운트를 지정해야합니다.");
 		}
 	}
 
@@ -294,16 +299,16 @@ include("head.inc");
 function build_srctype_list() {
 	global $pconfig, $ifdisp;
 
-	$list = array('any' => gettext('Any'), 'single' => gettext('Single host'), 'network' => gettext('Network'));
+	$list = array('any' => gettext('Any'), 'single' => gettext('단일 호스트'), 'network' => gettext('Network'));
 
 	$sel = is_specialnet($pconfig['src']);
 
 	if (have_ruleint_access("pppoe")) {
-		$list['pppoe'] = gettext('PPPoE clients');
+		$list['pppoe'] = gettext('PPPoE 클라이언트');
 	}
 
 	if (have_ruleint_access("l2tp")) {
-		$list['l2tp'] = gettext('L2TP clients');
+		$list['l2tp'] = gettext('L2TP 클라이언트');
 	}
 
 	foreach ($ifdisp as $ifent => $ifdesc) {
@@ -341,7 +346,7 @@ function build_dsttype_list() {
 	global $pconfig, $config, $ifdisp;
 
 	$sel = is_specialnet($pconfig['dst']);
-	$list = array('any' => gettext('Any'), 'single' => gettext('Single host or alias'), 'network' => gettext('Network'));
+	$list = array('any' => gettext('Any'), 'single' => gettext('단일 호스트  alias'), 'network' => gettext('Network'));
 
 	if (have_ruleint_access("pppoe")) {
 		$list['pppoe'] = gettext('PPPoE clients');
@@ -471,7 +476,7 @@ $section->addInput(new Form_IpAddress(
 ))->setHelp('Enter the external (usually on a WAN) subnet\'s starting address for the 1:1 mapping. ' .
 			'The subnet mask from the internal address below will be applied to this IP address.');
 
-$group = new Form_Group('*Internal IP');
+$group = new Form_Group('*내부 IP');
 
 $group->add(new Form_Checkbox(
 	'srcnot',
@@ -530,16 +535,16 @@ $section->addInput(new Form_Input(
 	'Description',
 	'text',
 	$pconfig['descr']
-))->setHelp('A description may be entered here for administrative reference (not parsed).');
+))->setHelp('관리참조(구문 분석되지 않음)를 위해 여기에 설명을 입력 할 수 있습니다.');
 
 $section->addInput(new Form_Select(
 	'natreflection',
 	'NAT reflection',
 	$pconfig['natreflection'],
 	array(
-		'default' => gettext('Use system default'),
-		'enable'  => gettext('Enable'),
-		'disable' => gettext('Disable')
+		'default' => gettext('시스템 기본값 사용'),
+		'enable'  => gettext('활성화'),
+		'disable' => gettext('비활성화')
 	)
 ));
 
