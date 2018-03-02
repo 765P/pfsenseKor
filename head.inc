@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 
+*/
+
 require_once("globals.inc");
 require_once("functions.inc");
 require_once("shortcuts.inc");
@@ -235,26 +240,26 @@ $ext_menu_path_data = read_ext_menu_path_data();
 
 // System
 $system_menu = array();
-$system_menu[] = array(gettext("Logout") . " (" . $_SESSION['Username'] . ")", "/index.php?logout");
+$system_menu[] = array(gettext("로그아웃") . " (" . $_SESSION['Username'] . ")", "/index.php?logout");
 $system_menu[] = array(gettext("Advanced"), "/system_advanced_admin.php");
-$system_menu[] = array(gettext("Update"), "/pkg_mgr_install.php?id=firmware");
+$system_menu[] = array(gettext("업데이트"), "/pkg_mgr_install.php?id=firmware");
 $system_menu[] = array(gettext("General Setup"), "/system.php");
 $system_menu[] = array(gettext("High Avail. Sync"), "/system_hasync.php");
-$system_menu[] = array(gettext("Package Manager"), "/pkg_mgr_installed.php");
-$system_menu[] = array(gettext("Setup Wizard"), "/wizard.php?xml=setup_wizard.xml");
+$system_menu[] = array(gettext("패키지 관리자"), "/pkg_mgr_installed.php");
+$system_menu[] = array(gettext("설치 마법사"), "/wizard.php?xml=setup_wizard.xml");
 $system_menu[] = array(gettext("Routing"), "/system_gateways.php");
 $system_menu[] = array(gettext("Cert. Manager"), "/system_camanager.php");
 if (!isAllowedPage("system_usermanager.php*")) {
-	$system_menu[] = array(gettext("User Manager"), "/system_usermanager_passwordmg.php");
+	$system_menu[] = array(gettext("유저 관리자"), "/system_usermanager_passwordmg.php");
 } else {
-	$system_menu[] = array(gettext("User Manager"), "/system_usermanager.php");
+	$system_menu[] = array(gettext("유저 관리자"), "/system_usermanager.php");
 }
 
 if ($user_settings['customsettings'] && isAllowedPage("system_user_settings.php*")) {
-	$system_menu[] = array(gettext("User Settings"), "/system_user_settings.php");
+	$system_menu[] = array(gettext("유저 설정"), "/system_user_settings.php");
 }
 
-$system_menu = msort(array_merge($system_menu, return_ext_menu("System")), 0);
+$system_menu = msort(array_merge($system_menu, return_ext_menu("시스템")), 0);
 
 // Interfaces
 // NOTE:
@@ -311,15 +316,15 @@ $services_menu[] = array(gettext("DHCP Relay"), "/services_dhcp_relay.php");
 $services_menu[] = array(gettext("DHCPv6 Relay"), "/services_dhcpv6_relay.php");
 
 if ($g['services_dhcp_server_enable']) {
-	$services_menu[] = array(gettext("DHCP Server"), "/services_dhcp.php");
+	$services_menu[] = array(gettext("DHCP 서버"), "/services_dhcp.php");
 	$services_menu[] = array(htmlspecialchars(gettext("DHCPv6 Server & RA")), "/services_dhcpv6.php");
 }
 
-$services_menu[] = array(gettext("Dynamic DNS"), "/services_dyndns.php");
-$services_menu[] = array(gettext("IGMP Proxy"), "/services_igmpproxy.php");
-$services_menu[] = array(gettext("Load Balancer"), "/load_balancer_pool.php");
+$services_menu[] = array(gettext("동적 DNS"), "/services_dyndns.php");
+$services_menu[] = array(gettext("IGMP 프록시"), "/services_igmpproxy.php");
+$services_menu[] = array(gettext("로드 밸런서"), "/load_balancer_pool.php");
 $services_menu[] = array(gettext("NTP"), "/services_ntpd.php");
-$services_menu[] = array(gettext("PPPoE Server"), "/services_pppoe.php");
+$services_menu[] = array(gettext("PPPoE 서버"), "/services_pppoe.php");
 $services_menu[] = array(gettext("SNMP"), "/services_snmp.php");
 
 if (count($config['interfaces']) > 1) {
@@ -344,21 +349,21 @@ $vpn_menu = msort(array_merge($vpn_menu, return_ext_menu("VPN")), 0);
 $status_menu = array();
 $status_menu[] = array(gettext("Captive Portal"), "/status_captiveportal.php");
 $status_menu[] = array(gettext("CARP (failover)"), "/status_carp.php");
-$status_menu[] = array(gettext("Dashboard"), "/index.php");
-$status_menu[] = array(gettext("Gateways"), "/status_gateways.php");
+$status_menu[] = array(gettext("대시보드"), "/index.php");
+$status_menu[] = array(gettext("게이트웨이"), "/status_gateways.php");
 $status_menu[] = array(gettext("DHCP Leases"), "/status_dhcp_leases.php");
 $status_menu[] = array(gettext("DHCPv6 Leases"), "/status_dhcpv6_leases.php");
 $status_menu[] = array(gettext("Filter Reload"), "/status_filter_reload.php?user=true");
 $status_menu[] = array(gettext("Interfaces"), "/status_interfaces.php");
 $status_menu[] = array(gettext("IPsec"), "/status_ipsec.php");
-$status_menu[] = array(gettext("Load Balancer"), "/status_lb_pool.php");
+$status_menu[] = array(gettext("로드 밸런서"), "/status_lb_pool.php");
 $status_menu[] = array(gettext("NTP"), "/status_ntpd.php");
 $status_menu[] = array(gettext("OpenVPN"), "/status_openvpn.php");
 $status_menu[] = array(gettext("Package Logs"), "/status_pkglogs.php");
 $status_menu[] = array(gettext("Queues"), "/status_queues.php");
 $status_menu[] = array(gettext("Services"), "/status_services.php");
-$status_menu[] = array(gettext("System Logs"), "/status_logs.php");
-$status_menu[] = array(gettext("Traffic Graph"), "/status_graph.php?if=wan");
+$status_menu[] = array(gettext("시스템 로그"), "/status_logs.php");
+$status_menu[] = array(gettext("트래픽 그래프"), "/status_graph.php?if=wan");
 
 if (count($config['interfaces']) > 1) {
 	$status_menu[] = array(gettext("UPnP &amp; NAT-PMP"), "/status_upnp.php");
@@ -380,12 +385,12 @@ $status_menu = msort(array_merge($status_menu, return_ext_menu("Status")), 0);
 
 // Diagnostics
 $diagnostics_menu = array();
-$diagnostics_menu[] = array(gettext("ARP Table"), "/diag_arp.php");
+$diagnostics_menu[] = array(gettext("ARP 테이블"), "/diag_arp.php");
 $diagnostics_menu[] = array(gettext("Authentication"), "/diag_authentication.php");
 $diagnostics_menu[] = array(htmlspecialchars(gettext("Backup & Restore")), "/diag_backup.php");
-$diagnostics_menu[] = array(gettext("Command Prompt"), "/diag_command.php");
+$diagnostics_menu[] = array(gettext("명령 프롬프트"), "/diag_command.php");
 $diagnostics_menu[] = array(gettext("DNS Lookup"), "/diag_dns.php");
-$diagnostics_menu[] = array(gettext("Edit File"), "/diag_edit.php");
+$diagnostics_menu[] = array(gettext("파일 편집"), "/diag_edit.php");
 $diagnostics_menu[] = array(gettext("Factory Defaults"), "/diag_defaults.php");
 
 if (file_exists("/var/run/gmirror_active")) {
@@ -393,17 +398,17 @@ if (file_exists("/var/run/gmirror_active")) {
 }
 
 $diagnostics_menu[] = array(gettext("Halt System"), "/diag_halt.php");
-$diagnostics_menu[] = array(gettext("Limiter Info"), "/diag_limiter_info.php");
-$diagnostics_menu[] = array(gettext("NDP Table"), "/diag_ndp.php");
-$diagnostics_menu[] = array(gettext("Tables"), "/diag_tables.php");
-$diagnostics_menu[] = array(gettext("Ping"), "/diag_ping.php");
-$diagnostics_menu[] = array(gettext("Test Port"), "/diag_testport.php");
-$diagnostics_menu[] = array(gettext("pfInfo"), "/diag_pf_info.php");
+$diagnostics_menu[] = array(gettext("리미터 정보"), "/diag_limiter_info.php");
+$diagnostics_menu[] = array(gettext("NDP 테이블"), "/diag_ndp.php");
+$diagnostics_menu[] = array(gettext("테이블 모음"), "/diag_tables.php");
+$diagnostics_menu[] = array(gettext("핑"), "/diag_ping.php");
+$diagnostics_menu[] = array(gettext("테스트 포트"), "/diag_testport.php");
+$diagnostics_menu[] = array(gettext("pf정보"), "/diag_pf_info.php");
 $diagnostics_menu[] = array(gettext("pfTop"), "/diag_pftop.php");
-$diagnostics_menu[] = array(gettext("Reboot"), "/diag_reboot.php");
+$diagnostics_menu[] = array(gettext("리부트"), "/diag_reboot.php");
 $diagnostics_menu[] = array(gettext("Routes"), "/diag_routes.php");
 $diagnostics_menu[] = array(gettext("S.M.A.R.T. Status"), "/diag_smart.php");
-$diagnostics_menu[] = array(gettext("Sockets"), "/diag_sockets.php");
+$diagnostics_menu[] = array(gettext(""), "/diag_sockets.php");
 $diagnostics_menu[] = array(gettext("States"), "/diag_dump_states.php");
 $diagnostics_menu[] = array(gettext("States Summary"), "/diag_states_summary.php");
 $diagnostics_menu[] = array(gettext("System Activity"), "/diag_system_activity.php");
@@ -418,17 +423,17 @@ $gold_menu = msort(array_merge($gold_menu, return_ext_menu("Gold")), 0);
 
 if (!$g['disablehelpmenu']) {
 	$help_menu = array();
-	$help_menu[] = array(gettext("About this Page"), $helpurl);
+	$help_menu[] = array(gettext("페이지 설명"), $helpurl);
 	if ($g['product_name'] == "pfSense") {
-		$help_menu[] = array(gettext("Bug Database"), "https://www.pfsense.org/j.php?jumpto=redmine");
+		$help_menu[] = array(gettext("버그 데이터베이스"), "https://www.pfsense.org/j.php?jumpto=redmine");
 	}
 
-	$help_menu[] = array(gettext("User Forum"), "https://www.pfsense.org/j.php?jumpto=forum");
+	$help_menu[] = array(gettext("유저 포럼"), "https://www.pfsense.org/j.php?jumpto=forum");
 	$help_menu[] = array(gettext("Documentation"), "https://www.pfsense.org/j.php?jumpto=doc");
-	$help_menu[] = array(gettext("Paid Support"), "https://www.netgate.com/support");
-	$help_menu[] = array(gettext("pfSense Book"), "https://www.pfsense.org/j.php?jumpto=book");
-	$help_menu[] = array(gettext("FreeBSD Handbook"), "https://www.pfsense.org/j.php?jumpto=fbsdhandbook");
-	$help_menu = msort(array_merge($help_menu, return_ext_menu("Help")), 0);
+	$help_menu[] = array(gettext("유료 지원"), "https://www.netgate.com/support");
+	$help_menu[] = array(gettext("pfSense 북"), "https://www.pfsense.org/j.php?jumpto=book");
+	$help_menu[] = array(gettext("FreeBSD 핸드북"), "https://www.pfsense.org/j.php?jumpto=fbsdhandbook");
+	$help_menu = msort(array_merge($help_menu, return_ext_menu("도움말")), 0);
 }
 
 $menuclass = "static";
@@ -520,7 +525,7 @@ if (are_notices_pending()) {
 					<?php $notices = get_notices()?>
 					<li class="dropdown">
 						<a href="#" data-toggle="modal" data-target="#notices" role="button" aria-expanded="false">
-							<i class="fa fa-bell text-danger" title="<?=gettext("Notices")?>"></i>
+							<i class="fa fa-bell text-danger" title="<?=gettext("주의")?>"></i>
 							<span class="badge bg-danger"><?=count($notices)?></span>
 						</a>
 					</li>
@@ -529,7 +534,7 @@ if (are_notices_pending()) {
 				?>
 					<li class="dropdown">
 						<a href="/index.php?logout" usepost>
-							<i class="fa fa-sign-out" title="<?=gettext("Logout") . " (" . $_SESSION['Username'] . "@" . htmlspecialchars($system_url) . ")"?>"></i>
+							<i class="fa fa-sign-out" title="<?=gettext("로그아웃") . " (" . $_SESSION['Username'] . "@" . htmlspecialchars($system_url) . ")"?>"></i>
 						</a>
 					</li>
 			</ul>
