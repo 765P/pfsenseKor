@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-bridge-edit
 ##|*NAME=Interfaces: Bridge edit
@@ -141,34 +146,34 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "members");
-	$reqdfieldsn = array(gettext("Member Interfaces"));
+	$reqdfieldsn = array(gettext("인터페이스 멤버"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($_POST['maxage'] && !is_numericint($_POST['maxage'])) {
-		$input_errors[] = gettext("Maxage needs to be an integer between 6 and 40.");
+		$input_errors[] = gettext("Maxage는 6에서 40사이의 정수로 지정되어야 합니다.");
 	}
 	if ($_POST['maxaddr'] && !is_numericint($_POST['maxaddr'])) {
-		$input_errors[] = gettext("Maxaddr needs to be an integer.");
+		$input_errors[] = gettext("Maxaddr은 정수로 지정되어야 합니다.");
 	}
 	if ($_POST['timeout'] && !is_numericint($_POST['timeout'])) {
-		$input_errors[] = gettext("Timeout needs to be an integer.");
+		$input_errors[] = gettext("시간초과는 정수로 지정되어야 합니다.");
 	}
 	if ($_POST['fwdelay'] && !is_numericint($_POST['fwdelay'])) {
-		$input_errors[] = gettext("Forward Delay needs to be an integer between 4 and 30.");
+		$input_errors[] = gettext("Forward Delay는 4에서 30 사이의 정수로 지정되어야 합니다.");
 	}
 	if ($_POST['hellotime'] && !is_numericint($_POST['hellotime'])) {
-		$input_errors[] = gettext("Hello time for STP needs to be an integer between 1 and 2.");
+		$input_errors[] = gettext("Hello time for STP는 1과 2 사이의 정수로 지정되어야 합니다.");
 	}
 	if ($_POST['priority'] && !is_numericint($_POST['priority'])) {
-		$input_errors[] = gettext("Priority for STP needs to be an integer between 0 and 61440.");
+		$input_errors[] = gettext("STP의 우선 순위는 0에서 61440 사이의 정수로 지정되어야 합니다.");
 	}
 	if ($_POST['holdcnt'] && !is_numericint($_POST['holdcnt'])) {
-		$input_errors[] = gettext("Transmit Hold Count for STP needs to be an integer between 1 and 10.");
+		$input_errors[] = gettext("STP의 송신 유지 카운트는 1에서 10 사이의 정수로 지정되어야 합니다.");
 	}
 	foreach ($ifacelist as $ifn => $ifdescr) {
 		if ($_POST[$ifn] <> "" && !is_numericint($_POST[$ifn])) {
-			$input_errors[] = sprintf(gettext("%s interface priority for STP needs to be an integer between 0 and 240."), $ifdescr);
+			$input_errors[] = sprintf(gettext("STP의 %s 인터페이스 우선 순위는 0에서 240 사이의 정수로 지정되어야 합니다."), $ifdescr);
 		}
 	}
 
@@ -176,19 +181,19 @@ if ($_POST['save']) {
 
 	foreach ($ifacelist as $ifn => $ifdescr) {
 		if ($_POST["{$ifn}{$i}"] <> "" && !is_numeric($_POST["{$ifn}{$i}"])) {
-			$input_errors[] = sprintf(gettext("%s interface path cost for STP needs to be an integer between 1 and 200000000."), $ifdescr);
+			$input_errors[] = sprintf(gettext("STP의 %s 인터페이스 경로 비용은 1에서 200000000 사이의 정수로 지정되어야 합니다."), $ifdescr);
 		}
 		$i++;
 	}
 
 	if (!is_array($_POST['members']) || count($_POST['members']) < 1) {
-		$input_errors[] = gettext("At least one member interface must be selected for a bridge.");
+		$input_errors[] = gettext("브리지에 대해 하나 이상의 멤버 인터페이스를 선택해야합니다.");
 	}
 
 	if (is_array($_POST['static'])) {
 		foreach ($_POST['static'] as $ifstatic) {
 			if (is_array($_POST['members']) && !in_array($ifstatic, $_POST['members'])) {
-				$input_errors[] = sprintf(gettext('Sticky interface (%s) is not part of the bridge. Remove the sticky interface to continue.'), $ifacelist[$ifstatic]);
+				$input_errors[] = sprintf(gettext('고정 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 고정 인터페이스를 제거하십시오.'), $ifacelist[$ifstatic]);
 			}
 		}
 		$pconfig['static'] = implode(',', $_POST['static']);
@@ -196,7 +201,7 @@ if ($_POST['save']) {
 	if (is_array($_POST['private'])) {
 		foreach ($_POST['private'] as $ifprivate) {
 			if (is_array($_POST['members']) && !in_array($ifprivate, $_POST['members'])) {
-				$input_errors[] = sprintf(gettext('Private interface (%s) is not part of the bridge. Remove the private interface to continue.'), $ifacelist[$ifprivate]);
+				$input_errors[] = sprintf(gettext('개인 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 개인 인터페이스를 제거하십시오.'), $ifacelist[$ifprivate]);
 			}
 		}
 		$pconfig['private'] = implode(',', $_POST['private']);
@@ -204,7 +209,7 @@ if ($_POST['save']) {
 	if (is_array($_POST['stp'])) {
 		foreach ($_POST['stp'] as $ifstp) {
 			if (is_array($_POST['members']) && !in_array($ifstp, $_POST['members'])) {
-				$input_errors[] = sprintf(gettext('STP interface (%s) is not part of the bridge. Remove the STP interface to continue.'), $ifacelist[$ifstp]);
+				$input_errors[] = sprintf(gettext('STP 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 STP 인터페이스를 제거하십시오.'), $ifacelist[$ifstp]);
 			}
 		}
 		$pconfig['stp'] = implode(',', $_POST['stp']);
@@ -215,7 +220,7 @@ if ($_POST['save']) {
 	if (is_array($_POST['edge'])) {
 		foreach ($_POST['edge'] as $ifedge) {
 			if (is_array($_POST['members']) && !in_array($ifedge, $_POST['members'])) {
-				$input_errors[] = sprintf(gettext('Edge interface (%s) is not part of the bridge. Remove the edge interface to continue.'), $ifacelist[$ifedge]);
+				$input_errors[] = sprintf(gettext('Edge 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 Edge 인터페이스를 제거하십시오.'), $ifacelist[$ifedge]);
 			}
 		}
 		$pconfig['edge'] = implode(',', $_POST['edge']);
@@ -223,7 +228,7 @@ if ($_POST['save']) {
 	if (is_array($_POST['autoedge'])) {
 		foreach ($_POST['autoedge'] as $ifautoedge) {
 			if (is_array($_POST['members']) && !in_array($ifautoedge, $_POST['members'])) {
-				$input_errors[] = sprintf(gettext('Auto Edge interface (%s) is not part of the bridge. Remove the auto edge interface to continue.'), $ifacelist[$ifautoedge]);
+				$input_errors[] = sprintf(gettext('Auto Edge 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 Auto Edge 인터페이스를 제거하십시오.'), $ifacelist[$ifautoedge]);
 			}
 		}
 		$pconfig['autoedge'] = implode(',', $_POST['autoedge']);
@@ -231,7 +236,7 @@ if ($_POST['save']) {
 	if (is_array($_POST['ptp'])) {
 		foreach ($_POST['ptp'] as $ifptp) {
 			if (is_array($_POST['members']) && !in_array($ifptp, $_POST['members'])) {
-				$input_errors[] = sprintf(gettext('PTP interface (%s) is not part of the bridge. Remove the PTP interface to continue.'), $ifacelist[$ifptp]);
+				$input_errors[] = sprintf(gettext('PTP 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 PTP 인터페이스를 제거하십시오.'), $ifacelist[$ifptp]);
 			}
 		}
 		$pconfig['ptp'] = implode(',', $_POST['ptp']);
@@ -239,7 +244,7 @@ if ($_POST['save']) {
 	if (is_array($_POST['autoptp'])) {
 		foreach ($_POST['autoptp'] as $ifautoptp) {
 			if (is_array($_POST['members']) && !in_array($ifautoptp, $_POST['members'])) {
-				$input_errors[] = sprintf(gettext('Auto PTP interface (%s) is not part of the bridge. Remove the auto PTP interface to continue.'), $ifacelist[$ifautoptp]);
+				$input_errors[] = sprintf(gettext('Auto PTP 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 Auto PTP 인터페이스를 제거하십시오.'), $ifacelist[$ifautoptp]);
 			}
 		}
 		$pconfig['autoptp'] = implode(',', $_POST['autoptp']);
@@ -247,17 +252,17 @@ if ($_POST['save']) {
 	if (is_array($_POST['members'])) {
 		foreach ($_POST['members'] as $ifmembers) {
 			if (empty($config['interfaces'][$ifmembers])) {
-				$input_errors[] = gettext("A member interface passed does not exist in configuration");
+				$input_errors[] = gettext("전달된 멤버 인터페이스가 구성에 없습니다.");
 			}
 			if (substr($config['interfaces'][$ifmembers]['if'], 0, 6) == "bridge") {
-				$input_errors[] = gettext("A bridge interface cannot be a member of a bridge.");
+				$input_errors[] = gettext("브리지 인터페이스는 브리지의 구성원일 수 없습니다.");
 			}
 			if (is_array($config['interfaces'][$ifmembers]['wireless']) &&
 			    $config['interfaces'][$ifmembers]['wireless']['mode'] != "hostap") {
-				$input_errors[] = gettext("Bridging a wireless interface is only possible in hostap mode.");
+				$input_errors[] = gettext("무선 인터페이스를 브리지하는 것은 호스트 맵 모드에서만 가능합니다.");
 			}
 			if (is_array($_POST['span']) && in_array($ifmembers, $_POST['span'])) {
-				$input_errors[] = sprintf(gettext('Span interface (%s) cannot be part of the bridge. Remove the span interface from bridge members to continue.'), $ifacelist[$ifmembers]);
+				$input_errors[] = sprintf(gettext('스팬 인터페이스(%s)는 브리지에 속해있지 않습니다. 계속하려면 브리지 멤버에서 스팬 인터페이스를 제거하십시오.'), $ifacelist[$ifmembers]);
 			}
 			foreach ($a_bridges as $a_bridge) {
 				if ($_POST['bridgeif'] === $a_bridge['bridgeif']) {
@@ -266,7 +271,7 @@ if ($_POST['save']) {
 				$a_members = explode(',', $a_bridge['members']);
 				foreach ($a_members as $a_member) {
 					if ($ifmembers === $a_member) {
-						$input_errors[] = sprintf(gettext("%s is part of another bridge. Remove the interface from bridge members to continue."), $ifacelist[$ifmembers]);
+						$input_errors[] = sprintf(gettext("%s은(는) 다른 브리지의 일부입니다. 계속하려면 브리지 멤버에서 인터페이스를 제거하십시오."), $ifacelist[$ifmembers]);
 					}
 				}
 			}
@@ -342,7 +347,7 @@ if ($_POST['save']) {
 		$bridge['bridgeif'] = $_POST['bridgeif'];
 		interface_bridge_configure($bridge);
 		if ($bridge['bridgeif'] == "" || !stristr($bridge['bridgeif'], "bridge")) {
-			$input_errors[] = gettext("Error occurred creating interface, please retry.");
+			$input_errors[] = gettext("인터페이스를 생성하는 동안 오류가 발생했습니다. 다시 시도하십시오.");
 		} else {
 			if (isset($id) && $a_bridges[$id]) {
 				$a_bridges[$id] = $bridge;
@@ -382,7 +387,7 @@ function build_port_list($selecton) {
 	return($portlist);
 }
 
-$pgtitle = array(gettext("Interfaces"), gettext("Bridges"), gettext("Edit"));
+$pgtitle = array(gettext("인터페이스"), gettext("Bridges"), gettext("편집"));
 $pglinks = array("", "interfaces_bridge.php", "@self");
 $shortcut_section = "interfaces";
 include("head.inc");
@@ -393,7 +398,7 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section('Bridge Configuration');
+$section = new Form_Section('브리지 구성');
 
 $memberslist = build_port_list($pconfig['members']);
 
@@ -429,7 +434,7 @@ $section->addInput(new Form_StaticText(
 
 $form->add($section);
 
-$section = new Form_Section('Advanced Configuration');
+$section = new Form_Section('어드밴스드 구성');
 
 $section->addClass('adnlopts');
 
@@ -665,9 +670,9 @@ events.push(function() {
 		hideClass('adnlopts', !showadvopts);
 
 		if (showadvopts) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvopts').html('<i class="fa fa-cog"></i> ' + text);
 	}
