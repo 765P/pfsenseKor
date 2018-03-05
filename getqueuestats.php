@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-getqueuestats
 ##|*NAME=AJAX: Get Queue Stats
