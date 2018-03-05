@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-schedules-edit
 ##|*NAME=Firewall: Schedules: Edit
@@ -49,13 +54,13 @@ require_once("functions.inc");
 require_once("filter.inc");
 require_once("shaper.inc");
 
-$pgtitle = array(gettext("Firewall"), gettext("Schedules"), gettext("Edit"));
+$pgtitle = array(gettext("Firewall"), gettext("Schedules"), gettext("편집"));
 $pglinks = array("", "firewall_schedule.php", "@self");
 
 $referer = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/firewall_schedule.php');
 
-$dayArray = array (gettext('Mon'), gettext('Tues'), gettext('Wed'), gettext('Thur'), gettext('Fri'), gettext('Sat'), gettext('Sun'));
-$monthArray = array (gettext('January'), gettext('February'), gettext('March'), gettext('April'), gettext('May'), gettext('June'), gettext('July'), gettext('August'), gettext('September'), gettext('October'), gettext('November'), gettext('December'));
+$dayArray = array (gettext('월'), gettext('화'), gettext('수'), gettext('목'), gettext('금'), gettext('토'), gettext('일'));
+$monthArray = array (gettext('1월'), gettext('2월'), gettext('3월'), gettext('4월'), gettext('5월'), gettext('6월'), gettext('7월'), gettext('8월'), gettext('9월'), gettext('10월'), gettext('11월'), gettext('12'));
 
 if (!is_array($config['schedules']['schedule'])) {
 	$config['schedules']['schedule'] = array();
@@ -100,7 +105,7 @@ if ($_POST['save']) {
 		}
 
 		if ($schedule['name'] == $_POST['name']) {
-			$input_errors[] = gettext("A Schedule with this name already exists.");
+			$input_errors[] = gettext("동일한 이름의 스케줄이 존재합니다.");
 			break;
 		}
 	}
@@ -115,12 +120,12 @@ if ($_POST['save']) {
 	for ($x = 0; $x < 99; $x++) {
 		if ($_POST['schedule' . $x]) {
 			if (!preg_match('/^[0-9]+:[0-9]+$/', $_POST['starttime' . $x])) {
-				$input_errors[] = sprintf(gettext("Invalid start time - '%s'"), $_POST['starttime' . $x]);
+				$input_errors[] = sprintf(gettext("시작 시간이 잘못되었습니다. - '%s'"), $_POST['starttime' . $x]);
 				continue;
 			}
 
 			if (!preg_match('/^[0-9]+:[0-9]+$/', $_POST['stoptime' . $x])) {
-				$input_errors[] = sprintf(gettext("Invalid stop time - '%s'"), $_POST['stoptime' . $x]);
+				$input_errors[] = sprintf(gettext("정지 시간이 잘못되었습니다. - '%s'"), $_POST['stoptime' . $x]);
 				continue;
 			}
 
@@ -167,7 +172,7 @@ if ($_POST['save']) {
 	}
 
 	if (!$timerangeFound) {
-		$input_errors[] = gettext("The schedule must have at least one time range configured.");
+		$input_errors[] = gettext("일정에는 최소 한개 이상의 시간 범위가 구성되어야합니다.");
 	}
 
 	if (!$input_errors) {
@@ -186,7 +191,7 @@ if ($_POST['save']) {
 
 		schedule_sort();
 
-		if (write_config(gettext("Firewall schedule configured."))) {
+		if (write_config(gettext("방화벽 스케줄이 구성되었습니다."))) {
 			filter_configure();
 		}
 
@@ -249,13 +254,13 @@ function build_date_table() {
 				<thead><tr><td colspan="7" class="text-center"><b>' . date("F_Y", mktime(0, 0, 0, date($monthcounter), 1, date($yearcounter))) . '</b></td>
 				</tr>
 				<tr>
-					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p1\');">' . gettext("Mon") . '</th>
-					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p2\');">' . gettext("Tue") . '</th>
-					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p3\');">' . gettext("Wed") . '</th>
-					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p4\');">' . gettext("Thu") . '</th>
-					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p5\');">' . gettext("Fri") . '</th>
-					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p6\');">' . gettext("Sat") . '</th>
-					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p7\');">' . gettext("Sun") . '</th>
+					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p1\');">' . gettext("월") . '</th>
+					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p2\');">' . gettext("화") . '</th>
+					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p3\');">' . gettext("수") . '</th>
+					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p4\');">' . gettext("목") . '</th>
+					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p5\');">' . gettext("금") . '</th>
+					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p6\');">' . gettext("토") . '</th>
+					<th class="text-center" style="cursor: pointer;" onclick="daytoggle(\'w1p7\');">' . gettext("") . '</th>
 				</tr>
 				</thead>
 				<tbody>' . "\r\n";
@@ -301,7 +306,7 @@ function build_date_table() {
 				}
 
 			$mostr .= '</tbody></table><br /><p>';
-			$mostr .= gettext('Click individual date to select that date only. Click the appropriate weekday Header to select all occurrences of that weekday. ');
+			$mostr .= gettext('개별 날짜를 클릭하여 해당 날짜만 선택합니다. 해당 주 중에 발생한 모든 항목을 선택하려면 해당 주 중 머리 글을 누르십시오. ');
 			$mostr .= '</p></div>';
 
 		if ($monthcounter == 12) {
@@ -345,7 +350,7 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section('Schedule Information');
+$section = new Form_Section('스케줄 정보');
 
 $input = new Form_Input(
 	'name',
@@ -806,7 +811,7 @@ function update_month() {
 
 function checkForRanges() {
 	if (daysSelected != "") {
-		alert("The specified time range has not been saved. Please click 'Add Time' button to save the time range.");
+		alert("지정한 시간 범위가 저장되지 않았습니다. 시간 범위를 저장하려면'시간 추가'버튼을 클릭하십시오.");
 		return false;
 	} else {
 		return true;
@@ -1046,7 +1051,7 @@ function addTimeRange() {
 
 	} else {
 		//no days were selected, alert user
-		alert ("At least 1 day must be selected before adding time");
+		alert ("시간을 추가하기 전에 최소 1일을 선택해야 합니다.");
 	}
 }
 
