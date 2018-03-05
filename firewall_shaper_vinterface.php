@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-trafficshaper-limiter
 ##|*NAME=Firewall: Traffic Shaper: Limiters
@@ -36,7 +41,7 @@ if ($_GET['reset'] != "") {
 	exit;
 }
 
-$pgtitle = array(gettext("Firewall"), gettext("Traffic Shaper"), gettext("Limiters"));
+$pgtitle = array(gettext("방화벽"), gettext("Traffic Shaper"), gettext("Limiters"));
 $pglinks = array("", "firewall_shaper.php", "@self");
 $shortcut_section = "trafficshaper-limiters";
 $dfltmsg = false;
@@ -95,7 +100,7 @@ if ($_GET) {
 				if (is_array($config['filter']['rule'])) {
 					foreach ($config['filter']['rule'] as $rule) {
 						if ($rule['dnpipe'] == $queue->GetQname() || $rule['pdnpipe'] == $queue->GetQname()) {
-							$input_errors[] = gettext("This pipe/queue is referenced in filter rules, please remove references from there before deleting.");
+							$input_errors[] = gettext("이 pipe/queue는 필터 규칙에서 참조되므로 삭제하기 전에 해당 규칙에서 참조를 제거하십시오.");
 						}
 					}
 				}
@@ -109,7 +114,7 @@ if ($_GET) {
 				}
 				$sform= $queue->build_form();
 			} else {
-				$input_errors[] = sprintf(gettext("No queue with name %s was found!"), $qname);
+				$input_errors[] = sprintf(gettext("%s 라는 이름의 큐를 찾을 수 없습니다!"), $qname);
 				$output_form .= $dn_default_shaper_msg;
 				$dontshow = true;
 			}
@@ -153,7 +158,7 @@ if ($_GET) {
 			$q = new dnpipe_class();
 			$q->SetQname($pipe);
 		} else {
-			$input_errors[] = gettext("Could not create new queue/discipline!");
+			$input_errors[] = gettext("새 queue/discipline을 만들 수 없습니다.");
 		}
 
 		if ($q) {
@@ -176,7 +181,7 @@ if ($_GET) {
 		if ($queue) {
 			$sform = $queue->build_form();
 		} else {
-			$input_errors[] = gettext("Queue not found!");
+			$input_errors[] = gettext("큐가 없습니다.");
 		}
 		break;
 	case "enable":
@@ -188,7 +193,7 @@ if ($_GET) {
 				mark_subsystem_dirty('shaper');
 			}
 		} else {
-			$input_errors[] = gettext("Queue not found!");
+			$input_errors[] = gettext("큐가 없습니다.");
 		}
 		break;
 	case "disable":
@@ -200,7 +205,7 @@ if ($_GET) {
 				mark_subsystem_dirty('shaper');
 			}
 		} else {
-			$input_errors[] = gettext("Queue not found!");
+			$input_errors[] = gettext("큐가 없습니다.");
 		}
 		break;
 	default:
@@ -215,7 +220,7 @@ if ($_POST) {
 
 	if ($addnewpipe) {
 		if (!empty($dummynet_pipe_list[$qname])) {
-			$input_errors[] = gettext("A child queue cannot be named the same as a parent limiter.");
+			$input_errors[] = gettext("하위 대기 열의 이름은 상위 제한 장치와 같을 수 없습니다.");
 		} else {
 			$dnpipe =& new dnpipe_class();
 
@@ -241,7 +246,7 @@ if ($_POST) {
 		}
 	} else if ($parentqueue) { /* Add a new queue */
 		if (!empty($dummynet_pipe_list[$qname])) {
-			$input_errors[] = gettext("A child queue cannot be named the same as a parent limiter.");
+			$input_errors[] = gettext("하위 대기 열의 이름은 상위 제한 장치와 같을 수 없습니다.");
 		} else if ($dnpipe) {
 			$tmppath =& $dnpipe->GetLink();
 			array_push($tmppath, $qname);
@@ -258,7 +263,7 @@ if ($_POST) {
 			read_dummynet_config();
 			$sform = $tmp->build_form();
 		} else {
-			$input_errors[] = gettext("Could not add new queue.");
+			$input_errors[] = gettext("새 대기 열을 추가할 수 없습니다.");
 		}
 	} else if ($_POST['apply']) {
 		write_config();
@@ -363,14 +368,14 @@ if ($changes_applied) {
 }
 
 if (is_subsystem_dirty('shaper')) {
-	print_apply_box(gettext("The traffic shaper configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("트래픽 조절기 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $tab_array = array();
 $tab_array[] = array(gettext("By Interface"), false, "firewall_shaper.php");
 $tab_array[] = array(gettext("By Queue"), false, "firewall_shaper_queues.php");
-$tab_array[] = array(gettext("Limiters"), true, "firewall_shaper_vinterface.php");
-$tab_array[] = array(gettext("Wizards"), false, "firewall_shaper_wizards.php");
+$tab_array[] = array(gettext("리미터"), true, "firewall_shaper_vinterface.php");
+$tab_array[] = array(gettext("마법사"), false, "firewall_shaper_wizards.php");
 display_top_tabs($tab_array);
 ?>
 <div class="table-responsive">
@@ -381,7 +386,7 @@ display_top_tabs($tab_array);
 					<?=$tree?>
 					<a href="firewall_shaper_vinterface.php?pipe=new&amp;action=add" class="btn btn-sm btn-success">
 						<i class="fa fa-plus icon-embed-btn"></i>
-						<?=gettext('New Limiter')?>
+						<?=gettext('새 ')?>
 					</a>
 				</td>
 				<td>
