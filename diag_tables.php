@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-tables
 ##|*NAME=Diagnostics: pf Table IP addresses
@@ -113,7 +118,7 @@ if ($_POST['Download'] && ($bogons || $urltable)) {
 		sleep(1);
 	}
 	if ($maxtimetowait < 90) {
-		$savemsg = sprintf(gettext("The %s file contents have been updated."), $db_name);
+		$savemsg = sprintf(gettext("%s파일 내용이 업데이트 되었습니다."), $db_name);
 	}
 }
 
@@ -126,9 +131,9 @@ if ($savemsg) {
 }
 
 if ($tablename == "webConfiguratorlockout") {
-	$displayname = gettext("webConfigurator Lockout Table");
+	$displayname = gettext("웹 구성 요소 잠금 테이블");
 } else {
-	$displayname = sprintf(gettext("%s Table"), ucfirst($tablename));
+	$displayname = sprintf(gettext("%s 테이블"), ucfirst($tablename));
 }
 
 $form = new Form(false);
@@ -186,9 +191,9 @@ if ($bogons || $urltable || !empty($entries)) {
 	$last_updated = exec('/usr/bin/grep -i -m 1 -E "^# ' . $datelineregex . '" ' . $table_file . '|/usr/bin/grep -i -m 1 -E -o "' . $datestrregex . '"');
 
 	if ($last_updated != "") {
-		$last_update_msg = sprintf(gettext("Table last updated on %s."), $last_updated);
+		$last_update_msg = sprintf(gettext("%s에 대한 표 마지막 업데이트."), $last_updated);
 	} else {
-		$last_update_msg = gettext("Date of last update of table is unknown.");
+		$last_update_msg = gettext("테이블의 마지막 업데이트 날짜를 알 수 없습니다.");
 	}
 
 	$records_count_msg = sprintf(gettext("%s records."), number_format(count($entries), 0, gettext("."), gettext(",")));
@@ -203,8 +208,8 @@ if ($bogons || $urltable || !empty($entries)) {
 
 	if ($table_comments) {
 		print_info_box($last_update_msg . " &nbsp; &nbsp; " . $records_count_msg . "<br />" .
-		'<span style="display:none" class="infoblock">' . ' ' . gettext("Hide table comments.") . '<br />' . $table_comments . '</span>' .
-		'<span style="display:none"   id="showtblcom">' . ' ' . gettext("Show table comments.") . '</span>' .
+		'<span style="display:none" class="infoblock">' . ' ' . gettext("테이블 코멘트 숨기기.") . '<br />' . $table_comments . '</span>' .
+		'<span style="display:none"   id="showtblcom">' . ' ' . gettext("테이블 코멘트 .") . '</span>' .
 		'' , 'info', false);
 	} else {
 		print_info_box($last_update_msg . "&nbsp; &nbsp; " . $records_count_msg, 'info', false);
@@ -263,7 +268,7 @@ if (empty($entries)) {
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th><?=gettext("IP Address")?></th>
+						<th><?=gettext("IP 주소")?></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -290,7 +295,7 @@ if (empty($entries)) {
 						<td>
 							<?php if (!$bogons && !$urltable): ?>
 								<a style="cursor: pointer;" data-entry="<?=htmlspecialchars($entry)?>">
-									<i class="fa fa-trash" title="<?= gettext("Remove this entry") ?>"></i>
+									<i class="fa fa-trash" title="<?= gettext("해당 항목 삭제") ?>"></i>
 								</a>
 							<?php endif ?>
 						</td>
