@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-alias-import
 ##|*NAME=Firewall: Alias: Import
@@ -79,7 +84,7 @@ if ($_POST) {
 	/* Check for reserved keyword names */
 	foreach ($reserved_keywords as $rk) {
 		if ($rk == $_POST['name']) {
-			$input_errors[] = sprintf(gettext("Cannot use a reserved keyword as an alias name: %s"), $rk);
+			$input_errors[] = sprintf(gettext("특정 예약어를 alias로 설정하실 수 없습니다.: %s"), $rk);
 		}
 	}
 
@@ -95,7 +100,7 @@ if ($_POST) {
 	if (is_array($config['ifgroups']['ifgroupentry'])) {
 		foreach ($config['ifgroups']['ifgroupentry'] as $ifgroupentry) {
 			if ($ifgroupentry['ifname'] == $_POST['name']) {
-				$input_errors[] = gettext("Sorry, an interface group with this name already exists.");
+				$input_errors[] = gettext("죄송합니다. 동일한 이름을 가진 인터페이스 그룹이 존재합니다.");
 			}
 		}
 	}
@@ -125,7 +130,7 @@ if ($_POST) {
 								$imported_ips[] = $impip;
 								$imported_descs[] = $impdesc;
 							} else {
-								$input_errors[] = sprintf(gettext("%s is not a valid port or port range."), $impip);
+								$input_errors[] = sprintf(gettext("%s은(는) 유효한 포트 또는 포트 범위가 아닙니다."), $impip);
 							}
 						}
 					} else {
@@ -138,11 +143,11 @@ if ($_POST) {
 							$rangedescs = array_fill(0, count($rangesubnets), $impdesc);
 							$imported_descs = array_merge($imported_descs, $rangedescs);
 						} else if ($iprange_type == 6) {
-							$input_errors[] = sprintf(gettext('IPv6 address ranges are not supported (%s)'), $impip);
+							$input_errors[] = sprintf(gettext('IPv6 주소 범위가 지원되지 않습니다(%s).'), $impip);
 						} else {
 							$is_subnet = is_subnet($impip);
 							if (!is_ipaddr($impip) && !$is_subnet && !is_hostname($impip) && !empty($impip)) {
-								$input_errors[] = sprintf(gettext("%s is not an IP address. Please correct the error to continue"), $impip);
+								$input_errors[] = sprintf(gettext("%s은(는) IP 주소가 아닙니다. 계속하려면 오류를 수정하십시오."), $impip);
 							} elseif (!empty($impip)) {
 								if ($is_subnet) {
 									$alias_type = "network";
@@ -154,7 +159,7 @@ if ($_POST) {
 					}
 				} else {
 					if (!$desc_fmt_err_found) {
-						$input_errors[] = gettext("Descriptions may not start or end with vertical bar (|) or contain double vertical bar ||.");
+						$input_errors[] = gettext("DescriptionsDescriptions은 파이프 (|)로 시작하거나 끝나지 않거나 두 개의 파이프 ||를 포함 할 수 없습니다.");
 						$desc_fmt_err_found = true;
 					}
 				}
@@ -162,7 +167,7 @@ if ($_POST) {
 				if (!$desc_len_err_found) {
 					/* Note: The 200 character limit is just a practical check to avoid accidents */
 					/* if the user pastes a large number of IP addresses without line breaks.	 */
-					$input_errors[] = gettext("Descriptions must be less than 200 characters long.");
+					$input_errors[] = gettext("Descriptions은 200자 미만이어야합니다.");
 					$desc_len_err_found = true;
 				}
 			}
@@ -212,10 +217,10 @@ $form->addGlobal(new Form_Input(
 ));
 
 if ($tab == "port") {
-	$sectiontext = gettext('Port Alias Details');
-	$helptext = gettext('Paste in the ports to import separated by a carriage return. ' .
-		'The list may contain port numbers, port ranges, blank lines (ignored) and ' .
-		'an optional description after each port. e.g.:') .
+	$sectiontext = gettext('포트 Alias 정보');
+	$helptext = gettext('가져올 포트를 캐리지 리턴으로 구분하여 붙여 넣습니다. ' .
+		'목록에는 포트 번호, 포트 범위, 빈 줄 (무시됨) 및 각 포트 다음에 ' .
+		'오는 Descriptions(선택사항)이 포함될 수 있습니다. 예 :') .
 		'</span><ul><li>' .
 		'22' .
 		'</li><li>' .
@@ -226,12 +231,11 @@ if ($tab == "port") {
 		gettext('4000:4099 Description of a port range') .
 		'</li></ul><span class="help-block">';
 } else {
-	$sectiontext = gettext('IP Alias Details');
+	$sectiontext = gettext('IP Alias 정보');
 	$helptext = gettext('Paste in the aliases to ' .
-		'import separated by a carriage return. Common examples are lists of IPs, ' .
-		'networks, blacklists, etc. The list may contain IP addresses, with or without ' .
-		'CIDR prefix, IP ranges, blank lines (ignored) and an optional description after ' .
-		'each IP. e.g.:') .
+		'가져오기는 캐리지 리턴으로 구분됩니다. 일반적인 예는 IP, 네트워크, 블랙리스트 등의 목록입니다. ' .
+		'목록에는 CIDR 접두사가있는 IP 주소, IP 범위, 공백 행(무시됨) 및 각 IP 다음에 Descriptions이 있는 ' .
+		'IP 주소가 포함될 수 있습니다. 예 :') .
 		'</span><ul><li>' .
 		'172.16.1.2' .
 		'</li><li>' .
@@ -239,9 +243,9 @@ if ($tab == "port") {
 		'</li><li>' .
 		'10.11.12.100-10.11.12.200' .
 		'</li><li>' .
-		gettext('192.168.1.254 Home router') .
+		gettext('192.168.1.254 홈 라우터') .
 		'</li><li>' .
-		gettext('10.20.0.0/16 Office network') .
+		gettext('10.20.0.0/16 오피스 네트워크') .
 		'</li><li>' .
 		gettext('10.40.1.10-10.40.1.19 Managed switches') .
 		'</li></ul><span class="help-block">';
