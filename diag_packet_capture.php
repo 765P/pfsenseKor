@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.02
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-packetcapture
 ##|*NAME=Diagnostics: Packet Capture
@@ -99,11 +104,11 @@ function fixup_host($value, $position) {
 	}
 }
 
-if ($_POST['downloadbtn'] == gettext("Download Capture")) {
+if ($_POST['downloadbtn'] == gettext("캡처 다운로드")) {
 	$nocsrf = true;
 }
 
-$pgtitle = array(gettext("Diagnostics"), gettext("Packet Capture"));
+$pgtitle = array(gettext("Diagnostics"), gettext("패킷 캡처"));
 require_once("guiconfig.inc");
 require_once("pfsense-utils.inc");
 require_once("ipsec.inc");
@@ -125,7 +130,7 @@ if (ipsec_enabled()) {
 }
 $interfaces['lo0'] = "Localhost";
 
-foreach (array('server' => gettext('OpenVPN Server'), 'client' => gettext('OpenVPN Client')) as $mode => $mode_descr) {
+foreach (array('server' => gettext('OpenVPN Server'), 'client' => gettext('OpenVPN 클라이언트')) as $mode => $mode_descr) {
 	if (is_array($config['openvpn']["openvpn-{$mode}"])) {
 		foreach ($config['openvpn']["openvpn-{$mode}"] as $id => $setting) {
 			if (!isset($setting['disable'])) {
@@ -147,27 +152,27 @@ if ($_POST) {
 	$proto = $_POST['proto'];
 
 	if (!array_key_exists($selectedif, $interfaces)) {
-		$input_errors[] = gettext("Invalid interface.");
+		$input_errors[] = gettext("인터페이스가 올바르지 않습니다.");
 	}
 
 	if ($fam !== "" && $fam !== "ip" && $fam !== "ip6") {
-		$input_errors[] = gettext("Invalid address family.");
+		$input_errors[] = gettext("주소 패밀리가 올바르지 않습니다.");
 	}
 
 	if ($fam !== "" && $proto !== "") {
 		if ($fam == "ip" && $proto == "icmp6") {
-			$input_errors[] = gettext("IPv4 with ICMPv6 is not valid.");
+			$input_errors[] = gettext("ICMPv6이(가) 있는 IPv4가 유효하지 않습니다.");
 		}
 		if ($fam == "ip6" && $proto == "icmp") {
-			$input_errors[] = gettext("IPv6 with ICMP is not valid.");
+			$input_errors[] = gettext("ICMP가 있는 IPv6이 유효하지 않습니다.");
 		}
 		if ($fam == "ip6" && $proto =="arp") {
-			$input_errors[] = gettext("IPv6 with ARP is not valid.");
+			$input_errors[] = gettext("ARP가있는 IPv6이 유효하지 않습니다.");
 		}
 	}
 
 	if ($proto !== "" && !in_array(strip_not($proto), $protos)) {
-		$input_errors[] = gettext("Invalid protocol.");
+		$input_errors[] = gettext("프로토콜이 올바르지 않습니다.");
 	}
 
 	if ($host != "") {
@@ -182,13 +187,13 @@ if ($_POST) {
 		foreach ($hosts as $h) {
 			$h = strip_host_logic($h);
 			if (!is_subnet($h) && !is_ipaddr($h) && !is_macaddr($h, true)) {
-				$input_errors[] = sprintf(gettext("A valid IP address, CIDR block, or MAC address must be specified. [%s]"), $h);
+				$input_errors[] = sprintf(gettext("유효한 IP 주소, CIDR 블록 또는 MAC 주소를 지정해야합니다.[%s]"), $h);
 			}
 			/* Check length of partial MAC */
 			if (!is_macaddr($h, false) && is_macaddr($h, true)) {
 				$mac_parts = explode(':', $h);
 				if (!in_array(count($mac_parts), array(1, 2, 4))) {
-					$input_errors[] = gettext("Partial MAC addresses can only be matched using 1, 2, or 4 MAC segments (bytes).");
+					$input_errors[] = gettext("부분 MAC 주소는 1, 2 또는 4 MAC 세그먼트 (바이트)를 사용해야만 일치시킬 수 있습니다.");
 				}
 			}
 		}
@@ -196,7 +201,7 @@ if ($_POST) {
 
 	if ($port != "") {
 		if (!is_port(strip_not($port))) {
-			$input_errors[] = gettext("Invalid value specified for port.");
+			$input_errors[] = gettext("패킷 길이에 잘못된 값이 지정되었습니다.");
 		}
 	}
 
@@ -204,7 +209,7 @@ if ($_POST) {
 		$snaplen = 0;
 	} else {
 		if (!is_numeric($snaplen) || $snaplen < 0) {
-			$input_errors[] = gettext("Invalid value specified for packet length.");
+			$input_errors[] = gettext("패킷 길이에 잘못된 값이 지정되었습니다.");
 		}
 	}
 
@@ -212,7 +217,7 @@ if ($_POST) {
 		$count = 0;
 	} else {
 		if (!is_numeric($count) || $count < 0) {
-			$input_errors[] = gettext("Invalid value specified for packet count.");
+			$input_errors[] = gettext("패킷 카운트에 잘못된 값이 지정되었습니다.");
 		}
 	}
 
@@ -237,7 +242,7 @@ if ($_POST) {
 		}
 
 		if ($_POST['startbtn'] != "") {
-			$action = gettext("Start");
+			$action = gettext("시작");
 
 			//delete previous packet capture if it exists
 			if (file_exists($fp.$fn)) {
@@ -245,7 +250,7 @@ if ($_POST) {
 			}
 
 		} elseif ($_POST['stopbtn'] != "") {
-			$action = gettext("Stop");
+			$action = gettext("정지");
 			$processes_running = trim(shell_exec("/bin/ps axw -O pid= | /usr/bin/grep tcpdump | /usr/bin/grep {$fn} | /usr/bin/egrep -v '(pflog|grep)'"));
 
 			//explode processes into an array, (delimiter is new line)
@@ -302,7 +307,7 @@ if ($input_errors) {
 
 $form = new Form(false); // No button yet. We add those later depending on the required action
 
-$section = new Form_Section('Packet Capture Options');
+$section = new Form_Section('패킷 캡처 옵션');
 
 $section->addInput(new Form_Select(
 	'interface',
@@ -509,7 +514,7 @@ if ($do_tcpdump) :
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Packets Captured')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('패킷 캡처')?></h2></div>
 	<div class="panel-body">
 		<div class="form-group">
 <?php
