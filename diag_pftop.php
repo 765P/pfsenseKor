@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-system-pftop
 ##|*NAME=Diagnostics: pfTop
@@ -192,9 +197,9 @@ print $form;
 </script>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Output')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('출력')?></h2></div>
 	<div class="panel panel-body">
-		<pre id="xhrOutput"><?=gettext("Gathering pfTOP activity, please wait...")?></pre>
+		<pre id="xhrOutput"><?=gettext("pfTOP 작업을 수집 중입니다. 잠시만 기다려주십시오...")?></pre>
 	</div>
 </div>
 
