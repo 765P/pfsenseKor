@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-nat-1-1
 ##|*NAME=Firewall: NAT: 1:1
@@ -126,8 +131,8 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('natconf')) {
-	print_apply_box(gettext('The NAT configuration has been changed.') . '<br />' .
-					gettext('The changes must be applied for them to take effect.'));
+	print_apply_box(gettext('NAT구성이 변경되었습니다.') . '<br />' .
+					gettext('변경사항을 저장하시면 적용됩니다.'));
 }
 
 $tab_array = array();
@@ -140,17 +145,17 @@ display_top_tabs($tab_array);
 ?>
 <form action="firewall_nat_1to1.php" method="post">
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext("NAT 1:1 Mappings")?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext("NAT 1:1 매핑")?></h2></div>
 		<div id="mainarea" class="table-responsive panel-body">
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
 						<th><!-- checkbox --></th>
 						<th><!-- icon --></th>
-						<th><?=gettext("Interface"); ?></th>
-						<th><?=gettext("External IP"); ?></th>
-						<th><?=gettext("Internal IP"); ?></th>
-						<th><?=gettext("Destination IP"); ?></th>
+						<th><?=gettext("인터페이스"); ?></th>
+						<th><?=gettext("외부 IP"); ?></th>
+						<th><?=gettext("내부 IP"); ?></th>
+						<th><?=gettext("수신지 IP"); ?></th>
 						<th><?=gettext("Description"); ?></th>
 						<th><?=gettext('Actions')?></th>
 					</tr>
@@ -179,9 +184,9 @@ display_top_tabs($tab_array);
 
 						<td>
 							<a href="?act=toggle&amp;id=<?=$i?>" usepost>
-								<i class="fa <?= ($iconfn == "pass") ? "fa-check":"fa-times"?>" title="<?=gettext("click to toggle enabled/disabled status")?>"></i>
+								<i class="fa <?= ($iconfn == "pass") ? "fa-check":"fa-times"?>" title="<?=gettext("현재 상태를 전환하려면 클릭하십시오.")?>"></i>
 <?php 				if (isset($natent['nobinat'])) { ?>
-								&nbsp;<i class="fa fa-hand-stop-o text-danger" title="<?=gettext("Negated: This rule excludes NAT from a later rule")?>"></i>
+								&nbsp;<i class="fa fa-hand-stop-o text-danger" title="<?=gettext("폐기:규칙에서 NAT를 제외합니다.")?>"></i>
 <?php 				} ?>
 							</a>
 						</td>
@@ -222,9 +227,9 @@ display_top_tabs($tab_array);
 						</td>
 
 						<td>
-							<a class="fa fa-pencil" title="<?=gettext("Edit mapping")?>" href="firewall_nat_1to1_edit.php?id=<?=$i?>"></a>
-							<a class="fa fa-clone" title="<?=gettext("Add a new mapping based on this one")?>" href="firewall_nat_1to1_edit.php?dup=<?=$i?>"></a>
-							<a class="fa fa-trash" title="<?=gettext("Delete mapping")?>" href="firewall_nat_1to1.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil" title="<?=gettext("매핑 편집")?>" href="firewall_nat_1to1_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-clone" title="<?=gettext("이 매핑을 기반으로 새 매핑 추가")?>" href="firewall_nat_1to1_edit.php?dup=<?=$i?>"></a>
+							<a class="fa fa-trash" title="<?=gettext("매핑 삭제")?>" href="firewall_nat_1to1.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 
 					</tr>
@@ -238,32 +243,31 @@ display_top_tabs($tab_array);
 	</div>
 
 	<nav class="action-buttons">
-		<a href="firewall_nat_1to1_edit.php?after=-1" class="btn btn-sm btn-success" title="<?=gettext('Add mapping to the top of the list')?>">
+		<a href="firewall_nat_1to1_edit.php?after=-1" class="btn btn-sm btn-success" title="<?=gettext('목록 상단에 매핑 추가')?>">
 			<i class="fa fa-level-up icon-embed-btn"></i>
-			<?=gettext('Add')?>
+			<?=gettext('추가')?>
 		</a>
-		<a href="firewall_nat_1to1_edit.php" class="btn btn-sm btn-success" title="<?=gettext('Add mapping to the end of the list')?>">
+		<a href="firewall_nat_1to1_edit.php" class="btn btn-sm btn-success" title="<?=gettext('목록 하단에 매핑 추가')?>">
 			<i class="fa fa-level-down icon-embed-btn"></i>
-			<?=gettext('Add')?>
+			<?=gettext('추가')?>
 		</a>
-		<button name="del_x" type="submit" class="btn btn-danger btn-sm" title="<?=gettext('Delete selected mappings')?>">
+		<button name="del_x" type="submit" class="btn btn-danger btn-sm" title="<?=gettext('선택한 매핑 삭제')?>">
 			<i class="fa fa-trash icon-embed-btn"></i>
-			<?=gettext("Delete"); ?>
+			<?=gettext("삭제"); ?>
 		</button>
-		<button type="submit" id="order-store" name="order-store" class="btn btn-primary btn-sm" disabled title="<?=gettext('Save mapping order')?>">
+		<button type="submit" id="order-store" name="order-store" class="btn btn-primary btn-sm" disabled title="<?=gettext('매핑 순서 저장')?>">
 			<i class="fa fa-save icon-embed-btn"></i>
-			<?=gettext("Save")?>
+			<?=gettext("저장")?>
 		</button>
 	</nav>
 </form>
 
 <div class="infoblock">
-<?php print_info_box(sprintf(gettext('Depending on the way the WAN connection is setup, this may also need a %1$sVirtual IP%2$s.'), '<a href="firewall_virtual_ip.php">', '</a>') .
+<?php print_info_box(sprintf(gettext('WAN 연결 설정 방식에 따라 %1$s가상 IP%2$s가 필요할 수도 있습니다.'), '<a href="firewall_virtual_ip.php">', '</a>') .
 			   '<br />' .
-			   gettext('If a 1:1 NAT entry is added for any of the interface IPs on this system, ' .
-					   'it will make this system inaccessible on that IP address. i.e. if ' .
-					   'the WAN IP address is used, any services on this system (IPsec, OpenVPN server, etc.) ' .
-					   'using the WAN IP address will no longer function.'), 'info', false); ?>
+			   gettext('이 시스템의 인터페이스 IP에 1 : 1 NAT 항목이 추가되면, ' .
+					   '해당 IP 주소에서이 시스템에 액세스 할 수 없게됩니다. 즉 ' .
+					   'WAN IP 주소가 사용되는 경우 WAN IP 주소를 사용하는이 시스템의 모든 서비스 (IPsec, OpenVPN 서버 등)는 더 이상 작동하지 않습니다.', false); ?>
 
 </div>
 
@@ -297,7 +301,7 @@ events.push(function() {
 	// provide a warning message if the user tries to change page before saving
 	$(window).bind('beforeunload', function(){
 		if (!saving && dirty) {
-			return ("<?=gettext('One or more NAT 1:1 mappings have been moved but have not yet been saved')?>");
+			return ("<?=gettext('하나 이상의 NAT 1 : 1 매핑이 이동되었지만 아직 저장되지 않았습니다.')?>");
 		} else {
 			return undefined;
 		}
