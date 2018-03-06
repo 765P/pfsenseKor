@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.06
+한글화 번역 추가
+*/
+
 ##|+PRIV
 ##|*IDENT=page-loadbalancer-virtualserver-edit
 ##|*NAME=Load Balancer: Virtual Server: Edit
@@ -49,7 +54,7 @@ if (isset($id) && $a_vs[$id]) {
   $pconfig['mode'] = 'redirect_mode';
 }
 
-$changedesc = gettext("Load Balancer: Virtual Server:") . " ";
+$changedesc = gettext("로드 밸런서: 가상 서버:") . " ";
 $changecount = 0;
 
 $allowed_protocols = array("tcp", "dns");
@@ -62,12 +67,12 @@ if ($_POST['save']) {
 	switch ($pconfig['mode']) {
 		case "redirect_mode": {
 			$reqdfields = explode(" ", "ipaddr name mode");
-			$reqdfieldsn = array(gettext("IP Address"), gettext("Name"), gettext("Mode"));
+			$reqdfieldsn = array(gettext("IP 주소"), gettext("Name"), gettext("Mode"));
 			break;
 		}
 		case "relay_mode": {
 			$reqdfields = explode(" ", "ipaddr name mode relay_protocol");
-			$reqdfieldsn = array(gettext("IP Address"), gettext("Name"), gettext("Mode"), gettext("Relay Protocol"));
+			$reqdfieldsn = array(gettext("IP 주소"), gettext("Name"), gettext("Mode"), gettext("릴레이 프로토콜"));
 			break;
 		}
 	}
@@ -76,34 +81,34 @@ if ($_POST['save']) {
 
 	for ($i = 0; isset($config['load_balancer']['virtual_server'][$i]); $i++) {
 		if (($_POST['name'] == $config['load_balancer']['virtual_server'][$i]['name']) && ($i != $id)) {
-			$input_errors[] = gettext("This virtual server name has already been used.	Virtual server names must be unique.");
+			$input_errors[] = gettext("동일한 이름의 가상서버가 존재합니다.");
 		}
 	}
 
 	if (preg_match('/[ \/]/', $_POST['name'])) {
-		$input_errors[] = gettext("Spaces or slashes cannot be used in the 'name' field.");
+		$input_errors[] = gettext("이름에 공백 또는 슬래시는 사용할 수 없습니다.");
 	}
 
 	if (strlen($_POST['name']) > 32) {
-		$input_errors[] = gettext("The 'name' field must be 32 characters or less.");
+		$input_errors[] = gettext("이름은 32자 이하로 설정해주십시오.");
 	}
 
 	if ($_POST['port'] != "" && !is_port_or_alias($_POST['port'])) {
-		$input_errors[] = gettext("The port must be an integer between 1 and 65535, a port alias, or left blank.");
+		$input_errors[] = gettext("포트는 1에서 65535사이의 정수, 포트 별칭 또는 공백이어야 합니다.");
 	}
 
 	if (!is_ipaddroralias($_POST['ipaddr']) && !is_subnetv4($_POST['ipaddr'])) {
-		$input_errors[] = sprintf(gettext("%s is not a valid IP address, IPv4 subnet, or alias."), $_POST['ipaddr']);
+		$input_errors[] = sprintf(gettext("%s은(는) 올바른 IP주소, IPv4서브넷 또는 별칭이 아닙니다."), $_POST['ipaddr']);
 	} else if (is_subnetv4($_POST['ipaddr']) && subnet_size($_POST['ipaddr']) > 64) {
-		$input_errors[] = sprintf(gettext("%s is a subnet containing more than 64 IP addresses."), $_POST['ipaddr']);
+		$input_errors[] = sprintf(gettext("%s은(는)64개 이상의 IP주소를 포함하는 서브넷입니다."), $_POST['ipaddr']);
 	}
 
 	if (!in_array($_POST['relay_protocol'], $allowed_protocols)) {
-		$input_errors[] = gettext("The submitted relay protocol is not valid.");
+		$input_errors[] = gettext("제출된 릴레이 프로토콜이 유효하지 않습니다.");
 	}
 
 	if ((strtolower($_POST['relay_protocol']) == "dns") && !empty($_POST['sitedown'])) {
-		$input_errors[] = gettext("A Fall Back Pool cannot be selected when using the DNS relay protocol.");
+		$input_errors[] = gettext("DNS릴레이 프로토콜을 사용하는 경우에는 FallBackPool을 선택할 수 없습니다.");
 	}
 
 	if (!$input_errors) {
@@ -151,7 +156,7 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("Load Balancer"), gettext("Virtual Servers"), gettext("Edit"));
+$pgtitle = array(gettext("Services"), gettext("로드 밸런서"), gettext("가상서버"), gettext(""));
 $pglinks = array("", "load_balancer_pool.php", "load_balancer_virtual_server.php", "@self");
 $shortcut_section = "relayd-virtualservers";
 
@@ -165,7 +170,7 @@ $form = new Form();
 
 $form->setAction("load_balancer_virtual_server_edit.php");
 
-$section = new Form_Section('Edit Load Balancer - Virtual Server Entry');
+$section = new Form_Section('로드 밸런서 편집 - 가상 서버 항목');
 
 $section->addInput(new Form_Input(
 	'name',
@@ -264,7 +269,7 @@ if (isset($id) && $a_vs[$id] && $_REQUEST['act'] != 'dup') {
 $form->add($section);
 print($form);
 
-print_info_box(gettext('Don\'t forget to add a firewall rule for the virtual server/pool after finished setting it up.'));
+print_info_box(gettext('설정을 마치면 가상 서버/풀에 대한 방화벽 규칙을 추가하는 것을 잊지 마십시오.'));
 ?>
 <script type="text/javascript">
 //<![CDATA[
