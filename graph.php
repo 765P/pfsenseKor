@@ -25,6 +25,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.05
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-interfacetraffic
 ##|*NAME=Diagnostics: Interface Traffic
@@ -82,7 +87,7 @@ $attribs['error']='fill="blue" font-family="Arial" font-size="4"';
 $attribs['collect_initial']='fill="gray" font-family="Tahoma, Verdana, Arial, Helvetica, sans-serif" font-size="4"';
 
 //Error text if we cannot fetch data : depends on which method is used
-$error_text = sprintf(gettext("Cannot get data about interface %s"), htmlspecialchars($ifnum));
+$error_text = sprintf(gettext("인터페이스 %s에 대한 데이터를 가져올 수 없습니다."), htmlspecialchars($ifnum));
 
 $height=100;            //SVG internal height : do not modify
 $width=200;             //SVG internal width : do not modify
@@ -111,10 +116,10 @@ print('<?xml version="1.0" encoding="UTF-8"?>' . "\n");?>
 		<text id="switch_scale" x="<?=$width*0.55?>" y="11" <?=$attribs['switch_scale']?>><?=gettext("AutoScale"); ?> (<?=gettext($scale_type);?>)</text>
 		<text id="date" x="<?=$width*0.33?>" y="5" <?=$attribs['legend']?>> </text>
 		<text id="time" x="<?=$width*0.33?>" y="11" <?=$attribs['legend']?>> </text>
-		<text id="graphlast" x="<?=$width*0.55?>" y="17" <?=$attribs['legend']?>><?=sprintf(gettext("Graph shows last %s seconds"), $time_interval*$nb_plot)?></text>
+		<text id="graphlast" x="<?=$width*0.55?>" y="17" <?=$attribs['legend']?>><?=sprintf(gettext("그래프에 마지막%s초가 표시됩니다."), $time_interval*$nb_plot)?></text>
 		<polygon id="axis_arrow_x" <?=$attribs['axis']?> points="<?=($width) . "," . ($height)?> <?=($width-2) . "," . ($height-2)?> <?=($width-2) . "," . $height?>"/>
 		<text id="error" x="<?=$width*0.5?>" y="<?=$height*0.5?>" visibility="hidden" <?=$attribs['error']?> text-anchor="middle"><?=$error_text?></text>
-		<text id="collect_initial" x="<?=$width*0.5?>" y="<?=$height*0.5?>" visibility="hidden" <?=$attribs['collect_initial']?> text-anchor="middle"><?=gettext("Collecting initial data, please wait"); ?>...</text>
+		<text id="collect_initial" x="<?=$width*0.5?>" y="<?=$height*0.5?>" visibility="hidden" <?=$attribs['collect_initial']?> text-anchor="middle"><?=gettext("초기 데이터 수집 중입니다. 잠시만 기다려주십시오."); ?>...</text>
 	</g>
 	<script type="text/ecmascript">
 	<![CDATA[
@@ -126,7 +131,7 @@ print('<?xml version="1.0" encoding="UTF-8"?>' . "\n");?>
 if (typeof getURL == 'undefined') {
 	getURL = function(url, callback) {
 		if (!url) {
-			throw '<?=gettext("No URL for getURL"); ?>';
+			throw '<?=gettext("getURL에 URL이 없습니다."); ?>';
 		}
 
 		try {
@@ -135,7 +140,7 @@ if (typeof getURL == 'undefined') {
 			}
 		} catch (e) {}
 		if (typeof callback != 'function') {
-			throw '<?=gettext("No callback function for getURL"); ?>';
+			throw '<?=gettext("getURL에 콜백함수가 없습니다."); ?>';
 		}
 
 		var http_request = null;
@@ -151,7 +156,7 @@ if (typeof getURL == 'undefined') {
 			}
 		}
 		if (!http_request) {
-			throw '<?=gettext("Both getURL and XMLHttpRequest are undefined"); ?>';
+			throw '<?=gettext("getURL 및 XMLHttpRequest가 정의되지 않습니다."); ?>';
 		}
 
 		http_request.onreadystatechange = function() {
