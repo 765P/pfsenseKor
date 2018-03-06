@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.06
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-trafficshaper-wizard
 ##|*NAME=Firewall: Traffic Shaper: Wizard
@@ -54,7 +59,7 @@ if ($_POST['apply']) {
 
 $shaperIFlist = get_configured_interface_with_descr();
 
-$pgtitle = array(gettext("Firewall"), gettext("Traffic Shaper"), gettext("Wizards"));
+$pgtitle = array(gettext("Firewall"), gettext("Traffic Shaper"), gettext("마법사"));
 $pglinks = array("", "firewall_shaper.php", "@self");
 $shortcut_section = "trafficshaper";
 
@@ -72,8 +77,8 @@ if ($input_errors) {
 $tab_array = array();
 $tab_array[] = array(gettext("By Interface"), false, "firewall_shaper.php");
 $tab_array[] = array(gettext("By Queue"), false, "firewall_shaper_queues.php");
-$tab_array[] = array(gettext("Limiters"), false, "firewall_shaper_vinterface.php");
-$tab_array[] = array(gettext("Wizards"), true, "firewall_shaper_wizards.php");
+$tab_array[] = array(gettext("리미터"), false, "firewall_shaper_vinterface.php");
+$tab_array[] = array(gettext("마법사"), true, "firewall_shaper_wizards.php");
 display_top_tabs($tab_array);
 
 if ($_POST['apply']) {
@@ -81,12 +86,12 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('shaper')) {
-	print_apply_box(gettext("The traffic shaper configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("트래픽 조절기 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Traffic Shaper Wizards')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('트래픽 조절기 마법사')?></h2></div>
 	<div class="panel-body">
 		<dl	 class="dl-horizontal responsive">
 <?php
@@ -107,7 +112,7 @@ endforeach;
 <?php if (empty(get_interface_list_to_show())): ?>
 <div>
 	<div class="infoblock blockopen">
-		<?php print_info_box(gettext("This firewall does not have any interfaces assigned that are capable of using ALTQ traffic shaping."), 'danger', false); ?>
+		<?php print_info_box(gettext("이 방화벽에는 ALTQ 트래픽 조절을 사용할 수있는 인터페이스가 할당되어 있지 않습니다."), 'danger', false); ?>
 	</div>
 </div>
 <?php endif; ?>
