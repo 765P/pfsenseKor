@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.06
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-ppps-edit
 ##|*NAME=Interfaces: PPPs: Edit
@@ -199,16 +204,16 @@ if ($_POST['save']) {
 	switch ($_POST['type']) {
 		case "ppp":
 			$reqdfields = explode(" ", "interfaces phone");
-			$reqdfieldsn = array(gettext("Link Interface(s)"), gettext("Phone Number"));
+			$reqdfieldsn = array(gettext("링크 인터페이스"), gettext("전화 번호"));
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
 		case "pppoe":
 			if ($_POST['ondemand']) {
 				$reqdfields = explode(" ", "interfaces username passwordfld ondemand idletimeout");
-				$reqdfieldsn = array(gettext("Link Interface(s)"), gettext("Username"), gettext("Password"), gettext("Dial on demand"), gettext("Idle timeout value"));
+				$reqdfieldsn = array(gettext("링크 인터페이스"), gettext("유저 이름"), gettext("패스워드"), gettext("주문형 다이얼"), gettext("유휴 시간 초과 값"));
 			} else {
 				$reqdfields = explode(" ", "interfaces username passwordfld");
-				$reqdfieldsn = array(gettext("Link Interface(s)"), gettext("Username"), gettext("Password"));
+				$reqdfieldsn = array(gettext("링크 인터페이스"), gettext("유저 이름"), gettext("패스워드"));
 			}
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
@@ -216,15 +221,15 @@ if ($_POST['save']) {
 		case "pptp":
 			if ($_POST['ondemand']) {
 				$reqdfields = explode(" ", "interfaces username passwordfld localip subnet gateway ondemand idletimeout");
-				$reqdfieldsn = array(gettext("Link Interface(s)"), gettext("Username"), gettext("Password"), gettext("Local IP address"), gettext("Subnet"), gettext("Remote IP address"), gettext("Dial on demand"), gettext("Idle timeout value"));
+				$reqdfieldsn = array(gettext("링크 인터페이스"), gettext("유저 이름"), gettext("패스워드"), gettext("로컬IP 주소"), gettext("서브넷"), gettext("원격IP 주소"), gettext("주문형 다이얼"), gettext("유휴 시간 초과 값"));
 			} else {
 				$reqdfields = explode(" ", "interfaces username passwordfld localip subnet gateway");
-				$reqdfieldsn = array(gettext("Link Interface(s)"), gettext("Username"), gettext("Password"), gettext("Local IP address"), gettext("Subnet"), gettext("Remote IP address"));
+				$reqdfieldsn = array(gettext("링크 인터페이스"), gettext("유저 이름"), gettext("패스워드"), gettext("로컬IP 주소"), gettext("서브넷"), gettext("원격IP 주소"));
 			}
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
 		default:
-			$input_errors[] = gettext("Please choose a Link Type.");
+			$input_errors[] = gettext("링크 타입을 선택하십시오.");
 			break;
 	}
 	if ($_POST['passwordfld'] == $_POST['passwordfld_confirm']) {
@@ -234,16 +239,16 @@ if ($_POST['save']) {
 			$pconfig['password'] = base64_decode($a_ppps[$id]['password']);
 		}
 	} else {
-		$input_errors[] = gettext("Password and confirmed password must match.");
+		$input_errors[] = gettext("패스워드가 서로 일치하지않습니다.");
 	}
 	if ($_POST['type'] == "ppp" && count($_POST['interfaces']) > 1) {
-		$input_errors[] = gettext("Multilink connections (MLPPP) using the PPP link type is not currently supported. Please select only one Link Interface.");
+		$input_errors[] = gettext("PPP링크 유형을 사용한 멀티 링크 연결(MLPPP)은 현재 지원되지 않습니다. 링크 인터페이스를 하나만 선택하십시오.");
 	}
 	if ($_POST['provider'] && $_POST['null_service']) {
-		$input_errors[] = gettext("Do not specify both a Service name and a NULL Service name.");
+		$input_errors[] = gettext("서비스 이름과 NULL서비스 이름 모두 지정하지 마십시오.");
 	}
 	if (($_POST['idletimeout'] != "") && !is_numericint($_POST['idletimeout'])) {
-		$input_errors[] = gettext("The idle timeout value must be an integer.");
+		$input_errors[] = gettext("유휴 시간 초과 값은 정수로 지정해주십시오.");
 	}
 	if ($_POST['pppoe-reset-type'] == "custom" && $_POST['pppoe_resethour'] <> "" && !is_numericint($_POST['pppoe_resethour']) &&
 	    $_POST['pppoe_resethour'] >= 0 && $_POST['pppoe_resethour'] <=23) {
@@ -251,21 +256,21 @@ if ($_POST['save']) {
 	}
 	if ($_POST['pppoe-reset-type'] == "custom" && $_POST['pppoe_resetminute'] <> "" && !is_numericint($_POST['pppoe_resetminute']) &&
 	    $_POST['pppoe_resetminute'] >= 0 && $_POST['pppoe_resetminute'] <=59) {
-		$input_errors[] = gettext("A valid PPPoE reset minute must be specified (0-59).");
+		$input_errors[] = gettext("올바른 NVR재설정 분(Minute)을 지정해주십시오.");
 	}
 	if ($_POST['pppoe-reset-type'] == "custom" && $_POST['pppoe_resetdate'] <> "" && !is_numeric(str_replace("/", "", $_POST['pppoe_resetdate']))) {
-		$input_errors[] = gettext("A valid PPPoE reset date must be specified (mm/dd/yyyy).");
+		$input_errors[] = gettext("유효한 PPPoE 재설정 날짜를 지정해야합니다(mm / dd / yyyy).");
 	}
 	if ($_POST['pppoe-reset-type'] == "custom" && $_POST['pppoe_resetdate'] <> "" && is_numeric(str_replace("/", "", $_POST['pppoe_resetdate']))) {
 		$date_nums = explode("/", $_POST['pppoe_resetdate']);
 		if ($date_nums[0] < 1 || $date_nums[0] > 12) {
-			$input_errors[] = gettext("A valid PPPoE reset month must be specified (1-12) in the Custom PPPoE Periodic reset fields.");
+			$input_errors[] = gettext("사용자 PPPoE 정기 재설정 필드에 유효한 PPPoE 재설정 월(month)을 지정해야합니다(1-12).");
 		}
 		if ($date_nums[1] < 1 || $date_nums[1] > 31) {
-			$input_errors[] = gettext("A valid PPPoE reset day of month must be specified (1-31) in the Custom PPPoE Periodic reset fields. No checks are done on valid # of days per month");
+			$input_errors[] = gettext("사용자 PPPoE 정기 재설정 필드에 유효한 PPPoE 재설정 날짜 (1-31)를 지정해야합니다. 한 달에 유효한 일 수에 대한 검사가 수행되지 않습니다.");
 		}
 		if ($date_nums[2] < date("Y")) {
-			$input_errors[] = gettext("A valid PPPoE reset year must be specified. Don't select a year in the past!");
+			$input_errors[] = gettext("올바른 PPPoE 재설정 연도를 지정해주십시오.");
 		}
 	}
 
@@ -273,19 +278,19 @@ if ($_POST['save']) {
 	if (is_array($_POST['interfaces'])) {
 		foreach ($_POST['interfaces'] as $iface) {
 			if ($_POST['localip'][$iface] && !is_ipaddr($_POST['localip'][$iface])) {
-				$input_errors[] = sprintf(gettext("A valid local IP address must be specified for %s."), $iface);
+				$input_errors[] = sprintf(gettext("%s에 올바른 로컬 IP 주소를 지정해주십시오."), $iface);
 			}
 			if ($_POST['gateway'][$iface] && !is_ipaddr($_POST['gateway'][$iface]) && !is_hostname($_POST['gateway'][$iface])) {
-				$input_errors[] = sprintf(gettext("A valid gateway IP address OR hostname must be specified for %s."), $iface);
+				$input_errors[] = sprintf(gettext("올바른 게이트웨이 IP 주소 또는 호스트 이름을 %s에 지정해주십시오."), $iface);
 			}
 			if ($_POST['bandwidth'][$iface] && !is_numericint($_POST['bandwidth'][$iface])) {
-				$input_errors[] = sprintf(gettext("The bandwidth value for %s must be an integer."), $iface);
+				$input_errors[] = sprintf(gettext("%s의 대역폭 값은 정수여야합니다."), $iface);
 			}
 			if ($_POST['mtu'][$iface] && ($_POST['mtu'][$iface] < 576)) {
-				$input_errors[] = sprintf(gettext("The MTU for %s must be greater than 576 bytes."), $iface);
+				$input_errors[] = sprintf(gettext("%s의 MTU는 576 바이트보다 커야합니다."), $iface);
 			}
 			if ($_POST['mru'][$iface] && ($_POST['mru'][$iface] < 576)) {
-				$input_errors[] = sprintf(gettext("The MRU for %s must be greater than 576 bytes."), $iface);
+				$input_errors[] = sprintf(gettext("%s의 MRU는 576 바이트보다 커야합니다."), $iface);
 			}
 		}
 
@@ -480,14 +485,14 @@ if ($input_errors) {
 	print_input_errors($input_errors);
 }
 
-$linkparamstr = gettext('Bandwidth is set only for MLPPP connections and when links have different bandwidths' . '<br />' .
-						'MTU defaults to 1492' . '<br />' .
-						'MRU will be auto-negotiated by default' . '<br />' .
-						'Set only for MLPPP connections. MRRU will be auto-negotiated by default.');
+$linkparamstr = gettext('대역 폭은 MLPPP연결이 서로 다른 경우에만 설정됩니다.' . '<br />' .
+						'MTU는 1492로 기본 설정됩니다.' . '<br />' .
+						'MRU는 기본적으로 자동 협상됩니다.' . '<br />' .
+						'MLPPP 연결에만 설정하십시오. MRRU는 기본적으로 자동 협상됩니다.');
 
 $form = new Form();
 
-$section = new Form_Section('PPP Configuration');
+$section = new Form_Section('PPP 구성');
 
 $section->addInput(new Form_Select(
 	'type',
@@ -534,8 +539,8 @@ $section->addInput(new Form_Select(
 	[]
 ))->setHelp('Select to fill in service provider data.');
 
-$username_label = gettext('Username');
-$password_label = gettext('Password');
+$username_label = gettext('유저이름');
+$password_label = gettext('패스워드');
 
 if ($pconfig['type'] != 'ppp') {
 	// Username and Password fields are required for types other than ppp.
@@ -971,9 +976,9 @@ events.push(function() {
 		hideInterfaces();
 
 		if (showadvopts) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvopts').html('<i class="fa fa-cog"></i> ' + text);
 	} // e-o-show_advopts
