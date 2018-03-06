@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.06
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-virtualipaddress-edit
 ##|*NAME=Firewall: Virtual IP Address: Edit
@@ -118,7 +123,7 @@ if ($_POST['save']) {
 				$ignore_if = "_vip{$ignore_uniqid}";
 
 			if (is_ipaddr_configured($_POST['subnet'], $ignore_if)) {
-				$input_errors[] = gettext("This IP address is being used by another interface or VIP.");
+				$input_errors[] = gettext("이 IP 주소는 다른 인터페이스 또는 VIP에서 사용 중입니다.");
 			}
 
 			unset($ignore_if, $ignore_mode);
@@ -128,7 +133,7 @@ if ($_POST['save']) {
 	$natiflist = get_configured_interface_with_descr();
 	foreach ($natiflist as $natif => $natdescr) {
 		if ($_POST['interface'] == $natif && (empty($config['interfaces'][$natif]['ipaddr']) && empty($config['interfaces'][$natif]['ipaddrv6']))) {
-			$input_errors[] = gettext("The interface chosen for the VIP has no IPv4 or IPv6 address configured so it cannot be used as a parent for the VIP.");
+			$input_errors[] = gettext("VIP 용으로 선택된 인터페이스에 IPv4 또는 IPv6 주소가 구성되어 있지 않습니다.");
 		}
 	}
 
@@ -158,23 +163,23 @@ if ($_POST['save']) {
 			$idtracker = 0;
 			foreach ($config['virtualip']['vip'] as $vip) {
 				if ($vip['vhid'] == $_POST['vhid'] && $vip['interface'] == $_POST['interface'] && $idtracker != $id) {
-					$input_errors[] = sprintf(gettext("VHID %1$s is already in use on interface %2$s. Pick a unique number on this interface."), $_POST['vhid'], convert_friendly_interface_to_friendly_descr($_POST['interface']));
+					$input_errors[] = sprintf(gettext("VHID %1$s는 인터페이스 %2$s에서 이미 사용 중입니다. 이 인터페이스에서 고유 번호를 선택하십시오."), $_POST['vhid'], convert_friendly_interface_to_friendly_descr($_POST['interface']));
 				}
 				$idtracker++;
 			}
 
 			if (empty($_POST['password'])) {
-				$input_errors[] = gettext("A CARP password that is shared between the two VHID members must be specified.");
+				$input_errors[] = gettext("두 VHID 구성원간에 공유되는 CARP 암호를 지정해야합니다.");
 			}
 
 			if ($_POST['password'] != $_POST['password_confirm']) {
-				$input_errors[] = gettext("Password and confirm password must match");
+				$input_errors[] = gettext("암호가 서로 일치하지 않습니다.");
 			}
 
 			if ($_POST['interface'] == 'lo0') {
-				$input_errors[] = gettext("For this type of vip localhost is not allowed.");
+				$input_errors[] = gettext("이 유형의 vip localhost는 허용되지 않습니다.");
 			} else if (strstr($_POST['interface'], '_vip')) {
-				$input_errors[] = gettext("A CARP parent interface can only be used with IP Alias type Virtual IPs.");
+				$input_errors[] = gettext("CARP 상위 인터페이스는 IP alias 유형 가상 IP에서만 사용할 수 있습니다.");
 			}
 
 			break;
@@ -183,18 +188,18 @@ if ($_POST['save']) {
 			if (strstr($_POST['interface'], '_vip')) {
 				$vipif = get_configured_vip($_POST['interface']);
 				if (is_ipaddrv4($_POST['subnet']) && is_ipaddrv6($vipif['subnet'])) {
-					$input_errors[] = gettext("An IPv4 Virtual IP cannot have an IPv6 CARP parent.");
+					$input_errors[] = gettext("IPv4 가상 IP는 IPv6 CARP 상위를 가질 수 없습니다.");
 				}
 				if (is_ipaddrv6($_POST['subnet']) && is_ipaddrv4($vipif['subnet'])) {
-					$input_errors[] = gettext("An IPv6 Virtual IP cannot have an IPv4 CARP parent.");
+					$input_errors[] = gettext("IPv6 가상 IP는 IPv4 CARP 상위를 가질 수 없습니다.");
 				}
 			}
 			break;
 		default:
 			if ($_POST['interface'] == 'lo0') {
-				$input_errors[] = gettext("For this type of vip localhost is not allowed.");
+				$input_errors[] = gettext("이 유형의 vip localhost는 허용되지 않습니다.");
 			} else if (strstr($_POST['interface'], '_vip')) {
-				$input_errors[] = gettext("A CARP parent interface can only be used with IP Alias type Virtual IPs.");
+				$input_errors[] = gettext("CARP 상위 인터페이스는 IP alias 유형 가상 IP에서만 사용할 수 있습니다.");
 			}
 
 			break;
@@ -274,7 +279,7 @@ if ($_POST['save']) {
 
 		$a_vip[$id] = $vipent;
 
-		if (write_config(gettext("Saved/edited a virtual IP."))) {
+		if (write_config(gettext("가상 IP를 저장/편집했습니다."))) {
 			mark_subsystem_dirty('vip');
 			file_put_contents("{$g['tmp_path']}/.firewall_virtual_ip.apply", serialize($toapplylist));
 		}
@@ -284,10 +289,10 @@ if ($_POST['save']) {
 	}
 }
 
-$ipaliashelp = gettext('The mask must be the network\'s subnet mask. It does not specify a CIDR range.');
-$proxyarphelp = gettext('Enter a CIDR block of proxy ARP addresses.');
+$ipaliashelp = gettext('마스크는 네트워크의 서브넷 마스크여야합니다. CIDR 범위를 지정하지 않습니다.');
+$proxyarphelp = gettext('프록시 ARP 주소의 CIDR 블록을 입력하십시오.');
 
-$pgtitle = array(gettext("Firewall"), gettext("Virtual IPs"), gettext("Edit"));
+$pgtitle = array(gettext("방화벽"), gettext("가상 IP"), gettext("편집"));
 $pglinks = array("", "firewall_virtual_ip.php", "@self");
 include("head.inc");
 
@@ -320,7 +325,7 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section('Edit Virtual IP');
+$section = new Form_Section('가상 IP ');
 
 $group = new Form_Group('*Type');
 
@@ -450,8 +455,9 @@ print($form);
 ?>
 
 <div class="infoblock">
-	<?php print_info_box(gettext("Proxy ARP and Other type Virtual IPs cannot be bound to by anything running on the firewall, such as IPsec, OpenVPN, etc.  Use a CARP or IP Alias type address for these types.") . '<br />' .
-			   sprintf(gettext("For more information on CARP and the above values, visit the OpenBSD %s"), '<a href="http://www.openbsd.org/faq/pf/carp.html">CARP FAQ</a>.'), 'info', false); ?>
+	<?php print_info_box(gettext("
+프록시 ARP 및 기타 유형 가상 IP는 IPsec, OpenVPN 등과 같이 방화벽에서 실행되는 것으로 바인딩 될 수 없습니다. 이러한 유형의 CARP 또는 IP 별칭 유형 주소를 사용하십시오.") . '<br />' .
+			   sprintf(gettext("CARP 및 위의 값에 대한 자세한 내용은 OpenBSD %s를 참조하십시오."), '<a href="http://www.openbsd.org/faq/pf/carp.html">CARP FAQ</a>.'), 'info', false); ?>
 </div>
 
 <script type="text/javascript">
