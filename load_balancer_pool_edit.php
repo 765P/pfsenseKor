@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.06
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-loadbalancer-pool-edit
 ##|*NAME=Load Balancer: Pool: Edit
@@ -53,7 +58,7 @@ if (isset($id) && $a_pool[$id]) {
 	$pconfig['monitor'] = $a_pool[$id]['monitor'];
 }
 
-$changedesc = gettext("Load Balancer: Pool:") . " ";
+$changedesc = gettext("로드 밸런서: Pool:") . " ";
 $changecount = 0;
 
 $allowed_modes = array("loadbalance", "failover");
@@ -66,52 +71,52 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "name mode port monitor servers");
-	$reqdfieldsn = array(gettext("Name"), gettext("Mode"), gettext("Port"), gettext("Monitor"), gettext("Server List"));
+	$reqdfieldsn = array(gettext("이름"), gettext("모드"), gettext("포트"), gettext("모니터"), gettext("서버 리스트"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	/* Ensure that our pool names are unique */
 	for ($i=0; isset($config['load_balancer']['lbpool'][$i]); $i++) {
 		if (($_POST['name'] == $config['load_balancer']['lbpool'][$i]['name']) && ($i != $id)) {
-			$input_errors[] = gettext("This pool name has already been used.  Pool names must be unique.");
+			$input_errors[] = gettext("동일한 이름의 풀(pool)이 존재합니다.");
 		}
 	}
 
 	if (preg_match('/[ \/]/', $_POST['name'])) {
-		$input_errors[] = gettext("Spaces or slashes cannot be used in the 'name' field.");
+		$input_errors[] = gettext("이름에 공백 또는 슬래시는 사용할 수 없습니다.");
 	}
 
 	if (strlen($_POST['name']) > 16) {
-		$input_errors[] = gettext("The 'name' field must be 16 characters or less.");
+		$input_errors[] = gettext("이름은 16자 이하로 설정해주십시오.");
 	}
 
 	if (in_array($_POST['name'], $reserved_table_names)) {
-		$input_errors[] = sprintf(gettext("The name '%s' is a reserved word and cannot be used."), $_POST['name']);
+		$input_errors[] = sprintf(gettext("'%s'은(는) 예약어이므로 사용할 수 없습니다."), $_POST['name']);
 	}
 
 	if (is_alias($_POST['name'])) {
-		$input_errors[] = sprintf(gettext("Sorry, an alias is already named %s."), $_POST['name']);
+		$input_errors[] = sprintf(gettext("%s란 이름의 alias가 이미 존재합니다."), $_POST['name']);
 	}
 
 	if (!is_port_or_alias($_POST['port'])) {
-		$input_errors[] = gettext("The port must be an integer between 1 and 65535, or a port alias.");
+		$input_errors[] = gettext("포트는 1에서 65535 사이의 정수 또는 alias로 지정되어야 합니다.");
 	}
 
 	// May as well use is_port as we want a positive integer and such.
 	if (!empty($_POST['retry']) && !is_port($_POST['retry'])) {
-		$input_errors[] = gettext("The retry value must be an integer between 1 and 65535.");
+		$input_errors[] = gettext("재시도 값은 1에서 65535 사이의 정수로 지정되어야 합니다.");
 	}
 
 	if (!in_array($_POST['mode'], $allowed_modes)) {
-		$input_errors[] = gettext("The submitted mode is not valid.");
+		$input_errors[] = gettext("제출 된 모드가 유효하지 않습니다.");
 	}
 
 	if (is_array($_POST['servers'])) {
 		foreach ($pconfig['servers'] as $svrent) {
 			if (!is_ipaddr($svrent) && !is_subnetv4($svrent)) {
-				$input_errors[] = sprintf(gettext("%s is not a valid IP address or IPv4 subnet (in \"enabled\" list)."), $svrent);
+				$input_errors[] = sprintf(gettext("%s은 유효한 IP주소 또는 IPv4 서브넷(\"사용 가능\"목록)이 아닙니다."), $svrent);
 			} else if (is_subnetv4($svrent) && subnet_size($svrent) > 64) {
-				$input_errors[] = sprintf(gettext("%s is a subnet containing more than 64 IP addresses (in \"enabled\" list)."), $svrent);
+				$input_errors[] = sprintf(gettext("%s은(\"사용 가능\"목록에 있는) 64개 이상의 IP주소를 포함하는 서브넷입니다."), $svrent);
 			}
 		}
 	}
@@ -119,9 +124,9 @@ if ($_POST['save']) {
 	if (is_array($_POST['serversdisabled'])) {
 		foreach ($pconfig['serversdisabled'] as $svrent) {
 			if (!is_ipaddr($svrent) && !is_subnetv4($svrent)) {
-				$input_errors[] = sprintf(gettext("%s is not a valid IP address or IPv4 subnet (in \"disabled\" list)."), $svrent);
+				$input_errors[] = sprintf(gettext("%s은(는) (\"disabled\"목록에있는) 유효한 IP 주소 또는 IPv4 서브넷이 아닙니다."), $svrent);
 			} else if (is_subnetv4($svrent) && subnet_size($svrent) > 64) {
-				$input_errors[] = sprintf(gettext("%s is a subnet containing more than 64 IP addresses (in \"disabled\" list)."), $svrent);
+				$input_errors[] = sprintf(gettext("%s은 64 개 이상의 IP 주소를 포함하는 서브넷입니다(\"비활성화 됨\" 목록에 있음)."), $svrent);
 			}
 		}
 	}
@@ -178,7 +183,7 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("Load Balancer"), gettext("Pools"), gettext("Edit"));
+$pgtitle = array(gettext("Services"), gettext("로드 밸런서"), gettext("Pools"), gettext("편집"));
 $pglinks = array("", "load_balancer_pool.php", "load_balancer_pool.php", "@self");
 $shortcut_section = "relayd";
 
@@ -295,7 +300,7 @@ $form = new Form();
 
 $form->setAction("load_balancer_pool_edit.php");
 
-$section = new Form_Section('Add/Edit Load Balancer - Pool Entry');
+$section = new Form_Section('로드 밸런서 추가/편집 - 풀 항목');
 
 $section->addInput(new Form_Input(
 	'name',
@@ -309,8 +314,8 @@ $section->addInput(new Form_Select(
 	'Mode',
 	$pconfig['mode'],
 	array(
-		'loadbalance' => gettext('Load Balance'),
-		'failover' => gettext('Manual Failover')
+		'loadbalance' => gettext('로드 밸런스'),
+		'failover' => gettext('수동 장애 조치')
 	)
 ));
 
@@ -360,7 +365,7 @@ if (count($config['load_balancer']['monitor_type'])) {
 	));
 }
 
-$group = new Form_Group('Server IP Address');
+$group = new Form_Group('서버 IP ');
 
 $group->add(new Form_IpAddress(
 	'ipaddr',
