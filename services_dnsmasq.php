@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.06
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dnsforwarder
 ##|*NAME=Services: DNS Forwarder
@@ -144,19 +149,19 @@ if ($_POST['save']) {
 
 	if (isset($_POST['enable']) && isset($config['unbound']['enable'])) {
 		if ($_POST['port'] == $config['unbound']['port']) {
-			$input_errors[] = gettext("The DNS Resolver is enabled using this port. Choose a non-conflicting port, or disable DNS Resolver.");
+			$input_errors[] = gettext("DNS확인자가 이 포트를 사용하도록 설정되어 있습니다. 충돌하지 않는 포트를 선택하거나 DNS확인자를 사용하지 않도록 설정합니다.");
 		}
 	}
 
 	if ((isset($_POST['regdhcp']) || isset($_POST['regdhcpstatic']) || isset($_POST['dhcpfirst'])) && !is_dhcp_server_enabled()) {
-		$input_errors[] = gettext("DHCP Server must be enabled for DHCP Registration to work in DNS Forwarder.");
+		$input_errors[] = gettext("DNS전달자에서 DHCP등록이 작동하려면 DHCP서버를 사용하도록 설정해야 합니다.");
 	}
 
 	if ($_POST['port']) {
 		if (is_port($_POST['port'])) {
 			$config['dnsmasq']['port'] = $_POST['port'];
 		} else {
-			$input_errors[] = gettext("A valid port number must be specified.");
+			$input_errors[] = gettext("올바른 포트 번호를 지정해야 합니다.");
 		}
 	} else if (isset($config['dnsmasq']['port'])) {
 		unset($config['dnsmasq']['port']);
@@ -255,7 +260,7 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('hosts')) {
-	print_apply_box(gettext("The DNS forwarder configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("DNS전달자 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $form = new Form();
@@ -404,8 +409,8 @@ foreach ($a_hosts as $i => $hostent):
 						<?=htmlspecialchars($hostent['descr'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit host override')?>" 	href="services_dnsmasq_edit.php?id=<?=$hostent['idx']?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete host override')?>"	href="services_dnsmasq.php?type=host&amp;act=del&amp;id=<?=$hostent['idx']?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('호스트 오버라이드 편집')?>" 	href="services_dnsmasq_edit.php?id=<?=$hostent['idx']?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('호스트 오버라이드 삭제')?>"	href="services_dnsmasq.php?type=host&amp;act=del&amp;id=<?=$hostent['idx']?>" usepost></a>
 					</td>
 				</tr>
 
@@ -428,7 +433,7 @@ foreach ($a_hosts as $i => $hostent):
 						<?=htmlspecialchars($alias['description'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit host override')?>" 	href="services_dnsmasq_edit.php?id=<?=$i?>"></a>
+						<a class="fa fa-pencil"	title="<?=gettext('호스트 오버라이드 편집')?>" 	href="services_dnsmasq_edit.php?id=<?=$i?>"></a>
 					</td>
 				</tr>
 <?php
@@ -444,12 +449,12 @@ endforeach;
 <nav class="action-buttons">
 	<a href="services_dnsmasq_edit.php" class="btn btn-sm btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Domain Overrides")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("도메인 오버라이드")?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 			<thead>
@@ -476,8 +481,8 @@ foreach ($a_domainOverrides as $i => $doment):
 						<?=htmlspecialchars($doment['descr'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit domain override')?>" href="services_dnsmasq_domainoverride_edit.php?id=<?=$doment['idx']?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete domain override')?>" href="services_dnsmasq.php?act=del&amp;type=doverride&amp;id=<?=$doment['idx']?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('도메인 오버라이드 편집')?>" href="services_dnsmasq_domainoverride_edit.php?id=<?=$doment['idx']?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('도메인 오버라이드 삭제')?>" href="services_dnsmasq.php?act=del&amp;type=doverride&amp;id=<?=$doment['idx']?>" usepost></a>
 					</td>
 				</tr>
 <?php
@@ -491,19 +496,16 @@ endforeach;
 <nav class="action-buttons">
 	<a href="services_dnsmasq_domainoverride_edit.php" class="btn btn-sm btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 <div class="infoblock">
 <?php
 print_info_box(
 	'<p>' .
-	gettext('If the DNS forwarder is enabled, the DHCP service (if enabled) will automatically' .
-		    ' serve the LAN IP address as a DNS server to DHCP clients so they will use the forwarder.') . '</p><p>' .
-	sprintf(gettext('The DNS forwarder will use the DNS servers entered in %1$sSystem > General Setup%2$s or' .
-				    ' those obtained via DHCP or PPP on WAN if &quot;Allow DNS server list to be overridden by DHCP/PPP on WAN&quot; is checked.' .
-				    ' If that option is not used (or if a static IP address is used on WAN),' .
-				    ' at least one DNS server must be manually specified on the %1$sSystem > General Setup%2$s page.'),
+	gettext('DNS포워더가 활성화된 경우, DHCP서비스(활성화된 경우)는 포워더를 사용할 수 있도록 DHCP클라이언트에 대한 DNS서버로 LANIP주소를 자동으로 제공한다.') . '</p><p>' .
+	sprintf(gettext('DNS 전달자는 %1$s시스템 일반 설정%2$s 에서 입력 한 DNS 서버 또는 &quot;WAN상의 DHCP / PPP에 의해 DNS 서버 목록이 무시되도록 허용&quot;을 선택하면 WAN에서 DHCP 또는 PPP를 통해 얻은 DNS 서버를 사용합니다.' .
+				    ' 이 옵션을 사용하지 않거나 WAN에서 고정 IP 주소를 사용하는 경우 %1$s시스템 일반 설정%2$s 페이지에서 하나 이상의 DNS 서버를 수동으로 지정해야합니다.'),
 			'<a href="system.php">',
 			'</a>') .
 	'</p>',
