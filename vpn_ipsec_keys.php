@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-ipsec-listkeys
 ##|*NAME=VPN: IPsec: Pre-Shared Keys List
@@ -62,14 +67,14 @@ if (isset($_POST['apply'])) {
 if ($_POST['act'] == "del") {
 	if ($a_secret[$_POST['id']]) {
 		unset($a_secret[$_POST['id']]);
-		write_config(gettext("Deleted IPsec Pre-Shared Key"));
+		write_config(gettext("삭제 된 IPsec 사전 공유 키"));
 		mark_subsystem_dirty('ipsec');
 		header("Location: vpn_ipsec_keys.php");
 		exit;
 	}
 }
 
-$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("Pre-Shared Keys"));
+$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("사전 공유 키"));
 $pglinks = array("", "vpn_ipsec.php", "@self");
 $shortcut_section = "ipsec";
 
@@ -80,27 +85,27 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('ipsec')) {
-	print_apply_box(gettext("The IPsec tunnel configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("IPsec 터널 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 	$tab_array = array();
-	$tab_array[0] = array(gettext("Tunnels"), false, "vpn_ipsec.php");
-	$tab_array[1] = array(gettext("Mobile Clients"), false, "vpn_ipsec_mobile.php");
-	$tab_array[2] = array(gettext("Pre-Shared Keys"), true, "vpn_ipsec_keys.php");
-	$tab_array[3] = array(gettext("Advanced Settings"), false, "vpn_ipsec_settings.php");
+	$tab_array[0] = array(gettext("터널"), false, "vpn_ipsec.php");
+	$tab_array[1] = array(gettext("모바일 클라이언트"), false, "vpn_ipsec_mobile.php");
+	$tab_array[2] = array(gettext("사전 공유 키"), true, "vpn_ipsec_keys.php");
+	$tab_array[3] = array(gettext("어드밴스드 설정"), false, "vpn_ipsec_settings.php");
 	display_top_tabs($tab_array);
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Pre-Shared Keys')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('사전 공유 키')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext("Identifier"); ?></th>
-						<th><?=gettext("Type"); ?></th>
-						<th><?=gettext("Pre-Shared Key"); ?></th>
+						<th><?=gettext("식별자"); ?></th>
+						<th><?=gettext("타입"); ?></th>
+						<th><?=gettext("사전 공유 키"); ?></th>
 						<th><?=gettext("Actions"); ?></th>
 					</tr>
 				</thead>
@@ -129,7 +134,7 @@ if (is_subsystem_dirty('ipsec')) {
 							<?=htmlspecialchars($secretent['pre-shared-key'])?>
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit user')?>"	href="system_usermanager.php?act=edit&amp;userid=<?=$secretent['id']?>"></a>
+							<a class="fa fa-pencil"	title="<?=gettext('유저 편집')?>"	href="system_usermanager.php?act=edit&amp;userid=<?=$secretent['id']?>"></a>
 						</td>
 					</tr>
 <?php $i++; endforeach; ?>
@@ -152,8 +157,8 @@ if (is_subsystem_dirty('ipsec')) {
 							<?=htmlspecialchars($secretent['pre-shared-key'])?>
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit key')?>" href="vpn_ipsec_keys_edit.php?id=<?=$i?>"></a>
-							<a class="fa fa-trash"	title="<?=gettext('Delete key')?>" href="vpn_ipsec_keys.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil"	title="<?=gettext('키 편집')?>" href="vpn_ipsec_keys_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-trash"	title="<?=gettext('키 삭제')?>" href="vpn_ipsec_keys.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 					</tr>
 <?php $i++; endforeach; ?>
@@ -166,12 +171,12 @@ if (is_subsystem_dirty('ipsec')) {
 <nav class="action-buttons">
 	<a class="btn btn-success btn-sm" href="vpn_ipsec_keys_edit.php">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 <div class="infoblock">
 <?php
-print_info_box(gettext("PSK for any user can be set by using an identifier of any."), 'info', false);
+print_info_box(gettext("모든 사용자에 대한 PSK는 아무 식별자나 사용하여 설정할 수 있습니다."), 'info', false);
 ?>
 </div>
 <?php include("foot.inc"); ?>
