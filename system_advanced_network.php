@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-advanced-network
 ##|*NAME=System: Advanced: Networking
@@ -55,7 +60,7 @@ if ($_POST) {
 	$pconfig = $_POST;
 
 	if ($_POST['ipv6nat_enable'] && !is_ipaddr($_POST['ipv6nat_ipaddr'])) {
-		$input_errors[] = gettext("An IP address to NAT IPv6 packets must be specified.");
+		$input_errors[] = gettext("NATIPv6패킷에 대한 IP주소를 지정해야 합니다.");
 	}
 
 	switch ($_POST['ipv6duidtype']) {
@@ -189,11 +194,11 @@ if ($changes_applied) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Admin Access"), false, "system_advanced_admin.php");
-$tab_array[] = array(htmlspecialchars(gettext("Firewall & NAT")), false, "system_advanced_firewall.php");
-$tab_array[] = array(gettext("Networking"), true, "system_advanced_network.php");
+$tab_array[] = array(gettext("어드민 엑세스"), false, "system_advanced_admin.php");
+$tab_array[] = array(htmlspecialchars(gettext(" & NAT")), false, "system_advanced_firewall.php");
+$tab_array[] = array(gettext("네트워킹"), true, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), false, "system_advanced_misc.php");
-$tab_array[] = array(gettext("System Tunables"), false, "system_advanced_sysctl.php");
+$tab_array[] = array(gettext("시스템 문제"), false, "system_advanced_sysctl.php");
 $tab_array[] = array(gettext("Notifications"), false, "system_advanced_notifications.php");
 $duid = get_duid_from_file();
 display_top_tabs($tab_array);
@@ -247,11 +252,11 @@ $section->addInput(new Form_Select(
 	'ipv6duidtype',
 	'DHCP6 DUID',
 	'$ipv6duidtype',
-	array('0' => gettext('Raw DUID: As stored in DUID file or seen in firewall logs'),
-		'1' => gettext('DUID-LLT: Based on Link-layer Address Plus Time'),
-		'2' => gettext('DUID-EN: Assigned by Vendor based on Enterprise Number'),
-		'3' => gettext('DUID-LL: Based on Link-layer Address'),
-		'4' => gettext('DUID-UUID: Based on Universally Unique Identifier')
+	array('0' => gettext('DUID-RAW: DUID 파일에 저장되거나 방화벽 로그에 표시됨'),
+		'1' => gettext('DUID-Rat: 링크 계층 주소와 시간에 기반'),
+		'2' => gettext('DUID-EN: 엔터프라이즈 번호에 기반하여 벤더별로 할당'),
+		'3' => gettext('DUID-LL: 링크 계층 주소 기준'),
+		'4' => gettext('DUID-UUID: 범용 고유 식별자를 기반으로 함')
 	)
 ))->setHelp('A DHCPv6 Unique Identifier (DUID) is used by the firewall when requesting an IPv6 address.%1$s%1$s' .
 		'By default, the firewall automatically creates a dynamic DUID-LLT which is not saved in the firewall configuration. '.
@@ -335,7 +340,7 @@ $section->addInput(new Form_Input(
 ))->setHelp('Universally Unique Identifier');
 
 $form->add($section);
-$section = new Form_Section('Network Interfaces');
+$section = new Form_Section('네트워크 인터페이스');
 
 $section->addInput(new Form_Checkbox(
 	'disablechecksumoffloading',
