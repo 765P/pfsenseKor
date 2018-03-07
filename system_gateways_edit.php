@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-gateways-editgateway
 ##|*NAME=System: Gateways: Edit Gateway
@@ -108,7 +113,7 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Routing"), gettext("Gateways"), gettext("Edit"));
+$pgtitle = array(gettext("시스템"), gettext("라우팅"), gettext("게이트웨이"), gettext("Edit"));
 $pglinks = array("", "system_gateways.php", "system_gateways.php", "@self");
 $shortcut_section = "gateways";
 
@@ -146,7 +151,7 @@ $form->addGlobal(new Form_Input(
 	$pconfig['friendlyiface']
 ));
 
-$section = new Form_Section('Edit Gateway');
+$section = new Form_Section('게이트웨이 편집');
 
 $section->addInput(new Form_Checkbox(
 	'disabled',
@@ -186,7 +191,7 @@ $egw = new Form_Input(
 	($pconfig['dynamic'] ? 'dynamic' : $pconfig['gateway'])
 );
 
-$egw->setHelp('Gateway IP address');
+$egw->setHelp('게이트웨이 IP주소');
 
 if ($pconfig['dynamic']) {
 	$egw->setReadonly();
@@ -215,7 +220,7 @@ $section->addInput(new Form_Checkbox(
 	$pconfig['action_disable']
 ))->setHelp('No action will be taken on gateway events. The gateway is always considered up.');
 
-$group = new Form_Group('Monitor IP');
+$group = new Form_Group('모니터 IP');
 $group->addClass('toggle-monitor-ip', 'collapse');
 
 if (!$pconfig['monitor_disable'])
@@ -369,38 +374,36 @@ $group->setHelp('Time interval in milliseconds between checking for an alert con
 $section->add($group);
 
 $section->addInput(new Form_StaticText(
-	gettext('Additional information'),
+	gettext('추가 정보'),
 	'<span class="help-block">'.
-	gettext('The time period, probe interval and loss interval are closely related. The ' .
-		'ratio between these values control the accuracy of the numbers reported and ' .
-		'the timeliness of alerts.') .
+	gettext('시간, 프로브 간격 및 손실 간격은 밀접한 관련이 있습니다. ' .
+		'이러한 값 사이의 비율은 보고된 숫자의 정확도와 경고의 적시성을 제어합니다.') .
 	'<br/><br/>' .
-	gettext('A longer time period will provide smoother results for round trip time ' .
-		'and loss, but will increase the time before a latency or loss alert is triggered.') .
+	gettext('더 긴 시간이 있으면 왕복 시간과 손실에 대해 더 자연스러운 결과를 얻을 수 있지만, ' .
+		'지연 또는 손실 경고가 트리거 되기 전까지의 시간이 증가합니다.') .
 	'<br/><br/>' .
-	gettext('A shorter probe interval will decrease the time required before a latency ' .
-		'or loss alert is triggered, but will use more network resource. Longer ' .
-		'probe intervals will degrade the accuracy of the quality graphs.') .
+	gettext('프로브 간격이 짧을수록 지연 시간이나 손실 경고가 트리거 되기 전에 필요한 시간이 줄어들지만 ' .
+		'더 많은 네트워크 리소스가 사용됩니다. 프로브 간격이 길어지면 ' .
+		'품질 그래프의 정확도가 저하됩니다.') .
 	'<br/><br/>' .
-	gettext('The ratio of the probe interval to the time period (minus the loss interval) ' .
-		'also controls the resolution of loss reporting. To determine the resolution, ' .
-		'the following formula can be used:') .
+	gettext('시간에 대한 프로브 간격의 비율(손실 간격 제외)도 손실 보고의 해결을 제어한다. ' .
+		'분해능을 확인하기 위해 다음 공식을 사용할 수 있습니다:') .
 	'<br/><br/>' .
-	gettext('&nbsp;&nbsp;&nbsp;&nbsp;100 * probe interval / (time period - loss interval)') .
+	gettext('&nbsp;&nbsp;&nbsp;&nbsp;100*프로브 간격/(시간 간격-손실 간격)') .
 	'<br/><br/>' .
-	gettext('Rounding up to the nearest whole number will yield the resolution of loss ' .
-		'reporting in percent. The default values provide a resolution of 1%.') .
+	gettext('가장 가까운 정수로 반올림하면 손실 보고에 대한 분해능이 ' .
+		'백분율로 표시됩니다. 기본 값은 1%입니다.') .
 	'<br/><br/>' .
-	gettext('The default settings are recommended for most use cases. However if ' .
-		'changing the settings, please observe the following restrictions:') .
+	gettext('대부분의 사용 사례에 기본 설정이 권장됩니다. 하지만 ' .
+		'설정을 변경하는 경우 다음 제한 사항을 준수하십시오.') .
 	'<br/><br/>' .
-	gettext('- The time period must be greater than twice the probe interval plus the loss ' .
-		'interval. This guarantees there is at least one completed probe at all times. ') .
+	gettext('- 이 시간 간격은 프로브 간격에 손실 간격을 더한 값의 두배보다 커야 합니다. ' .
+		'이를 통해 항상 최소 1개의 프로브가 완성된 상태를 유지할 수 있습니다. ') .
 	'<br/><br/>' .
-	gettext('- The alert interval must be greater than or equal to the probe interval. There ' .
-		'is no point checking for alerts more often than probes are done.') .
+	gettext('- 경고 간격은 프로브 간격보다 크거나 같아야 합니다. ' .
+		'프로브를 실행하는 것보다 경고를 더 자주 확인하는 포인트는 없습니다.') .
 	'<br/><br/>' .
-	gettext('- The loss interval must be greater than or equal to the high latency threshold.') .
+	gettext('- 손실 간격이 높은 지연 시간 임계값보다 크거나 같아야 합니다.') .
 	'</span>'
 ));
 
@@ -450,9 +453,9 @@ events.push(function() {
 		hideClass('adnlopts', !showadvopts);
 
 		if (showadvopts) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 ');?>";
 		}
 		$('#btnadvopts').html('<i class="fa fa-cog"></i> ' + text);
 	}
