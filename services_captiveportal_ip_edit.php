@@ -60,7 +60,7 @@ if (!is_array($config['captiveportal'])) {
 
 $a_cp =& $config['captiveportal'];
 
-$pgtitle = array(gettext("Services"), gettext("Captive Portal"), $a_cp[$cpzone]['zone'], gettext("Allowed IP Addresses"), gettext("Edit"));
+$pgtitle = array(gettext("Services"), gettext("전속 포털"), $a_cp[$cpzone]['zone'], gettext("Allowed IP Addresses"), gettext("편집"));
 $pglinks = array("", "services_captiveportal_zones.php", "services_captiveportal.php?zone=" . $cpzone, "services_captiveportal_ip.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal";
 $id = $_REQUEST['id'];
@@ -86,32 +86,32 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "ip sn");
-	$reqdfieldsn = array(gettext("Allowed IP address"), gettext("Subnet mask"));
+	$reqdfieldsn = array(gettext("허용된 IP주소"), gettext("서브넷 마스크"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($_POST['ip'] && !is_ipaddr($_POST['ip'])) {
-		$input_errors[] = sprintf(gettext("A valid IP address must be specified. [%s]"), $_POST['ip']);
+		$input_errors[] = sprintf(gettext("유효한 IP주소를 지정해주십시오.[%s]"), $_POST['ip']);
 	}
 
 	if ($_POST['sn'] && (!is_numeric($_POST['sn']) || ($_POST['sn'] < 1) || ($_POST['sn'] > 32))) {
-		$input_errors[] = gettext("A valid subnet mask must be specified");
+		$input_errors[] = gettext("유효한 서브넷 마스크를 지정해주십시오.");
 	}
 
 	if ($_POST['bw_up'] && !is_numeric($_POST['bw_up'])) {
-		$input_errors[] = gettext("Upload speed needs to be an integer");
+		$input_errors[] = gettext("업로드 속도는 정수로 지정해주십시오.");
 	}
 
 	if ($_POST['bw_down'] && !is_numeric($_POST['bw_down'])) {
-		$input_errors[] = gettext("Download speed needs to be an integer");
+		$input_errors[] = gettext("다운로드 속도는 정수로 지정해주십시오.");
 	}
 
 	if ($_POST['bw_up'] && ($_POST['bw_up'] > 999999 || $_POST['bw_up'] < 1)) {
-		$input_errors[] = gettext("Upload speed must be between 1 and 999999");
+		$input_errors[] = gettext("업로드 속도는 1에서 999999 사이로 지정해주십시오.");
 	}
 
 	if ($_POST['bw_down'] && ($_POST['bw_down'] > 999999 || $_POST['bw_down'] < 1)) {
-		$input_errors[] = gettext("Download speed must be between 1 and 999999");
+		$input_errors[] = gettext("다운로드 속도는 1에서 999999 사이로 지정해주십시오.");
 	}
 
 	foreach ($a_allowedips as $ipent) {
@@ -120,7 +120,7 @@ if ($_POST['save']) {
 		}
 
 		if ($ipent['ip'] == $_POST['ip']) {
-			$input_errors[] = sprintf(gettext('[%s] already allowed.'), $_POST['ip']);
+			$input_errors[] = sprintf(gettext('[%s]은(는) 이미 허용되었습니다.'), $_POST['ip']);
 			break ;
 		}
 	}
@@ -209,7 +209,7 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section('Edit Captive Portal IP Rule');
+$section = new Form_Section('포털 IP 규칙 편집');
 
 $section->addInput(new Form_IpAddress(
 	'ip',
