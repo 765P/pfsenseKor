@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 require_once("guiconfig.inc");
 require_once("filter_log.inc");
 
@@ -85,43 +90,43 @@ function tab_array_logs_common() {
 	$is_pppoe_l2tp_vpn_log = in_array($logfile, array('poes', 'l2tps', 'vpn'));
 
 	$tab_array = array();
-	$tab_array[] = array(gettext("System"), $is_system_log, "status_logs.php");
-	$tab_array[] = array(gettext("Firewall"), $is_filter_log, "status_logs_filter.php");
+	$tab_array[] = array(gettext("시스템"), $is_system_log, "status_logs.php");
+	$tab_array[] = array(gettext("방화벽"), $is_filter_log, "status_logs_filter.php");
 	$tab_array[] = array(gettext("DHCP"), ($logfile == 'dhcpd'), "status_logs.php?logfile=dhcpd");
 	$tab_array[] = array(gettext("Captive Portal Auth"), ($logfile == 'portalauth'), "status_logs.php?logfile=portalauth");
 	$tab_array[] = array(gettext("IPsec"), ($logfile == 'ipsec'), "status_logs.php?logfile=ipsec");
 	$tab_array[] = array(gettext("PPP"), ($logfile == 'ppp'), "status_logs.php?logfile=ppp");
 	$tab_array[] = array(gettext("VPN"), $is_pppoe_l2tp_vpn_log, "status_logs_vpn.php");
-	$tab_array[] = array(gettext("Load Balancer"), ($logfile == 'relayd'), "status_logs.php?logfile=relayd");
+	$tab_array[] = array(gettext("로드밸런서"), ($logfile == 'relayd'), "status_logs.php?logfile=relayd");
 	$tab_array[] = array(gettext("OpenVPN"), ($logfile == 'openvpn'), "status_logs.php?logfile=openvpn");
 	$tab_array[] = array(gettext("NTP"), ($logfile == 'ntpd'), "status_logs.php?logfile=ntpd");
-	$tab_array[] = array(gettext("Settings"), false, "status_logs_settings.php");
+	$tab_array[] = array(gettext("설정"), false, "status_logs_settings.php");
 	display_top_tabs($tab_array);
 
 	$tab_array = array();
 	if ($is_system_log) {
-		$tab_array[] = array(gettext("General"), ($logfile == 'system'), "/status_logs.php");
-		$tab_array[] = array(gettext("Gateways"), ($logfile == 'gateways'), "/status_logs.php?logfile=gateways");
-		$tab_array[] = array(gettext("Routing"), ($logfile == 'routing'), "/status_logs.php?logfile=routing");
-		$tab_array[] = array(gettext("DNS Resolver"), ($logfile == 'resolver'), "/status_logs.php?logfile=resolver");
-		$tab_array[] = array(gettext("Wireless"), ($logfile == 'wireless'), "/status_logs.php?logfile=wireless");
+		$tab_array[] = array(gettext("일반"), ($logfile == 'system'), "/status_logs.php");
+		$tab_array[] = array(gettext("게이트웨이"), ($logfile == 'gateways'), "/status_logs.php?logfile=gateways");
+		$tab_array[] = array(gettext("라우팅"), ($logfile == 'routing'), "/status_logs.php?logfile=routing");
+		$tab_array[] = array(gettext("DNS 확인자"), ($logfile == 'resolver'), "/status_logs.php?logfile=resolver");
+		$tab_array[] = array(gettext("무선통신"), ($logfile == 'wireless'), "/status_logs.php?logfile=wireless");
 	}
 	else if ($is_filter_log) {
-		$tab_array[] = array(gettext("Normal View"), ($view == 'normal'), "/status_logs_filter.php");
-		$tab_array[] = array(gettext("Dynamic View"), ($view == 'dynamic'), "/status_logs_filter_dynamic.php?logfile=filter&amp;view=dynamic");
-		$tab_array[] = array(gettext("Summary View"), ($view == 'summary'), "/status_logs_filter_summary.php?logfile=filter&amp;view=summary");
+		$tab_array[] = array(gettext("일반 뷰"), ($view == 'normal'), "/status_logs_filter.php");
+		$tab_array[] = array(gettext("동적 뷰"), ($view == 'dynamic'), "/status_logs_filter_dynamic.php?logfile=filter&amp;view=dynamic");
+		$tab_array[] = array(gettext("요약 뷰"), ($view == 'summary'), "/status_logs_filter_summary.php?logfile=filter&amp;view=summary");
 	}
 	else if ($is_pppoe_l2tp_vpn_log) {
-		$tab_array[] = array(gettext("PPPoE Logins"),
+		$tab_array[] = array(gettext("PPPoE 로그인"),
 					(($logfile == 'vpn') && ($vpntype == "poes")),
 					"/status_logs_vpn.php?logfile=vpn&amp;vpntype=poes");
-		$tab_array[] = array(gettext("PPPoE Service"),
+		$tab_array[] = array(gettext("PPPoE 서비스"),
 					(($logfile == 'poes') && ($vpntype == "poes")),
 					"/status_logs_vpn.php?logfile=poes&amp;vpntype=poes");
-		$tab_array[] = array(gettext("L2TP Logins"),
+		$tab_array[] = array(gettext("L2TP 로그인"),
 					(($logfile == 'vpn') && ($vpntype == "l2tp")),
 					"/status_logs_vpn.php?logfile=vpn&amp;vpntype=l2tp");
-		$tab_array[] = array(gettext("L2TP Service"),
+		$tab_array[] = array(gettext("L2TP 서비스"),
 					(($logfile == 'l2tps') && ($vpntype == "l2tp")),
 					"/status_logs_vpn.php?logfile=l2tps&amp;vpntype=l2tp");
 	}
@@ -140,19 +145,19 @@ function system_log_table_panel_title() {
 
 	if ($rawfilter) {
 		if (($filtersubmit) || ($filterlogentries_submit)) {
-			$rtnstr .= sprintf(gettext('%1$s Matched %2$s Log Entries.'), "<span id='count'>_ _</span>", gettext($allowed_logs[$logfile]["name"]));
+			$rtnstr .= sprintf(gettext('%1$s 일치하는 %2$s 기록 항목.'), "<span id='count'>_ _</span>", gettext($allowed_logs[$logfile]["name"]));
 		} else {
-			$rtnstr .= sprintf(gettext('Last %1$s %2$s Log Entries.'), "<span id='count'>_ _</span>", gettext($allowed_logs[$logfile]["name"]));
+			$rtnstr .= sprintf(gettext('마지막 %1$s %2$s 로그 항목.'), "<span id='count'>_ _</span>", gettext($allowed_logs[$logfile]["name"]));
 		}
 	} else {
 		if (($filtersubmit) || ($filterlogentries_submit)) {
-			$rtnstr .= sprintf(gettext('%1$d Matched %2$s Log Entries.'), count($filterlog), gettext($allowed_logs[$logfile]["name"]));
+			$rtnstr .= sprintf(gettext('%1$d 일치하는 %2$s 로그 항목.'), count($filterlog), gettext($allowed_logs[$logfile]["name"]));
 		} else {
-			$rtnstr .= sprintf(gettext('Last %1$d %2$s Log Entries.'), count($filterlog), gettext($allowed_logs[$logfile]["name"]));
+			$rtnstr .= sprintf(gettext('마지막 %1$d %2$s개의 로그 항목.'), count($filterlog), gettext($allowed_logs[$logfile]["name"]));
 		}
 	}
 
-	$rtnstr .= sprintf(" (" . gettext("Maximum %d") . ")", $nentries);
+	$rtnstr .= sprintf(" (" . gettext("최대 %d") . ")", $nentries);
 
 	return $rtnstr;
 }
@@ -277,7 +282,7 @@ function filter_form_system() {
 
 		$btnsubmit = new Form_Button(
 			'filterlogentries_submit',
-			gettext('Apply Filter'),
+			gettext('필터 적용'),
 			null,
 			'fa-filter'
 		);
@@ -306,7 +311,7 @@ function filter_form_system() {
 
 		$btnsubmit = new Form_Button(
 			'filtersubmit',
-			gettext('Apply Filter'),
+			gettext('필터 적용'),
 			null,
 			'fa-filter'
 		);
@@ -319,7 +324,7 @@ function filter_form_system() {
 		$btnsubmit
 	));
 
-	$group->setHelp('<a target="_blank" href="http://www.php.net/manual/en/book.pcre.php">' . gettext('Regular expression reference') . '</a> ' . gettext('Precede with exclamation (!) to exclude match.'));
+	$group->setHelp('<a target="_blank" href="http://www.php.net/manual/en/book.pcre.php">' . gettext('정규 표현식 참조') . '</a> ' . gettext('일치하는 것을 제외하려면 느낌표 (!)를 선행하십시오.'));
 	$section->add($group);
 	$form->add($section);
 	print $form;
@@ -485,7 +490,7 @@ function filter_form_firewall() {
 
 		$btnsubmit = new Form_Button(
 			'filterlogentries_submit',
-			gettext('Apply Filter'),
+			gettext('필터 적용'),
 			null,
 			'fa-filter'
 		);
@@ -525,7 +530,7 @@ function filter_form_firewall() {
 
 		$btnsubmit = new Form_Button(
 			'filtersubmit',
-			gettext('Apply Filter'),
+			gettext('필터 적용'),
 			null,
 			'fa-filter'
 		);
@@ -718,10 +723,10 @@ function manage_log_code() {
 
 		// If any of the logging settings were changed then backup and sync (standard write_config).  Otherwise only write config (don't backup, don't sync).
 			if ($logging_changed) {
-				write_config($desc = gettext("Log Display Settings Saved: ") . gettext($allowed_logs[$logfile]["name"]), $backup = true, $write_config_only = false);
+				write_config($desc = gettext("저장된 로그 표시 설정: ") . gettext($allowed_logs[$logfile]["name"]), $backup = true, $write_config_only = false);
 				system_syslogd_start();
 			} else {
-				write_config($desc = gettext("Log Display Settings Saved (no backup, no sync): ") . gettext($allowed_logs[$logfile]["name"]), $backup = false, $write_config_only = true);
+				write_config($desc = gettext("저장된 로그 표시 설정 (백업 안 함, 동기화 없음): ") . gettext($allowed_logs[$logfile]["name"]), $backup = false, $write_config_only = true);
 			}
 
 		// Specific to System General (main) Log
@@ -729,9 +734,9 @@ function manage_log_code() {
 				if ($nginx_logging_changed) {
 					ob_flush();
 					flush();
-					log_error(gettext("webConfigurator configuration has changed. Restarting webConfigurator."));
+					log_error(gettext("webConfigurator 구성이 변경되었습니다. webConfigurator를 다시 시작합니다."));
 					send_event("service restart webgui");
-					$extra_save_msg = gettext("WebGUI process is restarting.");
+					$extra_save_msg = gettext("WebGUI 프로세스가 다시 시작됩니다.");
 				}
 			}
 
@@ -779,7 +784,7 @@ function manage_log_section() {
 	$form = new Form(false);
 	$form->setAttribute('id', 'manage-log-form')->addClass('collapse ' . $panel_state);
 
-	$section = new Form_Section(sprintf(gettext('Manage %1$s Log'), gettext($allowed_logs[$logfile]["name"])), 'manage-log-panel', COLLAPSIBLE|$panel_body_state);
+	$section = new Form_Section(sprintf(gettext('%1$s 로그 관리'), gettext($allowed_logs[$logfile]["name"])), 'manage-log-panel', COLLAPSIBLE|$panel_body_state);
 
 	$section->addInput(new Form_StaticText(
 		'',
@@ -922,9 +927,9 @@ function manage_log_section() {
 			'Where to show rule descriptions',
 			!isset($pconfig['filterdescriptions']) ? '0':$pconfig['filterdescriptions'],
 			array(
-				'0' => gettext('Dont load descriptions'),
-				'1' => gettext('Display as column'),
-				'2' => gettext('Display as second row')
+				'0' => gettext('설명을 로드하지 않음'),
+				'1' => gettext('열(column)로 표시'),
+				'2' => gettext('두 번째 행으로 표시')
 			)
 		))->setHelp('Show the applied rule description below or in the firewall log rows.%1$s' .
 					'Displaying rule descriptions for all lines in the log might affect performance with large rule sets.',
@@ -937,7 +942,7 @@ function manage_log_section() {
 
 	$btnsavesettings = new Form_Button(
 		'save_settings',
-		gettext('Save'),
+		gettext('저장'),
 		null,
 		'fa-save'
 	);
@@ -952,7 +957,7 @@ function manage_log_section() {
 
 	$btnclear = new Form_Button(
 		'clear',
-		gettext('Clear log'),
+		gettext('로그 '),
 		null,
 		'fa-trash'
 	);
