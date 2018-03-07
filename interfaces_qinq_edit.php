@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 추가
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-qinq-edit
 ##|*NAME=Interfaces: QinQ: Edit
@@ -26,7 +31,7 @@
 ##|*MATCH=interfaces_qinq_edit.php*
 ##|-PRIV
 
-$pgtitle = array(gettext("Interfaces"), gettext("QinQs"), gettext("Edit"));
+$pgtitle = array(gettext("인터페이스"), gettext("QinQs"), gettext("편집"));
 $pglinks = array("", "interfaces_qinq.php", "@self");
 $shortcut_section = "interfaces";
 
@@ -74,24 +79,24 @@ if ($_POST['save']) {
 	$pconfig = $_POST;
 
 	if (empty($_POST['tag'])) {
-		$input_errors[] = gettext("First level tag cannot be empty.");
+		$input_errors[] = gettext("첫 번째 태그는 비울 수 없습니다.");
 	}
 	if (isset($id) && $a_qinqs[$id]['tag'] != $_POST['tag']) {
-		$input_errors[] = gettext("Modifying the first level tag of an existing entry is not allowed.");
+		$input_errors[] = gettext("기존 항목의 첫 번째 태그를 수정하는 것은 허용되지 않습니다.");
 	}
 	if (isset($id) && $a_qinqs[$id]['if'] != $_POST['if']) {
-		$input_errors[] = gettext("Modifying the interface of an existing entry is not allowed.");
+		$input_errors[] = gettext("기존 항목의 인터페이스는 수정할 수 없습니다.");
 	}
 	if (!isset($id)) {
 		foreach ($a_qinqs as $qinqentry) {
 			if ($qinqentry['tag'] == $_POST['tag'] && $qinqentry['if'] == $_POST['if']) {
-				$input_errors[] = gettext("QinQ level already exists for this interface, edit it!");
+				$input_errors[] = gettext("이 인터페이스에 대한 QinQ 레벨이 이미 있습니다.");
 			}
 		}
 		if (is_array($config['vlans']['vlan'])) {
 			foreach ($config['vlans']['vlan'] as $vlan) {
 				if ($vlan['tag'] == $_POST['tag'] && $vlan['if'] == $_POST['if']) {
-					$input_errors[] = gettext("A normal VLAN exists with this tag please remove it to use this tag for QinQ first level.");
+					$input_errors[] = gettext("이 태그가 있는 일반 VLAN이 있으면 태그를 제거하고 QinQ 첫 번째 레벨에서 해당 태그를 사용하십시오.");
 				}
 			}
 		}
@@ -137,14 +142,14 @@ if ($_POST['save']) {
 	}
 
 	if ($tag_format_error) {
-		$input_errors[] = sprintf(gettext('Tags can contain only numbers or a range  (in format #-#) from %1$s to %2$s.'), $tag_min, $tag_max);
+		$input_errors[] = sprintf(gettext('태그는 숫자 또는(형식#-#) %1$s 에서 %2$s까지의 범위(형식)만 포함할 수 있습니다.'), $tag_min, $tag_max);
 	}
 
 	// Just use the unique valid members. There could have been overlap in the ranges or repeat of numbers entered.
 	$members = implode(" ", array_unique($valid_members));
 
 	if ($members == "") {
-		$input_errors[] = gettext("At least one tag must be entered.");
+		$input_errors[] = gettext("태그를 하나 이상 입력하십시오.");
 	}
 
 	$nmembers = explode(" ", $members);
@@ -153,7 +158,7 @@ if ($_POST['save']) {
 		$delmembers = array_diff($omembers, $nmembers);
 		foreach ($delmembers as $tag) {
 			if (qinq_inuse($a_qinqs[$id], $tag)) {
-				$input_errors[] = gettext("This QinQ tag cannot be deleted because it is still being used as an interface.");
+				$input_errors[] = gettext("이 QinQ 태그는 여전히 인터페이스로 사용되고 있으므로 삭제할 수 없습니다.");
 				break;
 			}
 		}
@@ -221,7 +226,7 @@ if ($_POST['save']) {
 				$gentry = array();
 				$gentry['ifname'] = "QinQ";
 				$gentry['members'] = "{$additions}";
-				$gentry['descr'] = gettext("QinQ VLANs group");
+				$gentry['descr'] = gettext("QinQ VLANs 그룹");
 				$config['ifgroups']['ifgroupentry'][] = $gentry;
 			}
 		}
@@ -259,7 +264,7 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section('QinQ Configuration');
+$section = new Form_Section('QinQ 구성');
 
 $section->addInput(new Form_Select(
 	'if',
