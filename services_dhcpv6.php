@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dhcpv6server
 ##|*NAME=Services: DHCPv6 Server
@@ -235,16 +240,16 @@ if (isset($_POST['apply'])) {
 	// Note: if DHCPv6 Server is not enabled, then it is OK to adjust other parameters without specifying range from-to.
 	if ($_POST['enable']) {
 		$reqdfields = explode(" ", "range_from range_to");
-		$reqdfieldsn = array(gettext("Range begin"), gettext("Range end"));
+		$reqdfieldsn = array(gettext("범위 시작"), gettext("범위 끝"));
 
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 	}
 
 	if (($_POST['prefixrange_from'] && !is_ipaddrv6($_POST['prefixrange_from']))) {
-		$input_errors[] = gettext("A valid prefix range must be specified.");
+		$input_errors[] = gettext("유효한 범위를 지정해야합니다.");
 	}
 	if (($_POST['prefixrange_to'] && !is_ipaddrv6($_POST['prefixrange_to']))) {
-		$input_errors[] = gettext("A valid prefix range must be specified.");
+		$input_errors[] = gettext("유효한 범위를 지정해야합니다.");
 	}
 
 	if ($_POST['prefixrange_from'] && $_POST['prefixrange_to'] &&
@@ -256,7 +261,7 @@ if (isset($_POST['apply'])) {
 		if ($netmask != text_to_compressed_ip6(strtolower(
 			$_POST['prefixrange_from']))) {
 			$input_errors[] = sprintf(gettext(
-				"Prefix Delegation From address is not a valid IPv6 Netmask for %s"),
+				"접두사 위임 주소가 %s에 대한 유효한 IPv6 넷 마스크가 아닙니다."),
 				$netmask . '/' . $_POST['prefixrange_length']);
 		}
 
@@ -267,7 +272,7 @@ if (isset($_POST['apply'])) {
 		if ($netmask != text_to_compressed_ip6(strtolower(
 			$_POST['prefixrange_to']))) {
 			$input_errors[] = sprintf(gettext(
-				"Prefix Delegation To address is not a valid IPv6 Netmask for %s"),
+				"접두사 위임 주소가 %s에 대한 유효한 IPv6 넷 마스크가 아닙니다."),
 				$netmask . '/' . $_POST['prefixrange_length']);
 		}
 	}
@@ -281,34 +286,34 @@ if (isset($_POST['apply'])) {
 		} elseif ($config['interfaces'][$if]['ipaddrv6'] == 'track6' &&
 			!Net_IPv6::isInNetmask($_POST['range_from'], '::', $ifcfgsn)) {
 			$input_errors[] = sprintf(gettext(
-				'The prefix (upper %1$s bits) must be zero.  Use the form %2$s'),
+				'접두어(상위 %1$s 비트)는 0이어야합니다. %2$s양식 사용'),
 				$ifcfgsn, $str_help_mask);
 			$range_from_to_ok = false;
 		}
 	}
 	if ($_POST['range_to']) {
 		if (!is_ipaddrv6($_POST['range_to'])) {
-			$input_errors[] = gettext("A valid range must be specified.");
+			$input_errors[] = gettext("유효한 범위를 지정해주십시오.");
 			$range_from_to_ok = false;
 		} elseif ($config['interfaces'][$if]['ipaddrv6'] == 'track6' &&
 			!Net_IPv6::isInNetmask($_POST['range_to'], '::', $ifcfgsn)) {
 			$input_errors[] = sprintf(gettext(
-				'The prefix (upper %1$s bits) must be zero.  Use the form %2$s'),
+				'접두어(상위 %1$s 비트)는 0이어야합니다. %2$s양식 사용'),
 				$ifcfgsn, $str_help_mask);
 			$range_from_to_ok = false;
 		}
 	}
 	if (($_POST['range_from'] && !$_POST['range_to']) || ($_POST['range_to'] && !$_POST['range_from'])) {
-		$input_errors[] = gettext("Range From and Range To must both be entered.");
+		$input_errors[] = gettext("범위 시작과 끝을 모두 입력해주십시오.");
 	}
 	if (($_POST['gateway'] && !is_ipaddrv6($_POST['gateway']))) {
-		$input_errors[] = gettext("A valid IPv6 address must be specified for the gateway.");
+		$input_errors[] = gettext("게이트웨이에 유효한 IPv6 주소를 지정해주십시오.");
 	}
 	if (($_POST['dns1'] && !is_ipaddrv6($_POST['dns1'])) ||
 		($_POST['dns2'] && !is_ipaddrv6($_POST['dns2'])) ||
 		($_POST['dns3'] && !is_ipaddrv6($_POST['dns3'])) ||
 		($_POST['dns4'] && !is_ipaddrv6($_POST['dns4']))) {
-		$input_errors[] = gettext("A valid IPv6 address must be specified for each of the DNS servers.");
+		$input_errors[] = gettext("각 DNS서버에 대해 올바른 IPv6주소를 지정해주십시오.");
 	}
 
 	if ($_POST['deftime'] && (!is_numeric($_POST['deftime']) || ($_POST['deftime'] < 60))) {
@@ -371,7 +376,7 @@ if (isset($_POST['apply'])) {
 
 	/* make sure that the DHCP Relay isn't enabled on this interface */
 	if ($_POST['enable'] && $dhcrelay_enabled) {
-		$input_errors[] = sprintf(gettext("The DHCP relay on the %s interface must be disabled before enabling the DHCP server."), $iflist[$if]);
+		$input_errors[] = sprintf(gettext("DHCP서버를 사용하도록 설정하기 전에%s인터페이스의 DHCP릴레이를 비활성화해야 합니다."), $iflist[$if]);
 	}
 
 	// If nothing is wrong so far, and we have range from and to, then check conditions related to the values of range from and to.
@@ -383,12 +388,12 @@ if (isset($_POST['apply'])) {
 		if (is_ipaddrv6($ifcfgip)) {
 			if ((!is_inrange_v6($_POST['range_from'], $subnet_start, $subnet_end)) ||
 				(!is_inrange_v6($_POST['range_to'], $subnet_start, $subnet_end))) {
-				$input_errors[] = gettext("The specified range lies outside of the current subnet.");
+				$input_errors[] = gettext("지정한 범위가 서브넷 외부에 있습니다.");
 			}
 		}
 		/* "from" cannot be higher than "to" */
 		if (inet_pton($_POST['range_from']) > inet_pton($_POST['range_to'])) {
-			$input_errors[] = gettext("The range is invalid (first element higher than second element).");
+			$input_errors[] = gettext("범위가 잘못되었습니다.");
 		}
 
 		/* Verify static mappings do not overlap:
@@ -404,7 +409,7 @@ if (isset($_POST['apply'])) {
 				}
 				if ((inet_pton($map['ipaddrv6']) > $dynsubnet_start) &&
 					(inet_pton($map['ipaddrv6']) < $dynsubnet_end)) {
-					$input_errors[] = sprintf(gettext("The DHCP range cannot overlap any static DHCP mappings."));
+					$input_errors[] = sprintf(gettext("DHCP범위는 정적 DHCP매핑과 겹칠 수 없습니다."));
 					break;
 				}
 			}
@@ -503,13 +508,13 @@ if ($_POST['act'] == "del") {
 	}
 }
 
-$pgtitle = array(gettext("Services"), htmlspecialchars(gettext("DHCPv6 Server & RA")));
+$pgtitle = array(gettext("서비스"), htmlspecialchars(gettext("DHCPv6 서버 & RA")));
 $pglinks = array("", "services_dhcpv6.php");
 
 if (!empty($if) && isset($iflist[$if])) {
 	$pgtitle[] = $iflist[$if];
 	$pglinks[] = "@self";
-	$pgtitle[] = gettext("DHCPv6 Server");
+	$pgtitle[] = gettext("DHCPv6 서버");
 	$pglinks[] = "@self";
 }
 $shortcut_section = "dhcp6";
@@ -525,7 +530,7 @@ if ($changes_applied) {
 }
 
 if (is_subsystem_dirty('staticmaps')) {
-	print_apply_box(gettext('The static mapping configuration has been changed.') . '<br />' . gettext('The changes must be applied for them to take effect.'));
+	print_apply_box(gettext('정적 매핑 구성이 변경되었습니다.') . '<br />' . gettext('변경사항을 저장하시면 적용됩니다.'));
 }
 
 /* active tabs */
@@ -576,7 +581,7 @@ if (is_array($config['pppoes']['pppoe'])) {
 }
 
 if ($tabscounter == 0) {
-	print_info_box(gettext("The DHCPv6 Server can only be enabled on interfaces configured with a static IPv6 address. This system has none."), 'danger');
+	print_info_box(gettext("DHCPv6서버는 정적 IPv6주소로 구성된 인터페이스에서만 사용할 수 있습니다."), 'danger');
 	include("foot.inc");
 	exit;
 }
@@ -584,19 +589,19 @@ if ($tabscounter == 0) {
 display_top_tabs($tab_array);
 
 $tab_array = array();
-$tab_array[] = array(gettext("DHCPv6 Server"),		 true,	"services_dhcpv6.php?if={$if}");
-$tab_array[] = array(gettext("Router Advertisements"), false, "services_router_advertisements.php?if={$if}");
+$tab_array[] = array(gettext("DHCPv6 서버"),		 true,	"services_dhcpv6.php?if={$if}");
+$tab_array[] = array(gettext("라우터 알림"), false, "services_router_advertisements.php?if={$if}");
 display_top_tabs($tab_array, false, 'nav nav-tabs');
 
 $form = new Form();
 
-$section = new Form_Section('DHCPv6 Options');
+$section = new Form_Section('DHCPv6 옵션');
 
 if ($dhcrelay_enabled) {
 	$section->addInput(new Form_Checkbox(
 		'enable',
 		'DHCPv6 Server',
-		gettext("DHCPv6 Relay is currently enabled. DHCPv6 Server canot be enabled while the DHCPv6 Relay is enabled on any interface."),
+		gettext("DHCPv6릴레이가 현재 사용하도록 설정되어 있습니다. DHCPv6릴레이가 모든 인터페이스에서 사용하도록 설정되어 있는 동안 DHCPv6서버를 사용할 수 없습니다."),
 		$pconfig['enable']
 	))->setAttribute('disabled', true);
 } else {
@@ -1022,13 +1027,13 @@ print($form);
 <?php
 print_info_box(
 	sprintf(
-		gettext('The DNS servers entered in %1$sSystem: General Setup%3$s (or the %2$sDNS forwarder%3$s if enabled) will be assigned to clients by the DHCP server.'),
+		gettext('%1$s시스템에 입력 된 DNS 서버: 일반 설치 %3$s(또는 활성화 된 경우 %2$sDNS 전달자 %3$s)은 DHCP 서버에 의해 클라이언트에 할당됩니다.'),
 		'<a href="system.php">',
 		'<a href="services_dnsmasq.php"/>',
 		'</a>') .
 	'<br />' .
 	sprintf(
-		gettext('The DHCP lease table can be viewed on the %1$sStatus: DHCPv6 leases%2$s page.'),
+		gettext('DHCP 리스 테이블은 %1$s Status에서 볼 수 있습니다 : DHCPv6은 %2$s 페이지를 리스합니다.'),
 		'<a href="status_dhcpv6_leases.php">',
 		'</a>'),
 	'info',
@@ -1036,14 +1041,14 @@ print_info_box(
 ?>
 </div>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("DHCPv6 Static Mappings for this Interface");?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("해당 인터페이스에 대한 DHCPv6 정적 매핑");?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
 					<th><?=gettext("DUID")?></th>
-					<th><?=gettext("IPv6 address")?></th>
-					<th><?=gettext("Hostname")?></th>
+					<th><?=gettext("IPv6 주소")?></th>
+					<th><?=gettext("호스트 이름")?></th>
 					<th><?=gettext("Description")?></th>
 					<th><!-- Buttons --></th>
 				</tr>
@@ -1069,8 +1074,8 @@ if (is_array($a_maps)):
 						<?=htmlspecialchars($mapent['descr'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit static mapping')?>" href="services_dhcpv6_edit.php?if=<?=$if?>&amp;id=<?=$i?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete static mapping')?>" href="services_dhcpv6.php?if=<?=$if?>&amp;act=del&amp;id=<?=$i?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('정적 매핑 편집')?>" href="services_dhcpv6_edit.php?if=<?=$if?>&amp;id=<?=$i?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('정적 매핑 삭제')?>" href="services_dhcpv6.php?if=<?=$if?>&amp;act=del&amp;id=<?=$i?>" usepost></a>
 					</td>
 				</tr>
 <?php
@@ -1087,7 +1092,7 @@ endif;
 <nav class="action-buttons">
 	<a href="services_dhcpv6_edit.php?if=<?=$if?>" class="btn btn-sm btn-success"/>
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 
@@ -1134,9 +1139,9 @@ events.push(function() {
 		hideCheckbox('ddnsreverse', !showadvdns);
 
 		if (showadvdns) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvdns').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -1169,9 +1174,9 @@ events.push(function() {
 		hideInput('ntp2', !showadvntp);
 
 		if (showadvntp) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvntp').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -1203,9 +1208,9 @@ events.push(function() {
 		hideInput('ldap', !showadvldap);
 
 		if (showadvldap) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvldap').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -1238,9 +1243,9 @@ events.push(function() {
 		hideInput('bootfile_url', !showadvnetboot);
 
 		if (showadvnetboot) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvnetboot').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -1274,9 +1279,9 @@ events.push(function() {
 		hideInput('addrow', !showadvopts);
 
 		if (showadvopts) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvopts').html('<i class="fa fa-cog"></i> ' + text);
 	}
