@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-ipsec-mobile
 ##|*NAME=VPN: IPsec: Mobile
@@ -152,23 +157,23 @@ if ($_POST['save']) {
 	/* input validation */
 
 	$reqdfields = explode(" ", "user_source group_source");
-	$reqdfieldsn = array(gettext("User Authentication Source"), gettext("Group Authentication Source"));
+	$reqdfieldsn = array(gettext("사용자 인증 소스"), gettext("그룹 인증 소스"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($pconfig['pool_enable']) {
 		if (!is_ipaddr($pconfig['pool_address'])) {
-			$input_errors[] = gettext("A valid IP address for 'Virtual Address Pool Network' must be specified.");
+			$input_errors[] = gettext("'가상 주소 풀 네트워크'의 유효한 IP 주소를 지정해야합니다.");
 		}
 	}
 	if ($pconfig['pool_enable_v6']) {
 		if (!is_ipaddrv6($pconfig['pool_address_v6'])) {
-			$input_errors[] = gettext("A valid IPv6 address for 'Virtual IPv6 Address Pool Network' must be specified.");
+			$input_errors[] = gettext("'가상 IPv6 주소 풀 네트워크'에 유효한 IPv6 주소를 지정해야합니다.");
 		}
 	}
 	if ($pconfig['dns_domain_enable']) {
 		if (!is_domain($pconfig['dns_domain'])) {
-			$input_errors[] = gettext("A valid value for 'DNS Default Domain' must be specified.");
+			$input_errors[] = gettext("'DNS 기본 도메인'의 유효한 값을 지정해야합니다.");
 		}
 	}
 	if ($pconfig['dns_split_enable']) {
@@ -178,7 +183,7 @@ if ($_POST['save']) {
 			$domain_array = explode(' ', $pconfig['dns_split']);
 			foreach ($domain_array as $curdomain) {
 				if (!is_domain($curdomain)) {
-					$input_errors[] = gettext("A valid split DNS domain list must be specified.");
+					$input_errors[] = gettext("유효한 분할 DNS 도메인 목록을 지정해야합니다.");
 					break;
 				}
 			}
@@ -188,37 +193,37 @@ if ($_POST['save']) {
 	if ($pconfig['dns_server_enable']) {
 		if (!$pconfig['dns_server1'] && !$pconfig['dns_server2'] &&
 		    !$pconfig['dns_server3'] && !$pconfig['dns_server4']) {
-			$input_errors[] = gettext("At least one DNS server must be specified to enable the DNS Server option.");
+			$input_errors[] = gettext("DNS 서버 옵션을 사용하려면 하나 이상의 DNS 서버를 지정해야합니다.");
 		}
 		if ($pconfig['dns_server1'] && !is_ipaddr($pconfig['dns_server1'])) {
-			$input_errors[] = gettext("A valid IP address for 'DNS Server #1' must be specified.");
+			$input_errors[] = gettext("'DNS 서버 # 1'의 유효한 IP 주소를 지정해야합니다.");
 		}
 		if ($pconfig['dns_server2'] && !is_ipaddr($pconfig['dns_server2'])) {
-			$input_errors[] = gettext("A valid IP address for 'DNS Server #2' must be specified.");
+			$input_errors[] = gettext("'DNS 서버 # 2'의 유효한 IP 주소를 지정해야합니다.");
 		}
 		if ($pconfig['dns_server3'] && !is_ipaddr($pconfig['dns_server3'])) {
-			$input_errors[] = gettext("A valid IP address for 'DNS Server #3' must be specified.");
+			$input_errors[] = gettext("'DNS 서버 # 3'의 유효한 IP 주소를 지정해야합니다.");
 		}
 		if ($pconfig['dns_server4'] && !is_ipaddr($pconfig['dns_server4'])) {
-			$input_errors[] = gettext("A valid IP address for 'DNS Server #4' must be specified.");
+			$input_errors[] = gettext("'DNS 서버 # 4'의 유효한 IP 주소를 지정해야합니다.");
 		}
 	}
 
 	if ($pconfig['wins_server_enable']) {
 		if (!$pconfig['wins_server1'] && !$pconfig['wins_server2']) {
-			$input_errors[] = gettext("At least one WINS server must be specified to enable the DNS Server option.");
+			$input_errors[] = gettext("DNS 서버 옵션을 사용하려면 하나 이상의 WINS 서버를 지정해야합니다.");
 		}
 		if ($pconfig['wins_server1'] && !is_ipaddr($pconfig['wins_server1'])) {
-			$input_errors[] = gettext("A valid IP address for 'WINS Server #1' must be specified.");
+			$input_errors[] = gettext("'WINS 서버 # 1'의 유효한 IP 주소를 지정해야합니다.");
 		}
 		if ($pconfig['wins_server2'] && !is_ipaddr($pconfig['wins_server2'])) {
-			$input_errors[] = gettext("A valid IP address for 'WINS Server #2' must be specified.");
+			$input_errors[] = gettext("'WINS 서버 # 2'의 유효한 IP 주소를 지정해야합니다.");
 		}
 	}
 
 	if ($pconfig['login_banner_enable']) {
 		if (!strlen($pconfig['login_banner'])) {
-			$input_errors[] = gettext("A valid value for 'Login Banner' must be specified.");
+			$input_errors[] = gettext("'로그인 배너'의 유효한 값을 지정해야합니다.");
 		}
 	}
 
@@ -227,7 +232,7 @@ if ($_POST['save']) {
 			foreach ($pconfig['user_source'] as $auth_server_name) {
 				$auth_server       = auth_get_authserver($auth_server_name);
 				if (!is_array($auth_server) || ($auth_server['type'] != 'radius')) {
-					$input_errors[] = gettext("Only valid RADIUS servers may be selected as a user source when using EAP-RADIUS for authentication on the Mobile IPsec VPN.");
+					$input_errors[] = gettext("EAP-RADIUS를 사용하여 모바일 IPsec VPN에서 인증 할 때 유효한 RADIUS 서버 만 사용자 원본으로 선택할 수 있습니다.");
 					$pconfig['user_source'] = implode(',', $pconfig['user_source']);
 				}
 			}
@@ -294,7 +299,7 @@ if ($_POST['save']) {
 		}
 		$a_client = $client;
 
-		write_config(gettext("Saved IPsec Mobile Clients configuration."));
+		write_config(gettext("저장된 IPsec 모바일 클라이언트 구성."));
 		mark_subsystem_dirty('ipsec');
 
 		header("Location: vpn_ipsec_mobile.php");
@@ -302,7 +307,7 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("Mobile Clients"));
+$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("모바일 클라이언트"));
 $pglinks = array("", "vpn_ipsec.php", "@self");
 $shortcut_section = "ipsec";
 
@@ -404,7 +409,7 @@ if ($_POST['apply']) {
 	print_apply_result_box($retval);
 }
 if (is_subsystem_dirty('ipsec')) {
-	print_apply_box(gettext("The IPsec tunnel configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("IPsec 터널 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 foreach ($a_phase1 as $ph1ent) {
 	if (isset($ph1ent['mobile'])) {
@@ -412,7 +417,7 @@ foreach ($a_phase1 as $ph1ent) {
 	}
 }
 if ($pconfig['enable'] && !$ph1found) {
-	print_info_box(gettext("Support for IPsec Mobile Clients is enabled but a Phase 1 definition was not found") . ".<br />" . gettext("Please click Create to define one."), "warning", "create", gettext("Create Phase 1"), 'fa-plus', 'success');
+	print_info_box(gettext("IPsec 모바일 클라이언트 지원이 활성화되었지만 1단계 정의를 찾을 수 없습니다.") . ".<br />" . gettext("정의하려면 Create를 클릭하십시오."), "warning", "create", gettext("1단계 만들기"), 'fa-plus', 'success');
 }
 
 if ($input_errors) {
@@ -420,15 +425,15 @@ if ($input_errors) {
 }
 
 $tab_array = array();
-$tab_array[0] = array(gettext("Tunnels"), false, "vpn_ipsec.php");
-$tab_array[1] = array(gettext("Mobile Clients"), true, "vpn_ipsec_mobile.php");
-$tab_array[2] = array(gettext("Pre-Shared Keys"), false, "vpn_ipsec_keys.php");
-$tab_array[3] = array(gettext("Advanced Settings"), false, "vpn_ipsec_settings.php");
+$tab_array[0] = array(gettext("터널"), false, "vpn_ipsec.php");
+$tab_array[1] = array(gettext("모바일 클라이언트"), true, "vpn_ipsec_mobile.php");
+$tab_array[2] = array(gettext("사전 공유 키"), false, "vpn_ipsec_keys.php");
+$tab_array[3] = array(gettext("어드밴스드 설정"), false, "vpn_ipsec_settings.php");
 display_top_tabs($tab_array);
 
 $form = new Form;
 
-$section = new Form_Section('Enable IPsec Mobile Client Support');
+$section = new Form_Section('IPsec 모바일 클라이언트 지원 사용');
 $section->addInput(new Form_Checkbox(
 	'enable',
 	'IKE Extensions',
@@ -438,7 +443,7 @@ $section->addInput(new Form_Checkbox(
 
 $form->add($section);
 
-$section = new Form_Section('Extended Authentication (Xauth)');
+$section = new Form_Section('확장 인증 (Xauth)');
 
 $authServers = array();
 
@@ -460,7 +465,7 @@ $section->addInput(new Form_Select(
 	$pconfig['group_source'],
 	array(
 		'none' => gettext('none'),
-		'system' => gettext('system'),
+		'system' => gettext('시스템'),
 	)
 ))->setHelp('Source');
 
