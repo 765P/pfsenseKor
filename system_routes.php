@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-staticroutes
 ##|*NAME=System: Static Routes
@@ -41,7 +46,7 @@ if (!is_array($config['staticroutes']['route'])) {
 
 $a_routes = &$config['staticroutes']['route'];
 $a_gateways = return_gateways_array(true, true, true);
-$changedesc_prefix = gettext("Static Routes") . ": ";
+$changedesc_prefix = gettext("동적 ") . ": ";
 unset($input_errors);
 
 if ($_POST['apply']) {
@@ -101,7 +106,7 @@ function delete_static_route($id) {
 
 if ($_POST['act'] == "del") {
 	if ($a_routes[$_POST['id']]) {
-		$changedesc = $changedesc_prefix . sprintf(gettext("removed route to %s"), $a_routes[$_POST['id']]['network']);
+		$changedesc = $changedesc_prefix . sprintf(gettext("%s에 대한 경로를 삭제했습니다."), $a_routes[$_POST['id']]['network']);
 		delete_static_route($_POST['id']);
 		unset($a_routes[$_POST['id']]);
 		write_config($changedesc);
@@ -119,7 +124,7 @@ if (isset($_POST['del_x'])) {
 			delete_static_route($routei);
 			unset($a_routes[$routei]);
 		}
-		$changedesc = $changedesc_prefix . sprintf(gettext("removed route to%s"), $deleted_routes);
+		$changedesc = $changedesc_prefix . sprintf(gettext("%s에 대한 경로를 삭제했습니다."), $deleted_routes);
 		write_config($changedesc);
 		header("Location: system_routes.php");
 		exit;
@@ -134,15 +139,15 @@ if ($_POST['act'] == "toggle") {
 			// Do not enable a route whose gateway is disabled
 			if (isset($a_gateways[$a_routes[$_POST['id']]['gateway']]['disabled'])) {
 				$do_update_config = false;
-				$input_errors[] = $changedesc_prefix . sprintf(gettext("gateway is disabled, cannot enable route to %s"), $a_routes[$_POST['id']]['network']);
+				$input_errors[] = $changedesc_prefix . sprintf(gettext("게이트웨이가 비활성화되어 있으며 %s에 대한 경로를 활성화 할 수 없습니다."), $a_routes[$_POST['id']]['network']);
 			} else {
 				unset($a_routes[$_POST['id']]['disabled']);
-				$changedesc = $changedesc_prefix . sprintf(gettext("enabled route to %s"), $a_routes[$_POST['id']]['network']);
+				$changedesc = $changedesc_prefix . sprintf(gettext("%s에 대한 활성화 된 경로"), $a_routes[$_POST['id']]['network']);
 			}
 		} else {
 			delete_static_route($_POST['id']);
 			$a_routes[$_POST['id']]['disabled'] = true;
-			$changedesc = $changedesc_prefix . sprintf(gettext("disabled route to %s"), $a_routes[$_POST['id']]['network']);
+			$changedesc = $changedesc_prefix . sprintf(gettext("%s에 대한 비활성화 된 경로"), $a_routes[$_POST['id']]['network']);
 		}
 
 		if ($do_update_config) {
@@ -200,7 +205,7 @@ if($_POST['save']) {
 			$a_routes = $a_routes_new;
 		}
 
-		if (write_config(gettext("Saved static routes configuration."))) {
+		if (write_config(gettext("저장된 고정 경로 구성."))) {
 			mark_subsystem_dirty('staticroutes');
 		}
 		header("Location: system_routes.php");
@@ -208,7 +213,7 @@ if($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Routing"), gettext("Static Routes"));
+$pgtitle = array(gettext("시스템"), gettext("라우팅"), gettext("정적 라우트"));
 $pglinks = array("", "system_gateways.php", "@self");
 $shortcut_section = "routing";
 
@@ -221,28 +226,28 @@ if ($_POST['apply']) {
 	print_apply_result_box($retval);
 }
 if (is_subsystem_dirty('staticroutes')) {
-	print_apply_box(gettext("The static route configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("고정 경로 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장해야 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[0] = array(gettext("Gateways"), false, "system_gateways.php");
-$tab_array[1] = array(gettext("Static Routes"), true, "system_routes.php");
-$tab_array[2] = array(gettext("Gateway Groups"), false, "system_gateway_groups.php");
+$tab_array[0] = array(gettext("게이트웨이"), false, "system_gateways.php");
+$tab_array[1] = array(gettext("정적 라우트"), true, "system_routes.php");
+$tab_array[2] = array(gettext("게이트웨이 그룹"), false, "system_gateway_groups.php");
 display_top_tabs($tab_array);
 
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Static Routes')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('정적 라우트')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
 						<th></th>
-						<th><?=gettext("Network")?></th>
-						<th><?=gettext("Gateway")?></th>
-						<th><?=gettext("Interface")?></th>
-						<th><?=gettext("Description")?></th>
+						<th><?=gettext("네트워크")?></th>
+						<th><?=gettext("게이트웨이")?></th>
+						<th><?=gettext("인터페이스")?></th>
+						<th><?=gettext("설명")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
 				</thead>
@@ -270,19 +275,19 @@ foreach ($a_routes as $i => $route):
 						<?=htmlspecialchars($route['descr'])?>
 					</td>
 					<td>
-						<a href="system_routes_edit.php?id=<?=$i?>" class="fa fa-pencil" title="<?=gettext('Edit route')?>"></a>
+						<a href="system_routes_edit.php?id=<?=$i?>" class="fa fa-pencil" title="<?=gettext('라우트 편집')?>"></a>
 
-						<a href="system_routes_edit.php?dup=<?=$i?>" class="fa fa-clone" title="<?=gettext('Copy route')?>"></a>
+						<a href="system_routes_edit.php?dup=<?=$i?>" class="fa fa-clone" title="<?=gettext('라우트 복사')?>"></a>
 
 				<?php if (isset($route['disabled'])) {
 				?>
-						<a href="?act=toggle&amp;id=<?=$i?>" class="fa fa-check-square-o" title="<?=gettext('Enable route')?>" usepost></a>
+						<a href="?act=toggle&amp;id=<?=$i?>" class="fa fa-check-square-o" title="<?=gettext('라우트 활성화')?>" usepost></a>
 				<?php } else {
 				?>
-						<a href="?act=toggle&amp;id=<?=$i?>" class="fa fa-ban" title="<?=gettext('Disable route')?>" usepost></a>
+						<a href="?act=toggle&amp;id=<?=$i?>" class="fa fa-ban" title="<?=gettext('라우트 비활성화')?>" usepost></a>
 				<?php }
 				?>
-						<a href="system_routes.php?act=del&amp;id=<?=$i?>" class="fa fa-trash" title="<?=gettext('Delete route')?>" usepost></a>
+						<a href="system_routes.php?act=del&amp;id=<?=$i?>" class="fa fa-trash" title="<?=gettext('라우트 삭제')?>" usepost></a>
 
 					</td>
 				</tr>
@@ -295,7 +300,7 @@ foreach ($a_routes as $i => $route):
 <nav class="action-buttons">
 	<a href="system_routes_edit.php" role="button" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("")?>
 	</a>
 </nav>
 <?php
