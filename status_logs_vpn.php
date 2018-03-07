@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-logs-pptpvpn
 ##|*NAME=Status: Logs: VPN
@@ -39,7 +44,7 @@ Build a list of allowed log files so we can reject others to prevent the page
 from acting on unauthorized files.
 */
 $allowed_logs = array(
-	"vpn" => array("name" => gettext("VPN Logins"),
+	"vpn" => array("name" => gettext("VPN 로그인"),
 		    "shortcut" => "poes"),
 	"poes" => array("name" => gettext("PPPoE Service"),
 		    "shortcut" => "pppoes"),
@@ -61,8 +66,8 @@ if (!$_REQUEST['logfile']) {
 	}
 }
 
-if ($vpntype == 'poes') { $allowed_logs['vpn']['name'] = gettext("PPPoE Logins"); }
-if ($vpntype == 'l2tp') { $allowed_logs['vpn']['name'] = gettext("L2TP Logins"); }
+if ($vpntype == 'poes') { $allowed_logs['vpn']['name'] = gettext("PPPoE 로그인"); }
+if ($vpntype == 'l2tp') { $allowed_logs['vpn']['name'] = gettext("L2TP 로그인"); }
 
 
 // Log Filter Submit - VPN
@@ -81,7 +86,7 @@ if ($filtertext) {
 	$filtertextmeta="?filtertext=$filtertext";
 }
 
-$pgtitle = array(gettext("Status"), gettext("System Logs"), gettext("VPN"), gettext($allowed_logs[$logfile]["name"]));
+$pgtitle = array(gettext("Status"), gettext("시스템 Logs"), gettext("VPN"), gettext($allowed_logs[$logfile]["name"]));
 $pglinks = array("", "status_logs.php", "status_logs_vpn.php", "@self");
 include("head.inc");
 
@@ -137,8 +142,8 @@ if (!$rawfilter) {
 					<tr class="text-nowrap">
 						<th><?=gettext("Time")?></th>
 						<th><?=gettext("Action")?></th>
-						<th><?=gettext("User")?></th>
-						<th><?=gettext("IP Address")?></th>
+						<th><?=gettext("사용자")?></th>
+						<th><?=gettext("IP 주소")?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -174,10 +179,10 @@ if (!$rawfilter) {
 ?>
 				<thead>
 					<tr class="text-nowrap">
-						<th><?=gettext("Time")?></th>
-						<th><?=gettext("Type")?></th>
+						<th><?=gettext("시간")?></th>
+						<th><?=gettext("타입")?></th>
 						<th><?=gettext("PID")?></th>
-						<th style="width:100%"><?=gettext("Log Message")?></th>
+						<th style="width:100%"><?=gettext("로그 메시지")?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -208,7 +213,7 @@ if (!$rawfilter) {
 			</table>
 <?php
 	if (count($filterlog) == 0) {
-		print_info_box(gettext('No logs to display.'));
+		print_info_box(gettext('아무 로그도 표시되지 않았습니다.'));
 	}
 ?>
 		</div>
@@ -240,7 +245,7 @@ events.push(function() {
 
 <?php
 	if ($rows == 0) {
-		print_info_box(gettext('No logs to display.'));
+		print_info_box(gettext('아무 로그도 표시되지 않았습니다.'));
 	}
 ?>
 	</div>
@@ -436,7 +441,7 @@ function filter_form_vpn() {
 		}
 		$btnsubmit = new Form_Button(
 			'filterlogentries_submit',
-			gettext('Apply Filter'),
+			gettext('필터 적용'),
 			null,
 			'fa-filter'
 		);
@@ -465,7 +470,7 @@ function filter_form_vpn() {
 
 		$btnsubmit = new Form_Button(
 			'filtersubmit',
-			gettext('Apply Filter'),
+			gettext('필터 적용'),
 			null,
 			'fa-filter'
 		);
@@ -478,7 +483,7 @@ function filter_form_vpn() {
 		$btnsubmit
 	));
 
-	$group->setHelp('<a target="_blank" href="http://www.php.net/manual/en/book.pcre.php">' . gettext('Regular expression reference') . '</a> ' . gettext('Precede with exclamation (!) to exclude match.'));
+	$group->setHelp('<a target="_blank" href="http://www.php.net/manual/en/book.pcre.php">' . gettext('정규 표현식 참조') . '</a> ' . gettext('일치하는 것을 제외하려면 느낌표 (!)를 선행하십시오.'));
 	$section->add($group);
 	$form->add($section);
 	print $form;
