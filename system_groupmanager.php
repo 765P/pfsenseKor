@@ -25,6 +25,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-groupmanager
 ##|*NAME=System: Group Manager
@@ -73,7 +78,7 @@ if ($_POST['act'] == "delgroup") {
 	/* Reindex the array to avoid operating on an incorrect index https://redmine.pfsense.org/issues/7733 */
 	$a_group = array_values($a_group);
 	write_config();
-	$savemsg = sprintf(gettext("Group %s successfully deleted."), $groupdeleted);
+	$savemsg = sprintf(gettext("%s그룹이 성공적으로 삭제되었습니다."), $groupdeleted);
 }
 
 if ($_POST['act'] == "delpriv") {
@@ -97,7 +102,7 @@ if ($_POST['act'] == "delpriv") {
 
 	write_config();
 	$act = "edit";
-	$savemsg = sprintf(gettext("Privilege %s successfully deleted."), $privdeleted);
+	$savemsg = sprintf(gettext("권한%s이(가) 삭제되었습니다."), $privdeleted);
 }
 
 if ($act == "edit") {
@@ -124,7 +129,7 @@ if (isset($_POST['dellall_x'])) {
 		}
 		/* Reindex the array to avoid operating on an incorrect index https://redmine.pfsense.org/issues/7733 */
 		$a_group = array_values($a_group);
-		$savemsg = gettext("Selected groups removed successfully.");
+		$savemsg = gettext("선택한 그룹이 성공적으로 제거되었습니다.");
 		write_config($savemsg);
 	}
 }
@@ -135,29 +140,29 @@ if (isset($_POST['save'])) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "groupname");
-	$reqdfieldsn = array(gettext("Group Name"));
+	$reqdfieldsn = array(gettext("그룹 이름"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($_POST['gtype'] != "remote") {
 		if (preg_match("/[^a-zA-Z0-9\.\-_]/", $_POST['groupname'])) {
-			$input_errors[] = sprintf(gettext("The (%s) group name contains invalid characters."), $_POST['gtype']);
+			$input_errors[] = sprintf(gettext("%s그룹 이름에 잘못된 문자가 있습니다."), $_POST['gtype']);
 		}
 	} else {
 		if (preg_match("/[^a-zA-Z0-9\.\- _]/", $_POST['groupname'])) {
-			$input_errors[] = sprintf(gettext("The (%s) group name contains invalid characters."), $_POST['gtype']);
+			$input_errors[] = sprintf(gettext("%s그룹 이름에 잘못된 문자가 있습니다."), $_POST['gtype']);
 		}
 	}
 
 	if (strlen($_POST['groupname']) > 16) {
-		$input_errors[] = gettext("The group name is longer than 16 characters.");
+		$input_errors[] = gettext("그룹 이름이 16자를 초과합니다.");
 	}
 
 	/* Check the POSTed members to ensure they are valid and exist */
 	if (is_array($_POST['members'])) {
 		foreach ($_POST['members'] as $newmember) {
 			if (!is_numeric($newmember) || empty(getUserEntryByUID($newmember))) {
-				$input_errors[] = gettext("One or more invalid group members was submitted.");
+				$input_errors[] = gettext("하나 이상의 유효하지 않은 그룹 멤버가 제출되었습니다.");
 			}
 		}
 	}
@@ -166,7 +171,7 @@ if (isset($_POST['save'])) {
 		/* make sure there are no dupes */
 		foreach ($a_group as $group) {
 			if ($group['name'] == $_POST['groupname']) {
-				$input_errors[] = gettext("Another entry with the same group name already exists.");
+				$input_errors[] = gettext("동일한 그룹 이름을 가진 다른 항목이 이미 있습니다.");
 				break;
 			}
 		}
@@ -230,7 +235,7 @@ function build_priv_table() {
 	$privhtml .=	'<table class="table table-striped table-hover table-condensed">';
 	$privhtml .=		'<thead>';
 	$privhtml .=			'<tr>';
-	$privhtml .=				'<th>' . gettext('Name') . '</th>';
+	$privhtml .=				'<th>' . gettext('이름') . '</th>';
 	$privhtml .=				'<th>' . gettext('Description') . '</th>';
 	$privhtml .=				'<th>' . gettext('Action') . '</th>';
 	$privhtml .=			'</tr>';
@@ -244,11 +249,11 @@ function build_priv_table() {
 		$privhtml .=			'<td>' . htmlspecialchars($priv['name']) . '</td>';
 		$privhtml .=			'<td>' . htmlspecialchars($priv['descr']);
 		if (isset($priv['warn']) && ($priv['warn'] == 'standard-warning-root')) {
-			$privhtml .=			' ' . gettext('(admin privilege)');
+			$privhtml .=			' ' . gettext('(어드민 권한)');
 			$user_has_root_priv = true;
 		}
 		$privhtml .=			'</td>';
-		$privhtml .=			'<td><a class="fa fa-trash" title="' . gettext('Delete Privilege') . '"	href="system_groupmanager.php?act=delpriv&amp;groupid=' . $id . '&amp;privid=' . $i . '" usepost></a></td>';
+		$privhtml .=			'<td><a class="fa fa-trash" title="' . gettext('권한 삭제') . '"	href="system_groupmanager.php?act=delpriv&amp;groupid=' . $id . '&amp;privid=' . $i . '" usepost></a></td>';
 		$privhtml .=		'</tr>';
 
 	}
@@ -256,7 +261,7 @@ function build_priv_table() {
 	if ($user_has_root_priv) {
 		$privhtml .=		'<tr>';
 		$privhtml .=			'<td colspan="2">';
-		$privhtml .=				'<b>' . gettext('Security notice: Users in this group effectively have administrator-level access') . '</b>';
+		$privhtml .=				'<b>' . gettext('보안 알림:이 그룹의 사용자는 실제로 관리자 수준의 액세스 권한을 가집니다.') . '</b>';
 		$privhtml .=			'</td>';
 		$privhtml .=			'<td>';
 		$privhtml .=			'</td>';
@@ -269,17 +274,17 @@ function build_priv_table() {
 	$privhtml .= '</div>';
 
 	$privhtml .= '<nav class="action-buttons">';
-	$privhtml .=	'<a href="system_groupmanager_addprivs.php?groupid=' . $id . '" class="btn btn-success"><i class="fa fa-plus icon-embed-btn"></i>' . gettext("Add") . '</a>';
+	$privhtml .=	'<a href="system_groupmanager_addprivs.php?groupid=' . $id . '" class="btn btn-success"><i class="fa fa-plus icon-embed-btn"></i>' . gettext("추가") . '</a>';
 	$privhtml .= '</nav>';
 
 	return($privhtml);
 }
 
-$pgtitle = array(gettext("System"), gettext("User Manager"), gettext("Groups"));
+$pgtitle = array(gettext("시스템"), gettext("유저 매니저"), gettext("그룹"));
 $pglinks = array("", "system_usermanager.php", "system_groupmanager.php");
 
 if ($act == "new" || $act == "edit") {
-	$pgtitle[] = gettext('Edit');
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 
@@ -294,24 +299,24 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Users"), false, "system_usermanager.php");
-$tab_array[] = array(gettext("Groups"), true, "system_groupmanager.php");
-$tab_array[] = array(gettext("Settings"), false, "system_usermanager_settings.php");
-$tab_array[] = array(gettext("Authentication Servers"), false, "system_authservers.php");
+$tab_array[] = array(gettext("유저"), false, "system_usermanager.php");
+$tab_array[] = array(gettext("그룹"), true, "system_groupmanager.php");
+$tab_array[] = array(gettext("설정"), false, "system_usermanager_settings.php");
+$tab_array[] = array(gettext("인증 서버"), false, "system_authservers.php");
 display_top_tabs($tab_array);
 
 if (!($act == "new" || $act == "edit")) {
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Groups')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('그룹')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 				<thead>
 					<tr>
-						<th><?=gettext("Group name")?></th>
-						<th><?=gettext("Description")?></th>
-						<th><?=gettext("Member Count")?></th>
+						<th><?=gettext("그룹 이름")?></th>
+						<th><?=gettext("설명")?></th>
+						<th><?=gettext("멤버수")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
 				</thead>
@@ -335,9 +340,9 @@ if (!($act == "new" || $act == "edit")) {
 							<?=$groupcount?>
 						</td>
 						<td>
-							<a class="fa fa-pencil" title="<?=gettext("Edit group"); ?>" href="?act=edit&amp;groupid=<?=$i?>"></a>
+							<a class="fa fa-pencil" title="<?=gettext("그룹 편집"); ?>" href="?act=edit&amp;groupid=<?=$i?>"></a>
 							<?php if ($group['scope'] != "system"): ?>
-								<a class="fa fa-trash"	title="<?=gettext("Delete group")?>" href="?act=delgroup&amp;groupid=<?=$i?>&amp;groupname=<?=$group['name']?>" usepost></a>
+								<a class="fa fa-trash"	title="<?=gettext("그룹 삭제")?>" href="?act=delgroup&amp;groupid=<?=$i?>&amp;groupname=<?=$group['name']?>" usepost></a>
 							<?php endif;?>
 						</td>
 					</tr>
@@ -353,7 +358,7 @@ if (!($act == "new" || $act == "edit")) {
 <nav class="action-buttons">
 	<a href="?act=new" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 <?php
@@ -409,7 +414,7 @@ if ($pconfig['gtype'] == "system") {
 		'gtype',
 		'*Scope',
 		$pconfig['gtype'],
-		["local" => gettext("Local"), "remote" => gettext("Remote")]
+		["local" => gettext("로컬"), "remote" => gettext("원격")]
 	));
 }
 
