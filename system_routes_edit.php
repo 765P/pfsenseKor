@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-staticroutes-editroute
 ##|*NAME=System: Static Routes: Edit route
@@ -72,27 +77,27 @@ if ($_POST['save']) {
 	/* input validation */
 	$reqdfields = explode(" ", "network network_subnet gateway");
 	$reqdfieldsn = explode(",",
-		gettext("Destination network") . "," .
-		gettext("Destination network bit count") . "," .
-		gettext("Gateway"));
+		gettext("수신지 네트워크") . "," .
+		gettext("수신지 네트워크 비트 카운트") . "," .
+		gettext("게이트웨이"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (($_POST['network'] && !is_ipaddr($_POST['network']) && !is_alias($_POST['network']))) {
-		$input_errors[] = gettext("A valid IPv4 or IPv6 destination network must be specified.");
+		$input_errors[] = gettext("유효한 IPv4 또는 IPv6 대상 네트워크를 지정해야합니다.");
 	}
 	if (($_POST['network_subnet'] && !is_numeric($_POST['network_subnet']))) {
-		$input_errors[] = gettext("A valid destination network bit count must be specified.");
+		$input_errors[] = gettext("유효한 대상 네트워크 비트 수를 지정해야합니다.");
 	}
 	if (($_POST['gateway']) && is_ipaddr($_POST['network'])) {
 		if (!isset($a_gateways[$_POST['gateway']])) {
-			$input_errors[] = gettext("A valid gateway must be specified.");
+			$input_errors[] = gettext("유효한 게이트웨이를 지정해야합니다.");
 		} else if (isset($a_gateways[$_POST['gateway']]['disabled']) && !$_POST['disabled']) {
-			$input_errors[] = gettext("The gateway is disabled but the route is not. The route must be disabled in order to choose a disabled gateway.");
+			$input_errors[] = gettext("게이트웨이는 사용할 수 없지만 경로는 그렇지 않습니다. 비활성화 된 게이트웨이를 선택하려면 경로를 비활성화해야합니다.");
 		} else {
 			// Note that the 3rd parameter "disabled" must be passed as explicitly true or false.
 			if (!validate_address_family($_POST['network'], $_POST['gateway'], $_POST['disabled'] ? true : false)) {
-				$input_errors[] = sprintf(gettext('The gateway "%1$s" is a different Address Family than network "%2$s".'), $a_gateways[$_POST['gateway']]['gateway'], $_POST['network']);
+				$input_errors[] = sprintf(gettext('"%1$s"게이트웨이는 "%2$s"네트워크와 다른 주소 그룹입니다.'), $a_gateways[$_POST['gateway']]['gateway'], $_POST['network']);
 			}
 		}
 	}
@@ -155,7 +160,7 @@ if ($_POST['save']) {
 	$overlaps = array_intersect($current_targets, $new_targets);
 	$overlaps = array_diff($overlaps, $old_targets);
 	if (count($overlaps)) {
-		$input_errors[] = gettext("A route to these destination networks already exists") . ": " . implode(", ", $overlaps);
+		$input_errors[] = gettext("이러한 대상 네트워크에 대한 경로가 이미 있습니다.") . ": " . implode(", ", $overlaps);
 	}
 
 	if (is_array($config['interfaces'])) {
@@ -165,13 +170,13 @@ if ($_POST['save']) {
 			    is_ipaddrv4($if['ipaddr']) && is_numeric($if['subnet']) &&
 			    ($_POST['network_subnet'] == $if['subnet']) &&
 			    (gen_subnet($_POST['network'], $_POST['network_subnet']) == gen_subnet($if['ipaddr'], $if['subnet']))) {
-				$input_errors[] = sprintf(gettext("This network conflicts with address configured on interface %s."), $if['descr']);
+				$input_errors[] = sprintf(gettext("이 네트워크는 % s 인터페이스에 구성된 주소와 충돌합니다."), $if['descr']);
 			} else if (is_ipaddrv6($_POST['network']) &&
 			    isset($if['ipaddrv6']) && isset($if['subnetv6']) &&
 			    is_ipaddrv6($if['ipaddrv6']) && is_numeric($if['subnetv6']) &&
 			    ($_POST['network_subnet'] == $if['subnetv6']) &&
 			    (gen_subnetv6($_POST['network'], $_POST['network_subnet']) == gen_subnetv6($if['ipaddrv6'], $if['subnetv6']))) {
-				$input_errors[] = sprintf(gettext("This network conflicts with address configured on interface %s."), $if['descr']);
+				$input_errors[] = sprintf(gettext("이 네트워크는 % s 인터페이스에 구성된 주소와 충돌합니다."), $if['descr']);
 			}
 		}
 	}
@@ -209,14 +214,14 @@ if ($_POST['save']) {
 
 		mark_subsystem_dirty('staticroutes');
 
-		write_config(gettext("Saved static route configuration."));
+		write_config(gettext("저장된 고정 경로 구성."));
 
 		header("Location: system_routes.php");
 		exit;
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Routing"), gettext("Static Routes"), gettext("Edit"));
+$pgtitle = array(gettext("시스템"), gettext("라우팅"), gettext("정적 라우트"), gettext("편집"));
 $pglinks = array("", "system_gateways.php", "system_routes.php", "@self");
 $shortcut_section = "routing";
 include("head.inc");
