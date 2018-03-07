@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-update-settings
 ##|*NAME=System: Update: Settings
@@ -95,7 +100,7 @@ if ($_POST) {
 $curcfg = $config['system']['firmware'];
 $gitcfg = $config['system']['gitsync'];
 
-$pgtitle = array(gettext("System"), gettext("Update"), gettext("Update Settings"));
+$pgtitle = array(gettext("시스템"), gettext("업데이트"), gettext("업데이트 세팅"));
 $pglinks = array("", "pkg_mgr_install.php?id=firmware", "@self");
 
 // Create an array of repo names and descriptions to populate the "Branch" selector
@@ -135,8 +140,8 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("System Update"), false, "pkg_mgr_install.php?id=firmware");
-$tab_array[] = array(gettext("Update Settings"), true, "system_update_settings.php");
+$tab_array[] = array(gettext("시스템 업데이트"), false, "pkg_mgr_install.php?id=firmware");
+$tab_array[] = array(gettext("업데이트 설정"), true, "system_update_settings.php");
 display_top_tabs($tab_array);
 
 // Check to see if any new repositories have become available. This data is cached and
