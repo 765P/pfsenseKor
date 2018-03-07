@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 추가
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-certmanager
 ##|*NAME=System: Certificate Manager
@@ -32,10 +37,10 @@ require_once("certs.inc");
 require_once("pfsense-utils.inc");
 
 $cert_methods = array(
-	"import" => gettext("Import an existing Certificate"),
-	"internal" => gettext("Create an internal Certificate"),
-	"external" => gettext("Create a Certificate Signing Request"),
-	"sign" => gettext("Sign a Certificate Signing Request")
+	"import" => gettext("기존 인증서 가져 오기"),
+	"internal" => gettext("내부 인증서 만들기"),
+	"external" => gettext("인증서 서명 요청 만들기"),
+	"sign" => gettext("인증서 서명 요청 서명")
 );
 
 $cert_keylens = array("512", "1024", "2048", "3072", "4096", "7680", "8192", "15360", "16384");
@@ -51,7 +56,7 @@ if (isset($_REQUEST['userid']) && is_numericint($_REQUEST['userid'])) {
 }
 
 if (isset($userid)) {
-	$cert_methods["existing"] = gettext("Choose an existing certificate");
+	$cert_methods["existing"] = gettext("기존 인증서 선택");
 	if (!is_array($config['system']['user'])) {
 		$config['system']['user'] = array();
 	}
@@ -92,7 +97,7 @@ if ($_POST['act'] == "del") {
 
 	unset($a_cert[$id]);
 	write_config();
-	$savemsg = sprintf(gettext("Certificate %s successfully deleted."), htmlspecialchars($a_cert[$id]['descr']));
+	$savemsg = sprintf(gettext("인증서 %s이(가) 성공적으로 삭제되었습니다."), htmlspecialchars($a_cert[$id]['descr']));
 	pfSenseHeader("system_certmanager.php");
 	exit;
 }
@@ -204,7 +209,7 @@ if ($act == "csr") {
 
 if ($_POST['save']) {
 
-	if ($_POST['save'] == gettext("Save")) {
+	if ($_POST['save'] == gettext("저장")) {
 		$input_errors = array();
 		$pconfig = $_POST;
 
@@ -213,18 +218,18 @@ if ($_POST['save']) {
 			$reqdfields = explode(" ",
 				"descr catosignwith");
 			$reqdfieldsn = array(
-				gettext("Descriptive name"),
-				gettext("CA to sign with"));
+				gettext("기술적인 이름"),
+				gettext("서명할 CA"));
 
 			if (($_POST['csrtosign'] === "new") &&
 			    ((!strstr($_POST['csrpaste'], "BEGIN CERTIFICATE REQUEST") || !strstr($_POST['csrpaste'], "END CERTIFICATE REQUEST")) &&
 			    (!strstr($_POST['csrpaste'], "BEGIN NEW CERTIFICATE REQUEST") || !strstr($_POST['csrpaste'], "END NEW CERTIFICATE REQUEST")))) {
-				$input_errors[] = gettext("This signing request does not appear to be valid.");
+				$input_errors[] = gettext("이 서명 요청이 유효하지 않습니다.");
 			}
 
 			if ( (($_POST['csrtosign'] === "new") && (strlen($_POST['keypaste']) > 0)) && (!strstr($_POST['keypaste'], "BEGIN PRIVATE KEY") || !strstr($_POST['keypaste'], "END PRIVATE KEY"))) {
-				$input_errors[] = gettext("This private does not appear to be valid.");
-				$input_errors[] = gettext("Key data field should be blank, or a valid x509 private key");
+				$input_errors[] = gettext("이 비공개는 유효하지 않은 것으로 보입니다.");
+				$input_errors[] = gettext("키 데이터 필드는 공백이거나 유효한 x509 개인 키여야합니다.");
 			}
 
 		}
@@ -233,15 +238,15 @@ if ($_POST['save']) {
 			$reqdfields = explode(" ",
 				"descr cert key");
 			$reqdfieldsn = array(
-				gettext("Descriptive name"),
-				gettext("Certificate data"),
-				gettext("Key data"));
+				gettext("기술적인 이름"),
+				gettext("인증서 데이터"),
+				gettext("키 데이터"));
 			if ($_POST['cert'] && (!strstr($_POST['cert'], "BEGIN CERTIFICATE") || !strstr($_POST['cert'], "END CERTIFICATE"))) {
-				$input_errors[] = gettext("This certificate does not appear to be valid.");
+				$input_errors[] = gettext("이 인증서는 유효하지 않습니다.");
 			}
 
 			if (cert_get_publickey($_POST['cert'], false) != cert_get_publickey($_POST['key'], false, 'prv')) {
-				$input_errors[] = gettext("The submitted private key does not match the submitted certificate data.");
+				$input_errors[] = gettext("제출 된 개인 키가 제출 된 인증서 데이터와 일치하지 않습니다.");
 			}
 		}
 
@@ -250,17 +255,17 @@ if ($_POST['save']) {
 				"descr caref keylen type lifetime dn_country dn_state dn_city ".
 				"dn_organization dn_email dn_commonname");
 			$reqdfieldsn = array(
-				gettext("Descriptive name"),
-				gettext("Certificate authority"),
-				gettext("Key length"),
-				gettext("Certificate Type"),
-				gettext("Lifetime"),
-				gettext("Distinguished name Country Code"),
-				gettext("Distinguished name State or Province"),
-				gettext("Distinguished name City"),
-				gettext("Distinguished name Organization"),
-				gettext("Distinguished name Email Address"),
-				gettext("Distinguished name Common Name"));
+				gettext("기술적인 이름"),
+				gettext("인증기관"),
+				gettext("키 길이"),
+				gettext("인증서 타입"),
+				gettext("유효기간"),
+				gettext("고유 이름 국가 코드"),
+				gettext("주 또는 도 이름"),
+				gettext("소속 시"),
+				gettext("소속 조직"),
+				gettext("이메일 주소"),
+				gettext("성함"));
 		}
 
 		if ($pconfig['method'] == "external") {
@@ -268,19 +273,19 @@ if ($_POST['save']) {
 				"descr csr_keylen csr_dn_country csr_dn_state csr_dn_city ".
 				"csr_dn_organization csr_dn_email csr_dn_commonname");
 			$reqdfieldsn = array(
-				gettext("Descriptive name"),
-				gettext("Key length"),
-				gettext("Distinguished name Country Code"),
-				gettext("Distinguished name State or Province"),
-				gettext("Distinguished name City"),
-				gettext("Distinguished name Organization"),
-				gettext("Distinguished name Email Address"),
-				gettext("Distinguished name Common Name"));
+				gettext("기술적인 이름"),
+				gettext("키 길이"),
+				gettext("고유 이름 국가 코드"),
+				gettext("주 또는 도 이름"),
+				gettext("소속 시"),
+				gettext("소속 조직"),
+				gettext("이메일 주소"),
+				gettext("성함"));
 		}
 
 		if ($pconfig['method'] == "existing") {
 			$reqdfields = array("certref");
-			$reqdfieldsn = array(gettext("Existing Certificate Choice"));
+			$reqdfieldsn = array(gettext("기존 인증서 "));
 		}
 
 		$altnames = array();
@@ -354,26 +359,26 @@ if ($_POST['save']) {
 			for ($i = 0; $i < count($reqdfields); $i++) {
 				if (preg_match('/email/', $reqdfields[$i])) { /* dn_email or csr_dn_name */
 					if (preg_match("/[\!\#\$\%\^\(\)\~\?\>\<\&\/\\\,\"\']/", $_POST[$reqdfields[$i]])) {
-						array_push($input_errors, gettext("The field 'Distinguished name Email Address' contains invalid characters."));
+						array_push($input_errors, gettext("'고유 이름 이메일 주소'필드에 잘못된 문자가 있습니다."));
 					}
 				}
 			}
 
 			if (($pconfig['method'] != "external") && isset($_POST["keylen"]) && !in_array($_POST["keylen"], $cert_keylens)) {
-				array_push($input_errors, gettext("Please select a valid Key Length."));
+				array_push($input_errors, gettext("유효한 키 길이를 설정하십시오."));
 			}
 			if (($pconfig['method'] != "external") && !in_array($_POST["digest_alg"], $openssl_digest_algs)) {
-				array_push($input_errors, gettext("Please select a valid Digest Algorithm."));
+				array_push($input_errors, gettext("유효한 알고리즘을 설정하십시오."));
 			}
 
 			if (($pconfig['method'] == "external") && isset($_POST["csr_keylen"]) && !in_array($_POST["csr_keylen"], $cert_keylens)) {
-				array_push($input_errors, gettext("Please select a valid Key Length."));
+				array_push($input_errors, gettext("유효한 키 길이를 설정하십시오."));
 			}
 			if (($pconfig['method'] == "external") && !in_array($_POST["csr_digest_alg"], $openssl_digest_algs)) {
-				array_push($input_errors, gettext("Please select a valid Digest Algorithm."));
+				array_push($input_errors, gettext("유효한 알고리즘을 설정하십시오."));
 			}
 			if (($pconfig['method'] == "sign") && !in_array($_POST["csrsign_digest_alg"], $openssl_digest_algs)) {
-				array_push($input_errors, gettext("Please select a valid Digest Algorithm."));
+				array_push($input_errors, gettext("유효한 알고리즘을 설정하십시오."));
 			}
 		}
 
@@ -547,8 +552,8 @@ if ($_POST['save']) {
 		/* input validation */
 		$reqdfields = explode(" ", "descr cert");
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Final Certificate data"));
+			gettext("기술적인 이름"),
+			gettext("최종 인증서 데이터"));
 
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -572,7 +577,7 @@ if ($_POST['save']) {
 
 		if (strcmp($mod_csr, $mod_cert)) {
 			// simply: if the moduli don't match, then the private key and public key won't match
-			$input_errors[] = sprintf(gettext("The certificate public key does not match the signing request public key."), $subj_cert);
+			$input_errors[] = sprintf(gettext("인증서 공개 키가 서명 요청 공개 키와 일치하지 않습니다."), $subj_cert);
 			$subject_mismatch = true;
 		}
 
@@ -597,8 +602,8 @@ if ($_POST['save']) {
 $pgtitle = array(gettext("System"), gettext("Certificate Manager"), gettext("Certificates"));
 $pglinks = array("", "system_camanager.php", "system_certmanager.php");
 
-if (($act == "new" || ($_POST['save'] == gettext("Save") && $input_errors)) || ($act == "csr" || ($_POST['save'] == gettext("Update") && $input_errors))) {
-	$pgtitle[] = gettext('Edit');
+if (($act == "new" || ($_POST['save'] == gettext("저장") && $input_errors)) || ($act == "csr" || ($_POST['save'] == gettext("업데이트") && $input_errors))) {
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 include("head.inc");
@@ -628,7 +633,7 @@ if (file_exists("/etc/ca_countries")) {
 	}
 }
 
-if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
+if ($act == "new" || (($_POST['save'] == gettext("저장")) && $input_errors)) {
 	$form = new Form();
 	$form->setAction('system_certmanager.php?act=edit');
 
@@ -650,7 +655,7 @@ if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
 		));
 	}
 
-	$section = new Form_Section('Add/Sign a New Certificate');
+	$section = new Form_Section('새 인증서 추가/서명');
 
 	if (!isset($id)) {
 		$section->addInput(new Form_Select(
@@ -695,10 +700,10 @@ if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
 			}
 		}
 
-		return ['new' => gettext('New CSR (Paste below)')] + $allCsrs;
+		return ['new' => gettext('새 CSR (아래에 붙여 넣기)')] + $allCsrs;
 	}
 
-	$section = new Form_Section('Sign CSR');
+	$section = new Form_Section('CSR 서명');
 	$section->addClass('toggle-sign collapse');
 
 	$section->AddInput(new Form_Select(
@@ -743,7 +748,7 @@ if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
 
 	$form->add($section);
 
-	$section = new Form_Section('Import Certificate');
+	$section = new Form_Section('인증서 가져오기');
 	$section->addClass('toggle-import collapse');
 
 	$section->addInput(new Form_Textarea(
@@ -759,15 +764,15 @@ if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
 	))->setHelp('Paste a private key in X.509 PEM format here.');
 
 	$form->add($section);
-	$section = new Form_Section('Internal Certificate');
+	$section = new Form_Section('내부 인증서');
 	$section->addClass('toggle-internal collapse');
 
 	if (!$internal_ca_count) {
 		$section->addInput(new Form_StaticText(
 			'*Certificate authority',
-			gettext('No internal Certificate Authorities have been defined. ') .
-			gettext('An internal CA must be defined in order to create an internal certificate. ') .
-			sprintf(gettext('%1$sCreate%2$s an internal CA.'), '<a href="system_camanager.php?act=new&amp;method=internal"> ', '</a>')
+			gettext('내부 인증 기관이 정의되지 않았습니다. ') .
+			gettext('내부 인증서를 만들려면 내부 CA를 정의하십시오. ') .
+			sprintf(gettext('내부 CA를 %1$s만듭니다%2$s.'), '<a href="system_camanager.php?act=new&amp;method=internal"> ', '</a>')
 		));
 	} else {
 		$allCas = array();
@@ -975,22 +980,22 @@ if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
 
 	$form->add($section);
 
-	$section = new Form_Section('Certificate Attributes');
+	$section = new Form_Section('인증서 속성');
 	$section->addClass('toggle-external toggle-internal toggle-sign collapse');
 
 	$section->addInput(new Form_StaticText(
-		gettext('Attribute Notes'),
+		gettext('속성 노트'),
 		'<span class="help-block">'.
-		gettext('The following attributes are added to certificates and ' .
-		'requests when they are created or signed. These attributes behave ' .
-		'differently depending on the selected mode.') .
+		gettext('인증서 또는 요청이 만들어 지거나 서명될 때 다음 ' .
+		'특성이 인증서와 요청에 추가됩니다. 이러한 ' .
+		'속성은 선택한 모드에 따라 다르게 동작합니다.') .
 		'<br/><br/>' .
-		'<span class="toggle-internal collapse">' . gettext('For Internal Certificates, these attributes are added directly to the certificate as shown.') . '</span>' .
+		'<span class="toggle-internal collapse">' . gettext('내부 인증서의 경우 이러한 특성은 그림과 같이 인증서에 직접 추가됩니다.') . '</span>' .
 		'<span class="toggle-external collapse">' .
-		gettext('For Certificate Signing Requests, These attributes are added to the request but they may be ignored or changed by the CA that signs the request. ') .
+		gettext('인증서 서명 요청의 경우 이러한 특성은 요청에 추가되지만 요청을 서명 한 CA는이를 무시하거나 변경할 수 있습니다. ') .
 		'<br/><br/>' .
-		gettext('If this CSR will be signed using the Certificate Manager on this firewall, set the attributes when signing instead as they cannot be carried over.') . '</span>' .
-		'<span class="toggle-sign collapse">' . gettext('When Signing a Certificate Request, existing attributes in the request cannot be copied. The attributes below will be applied to the resulting certificate.') . '</span>' .
+		gettext('이 CSR에서이 방화벽의 인증서 관리자를 사용하여 서명하는 경우 이월 할 수 없으므로 서명 할 때 속성을 설정하십시오.') . '</span>' .
+		'<span class="toggle-sign collapse">' . gettext('인증서 요청에 서명 할 때 요청의 기존 특성을 복사 할 수 없습니다. 아래 속성은 결과 인증서에 적용됩니다.') . '</span>' .
 		'</span>'
 	));
 
@@ -1061,7 +1066,7 @@ if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
 
 	print $form;
 
-} else if ($act == "csr" || (($_POST['save'] == gettext("Update")) && $input_errors)) {
+} else if ($act == "csr" || (($_POST['save'] == gettext("업데이트")) && $input_errors)) {
 	$form = new Form(false);
 	$form->setAction('system_certmanager.php?act=csr');
 
@@ -1118,13 +1123,13 @@ if ($act == "new" || (($_POST['save'] == gettext("Save")) && $input_errors)) {
 } else {
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Certificates')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('인증서')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
-					<th><?=gettext("Name")?></th>
+					<th><?=gettext("이름")?></th>
 					<th><?=gettext("Issuer")?></th>
 					<th><?=gettext("Distinguished Name")?></th>
 					<th><?=gettext("In Use")?></th>
@@ -1151,9 +1156,9 @@ foreach ($a_cert as $i => $cert):
 		list($startdate, $enddate) = cert_get_dates($cert['crt']);
 
 		if ($subj == $issuer) {
-			$caname = '<i>'. gettext("self-signed") .'</i>';
+			$caname = '<i>'. gettext("자체 서명") .'</i>';
 		} else {
-			$caname = '<i>'. gettext("external").'</i>';
+			$caname = '<i>'. gettext("외부").'</i>';
 		}
 
 		$subj = htmlspecialchars(cert_escape_x509_chars($subj, true));
@@ -1163,7 +1168,7 @@ foreach ($a_cert as $i => $cert):
 		$purpose = "";
 		$startdate = "";
 		$enddate = "";
-		$caname = "<em>" . gettext("private key only") . "</em>";
+		$caname = "<em>" . gettext("개인키 전용") . "</em>";
 	}
 
 	if ($cert['csr']) {
@@ -1185,7 +1190,7 @@ foreach ($a_cert as $i => $cert):
 						<?php endif?>
 						<?php if (is_array($purpose)): ?>
 							CA: <b><?=$purpose['ca']?></b><br/>
-							<?=gettext("Server")?>: <b><?=$purpose['server']?></b><br/>
+							<?=gettext("서버")?>: <b><?=$purpose['server']?></b><br/>
 						<?php endif?>
 					</td>
 					<td><?=$caname?></td>
@@ -1195,13 +1200,13 @@ foreach ($a_cert as $i => $cert):
 						$certextinfo = "";
 						$certserial = cert_get_serial($cert['crt']);
 						if (!empty($certserial)) {
-							$certextinfo .= '<b>' . gettext("Serial: ") . '</b> ';
+							$certextinfo .= '<b>' . gettext("시리얼: ") . '</b> ';
 							$certextinfo .= htmlspecialchars(cert_escape_x509_chars($certserial, true));
 							$certextinfo .= '<br/>';
 						}
 						$certsig = cert_get_sigtype($cert['crt']);
 						if (is_array($certsig) && !empty($certsig) && !empty($certsig['shortname'])) {
-							$certextinfo .= '<b>' . gettext("Signature Digest: ") . '</b> ';
+							$certextinfo .= '<b>' . gettext("서명 요약: ") . '</b> ';
 							$certextinfo .= htmlspecialchars(cert_escape_x509_chars($certsig['shortname'], true));
 							$certextinfo .= '<br/>';
 						}
@@ -1229,48 +1234,48 @@ foreach ($a_cert as $i => $cert):
 						<?php if (!empty($startdate) || !empty($enddate)): ?>
 						<br />
 						<small>
-							<?=gettext("Valid From")?>: <b><?=$startdate ?></b><br /><?=gettext("Valid Until")?>: <b><?=$enddate ?></b>
+							<?=gettext("유효")?>: <b><?=$startdate ?></b><br /><?=gettext(" 까지 유효")?>: <b><?=$enddate ?></b>
 						</small>
 						<?php endif?>
 					</td>
 					<td>
 						<?php if (is_cert_revoked($cert)): ?>
-							<i><?=gettext("Revoked")?></i>
+							<i><?=gettext("취소됨")?></i>
 						<?php endif?>
 						<?php if (is_webgui_cert($cert['refid'])): ?>
-							<?=gettext("webConfigurator")?>
+							<?=gettext("웹 구성자")?>
 						<?php endif?>
 						<?php if (is_user_cert($cert['refid'])): ?>
-							<?=gettext("User Cert")?>
+							<?=gettext("사용자 인증서")?>
 						<?php endif?>
 						<?php if (is_openvpn_server_cert($cert['refid'])): ?>
-							<?=gettext("OpenVPN Server")?>
+							<?=gettext("OpenVPN 서버")?>
 						<?php endif?>
 						<?php if (is_openvpn_client_cert($cert['refid'])): ?>
-							<?=gettext("OpenVPN Client")?>
+							<?=gettext("OpenVPN 클라이언트")?>
 						<?php endif?>
 						<?php if (is_ipsec_cert($cert['refid'])): ?>
-							<?=gettext("IPsec Tunnel")?>
+							<?=gettext("IPsec 터널")?>
 						<?php endif?>
 						<?php if (is_captiveportal_cert($cert['refid'])): ?>
-							<?=gettext("Captive Portal")?>
+							<?=gettext("전속 포털")?>
 						<?php endif?>
 						<?php echo cert_usedby_description($cert['refid'], $certificates_used_by_packages); ?>
 					</td>
 					<td>
 						<?php if (!$cert['csr']): ?>
-							<a href="system_certmanager.php?act=exp&amp;id=<?=$i?>" class="fa fa-certificate" title="<?=gettext("Export Certificate")?>"></a>
+							<a href="system_certmanager.php?act=exp&amp;id=<?=$i?>" class="fa fa-certificate" title="<?=gettext("인증서 내보내기")?>"></a>
 							<?php if ($cert['prv']): ?>
-								<a href="system_certmanager.php?act=key&amp;id=<?=$i?>" class="fa fa-key" title="<?=gettext("Export Key")?>"></a>
+								<a href="system_certmanager.php?act=key&amp;id=<?=$i?>" class="fa fa-key" title="<?=gettext("인증서 키")?>"></a>
 							<?php endif?>
-							<a href="system_certmanager.php?act=p12&amp;id=<?=$i?>" class="fa fa-archive" title="<?=gettext("Export P12")?>"></a>
+							<a href="system_certmanager.php?act=p12&amp;id=<?=$i?>" class="fa fa-archive" title="<?=gettext("인증서 P12")?>"></a>
 						<?php else: ?>
-							<a href="system_certmanager.php?act=csr&amp;id=<?=$i?>" class="fa fa-pencil" title="<?=gettext("Update CSR")?>"></a>
-							<a href="system_certmanager.php?act=req&amp;id=<?=$i?>" class="fa fa-sign-in" title="<?=gettext("Export Request")?>"></a>
-							<a href="system_certmanager.php?act=key&amp;id=<?=$i?>" class="fa fa-key" title="<?=gettext("Export Key")?>"></a>
+							<a href="system_certmanager.php?act=csr&amp;id=<?=$i?>" class="fa fa-pencil" title="<?=gettext("업데이트 CSR")?>"></a>
+							<a href="system_certmanager.php?act=req&amp;id=<?=$i?>" class="fa fa-sign-in" title="<?=gettext("익스포트 요청")?>"></a>
+							<a href="system_certmanager.php?act=key&amp;id=<?=$i?>" class="fa fa-key" title="<?=gettext("익스포트 키")?>"></a>
 						<?php endif?>
 						<?php if (!cert_in_use($cert['refid'])): ?>
-							<a href="system_certmanager.php?act=del&amp;id=<?=$i?>" class="fa fa-trash" title="<?=gettext("Delete Certificate")?>" usepost></a>
+							<a href="system_certmanager.php?act=del&amp;id=<?=$i?>" class="fa fa-trash" title="<?=gettext("인증서 삭제")?>" usepost></a>
 						<?php endif?>
 					</td>
 				</tr>
@@ -1286,7 +1291,7 @@ foreach ($a_cert as $i => $cert):
 <nav class="action-buttons">
 	<a href="?act=new" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add/Sign")?>
+		<?=gettext("추가/")?>
 	</a>
 </nav>
 <?php
