@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-services
 ##|*NAME=Status: Services
@@ -53,7 +58,7 @@ if ($_POST['ajax']) {
 	exit;
 }
 
-$pgtitle = array(gettext("Status"), gettext("Services"));
+$pgtitle = array(gettext("Status"), gettext("서비스"));
 include("head.inc");
 
 if ($savemsg) {
@@ -75,7 +80,7 @@ if (count($services) > 0) {
 	<input id="zone" type="hidden" name="zone" value=""/>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Services')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('서비스')?></h2></div>
 	<div class="panel-body">
 
 	<div class="panel-body panel-default">
@@ -83,7 +88,7 @@ if (count($services) > 0) {
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 				<thead>
 					<tr>
-						<th><?=gettext("Service")?></th>
+						<th><?=gettext("서비스")?></th>
 						<th><?=gettext("Description")?></th>
 						<th><?=gettext("Status")?></th>
 						<th><?=gettext("Actions")?></th>
@@ -141,7 +146,7 @@ if (count($services) > 0) {
 </form>
 <?php
 } else {
-	print_info_box(gettext("No services found."), 'danger');
+	print_info_box(gettext("서비스가 발견되지 ."), 'danger');
 }
 
 include("foot.inc");
