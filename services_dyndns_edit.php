@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dynamicdnsclient
 ##|*NAME=Services: Dynamic DNS client
@@ -82,29 +87,29 @@ if ($_POST['save'] || $_POST['force']) {
 	/* input validation */
 	$reqdfields = array();
 	$reqdfieldsn = array();
-	$reqdfields = array("type");
-	$reqdfieldsn = array(gettext("Service type"));
+	$reqdfields = array("타입");
+	$reqdfieldsn = array(gettext("서비스 타입"));
 
 	if ($pconfig['type'] != "custom" && $pconfig['type'] != "custom-v6") {
 		$reqdfields[] = "host";
-		$reqdfieldsn[] = gettext("Hostname");
+		$reqdfieldsn[] = gettext("호스트이름");
 		$reqdfields[] = "passwordfld";
-		$reqdfieldsn[] = gettext("Password");
+		$reqdfieldsn[] = gettext("패스워드");
 		$reqdfields[] = "username";
-		$reqdfieldsn[] = gettext("Username");
+		$reqdfieldsn[] = gettext("유저이름");
 		if (in_array($pconfig['type'], $dyndns_split_domain_types)) {
 			$reqdfields[] = "domainname";
-			$reqdfieldsn[] = gettext("Domain name");
+			$reqdfieldsn[] = gettext("도메인이름");
 		}
 	} else {
 		$reqdfields[] = "updateurl";
-		$reqdfieldsn[] = gettext("Update URL");
+		$reqdfieldsn[] = gettext("URL 업데이트");
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($_POST['passwordfld'] != $_POST['passwordfld_confirm']) {
-		$input_errors[] = gettext("Password and confirmed password must match.");
+		$input_errors[] = gettext("패스워드가 서로 일치하지않습니다.");
 	}
 
 	if (isset($_POST['host']) && in_array("host", $reqdfields)) {
@@ -131,17 +136,17 @@ if ($_POST['save'] || $_POST['force']) {
 
 		if ($pconfig['type'] != "custom" && $pconfig['type'] != "custom-v6") {
 			if (!is_domain($host_to_check)) {
-				$input_errors[] = gettext("The hostname contains invalid characters.");
+				$input_errors[] = gettext("호스트 이름에 유효하지 않은 문자가 있습니다.");
 			}
 		}
 
 		unset($host_to_check);
 	}
 	if (($_POST['mx'] && !is_domain($_POST['mx']))) {
-		$input_errors[] = gettext("The MX contains invalid characters.");
+		$input_errors[] = gettext("MX에 잘못된 문자가 있습니다.");
 	}
 	if ((in_array("username", $reqdfields) && $_POST['username'] && !is_dyndns_username($_POST['username'])) || ((in_array("username", $reqdfields)) && ($_POST['username'] == ""))) {
-		$input_errors[] = gettext("The username contains invalid characters.");
+		$input_errors[] = gettext("사용자 이름에 잘못된 문자가 있습니다.");
 	}
 
 	if (!$input_errors) {
@@ -194,7 +199,7 @@ if ($_POST['save'] || $_POST['force']) {
 			$a_dyndns[$i]['id'] = $i;
 		}
 
-		write_config(gettext("Dynamic DNS client configured."));
+		write_config(gettext("동적 DNS 클라이언트가 구성되었습니다."));
 
 		services_dyndns_configure_client($dyndns);
 
@@ -237,7 +242,7 @@ function build_if_list() {
 	return($list);
 }
 
-$pgtitle = array(gettext("Services"), gettext("Dynamic DNS"), gettext("Dynamic DNS Clients"), gettext("Edit"));
+$pgtitle = array(gettext("서비스"), gettext("동적 DNS"), gettext("동적 DNS 클라이언트"), gettext("편집"));
 $pglinks = array("", "services_dyndns.php", "services_dyndns.php", "@self");
 include("head.inc");
 
@@ -247,7 +252,7 @@ if ($input_errors) {
 
 $form = new Form;
 
-$section = new Form_Section('Dynamic DNS Client');
+$section = new Form_Section('동적 DNS ');
 
 // Confusingly the 'enable' checkbox is labelled 'Disable', but thats the way it works!
 // No action (hide or disable) is taken on selecting this.
