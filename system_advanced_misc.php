@@ -23,6 +23,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/*
+2018.03.07
+한글화 번역 
+*/
 
 ##|+PRIV
 ##|*IDENT=page-system-advanced-misc
@@ -76,14 +80,14 @@ if (!empty($config['system']['powerd_normal_mode'])) {
 }
 
 $crypto_modules = array(
-	'aesni' => gettext("AES-NI CPU-based Acceleration"),
-	'cryptodev' => gettext("BSD Crypto Device (cryptodev)"),
-	'aesni_cryptodev' => gettext("AES-NI and BSD Crypto Device (aesni, cryptodev)"),
+	'aesni' => gettext("AES-NI CPU기반 가속"),
+	'cryptodev' => gettext("BSD암호화 장치(암호화 드라이브)"),
+	'aesni_cryptodev' => gettext("AES-NI 및 BSD암호화 장치(aenni, 암호기)"),
 );
 
 $thermal_hardware_modules = array(
-	'coretemp' => gettext("Intel Core* CPU on-die thermal sensor"),
-	'amdtemp' => gettext("AMD K8, K10 and K11 CPU on-die thermal sensor"));
+	'coretemp' => gettext("Intel코어*CPU 온-다이 열 센서"),
+	'amdtemp' => gettext("AMD9W, K10및 K11CPU 온-다이 열 센서"));
 
 if ($_POST) {
 	unset($input_errors);
@@ -93,35 +97,35 @@ if ($_POST) {
 	flush();
 
 	if (!empty($_POST['crypto_hardware']) && !array_key_exists($_POST['crypto_hardware'], $crypto_modules)) {
-		$input_errors[] = gettext("Please select a valid Cryptographic Accelerator.");
+		$input_errors[] = gettext("올바른 암호화 가속기를 선택하십시오.");
 	}
 
 	if (!empty($_POST['thermal_hardware']) && !array_key_exists($_POST['thermal_hardware'], $thermal_hardware_modules)) {
-		$input_errors[] = gettext("Please select a valid Thermal Hardware Sensor.");
+		$input_errors[] = gettext("올바른 열 하드웨어 센서를 선택하십시오.");
 	}
 
 	if (!empty($_POST['use_mfs_tmp_size']) && (!is_numeric($_POST['use_mfs_tmp_size']) || ($_POST['use_mfs_tmp_size'] < 40))) {
-		$input_errors[] = gettext("/tmp Size must be numeric and should not be less than 40MiB.");
+		$input_errors[] = gettext("/tmp 디렉토리 크기는 숫자여야 하며 40MiB이상이어야 합니다.");
 	}
 
 	if (!empty($_POST['use_mfs_var_size']) && (!is_numeric($_POST['use_mfs_var_size']) || ($_POST['use_mfs_var_size'] < 60))) {
-		$input_errors[] = gettext("/var Size must be numeric and should not be less than 60MiB.");
+		$input_errors[] = gettext("/var 디렉토리 크기는 숫자여야 하며 60MiB이상이어야 합니다.");
 	}
 
 	if (!empty($_POST['proxyport']) && !is_port($_POST['proxyport'])) {
-		$input_errors[] = gettext("Proxy port must be a valid port number, 1-65535.");
+		$input_errors[] = gettext("프록시 포트는 유효한 포트 번호(1에서 65535 사이)여야 합니다.");
 	}
 
 	if (!empty($_POST['proxyurl']) && !is_fqdn($_POST['proxyurl']) && !is_ipaddr($_POST['proxyurl'])) {
-		$input_errors[] = gettext("Proxy URL must be a valid IP address or FQDN.");
+		$input_errors[] = gettext("프록시 URL은 올바른 IP주소 또는 FQDN이어야 합니다.");
 	}
 
 	if (!empty($_POST['proxyuser']) && preg_match("/[^a-zA-Z0-9\.\-_@]/", $_POST['proxyuser'])) {
-		$input_errors[] = gettext("The proxy username contains invalid characters.");
+		$input_errors[] = gettext("프록시 사용자 이름에 잘못된 문자가 있습니다.");
 	}
 
 	if ($_POST['proxypass'] != $_POST['proxypass_confirm']) {
-		$input_errors[] = gettext("Proxy password and confirmation must match.");
+		$input_errors[] = gettext("프록시 암호가 서로 일치하지 않습니다.");
 	}
 
 	if (!$input_errors) {
@@ -311,16 +315,16 @@ if ($changes_applied) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Admin Access"), false, "system_advanced_admin.php");
-$tab_array[] = array(htmlspecialchars(gettext("Firewall & NAT")), false, "system_advanced_firewall.php");
-$tab_array[] = array(gettext("Networking"), false, "system_advanced_network.php");
+$tab_array[] = array(gettext("어드민 엑세스"), false, "system_advanced_admin.php");
+$tab_array[] = array(htmlspecialchars(gettext("방화벽 & NAT")), false, "system_advanced_firewall.php");
+$tab_array[] = array(gettext("네트워킹"), false, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), true, "system_advanced_misc.php");
-$tab_array[] = array(gettext("System Tunables"), false, "system_advanced_sysctl.php");
+$tab_array[] = array(gettext("시스템 문제"), false, "system_advanced_sysctl.php");
 $tab_array[] = array(gettext("Notifications"), false, "system_advanced_notifications.php");
 display_top_tabs($tab_array);
 
 $form = new Form;
-$section = new Form_Section('Proxy Support');
+$section = new Form_Section('프록시 지원');
 
 $section->addInput(new Form_Input(
 	'proxyurl',
@@ -586,7 +590,7 @@ $section->addInput(new Form_Select(
 
 $form->add($section);
 
-$section = new Form_Section('Installation Feedback');
+$section = new Form_Section('설치 피드백');
 
 $section->addInput(new Form_Checkbox(
 	'do_not_send_uniqueid',
@@ -599,7 +603,7 @@ $form->add($section);
 
 print $form;
 
-$ramdisk_msg = gettext('The \"Use Ramdisk\" setting has been changed. This requires the firewall\nto reboot.\n\nReboot now ?');
+$ramdisk_msg = gettext('설정이 변경되었습니다. 이 작업을 수행하려면 방화벽\n재부팅이 필요합니다.\n\n재부팅하시겠습니까?');
 $use_mfs_tmpvar_changed = (($use_mfs_tmpvar_before !== $use_mfs_tmpvar_after) && !$input_errors);
 ?>
 
