@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-user-settings
 ##|*NAME=System: User Settings
@@ -29,7 +34,7 @@
  require_once("auth.inc");
  require_once("guiconfig.inc");
 
-$pgtitle = array(gettext("System"), gettext("User Settings"));
+$pgtitle = array(gettext("시스템"), gettext("유저 설정"));
 
 $a_user = &$config['system']['user'];
 
@@ -51,7 +56,7 @@ if (isset($id) && $a_user[$id]) {
 	$pconfig['disablealiaspopupdetail'] = isset($a_user[$id]['disablealiaspopupdetail']);
 	$pconfig['pagenamefirst'] = isset($a_user[$id]['pagenamefirst']);
 } else {
-	echo gettext("The settings cannot be managed for a non-local user.");
+	echo gettext("로컬사용자가 아닌 경우 설정을 관리 할 수 없습니다.");
 	include("foot.inc");
 	exit;
 }
@@ -61,7 +66,7 @@ if (isset($_POST['save'])) {
 	/* input validation */
 
 	$reqdfields = explode(" ", "webguicss dashboardcolumns");
-	$reqdfieldsn = array(gettext("Theme"), gettext("Dashboard Columns"));
+	$reqdfieldsn = array(gettext("테마"), gettext("대시보드 "));
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	$userent = $a_user[$id];
@@ -142,7 +147,7 @@ if (isset($_POST['save'])) {
 		}
 
 		$a_user[$id] = $userent;
-		$savemsg = sprintf(gettext("User settings successfully changed for user %s."), $_SESSION['Username']);
+		$savemsg = sprintf(gettext("사용자 %s에 대한 사용자 설정이 변경되었습니다."), $_SESSION['Username']);
 		write_config($savemsg);
 	}
 }
@@ -159,13 +164,13 @@ if ($savemsg) {
 
 $form = new Form();
 
-$section = new Form_Section('User Settings for ' . $_SESSION['Username']);
+$section = new Form_Section('사용자 설정: ' . $_SESSION['Username']);
 
 gen_user_settings_fields($section, $pconfig);
 
 $form->add($section);
 print($form);
-$csswarning = sprintf(gettext("%sUser-created themes are unsupported, use at your own risk."), "<br />");
+$csswarning = sprintf(gettext("%s 사용자가 만든 테마는 지원되지 않으므로 사용에 따른 모든 책임은 사용자에게 있습니다."), "<br />");
 ?>
 <script type="text/javascript">
 //<![CDATA[
