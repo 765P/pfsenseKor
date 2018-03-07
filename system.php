@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-generalsetup
 ##|*NAME=System: General Setup
@@ -156,7 +161,7 @@ if ($_POST) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "hostname domain");
-	$reqdfieldsn = array(gettext("Hostname"), gettext("Domain"));
+	$reqdfieldsn = array(gettext("호스트 이름"), gettext(""));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -202,15 +207,15 @@ if ($_POST) {
 
 	if ($_POST['hostname']) {
 		if (!is_hostname($_POST['hostname'])) {
-			$input_errors[] = gettext("The hostname can only contain the characters A-Z, 0-9 and '-'. It may not start or end with '-'.");
+			$input_errors[] = gettext("호스트 이름에는 문자 A-Z, 0-9 및 '-'만 사용할 수 있습니다.");
 		} else {
 			if (!is_unqualified_hostname($_POST['hostname'])) {
-				$input_errors[] = gettext("A valid hostname is specified, but the domain name part should be omitted");
+				$input_errors[] = gettext("유효한 호스트 이름이 지정되었지만 도메인 이름 부분은 생략해야합니다.");
 			}
 		}
 	}
 	if ($_POST['domain'] && !is_domain($_POST['domain'])) {
-		$input_errors[] = gettext("The domain may only contain the characters a-z, 0-9, '-' and '.'.");
+		$input_errors[] = gettext("도메인에는 문자 a-z, 0-9, '-'및 '.'만 포함될 수 있습니다.");
 	}
 
 	$dnslist = $ignore_posted_dnsgw = array();
@@ -223,16 +228,16 @@ if ($_POST) {
 		$dnslist[] = $_POST[$dnsname];
 
 		if (($_POST[$dnsname] && !is_ipaddr($_POST[$dnsname]))) {
-			$input_errors[] = sprintf(gettext("A valid IP address must be specified for DNS server %s."), $dnscounter+1);
+			$input_errors[] = sprintf(gettext("DNS 서버 % s에 유효한 IP 주소를 지정해야합니다."), $dnscounter+1);
 		} else {
 			if (($_POST[$dnsgwname] <> "") && ($_POST[$dnsgwname] <> "none")) {
 				// A real gateway has been selected.
 				if (is_ipaddr($_POST[$dnsname])) {
 					if ((is_ipaddrv4($_POST[$dnsname])) && (validate_address_family($_POST[$dnsname], $_POST[$dnsgwname]) === false)) {
-						$input_errors[] = sprintf(gettext('The IPv6 gateway "%1$s" can not be specified for IPv4 DNS server "%2$s".'), $_POST[$dnsgwname], $_POST[$dnsname]);
+						$input_errors[] = sprintf(gettext('IPv6 게이트웨이 "%1$s"에 대해 IPv4 DNS 서버 "%2$s"을(를) 지정할 수 없습니다.'), $_POST[$dnsgwname], $_POST[$dnsname]);
 					}
 					if ((is_ipaddrv6($_POST[$dnsname])) && (validate_address_family($_POST[$dnsname], $_POST[$dnsgwname]) === false)) {
-						$input_errors[] = sprintf(gettext('The IPv4 gateway "%1$s" can not be specified for IPv6 DNS server "%2$s".'), $_POST[$dnsgwname], $_POST[$dnsname]);
+						$input_errors[] = sprintf(gettext('IPv4 게이트웨이 "%1$s"에 대해 IPv6 DNS 서버 "%2$s"을(를) 지정할 수 없습니다.'), $_POST[$dnsgwname], $_POST[$dnsname]);
 					}
 				} else {
 					// The user selected a gateway but did not provide a DNS address. Be nice and set the gateway back to "none".
@@ -245,7 +250,7 @@ if ($_POST) {
 	}
 
 	if (count(array_filter($dnslist)) != count(array_unique(array_filter($dnslist)))) {
-		$input_errors[] = gettext('Each configured DNS server must have a unique IP address. Remove the duplicated IP.');
+		$input_errors[] = gettext('구성된 DNS 서버에는 고유 한 IP 주소가 있어야합니다. 중복 된 IP를 제거하십시오.');
 	}
 
 	$dnscounter = 0;
@@ -257,7 +262,7 @@ if ($_POST) {
 		if ($_POST[$dnsgwname] && ($_POST[$dnsgwname] <> "none")) {
 			foreach ($direct_networks_list as $direct_network) {
 				if (ip_in_subnet($_POST[$dnsname], $direct_network)) {
-					$input_errors[] = sprintf(gettext("A gateway can not be assigned to DNS '%s' server which is on a directly connected network."), $_POST[$dnsname]);
+					$input_errors[] = sprintf(gettext("게이트웨이는 직접 연결된 네트워크에있는 DNS '% s'서버에 할당 될 수 없습니다."), $_POST[$dnsname]);
 				}
 			}
 		}
@@ -270,7 +275,7 @@ if ($_POST) {
 	$_POST['timeservers'] = trim($_POST['timeservers']);
 	foreach (explode(' ', $_POST['timeservers']) as $ts) {
 		if (!is_domain($ts)) {
-			$input_errors[] = gettext("A NTP Time Server name may only contain the characters a-z, 0-9, '-' and '.'.");
+			$input_errors[] = gettext("NTP 시간 서버 이름은 문자 a-z, 0-9, '-'및 '.'만 포함 할 수 있습니다.");
 		}
 	}
 
@@ -432,7 +437,7 @@ if ($_POST) {
 	unset($ignore_posted_dnsgw);
 }
 
-$pgtitle = array(gettext("System"), gettext("General Setup"));
+$pgtitle = array(gettext("시스템"), gettext("일반 설정"));
 include("head.inc");
 
 if ($input_errors) {
@@ -620,9 +625,9 @@ $section->addInput(new Form_Select(
 	'logincss',
 	'Login page color',
 	$pconfig['logincss'],
-	["1e3f75;" => gettext("Blue"), "003300" => gettext("Green"), "770101" => gettext("Red"),
-	 "4b1263" => gettext("Purple"), "424142" => gettext("Gray"), "333333" => gettext("Dark gray"),
-	 "633215" => gettext("Brown" ), "bf7703" => gettext("Orange")]
+	["1e3f75;" => gettext("파랑"), "003300" => gettext("초록"), "770101" => gettext("빨강"),
+	 "4b1263" => gettext("보라"), "424142" => gettext("회색"), "333333" => gettext("진한 회색"),
+	 "633215" => gettext("갈색" ), "bf7703" => gettext("주황")]
 ))->setHelp('Choose a color for the login page');
 
 $section->addInput(new Form_Checkbox(
@@ -646,7 +651,7 @@ $form->add($section);
 
 print $form;
 
-$csswarning = sprintf(gettext("%sUser-created themes are unsupported, use at your own risk."), "<br />");
+$csswarning = sprintf(gettext("%s 사용자가 만든 테마는 지원되지 않으므로 사용에 따른 모든 책임은 사용자에게 있습니다."), "<br />");
 
 ?>
 </div>
