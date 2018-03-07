@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-gatewaygroups
 ##|*NAME=System: Gateway Groups
@@ -39,7 +44,7 @@ if (!is_array($config['gateways']['gateway_group'])) {
 
 $a_gateway_groups = &$config['gateways']['gateway_group'];
 $a_gateways = &$config['gateways']['gateway_item'];
-$changedesc = gettext("Gateway Groups") . ": ";
+$changedesc = gettext("게이트웨이 그룹") . ": ";
 
 
 $pconfig = $_REQUEST;
@@ -69,7 +74,7 @@ if ($_POST['apply']) {
 
 if ($_POST['act'] == "del") {
 	if ($a_gateway_groups[$_POST['id']]) {
-		$changedesc .= sprintf(gettext("removed gateway group %s"), $_POST['id']);
+		$changedesc .= sprintf(gettext("게이트웨이 그룹 %s을(를) 삭제합니다."), $_POST['id']);
 		foreach ($config['filter']['rule'] as $idx => $rule) {
 			if ($rule['gateway'] == $a_gateway_groups[$_REQUEST['id']]['name']) {
 				unset($config['filter']['rule'][$idx]['gateway']);
@@ -98,7 +103,7 @@ function gateway_exists($gwname) {
 	return(false);
 }
 
-$pgtitle = array(gettext("System"), gettext("Routing"), gettext("Gateway Groups"));
+$pgtitle = array(gettext("시스템"), gettext("라우팅"), gettext("게이트웨이 그룹"));
 $pglinks = array("", "system_gateways.php", "@self");
 $shortcut_section = "gateway-groups";
 
@@ -109,25 +114,25 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('staticroutes')) {
-	print_apply_box(gettext("The gateway configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("게이트웨이 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Gateways"), false, "system_gateways.php");
-$tab_array[] = array(gettext("Static Routes"), false, "system_routes.php");
-$tab_array[] = array(gettext("Gateway Groups"), true, "system_gateway_groups.php");
+$tab_array[] = array(gettext("게이트웨이"), false, "system_gateways.php");
+$tab_array[] = array(gettext("정적 라우트"), false, "system_routes.php");
+$tab_array[] = array(gettext("게이트웨이 그룹"), true, "system_gateway_groups.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Gateway Groups')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('게이트웨이 그룹')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext("Group Name")?></th>
-						<th><?=gettext("Gateways")?></th>
-						<th><?=gettext("Priority")?></th>
+						<th><?=gettext("그룹 이름")?></th>
+						<th><?=gettext("게이트웨이")?></th>
+						<th><?=gettext("우선순위")?></th>
 						<th><?=gettext("Description")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
@@ -165,9 +170,9 @@ foreach ($a_gateway_groups as $gateway_group):
 							<?=htmlspecialchars($gateway_group['descr'])?>
 						</td>
 						<td>
-							<a href="system_gateway_groups_edit.php?id=<?=$i?>" class="fa fa-pencil" title="<?=gettext('Edit gateway group')?>"></a>
-							<a href="system_gateway_groups_edit.php?dup=<?=$i?>" class="fa fa-clone" title="<?=gettext('Copy gateway group')?>"></a>
-							<a href="system_gateway_groups.php?act=del&amp;id=<?=$i?>" class="fa fa-trash" title="<?=gettext('Delete gateway group')?>" usepost></a>
+							<a href="system_gateway_groups_edit.php?id=<?=$i?>" class="fa fa-pencil" title="<?=gettext('게이트웨이 그룹 편집')?>"></a>
+							<a href="system_gateway_groups_edit.php?dup=<?=$i?>" class="fa fa-clone" title="<?=gettext('게이트웨이 그룹 복사')?>"></a>
+							<a href="system_gateway_groups.php?act=del&amp;id=<?=$i?>" class="fa fa-trash" title="<?=gettext('게이트웨이 그룹 삭제')?>" usepost></a>
 						</td>
 					</tr>
 <?php
@@ -183,14 +188,13 @@ endforeach;
 <nav class="action-buttons">
 	<a href="system_gateway_groups_edit.php" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
 <div class="infoblock">
-	<?php print_info_box(sprintf(gettext('Remember to use these Gateway Groups in firewall rules in order to enable load balancing, failover, ' .
-						   'or policy-based routing.%1$s' .
-						   'Without rules directing traffic into the Gateway Groups, they will not be used.'), '<br />'), 'info', false); ?>
+	<?php print_info_box(sprintf(gettext('로드 균형 조정, 장애 조치 또는 정책 기반 라우팅을 사용하려면 방화벽 규칙에서 이러한 게이트웨이 그룹을 사용해야합니다. ' .
+						   '%1$s 게이트웨이 그룹으로 트래픽을 보내는 규칙이 없으면 사용되지 않습니다.'), '<br />'), 'info', false); ?>
 </div>
 <?php
 include("foot.inc");
