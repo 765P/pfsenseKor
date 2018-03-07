@@ -198,7 +198,7 @@ $tab_array[] = array(gettext("어드민 엑세스"), false, "system_advanced_adm
 $tab_array[] = array(htmlspecialchars(gettext(" & NAT")), false, "system_advanced_firewall.php");
 $tab_array[] = array(gettext("네트워킹"), true, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), false, "system_advanced_misc.php");
-$tab_array[] = array(gettext("시스템 문제"), false, "system_advanced_sysctl.php");
+$tab_array[] = array(gettext("시스템 "), false, "system_advanced_sysctl.php");
 $tab_array[] = array(gettext("Notifications"), false, "system_advanced_notifications.php");
 $duid = get_duid_from_file();
 display_top_tabs($tab_array);
