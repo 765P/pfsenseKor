@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-trafficgraph
 ##|*NAME=Status: Traffic Graph
@@ -117,14 +122,14 @@ function iflist() {
 	return($iflist);
 }
 
-$pgtitle = array(gettext("Status"), gettext("Traffic Graph"));
+$pgtitle = array(gettext("Status"), gettext("트래픽 그래프"));
 
 include("head.inc");
 
 $form = new Form(false);
 $form->addClass('auto-submit');
 
-$section = new Form_Section('Graph Settings');
+$section = new Form_Section('그래프 설정');
 
 $group = new Form_Group('Traffic Graph');
 
@@ -140,8 +145,8 @@ $group->add(new Form_Select(
 	null,
 	$cursort,
 	array (
-		'in'	=> gettext('Bandwidth In'),
-		'out'	=> gettext('Bandwidth Out')
+		'in'	=> gettext('대역폭 내'),
+		'out'	=> gettext('대역폭 외')
 	)
 ))->setHelp('Sort by');
 
@@ -150,8 +155,8 @@ $group->add(new Form_Select(
 	null,
 	$curfilter,
 	array (
-		'local'	=> gettext('Local'),
-		'remote'=> gettext('Remote'),
+		'local'	=> gettext('로컬'),
+		'remote'=> gettext('원격'),
 		'all'	=> gettext('All')
 	)
 ))->setHelp('Filter');
@@ -161,8 +166,8 @@ $group->add(new Form_Select(
 	null,
 	$curhostipformat,
 	array (
-		''			=> gettext('IP Address'),
-		'hostname'	=> gettext('Host Name'),
+		''			=> gettext('IP주소'),
+		'hostname'	=> gettext('호스트이름'),
 		'descr'		=> gettext('Description'),
 		'fqdn'		=> gettext('FQDN')
 	)
@@ -177,8 +182,8 @@ $group2->add(new Form_Select(
 	null,
 	$curbackgroundupdate,
 	array (
-		'false'	=> gettext('Clear graphs when not visible.'),
-		'true'	=> gettext('Keep graphs updated on inactive tab. (increases cpu usage)'),
+		'false'	=> gettext('표시되지 않는 경우 그래프를 지 웁니다.'),
+		'true'	=> gettext('비활성 탭에서 그래프를 업데이트 된 상태로 유지하십시오.(CPU 사용 증가)'),
 	)
 ))->setHelp('Background updates');
 
@@ -187,8 +192,8 @@ $group2->add(new Form_Select(
 	null,
 	$curinvert,
 	array (
-		'true'	=> gettext('On'),
-		'false'	=> gettext('Off'),
+		'true'	=> gettext('켜기'),
+		'false'	=> gettext('끄기'),
 	)
 ))->setHelp('Invert in/out');
 
@@ -301,7 +306,7 @@ if (ipsec_enabled()) {
 ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h2 class="panel-title"><?=gettext("Traffic Graph");?></h2>
+		<h2 class="panel-title"><?=gettext("트래픽 그래프");?></h2>
 	</div>
 	<div class="panel-body">
 		<div class="col-sm-6">
@@ -313,9 +318,9 @@ if (ipsec_enabled()) {
 			<table class="table table-striped table-condensed">
 				<thead>
 					<tr>
-						<th><?=(($curhostipformat == "") ? gettext("Host IP") : gettext("Host Name or IP")); ?></th>
-						<th><?=gettext("Bandwidth In"); ?></th>
-						<th><?=gettext("Bandwidth Out"); ?></th>
+						<th><?=(($curhostipformat == "") ? gettext("호스트IP") : gettext("호스트이름 또는 IP")); ?></th>
+						<th><?=gettext("대역폭 내"); ?></th>
+						<th><?=gettext("대역폭 외"); ?></th>
 					</tr>
 				</thead>
 				<tbody id="top10-hosts">
