@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-wireless
 ##|*NAME=Interfaces: Wireless
@@ -55,7 +60,7 @@ function clone_inuse($num) {
 if ($_POST['act'] == "del") {
 	/* check if still in use */
 	if (clone_inuse($_POST['id'])) {
-		$input_errors[] = gettext("This wireless clone cannot be deleted because it is assigned as an interface.");
+		$input_errors[] = gettext("이 무선 클론은 인터페이스로 지정되어있어 삭제할 수 없습니다.");
 	} else {
 		pfSense_interface_destroy($a_clones[$_POST['id']]['cloneif']);
 		unset($a_clones[$_POST['id']]);
@@ -68,7 +73,7 @@ if ($_POST['act'] == "del") {
 }
 
 
-$pgtitle = array(gettext("Interfaces"), gettext("Wireless"));
+$pgtitle = array(gettext("인터페이스"), gettext("무선"));
 $shortcut_section = "wireless";
 include("head.inc");
 
@@ -77,27 +82,27 @@ if ($input_errors) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Interface Assignments"), false, "interfaces_assign.php");
-$tab_array[] = array(gettext("Interface Groups"), false, "interfaces_groups.php");
-$tab_array[] = array(gettext("Wireless"), true, "interfaces_wireless.php");
+$tab_array[] = array(gettext("인터페이스 할당"), false, "interfaces_assign.php");
+$tab_array[] = array(gettext("인터페이스 그룹"), false, "interfaces_groups.php");
+$tab_array[] = array(gettext("무선통신"), true, "interfaces_wireless.php");
 $tab_array[] = array(gettext("VLANs"), false, "interfaces_vlan.php");
 $tab_array[] = array(gettext("QinQs"), false, "interfaces_qinq.php");
 $tab_array[] = array(gettext("PPPs"), false, "interfaces_ppps.php");
 $tab_array[] = array(gettext("GREs"), false, "interfaces_gre.php");
 $tab_array[] = array(gettext("GIFs"), false, "interfaces_gif.php");
-$tab_array[] = array(gettext("Bridges"), false, "interfaces_bridge.php");
+$tab_array[] = array(gettext("브리지"), false, "interfaces_bridge.php");
 $tab_array[] = array(gettext("LAGGs"), false, "interfaces_lagg.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Wireless Interfaces')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('무선통신 인터페이스')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext("Interface"); ?></th>
-						<th><?=gettext("Mode"); ?></th>
+						<th><?=gettext("인터페이스"); ?></th>
+						<th><?=gettext("모드"); ?></th>
 						<th><?=gettext("Description"); ?></th>
 						<th><?=gettext("Actions"); ?></th>
 					</tr>
@@ -120,8 +125,8 @@ foreach ($a_clones as $clone) {
 							<?=htmlspecialchars($clone['descr'])?>
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit WiFi interface')?>"	href="interfaces_wireless_edit.php?id=<?=$i?>"></a>
-							<a class="fa fa-trash"	title="<?=gettext('Delete WiFi interface')?>"	href="interfaces_wireless.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil"	title="<?=gettext('WiFi 인터페이스 편집')?>"	href="interfaces_wireless_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-trash"	title="<?=gettext('WiFi 인터페이스 삭제')?>"	href="interfaces_wireless.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 					</tr>
 <?php
@@ -137,7 +142,7 @@ foreach ($a_clones as $clone) {
 <nav class="action-buttons">
 	<a href="interfaces_wireless_edit.php" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?></a>
+		<?=gettext("추가")?></a>
 </nav>
 <?php
 include("foot.inc");
