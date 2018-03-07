@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-advanced-firewall
 ##|*NAME=System: Advanced: Firewall & NAT
@@ -80,73 +85,73 @@ if ($_POST) {
 
 	/* input validation */
 	if ((isset($_POST['adaptivestart']) && !isset($_POST['adaptiveend'])) || (!isset($_POST['adaptivestart']) && isset($_POST['adaptiveend']))) {
-		$input_errors[] = gettext("The Firewall Adaptive values must be set together.");
+		$input_errors[] = gettext("방화벽 적응성 값을 함께 설정해야합니다.");
 	}
 	if (isset($_POST['adaptivestart']) && (strlen($_POST['adaptivestart']) > 0) && !is_numericint($_POST['adaptivestart'])) {
-		$input_errors[] = gettext("The Firewall Adaptive Start value must be an integer.");
+		$input_errors[] = gettext("방화벽 적응성 시작 값은 정수 여야합니다.");
 	}
 	if (isset($_POST['adaptive-end']) && (strlen($_POST['adaptive-end']) > 0) && !is_numericint($_POST['adaptive-end'])) {
-		$input_errors[] = gettext("The Firewall Adaptive End value must be an integer.");
+		$input_errors[] = gettext("방화벽 적응성 끝 값은 정수 여야합니다.");
 	}
 	if ($_POST['firewall-maximum-states'] && !is_numericint($_POST['firewall-maximum-states'])) {
-		$input_errors[] = gettext("The Firewall Maximum States value must be an integer.");
+		$input_errors[] = gettext("방화벽 최대 상태는 정수 여야합니다.");
 	}
 	if ($_POST['aliases-hostnames-resolve-interval'] && !is_numericint($_POST['aliases-hostnames-resolve-interval'])) {
-		$input_errors[] = gettext("The Aliases Hostname Resolve Interval value must be an integer.");
+		$input_errors[] = gettext("alias 호스트 이름 결정 간격은 정수여야 합니다.");
 	}
 	if ($_POST['firewall-maximum-table-entries'] && !is_numericint($_POST['firewall-maximum-table-entries'])) {
-		$input_errors[] = gettext("The Firewall Maximum Table Entries value must be an integer.");
+		$input_errors[] = gettext("방화벽 최대 테이블 항목 값은 정수여야 합니다.");
 	}
 	if ($_POST['maximumfrags'] && !is_numericint($_POST['maximumfrags'])) {
-		$input_errors[] = gettext("The Firewall Maximum Fragment Entries value must be an integer.");
+		$input_errors[] = gettext("방화벽 최대 조각 입력 값은 정수여야 합니다.");
 	}
 	if ($_POST['tcpidletimeout'] && !is_numericint($_POST['tcpidletimeout'])) {
-		$input_errors[] = gettext("The TCP idle timeout must be an integer.");
+		$input_errors[] = gettext("TCP유휴 시간 초과는 정수여야 합니다.");
 	}
 	if ($_POST['reflectiontimeout'] && !is_numericint($_POST['reflectiontimeout'])) {
-		$input_errors[] = gettext("The Reflection timeout must be an integer.");
+		$input_errors[] = gettext("반사 시간 초과는 정수여야 합니다.");
 	}
 	if ($_POST['tcpfirsttimeout'] && !is_numericint($_POST['tcpfirsttimeout'])) {
-		$input_errors[] = gettext("The TCP first timeout value must be an integer.");
+		$input_errors[] = gettext("TCP첫번째 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['tcpopeningtimeout'] && !is_numericint($_POST['tcpopeningtimeout'])) {
-		$input_errors[] = gettext("The TCP opening timeout value must be an integer.");
+		$input_errors[] = gettext("TCP 오픈 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['tcpestablishedtimeout'] && !is_numericint($_POST['tcpestablishedtimeout'])) {
-		$input_errors[] = gettext("The TCP established timeout value must be an integer.");
+		$input_errors[] = gettext("TCP설정 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['tcpclosingtimeout'] && !is_numericint($_POST['tcpclosingtimeout'])) {
-		$input_errors[] = gettext("The TCP closing timeout value must be an integer.");
+		$input_errors[] = gettext("TCP마감 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['tcpfinwaittimeout'] && !is_numericint($_POST['tcpfinwaittimeout'])) {
-		$input_errors[] = gettext("The TCP FIN wait timeout value must be an integer.");
+		$input_errors[] = gettext("TCP FIN대기 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['tcpclosedtimeout'] && !is_numericint($_POST['tcpclosedtimeout'])) {
-		$input_errors[] = gettext("The TCP closed timeout value must be an integer.");
+		$input_errors[] = gettext("TCP 닫힘 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['udpfirsttimeout'] && !is_numericint($_POST['udpfirsttimeout'])) {
-		$input_errors[] = gettext("The UDP first timeout value must be an integer.");
+		$input_errors[] = gettext("UDP의 첫번째 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['udpsingletimeout'] && !is_numericint($_POST['udpsingletimeout'])) {
-		$input_errors[] = gettext("The UDP single timeout value must be an integer.");
+		$input_errors[] = gettext("UDP단일 시간 초과 값이 정수여야 합니다.");
 	}
 	if ($_POST['udpmultipletimeout'] && !is_numericint($_POST['udpmultipletimeout'])) {
-		$input_errors[] = gettext("The UDP multiple timeout value must be an integer.");
+		$input_errors[] = gettext("UDP다중 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['icmpfirsttimeout'] && !is_numericint($_POST['icmpfirsttimeout'])) {
-		$input_errors[] = gettext("The ICMP first timeout value must be an integer.");
+		$input_errors[] = gettext("ICMP첫번째 타임 아웃 값은 정수여야 합니다.");
 	}
 	if ($_POST['icmperrortimeout'] && !is_numericint($_POST['icmperrortimeout'])) {
-		$input_errors[] = gettext("The ICMP error timeout value must be an integer.");
+		$input_errors[] = gettext("ICMP오류 타임 아웃 값은 정수여야 합니다.");
 	}
 	if ($_POST['otherfirsttimeout'] && !is_numericint($_POST['otherfirsttimeout'])) {
-		$input_errors[] = gettext("The Other first timeout value must be an integer.");
+		$input_errors[] = gettext("다른 첫번째 시간 초과 값은 정수여야 합니다.");
 	}
 	if ($_POST['othersingletimeout'] && !is_numericint($_POST['othersingletimeout'])) {
-		$input_errors[] = gettext("The Other single timeout value must be an integer.");
+		$input_errors[] = gettext("기타 단일 타임 아웃 값은 정수여야 합니다.");
 	}
 	if ($_POST['othermultipletimeout'] && !is_numericint($_POST['othermultipletimeout'])) {
-		$input_errors[] = gettext("The Other multiple timeout value must be an integer.");
+		$input_errors[] = gettext("다른 다중 시간 초과 값은 정수여야 합니다.");
 	}
 
 	ob_flush();
@@ -362,7 +367,7 @@ if ($_POST) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Advanced"), htmlspecialchars(gettext("Firewall & NAT")));
+$pgtitle = array(gettext("시스템"), gettext("어드밴스드"), htmlspecialchars(gettext("방화벽 & NAT")));
 $pglinks = array("", "system_advanced_admin.php", "@self");
 include("head.inc");
 
@@ -375,9 +380,9 @@ if ($changes_applied) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Admin Access"), false, "system_advanced_admin.php");
-$tab_array[] = array(htmlspecialchars(gettext("Firewall & NAT")), true, "system_advanced_firewall.php");
-$tab_array[] = array(gettext("Networking"), false, "system_advanced_network.php");
+$tab_array[] = array(gettext("어드민 엑세스"), false, "system_advanced_admin.php");
+$tab_array[] = array(htmlspecialchars(gettext("방화벽 & NAT")), true, "system_advanced_firewall.php");
+$tab_array[] = array(gettext("네트워킹"), false, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), false, "system_advanced_misc.php");
 $tab_array[] = array(gettext("System Tunables"), false, "system_advanced_sysctl.php");
 $tab_array[] = array(gettext("Notifications"), false, "system_advanced_notifications.php");
@@ -558,9 +563,9 @@ $section->addInput(new Form_Select(
 	'Update Frequency',
 	empty($pconfig['bogonsinterval']) ? 'monthly' : $pconfig['bogonsinterval'],
 	array(
-		'monthly' => gettext('Monthly'),
-		'weekly' => gettext('Weekly'),
-		'daily' => gettext('Daily'),
+		'monthly' => gettext('월 단위'),
+		'weekly' => gettext('주 단위'),
+		'daily' => gettext('일별'),
 	)
 ))->setHelp('The frequency of updating the lists of IP addresses that are '.
 	'reserved (but not RFC 1918) or not yet assigned by IANA.');
@@ -704,13 +709,13 @@ events.push(function() {
 		var htext = '<span class="text-success">';
 
 		if (val == 'normal') {
-			htext += '<?=gettext("The default optimization algorithm");?>';
+			htext += '<?=gettext("기본 최적화 알고리즘");?>';
 		} else if (val == 'high-latency') {
-			htext += '<?=gettext("Used for eg. satellite links. Expires idle connections later than default");?>';
+			htext += '<?=gettext("예를 들어 위성 링크, 유휴 연결은 기본값보다 나중에 만료됩니다.");?>';
 		} else if (val == 'aggressive') {
-			htext += '<?=gettext("Expires idle connections quicker. More efficient use of CPU and memory but can drop legitimate idle connections");?>';
+			htext += '<?=gettext("유휴 연결을 더 빨리 만료시킵니다. CPU와 메모리를보다 효율적으로 사용하지만 합법적인 유휴 연결을 끊을 수 있습니다.");?>';
 		} else if (val == 'conservative') {
-			htext += '<?=gettext("Tries to avoid dropping any legitimate idle connections at the expense of increased memory usage and CPU utilization");?>';
+			htext += '<?=gettext("메모리 사용량 및 CPU활용도를 높임으로써 올바른 유휴 연결이 손실되는 것을 방지하기 위해 노력합니다.");?>';
 		}
 
 		htext += '</span>';
