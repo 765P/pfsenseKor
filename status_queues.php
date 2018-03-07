@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-trafficshaper-queues
 ##|*NAME=Status: Traffic Shaper: Queues
@@ -219,38 +224,38 @@ if ($error):
 	print_info_box($error);
 else: ?>
 	<div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Settings"); ?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("설정"); ?></h2></div>
 		<div class="panel-body table-responsive">
 			<label class="col-sm-2 control-label">
 				<span>Refresh rate</span>
 			</label>
 			<div class="col-sm-10">
 				<select id="updatespeed" class="form-control">
-					<option value="500">0.5 <?=gettext("seconds");?></option>
-					<option value="1000" selected>1 <?=gettext("seconds");?></option>
-					<option value="2000">2 <?=gettext("seconds");?></option>
-					<option value="5000">5 <?=gettext("seconds");?></option>
+					<option value="500">0.5 <?=gettext("초");?></option>
+					<option value="1000" selected>1 <?=gettext("초");?></option>
+					<option value="2000">2 <?=gettext("초");?></option>
+					<option value="5000">5 <?=gettext("초");?></option>
 				</select>
 			</div>
 		</div>
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Status Queues"); ?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Status 큐"); ?></h2></div>
 		<div class="panel-body table-responsive">
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th><?=gettext("Queue"); ?></th>
-						<th><?=gettext("Statistics"); ?>
+						<th><?=gettext("큐"); ?></th>
+						<th><?=gettext("통계"); ?>
 							<select id="selStatistic" class="form-control">
 								<option value="0"><?=gettext("PPS");?></option>
-								<option value="1"><?=gettext("Bandwidth");?></option>
+								<option value="1"><?=gettext("대역폭");?></option>
 							</select>
 						</th>
 						<th><?=gettext("PPS"); ?></th>
-						<th><?=gettext("Bandwidth"); ?></th>
-						<th><?=gettext("Borrows"); ?></th>
-						<th><?=gettext("Suspends"); ?></th>
-						<th><?=gettext("Drops"); ?></th>
-						<th><?=gettext("Length"); ?></th>
+						<th><?=gettext("대역폭"); ?></th>
+						<th><?=gettext("차용"); ?></th>
+						<th><?=gettext("정지"); ?></th>
+						<th><?=gettext("드랍"); ?></th>
+						<th><?=gettext("길이"); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -264,7 +269,7 @@ else: ?>
 			<br />
 			<div class="infoblock blockopen">
 <?php
-	print_info_box(gettext("Queue graphs sample data on a regular interval."), 'info', false);
+	print_info_box(gettext("대기열 그래프는 일정한 간격으로 데이터를 샘플링합니다."), 'info', false);
 ?>
 			</div>
 		</div>
@@ -296,7 +301,7 @@ function processInterfaceQueues($altqstats, $parent_name) {
 	$prev_if = $altqstats['interface'];
 	if (!is_array($altqstats['interfacestats'])) {
 		print("<tr><td>");
-		print("No Queue data available");
+		print("큐에 사용할 수 있는 데이터가 없습니다.");
 		print("</td></tr>");
 		return;
 	}
