@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-captiveportal-test
 ##|*NAME=Status: Captive Portal: Test Vouchers
@@ -52,7 +57,7 @@ if (empty($cpzone)) {
 	exit;
 }
 
-$pgtitle = array(gettext("Status"), gettext("Captive Portal"), htmlspecialchars($a_cp[$cpzone]['zone']), gettext("Test Vouchers"));
+$pgtitle = array(gettext("Status"), gettext("전속 포털"), htmlspecialchars($a_cp[$cpzone]['zone']), gettext("바우처 테스트"));
 $pglinks = array("", "status_captiveportal.php", "status_captiveportal.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal-vouchers";
 
@@ -74,16 +79,16 @@ if ($_POST['Submit'] && $_POST['vouchers']) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Active Users"), false, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Active Vouchers"), false, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Voucher Rolls"), false, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Test Vouchers"), true, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Expire Vouchers"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("활성 사용자"), false, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("활성 바우처"), false, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("바우처 롤"), false, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("테스트 바우처"), true, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("만료 바우처"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
 display_top_tabs($tab_array);
 
 $form = new Form(false);
 
-$section = new Form_Section('Test Vouchers');
+$section = new Form_Section('테스트 바우처');
 
 $section->addInput(new Form_Textarea(
 	'vouchers',
