@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-nat-outbound
 ##|*NAME=Firewall: NAT: Outbound
@@ -62,7 +67,7 @@ if (isset($_REQUEST['order-store'])) {
 
 		$a_out = $a_out_new;
 
-		if (write_config(gettext("Firewall: NAT: Outbound - reordered outbound NAT mappings."))) {
+		if (write_config(gettext("방화벽: NAT: 아웃 바운드 - 재정렬 된 아웃 바운드 NAT 매핑."))) {
 			mark_subsystem_dirty('natconf');
 		}
 
@@ -139,7 +144,7 @@ if ($_POST['save']) {
 
 	$config['nat']['outbound']['mode'] = $_POST['mode'];
 
-	if (write_config(gettext("Firewall: NAT: Outbound - saved outbound NAT settings."))) {
+	if (write_config(gettext("방화벽: NAT: 아웃 바운드 - 저장된 아웃 바운드 NAT 설정."))) {
 		mark_subsystem_dirty('natconf');
 	}
 
@@ -152,7 +157,7 @@ if ($_POST['act'] == "del") {
 
 	if ($a_out[$_POST['id']]) {
 		unset($a_out[$_POST['id']]);
-		if (write_config(gettext("Firewall: NAT: Outbound - deleted outbound NAT mapping."))) {
+		if (write_config(gettext("방화벽: NAT: 아웃 바운드 - 삭제 된 아웃 바운드 NAT 매핑."))) {
 			mark_subsystem_dirty('natconf');
 		}
 
@@ -173,7 +178,7 @@ if (isset($_POST['del_x'])) {
 			unset($a_out[$rulei]);
 		}
 
-		if (write_config(gettext("Firewall: NAT: Outbound - deleted selected outbound NAT mappings."))) {
+		if (write_config(gettext("방화벽: NAT: 아웃 바운드 - 선택한 아웃 바운드 NAT 매핑을 삭제했습니다."))) {
 			mark_subsystem_dirty('natconf');
 		}
 
@@ -185,10 +190,10 @@ if (isset($_POST['del_x'])) {
 	if ($a_out[$_POST['id']]) {
 		if (isset($a_out[$_POST['id']]['disabled'])) {
 			unset($a_out[$_POST['id']]['disabled']);
-			$wc_msg = gettext('Firewall: NAT: Outbound - enabled outbound NAT rule.');
+			$wc_msg = gettext('방화벽: NAT: 아웃 바운드 - 아웃 바운드 NAT 규칙이 활성화되었습니다.');
 		} else {
 			$a_out[$_POST['id']]['disabled'] = true;
-			$wc_msg = gettext('Firewall: NAT: Outbound - disabled outbound NAT rule.');
+			$wc_msg = gettext('방화벽: NAT: 아웃 바운드 - 아웃 바운드 NAT 규칙이 비활성화되었습니다.');
 		}
 		if (write_config($wc_msg)) {
 			mark_subsystem_dirty('natconf');
@@ -199,7 +204,7 @@ if (isset($_POST['del_x'])) {
 	}
 }
 
-$pgtitle = array(gettext("Firewall"), gettext("NAT"), gettext("Outbound"));
+$pgtitle = array(gettext("방화벽"), gettext("NAT"), gettext("아웃바운드"));
 $pglinks = array("", "firewall_nat.php", "@self");
 include("head.inc");
 
@@ -212,8 +217,8 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('natconf')) {
-	print_apply_box(gettext('The NAT configuration has been changed.') . '<br />' .
-					gettext('The changes must be applied for them to take effect.'));
+	print_apply_box(gettext('NAT구성이 변경되었습니다.') . '<br />' .
+					gettext('변경사항을 저장하시면 적용됩니다.'));
 }
 
 $tab_array = array();
@@ -276,14 +281,14 @@ print($form);
 					<tr>
 						<th><!-- checkbox	  --></th>
 						<th><!-- status	  --></th>
-						<th><?=gettext("Interface")?></th>
-						<th><?=gettext("Source")?></th>
-						<th><?=gettext("Source Port")?></th>
-						<th><?=gettext("Destination")?></th>
-						<th><?=gettext("Destination Port")?></th>
-						<th><?=gettext("NAT Address")?></th>
-						<th><?=gettext("NAT Port")?></th>
-						<th><?=gettext("Static Port")?></th>
+						<th><?=gettext("인터페이스")?></th>
+						<th><?=gettext("발신지")?></th>
+						<th><?=gettext("발신지 포트")?></th>
+						<th><?=gettext("수신지")?></th>
+						<th><?=gettext("수신지 포트")?></th>
+						<th><?=gettext("NAT 주소")?></th>
+						<th><?=gettext("NAT 포트")?></th>
+						<th><?=gettext("정적 포트")?></th>
 						<th><?=gettext("Description")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
@@ -321,19 +326,19 @@ print($form);
 <?php
 				if ($mode == "disabled" || $mode == "automatic"):
 ?>
-							<i class="fa <?= ($iconfn == "pass") ? "fa-check":"fa-times"?>" title="<?=gettext("This rule is being ignored")?>"></i>
+							<i class="fa <?= ($iconfn == "pass") ? "fa-check":"fa-times"?>" title="<?=gettext("이 규칙은 무시됩니다.")?>"></i>
 <?php
 				else:
 ?>
 							<a href="?act=toggle&amp;id=<?=$i?>" usepost>
-								<i class="fa <?= ($iconfn == "pass") ? "fa-check":"fa-times"?>" title="<?=gettext("Click to toggle enabled/disabled status")?>"></i>
+								<i class="fa <?= ($iconfn == "pass") ? "fa-check":"fa-times"?>" title="<?=gettext("상태를 전환하려면 클릭하십시오.")?>"></i>
 							</a>
 
 <?php
 				endif;
 ?>
 <?php 				if (isset($natent['nonat'])): ?>
-							&nbsp;<i class="fa fa-hand-stop-o text-danger" title="<?=gettext("Negated: Traffic matching this rule is not translated.")?>"></i>
+							&nbsp;<i class="fa fa-hand-stop-o text-danger" title="<?=gettext("제외됨: 이 규칙과 일치하는 트래픽 정보가 변환되지 않았습니다.")?>"></i>
 <?php 				endif; ?>
 
 						</td>
@@ -476,9 +481,9 @@ print($form);
 
 						<!-- Action	 icons -->
 						<td>
-							<a class="fa fa-pencil"	 title="<?=gettext("Edit mapping")?>" href="firewall_nat_out_edit.php?id=<?=$i?>"></a>
-							<a class="fa fa-clone" title="<?=gettext("Add a new mapping based on this one")?>" href="firewall_nat_out_edit.php?dup=<?=$i?>"></a>
-							<a class="fa fa-trash"	 title="<?=gettext("Delete mapping")?>" href="firewall_nat_out.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil"	 title="<?=gettext("매핑 편집")?>" href="firewall_nat_out_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-clone" title="<?=gettext("이를 기반으로 새 매핑 추가")?>" href="firewall_nat_out_edit.php?dup=<?=$i?>"></a>
+							<a class="fa fa-trash"	 title="<?=gettext("매핑 삭제")?>" href="firewall_nat_out.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 					</tr>
 <?php
@@ -491,21 +496,21 @@ print($form);
 	</div>
 
 	<nav class="action-buttons">
-		<a href="firewall_nat_out_edit.php?after=-1" class="btn btn-sm btn-success" title="<?=gettext('Add new mapping to the top of the list')?>">
+		<a href="firewall_nat_out_edit.php?after=-1" class="btn btn-sm btn-success" title="<?=gettext('목록 상단에 새 매핑 추가')?>">
 			<i class="fa fa-level-up icon-embed-btn"></i>
-			<?=gettext('Add')?>
+			<?=gettext('추가')?>
 		</a>
-		<a href="firewall_nat_out_edit.php" class="btn btn-sm btn-success" title="<?=gettext('Add new mapping to the end of the list')?>">
+		<a href="firewall_nat_out_edit.php" class="btn btn-sm btn-success" title="<?=gettext('목록 끝에 새 매핑 추가')?>">
 			<i class="fa fa-level-down icon-embed-btn"></i>
-			<?=gettext('Add')?>
+			<?=gettext('추가')?>
 		</a>
-		<button name="del_x" type="submit" class="btn btn-danger btn-sm" value="<?=gettext("Delete selected map"); ?>" title="<?=gettext('Delete selected maps')?>">
+		<button name="del_x" type="submit" class="btn btn-danger btn-sm" value="<?=gettext("선택한 매핑 삭제"); ?>" title="<?=gettext('선택한 매핑 삭제')?>">
 			<i class="fa fa-trash icon-embed-btn"></i>
-			<?=gettext("Delete"); ?>
+			<?=gettext("삭제"); ?>
 		</button>
-		<button type="submit" id="order-store" class="btn btn-primary btn-sm" value="Save changes" disabled name="order-store" title="<?=gettext('Save mapping order')?>">
+		<button type="submit" id="order-store" class="btn btn-primary btn-sm" value="Save changes" disabled name="order-store" title="<?=gettext('매핑 순서 저장')?>">
 			<i class="fa fa-save icon-embed-btn"></i>
-			<?=gettext("Save")?>
+			<?=gettext("저장")?>
 		</button>
 	</nav>
 
@@ -523,20 +528,20 @@ if ($mode == "automatic" || $mode == "hybrid"):
 	unset($FilterIflist, $GatewaysList);
 ?>
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext("Automatic Rules:")?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext("자동 룰:")?></h2></div>
 		<div class="panel-body table-responsive">
 			<table class="table table-hover table-striped table-condensed">
 				<thead>
 					<tr>
 						<th><!-- status	  --></th>
-						<th><?=gettext("Interface")?></th>
-						<th><?=gettext("Source")?></th>
-						<th><?=gettext("Source Port")?></th>
-						<th><?=gettext("Destination")?></th>
-						<th><?=gettext("Destination Port")?></th>
-						<th><?=gettext("NAT Address")?></th>
-						<th><?=gettext("NAT Port")?></th>
-						<th><?=gettext("Static Port")?></th>
+						<th><?=gettext("인터페이스")?></th>
+						<th><?=gettext("발신지")?></th>
+						<th><?=gettext("발신지 포트")?></th>
+						<th><?=gettext("수신지")?></th>
+						<th><?=gettext("수신지 포트")?></th>
+						<th><?=gettext("NAT 주소")?></th>
+						<th><?=gettext("NAT 포트")?></th>
+						<th><?=gettext("정적 포트")?></th>
 						<th><?=gettext("Description")?></th>
 
 					</tr>
@@ -547,7 +552,7 @@ if ($mode == "automatic" || $mode == "hybrid"):
 ?>
 					<tr>
 						<td>
-							<i class="fa fa-check" title="<?=gettext("automatic outbound nat")?>"></i>
+							<i class="fa fa-check" title="<?=gettext("자동 아웃바운드 nat")?>"></i>
 						</td>
 						<td>
 							<?=htmlspecialchars(convert_friendly_interface_to_friendly_descr($natent['interface'])); ?>
@@ -635,16 +640,16 @@ endif;
 <div class="infoblock">
 <?php
 	print_info_box(
-		gettext('If automatic outbound NAT is selected, a mapping is automatically generated for each interface\'s subnet (except WAN-type connections) and the rules on the "Mappings" section of this page are ignored.') .
+		gettext('자동 발신 NAT가 선택되면 각 인터페이스의 서브넷(WAN 유형 연결 제외)에 대한 매핑이 자동으로 생성되며, 이 페이지의 "매핑"섹션에있는 규칙은 무시됩니다.') .
 			'<br />' .
-			gettext('If manual outbound NAT is selected, outbound NAT rules will not be automatically generated and only the mappings specified on this page will be used.') .
+			gettext('수동 아웃 바운드 NAT를 선택하면 아웃 바운드 NAT 규칙이 자동으로 생성되지 않고, 이 페이지에 지정된 매핑만 사용됩니다.') .
 			'<br />' .
-			gettext('If hybrid outbound NAT is selected, mappings specified on this page will be used, followed by the automatically generated ones.') .
+			gettext('하이브리드 아웃 바운드 NAT가 선택되면 이 페이지에 지정된 매핑이 사용되고 자동으로 생성된 매핑이 사용됩니다.') .
 			'<br />' .
-			gettext('If disable outbound NAT is selected, no rules will be used.') .
+			gettext('아웃바운드 NAT 사용안함을 선택하면 규칙이 사용되지 않습니다.') .
 			'<br />' .
 			sprintf(
-				gettext('If a target address other than an interface\'s IP address is used, then depending on the way the WAN connection is setup, a %1$sVirtual IP%2$s may also be required.'),
+				gettext('인터페이스의 IP주소 이외의 대상 주소를 사용하는 경우 WAN 연결 설정 방식에 따라 %1$s가상 IP%2$s가 필요할 수도 있습니다.'),
 				'<a href="firewall_virtual_ip.php">',
 				'</a>'),
 		'info',
@@ -682,7 +687,7 @@ events.push(function() {
 	// provide a warning message if the user tries to change page before saving
 	$(window).bind('beforeunload', function(){
 		if (!saving && dirty) {
-			return ("<?=gettext('One or more NAT outbound mappings have been moved but have not yet been saved')?>");
+			return ("<?=gettext('하나 이상의 NAT 아웃 바운드 매핑이 이동되었지만 아직 저장되지 않았습니다.')?>");
 		} else {
 			return undefined;
 		}
