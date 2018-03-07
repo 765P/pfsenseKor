@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dhcpserver-editstaticmapping
 ##|*NAME=Services: DHCP Server: Edit static mapping
@@ -149,7 +154,7 @@ if ($_POST['save']) {
 
 	/* either MAC or Client-ID must be specified */
 	if (empty($_POST['mac']) && empty($_POST['cid'])) {
-		$input_errors[] = gettext("Either MAC address or Client identifier must be specified");
+		$input_errors[] = gettext("MAC주소 또는 클라이언트 식별자를 지정해주십시오.");
 	}
 
 	/* normalize MAC addresses - lowercase and convert Windows-ized hyphenated MACs to colon delimited */
@@ -158,26 +163,26 @@ if ($_POST['save']) {
 	if ($_POST['hostname']) {
 		preg_match("/\-\$/", $_POST['hostname'], $matches);
 		if ($matches) {
-			$input_errors[] = gettext("The hostname cannot end with a hyphen according to RFC952");
+			$input_errors[] = gettext("호스트 이름은 RFC952에 따라 하이픈으로 끝날 수 없습니다.");
 		}
 		if (!is_hostname($_POST['hostname'])) {
-			$input_errors[] = gettext("The hostname can only contain the characters A-Z, 0-9 and '-'.");
+			$input_errors[] = gettext("호스트 이름에는 문자 A-Z, 0-9 및 '-'만 사용할 수 있습니다.");
 		} else {
 			if (!is_unqualified_hostname($_POST['hostname'])) {
-				$input_errors[] = gettext("A valid hostname is specified, but the domain name part should be omitted");
+				$input_errors[] = gettext("유효한 호스트 이름이 지정되었지만 도메인 이름 부분은 생략해야합니다.");
 			}
 		}
 	}
 
 	if (($_POST['ipaddr'] && !is_ipaddrv4($_POST['ipaddr']))) {
-		$input_errors[] = gettext("A valid IPv4 address must be specified.");
+		$input_errors[] = gettext("유효한 IPv4 주소를 지정해야합니다.");
 	}
 
 	if (($_POST['mac'] && !is_macaddr($_POST['mac']))) {
-		$input_errors[] = gettext("A valid MAC address must be specified.");
+		$input_errors[] = gettext("유효한 MAC 주소를 지정해야합니다.");
 	}
 	if ($static_arp_enabled && !$_POST['ipaddr']) {
-		$input_errors[] = gettext("Static ARP is enabled.  An IP address must be specified.");
+		$input_errors[] = gettext("정적 ARP가 사용됩니다. IP 주소를 지정해야합니다.");
 	}
 
 	/* check for overlaps */
@@ -187,7 +192,7 @@ if ($_POST['save']) {
 		}
 		if ((($mapent['mac'] == $_POST['mac']) && $mapent['mac']) ||
 		    (($mapent['cid'] == $_POST['cid']) && $mapent['cid'])) {
-			$input_errors[] = gettext("This MAC address or Client identifier already exists.");
+			$input_errors[] = gettext("동일한 MAC 주소 또는 클라이언트 식별자가 존재합니다.");
 			break;
 		}
 	}
@@ -195,12 +200,12 @@ if ($_POST['save']) {
 	/* make sure it's not within the dynamic subnet */
 	if ($_POST['ipaddr']) {
 		if (is_inrange_v4($_POST['ipaddr'], $config['dhcpd'][$if]['range']['from'], $config['dhcpd'][$if]['range']['to'])) {
-			$input_errors[] = sprintf(gettext("The IP address must not be within the DHCP range for this interface."));
+			$input_errors[] = sprintf(gettext("IP주소는 이 인터페이스의 DHCP범위 내에 있어서는 안 됩니다."));
 		}
 
 		foreach ($a_pools as $pidx => $p) {
 			if (is_inrange_v4($_POST['ipaddr'], $p['range']['from'], $p['range']['to'])) {
-				$input_errors[] = gettext("The IP address must not be within the range configured on a DHCP pool for this interface.");
+				$input_errors[] = gettext("IP주소가 이 인터페이스용 DHCP풀에 구성된 범위 내에 있으면 안 됩니다.");
 				break;
 			}
 		}
@@ -208,79 +213,79 @@ if ($_POST['save']) {
 		$lansubnet_start = gen_subnetv4($ifcfgip, $ifcfgsn);
 		$lansubnet_end = gen_subnetv4_max($ifcfgip, $ifcfgsn);
 		if (!is_inrange_v4($_POST['ipaddr'], $lansubnet_start, $lansubnet_end)) {
-			$input_errors[] = sprintf(gettext("The IP address must lie in the %s subnet."), $ifcfgdescr);
+			$input_errors[] = sprintf(gettext("IP주소는%s서브넷에 있어야 합니다."), $ifcfgdescr);
 		}
 
 		if ($_POST['ipaddr'] == $lansubnet_start) {
-			$input_errors[] = sprintf(gettext("The IP address cannot be the %s network address."), $ifcfgdescr);
+			$input_errors[] = sprintf(gettext("IP주소는%s네트워크 주소일 수 없습니다."), $ifcfgdescr);
 		}
 
 		if ($_POST['ipaddr'] == $lansubnet_end) {
-			$input_errors[] = sprintf(gettext("The IP address cannot be the %s broadcast address."), $ifcfgdescr);
+			$input_errors[] = sprintf(gettext("IP주소는%s브로드캐스트 주소일 수 없습니다."), $ifcfgdescr);
 		}
 	}
 
 	if (($_POST['gateway'] && !is_ipaddrv4($_POST['gateway']))) {
-		$input_errors[] = gettext("A valid IPv4 address must be specified for the gateway.");
+		$input_errors[] = gettext("게이트 웨이에 올바른 IPv4주소를 지정해야 합니다.");
 	}
 	if (($_POST['wins1'] && !is_ipaddrv4($_POST['wins1'])) || ($_POST['wins2'] && !is_ipaddrv4($_POST['wins2']))) {
-		$input_errors[] = gettext("A valid IPv4 address must be specified for the primary/secondary WINS servers.");
+		$input_errors[] = gettext("주/보조 WINS서버에 유효한 IPv4주소를 지정해야 합니다.");
 	}
 
 	$parent_ip = get_interface_ip($_POST['if']);
 	if (is_ipaddrv4($parent_ip) && $_POST['gateway']) {
 		$parent_sn = get_interface_subnet($_POST['if']);
 		if (!ip_in_subnet($_POST['gateway'], gen_subnet($parent_ip, $parent_sn) . "/" . $parent_sn) && !ip_in_interface_alias_subnet($_POST['if'], $_POST['gateway'])) {
-			$input_errors[] = sprintf(gettext("The gateway address %s does not lie within the chosen interface's subnet."), $_POST['gateway']);
+			$input_errors[] = sprintf(gettext("게이트 웨이 주소%s이(가)선택한 인터페이스의 서브넷 내에 있지 않습니다."), $_POST['gateway']);
 		}
 	}
 	if (($_POST['dns1'] && !is_ipaddrv4($_POST['dns1'])) ||
 	    ($_POST['dns2'] && !is_ipaddrv4($_POST['dns2'])) ||
 	    ($_POST['dns3'] && !is_ipaddrv4($_POST['dns3'])) ||
 	    ($_POST['dns4'] && !is_ipaddrv4($_POST['dns4']))) {
-		$input_errors[] = gettext("A valid IPV4 address must be specified for each of the DNS servers.");
+		$input_errors[] = gettext("각 DNS서버에 대해 올바른 IPv4 주소를 지정해주십시오.");
 	}
 
 	if ($_POST['deftime'] && (!is_numeric($_POST['deftime']) || ($_POST['deftime'] < 60))) {
-		$input_errors[] = gettext("The default lease time must be at least 60 seconds.");
+		$input_errors[] = gettext("기본 리스 시간은 60초 이상이어야 합니다.");
 	}
 	if ($_POST['maxtime'] && (!is_numeric($_POST['maxtime']) || ($_POST['maxtime'] < 60) || ($_POST['maxtime'] <= $_POST['deftime']))) {
-		$input_errors[] = gettext("The maximum lease time must be at least 60 seconds and higher than the default lease time.");
+		$input_errors[] = gettext("최대 리스 시간은 60초 이상이어야 하며 기본 리스 시간보다 높아야 합니다.");
 	}
 	if (($_POST['ddnsdomain'] && !is_domain($_POST['ddnsdomain']))) {
-		$input_errors[] = gettext("A valid domain name must be specified for the dynamic DNS registration.");
+		$input_errors[] = gettext("동적 DNS등록에 올바른 도메인 이름을 지정해주십시오.");
 	}
 	if (($_POST['ddnsdomain'] && !is_ipaddrv4($_POST['ddnsdomainprimary']))) {
-		$input_errors[] = gettext("A valid primary domain name server IPv4 address must be specified for the dynamic domain name.");
+		$input_errors[] = gettext("동적 도메인 이름에 유효한 기본 도메인 이름 서버 IPv4주소를 지정해주십시오.");
 	}
 	if (($_POST['ddnsdomainkey'] && !$_POST['ddnsdomainkeyname']) ||
 	    ($_POST['ddnsdomainkeyname'] && !$_POST['ddnsdomainkey'])) {
-		$input_errors[] = gettext("Both a valid domain key and key name must be specified.");
+		$input_errors[] = gettext("올바른 도메인 키와 키 이름을 모두 지정해야 합니다.");
 	}
 	if ($_POST['domainsearchlist']) {
 		$domain_array=preg_split("/[ ;]+/", $_POST['domainsearchlist']);
 		foreach ($domain_array as $curdomain) {
 			if (!is_domain($curdomain)) {
-				$input_errors[] = gettext("A valid domain search list must be specified.");
+				$input_errors[] = gettext("올바른 도메인 검색 목록을 지정해주십시오.");
 				break;
 			}
 		}
 	}
 
 	if (($_POST['ntp1'] && !is_ipaddrv4($_POST['ntp1'])) || ($_POST['ntp2'] && !is_ipaddrv4($_POST['ntp2']))) {
-		$input_errors[] = gettext("A valid IPv4 address must be specified for the primary/secondary NTP servers.");
+		$input_errors[] = gettext("기본/보조 NTP 서버에 유효한 IPv4 주소를 지정해주십시오.");
 	}
 	if ($_POST['tftp'] && !is_ipaddrv4($_POST['tftp']) && !is_domain($_POST['tftp']) && !filter_var($_POST['tftp'], FILTER_VALIDATE_URL)) {
-		$input_errors[] = gettext("A valid IPv4 address, hostname or URL must be specified for the TFTP server.");
+		$input_errors[] = gettext("유효한 IPv4 주소, 호스트 이름 또는 URL을 TFTP 서버에 지정해주십시오.");
 	}
 	if (($_POST['nextserver'] && !is_ipaddrv4($_POST['nextserver']))) {
-		$input_errors[] = gettext("A valid IPv4 address must be specified for the network boot server.");
+		$input_errors[] = gettext("네트워크 부트 서버에 유효한 IPv4 주소를 지정해주십시오.");
 	}
 	if (isset($_POST['arp_table_static_entry']) && empty($_POST['mac'])) {
-		$input_errors[] = gettext("A valid MAC address must be specified for use with static ARP.");
+		$input_errors[] = gettext("정적ARP와 함께 사용하시려면 유효한 MAC주소를 지정해주십시오.");
 	}
 	if (isset($_POST['arp_table_static_entry']) && empty($_POST['ipaddr'])) {
-		$input_errors[] = gettext("A valid IPv4 address must be specified for use with static ARP.");
+		$input_errors[] = gettext("정적ARP와 함께 사용하시려면 유효한 IPv4주소를 지정해주십시오.");
 	}
 
 	if (!$input_errors) {
@@ -380,7 +385,7 @@ $ifname = '';
 if (!empty($if) && isset($iflist[$if])) {
 	$ifname = $iflist[$if];
 }
-$pgtitle = array(gettext("Services"), gettext("DHCP Server"), $ifname, gettext("Edit Static Mapping"));
+$pgtitle = array(gettext("서비스"), gettext("DHCP 서버"), $ifname, gettext("정적 매핑 편집"));
 $pglinks = array("", "services_dhcp.php", "services_dhcp.php?if={$if}", "@self");
 $shortcut_section = "dhcp";
 
@@ -392,7 +397,7 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section(sprintf("Static DHCP Mapping on %s", $ifcfgdescr));
+$section = new Form_Section(sprintf("%s의 정적 DHCP 매핑", $ifcfgdescr));
 
 $macaddress = new Form_Input(
 	'mac',
@@ -714,9 +719,9 @@ events.push(function() {
 		hideInput('ddnsdomainkey', !showadvdns);
 
 		if (showadvdns) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 표시');?>";
 		}
 		$('#btnadvdns').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -749,9 +754,9 @@ events.push(function() {
 		hideInput('ntp2', !showadvntp);
 
 		if (showadvntp) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvntp').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -783,9 +788,9 @@ events.push(function() {
 		hideInput('tftp', !showadvtftp);
 
 		if (showadvtftp) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvtftp').html('<i class="fa fa-cog"></i> ' + text);
 	}
