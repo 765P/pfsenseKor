@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-wakeonlan-edit
 ##|*NAME=Services: Wake-on-LAN: Edit
@@ -70,7 +75,7 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "interface mac");
-	$reqdfieldsn = array(gettext("Interface"), gettext("MAC address"));
+	$reqdfieldsn = array(gettext("인터페이스"), gettext("MAC 주소"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -78,12 +83,12 @@ if ($_POST['save']) {
 	$_POST['mac'] = strtolower(str_replace("-", ":", $_POST['mac']));
 
 	if (($_POST['mac'] && !is_macaddr($_POST['mac']))) {
-		$input_errors[] = gettext("A valid MAC address must be specified.");
+		$input_errors[] = gettext("유효한 MAC 주소를 지정해야합니다.");
 	}
 
 	foreach ($a_wol as $wolidx => $wolentry) {
 		if ((!isset($id) || ($wolidx != $id)) && ($wolentry['interface'] == $_POST['interface']) && ($wolentry['mac'] == $_POST['mac'])) {
-			$input_errors[] = gettext("This interface and MAC address wake-on-LAN entry already exists.");
+			$input_errors[] = gettext("이 인터페이스 및 MAC 주소 wake-on-LAN 항목이 이미 있습니다.");
 			break;
 		}
 	}
@@ -101,14 +106,14 @@ if ($_POST['save']) {
 		}
 		wol_sort();
 
-		write_config(gettext("Configured a wake-on-LAN entry."));
+		write_config(gettext("Wake-on-LAN 항목이 구성되었습니다."));
 
 		header("Location: services_wol.php");
 		exit;
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("Wake-on-LAN"), gettext("Edit"));
+$pgtitle = array(gettext("서비스"), gettext("Wake-on-LAN"), gettext("편집"));
 $pglinks = array("", "services_wol.php", "@self");
 include("head.inc");
 
@@ -127,7 +132,7 @@ if (isset($id) && $a_wol[$id]) {
 	));
 }
 
-$section = new Form_Section('Edit WOL Entry');
+$section = new Form_Section('WOL 항목 ');
 
 $section->addInput(new Form_Select(
 	'interface',
