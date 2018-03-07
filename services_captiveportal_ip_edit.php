@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-captiveportal-editallowedips
 ##|*NAME=Services: Captive Portal: Edit Allowed IPs
