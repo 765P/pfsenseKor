@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-packagemanager-installpackage
 ##|*NAME=System: Package Manager: Install Package
@@ -89,7 +94,7 @@ if ($_REQUEST['ajax']) {
 		// exit status (__RC=x)
 		waitfor_string_in_file($_REQUEST['logfilename'] . '.txt', "__RC=", 10);
 		filter_configure();
-		send_event("service restart packages");
+		send_event("서비스 재시작 패키지");
 	}
 
 	$pidarray = array('pid' => $running);
@@ -119,9 +124,9 @@ if ($_REQUEST['ajax']) {
 				}
 
 				if ($rc == 0) {
-					$logline = gettext("Success") . "\n";
+					$logline = gettext("성공") . "\n";
 				} else {
-					$logline = gettext("Failed") . "\n";
+					$logline = gettext("실패") . "\n";
 				}
 
 				$response .= $logline;
@@ -237,7 +242,7 @@ if (!empty($_REQUEST['id'])) {
 			if ($repo['name'] == $_POST['fwbranch']) {
 				$config['system']['pkg_repo_conf_path'] = $repo['path'];
 				pkg_switch_repo($repo['path']);
-				write_config(gettext("Saved firmware branch setting."));
+				write_config(gettext("저장된 펌웨어 분기 설정입니다."));
 				break;
 			}
 		}
@@ -260,16 +265,16 @@ if (!empty($_REQUEST['pkg'])) {
 $tab_array = array();
 
 if ($firmwareupdate) {
-	$pgtitle = array(gettext("System"), gettext("Update"), gettext("System Update"));
+	$pgtitle = array(gettext("시스템"), gettext("업데이트"), gettext("시스템 업데이트"));
 	$pglinks = array("", "@self", "@self");
-	$tab_array[] = array(gettext("System Update"), true, "pkg_mgr_install.php?id=firmware");
-	$tab_array[] = array(gettext("Update Settings"), false, "system_update_settings.php");
+	$tab_array[] = array(gettext("시스템 업데이트"), true, "pkg_mgr_install.php?id=firmware");
+	$tab_array[] = array(gettext("업데이트 설정"), false, "system_update_settings.php");
 } else {
-	$pgtitle = array(gettext("System"), gettext("Package Manager"), gettext("Package Installer"));
+	$pgtitle = array(gettext("시스템"), gettext("패키지 매니저"), gettext("패키지 인스톨러"));
 	$pglinks = array("", "pkg_mgr_installed.php", "@self");
-	$tab_array[] = array(gettext("Installed Packages"), false, "pkg_mgr_installed.php");
-	$tab_array[] = array(gettext("Available Packages"), false, "pkg_mgr.php");
-	$tab_array[] = array(gettext("Package Installer"), true, "");
+	$tab_array[] = array(gettext("설치된 패키지"), false, "pkg_mgr_installed.php");
+	$tab_array[] = array(gettext("사용 가능한 패키지"), false, "pkg_mgr.php");
+	$tab_array[] = array(gettext("패키지 "), true, "");
 }
 
 // Create an array of repo names and descriptions to populate the "Branch" selector
@@ -318,14 +323,14 @@ if (!$confirmed && !$completed &&
     ($firmwareupdate || $pkgmode == 'reinstallall' || !empty($pkgname))):
 	switch ($pkgmode) {
 		case 'reinstallpkg':
-			$pkgtxt = sprintf(gettext('Confirmation Required to reinstall package %s.'), $pkgname);
+			$pkgtxt = sprintf(gettext('패키지 %s을(를) 재설치하는 데 필요한 확인사항입니다.'), $pkgname);
 			break;
 		case 'delete':
-			$pkgtxt = sprintf(gettext('Confirmation Required to remove package %s.'), $pkgname);
+			$pkgtxt = sprintf(gettext('패키지 %s을(를) 삭제하는 데 필요한 확인사항입니다.'), $pkgname);
 			break;
 		case 'installed':
 		default:
-			$pkgtxt = sprintf(gettext('Confirmation Required to install package %s.'), $pkgname);
+			$pkgtxt = sprintf(gettext('패키지 %s을(를) 설치하는 데 필요한 확인사항입니다.'), $pkgname);
 			break;
 	}
 
@@ -336,15 +341,15 @@ if (!$confirmed && !$completed &&
 <?php
 			if ($pkgmode == 'reinstallall'):
 ?>
-				<?=gettext("Confirmation Required to reinstall all packages.");?>
+				<?=gettext("모든 패키지를 다시 설치하는 데 필요한 확인사항입니다.");?>
 <?php
 			elseif ($_REQUEST['from'] && $_REQUEST['to']):
 ?>
-				<?=sprintf(gettext('Confirmation Required to upgrade package %1$s from %2$s to %3$s.'), $pkgname, htmlspecialchars($_REQUEST['from']), htmlspecialchars($_REQUEST['to']))?>
+				<?=sprintf(gettext('%1$s을(를)%2$s에서%3$s(으)로 업그레이드하는 데 필요한 확인 사항입니다.'), $pkgname, htmlspecialchars($_REQUEST['from']), htmlspecialchars($_REQUEST['to']))?>
 <?php
 			elseif ($firmwareupdate):
 ?>
-				<?=sprintf(gettext('Confirmation Required to update %s system.'), $g['product_name'])?>
+				<?=sprintf(gettext('%s시스템을 업데이트하는 데 필요한 확인사항입니다.'), $g['product_name'])?>
 <?php
 			else:
 ?>
@@ -391,7 +396,7 @@ if (!$confirmed && !$completed &&
 ?>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
-						<?=gettext("Current Base System")?>
+						<?=gettext("현재 기본 시스템")?>
 					</label>
 					<div class="col-sm-10" id="installed_version">
 					</div>
@@ -399,7 +404,7 @@ if (!$confirmed && !$completed &&
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
-						<?=gettext("Latest Base System")?>
+						<?=gettext("최신 기본 시스템")?>
 					</label>
 					<div class="col-sm-10" id="version">
 					</div>
@@ -407,14 +412,14 @@ if (!$confirmed && !$completed &&
 
 				<div class="form-group" id="confirm">
 					<label class="col-sm-2 control-label" id="confirmlabel">
-						<?=gettext("Retrieving")?>
+						<?=gettext("검색중")?>
 					</label>
 					<div class="col-sm-10">
 						<input type="hidden" name="id" value="firmware" />
 						<input type="hidden" name="confirmed" id="confirmed" value="true" />
-						<button type="submit" class="btn btn-success" name="pkgconfirm" id="pkgconfirm" value="<?=gettext("Confirm")?>" style="display: none">
+						<button type="submit" class="btn btn-success" name="pkgconfirm" id="pkgconfirm" value="<?=gettext("확인")?>" style="display: none">
 							<i class="fa fa-check icon-embed-btn"></i>
-							<?=gettext("Confirm")?>
+							<?=gettext("확인")?>
 						</button>
 						<span id="uptodate"><i class="fa fa-cog fa-spin fa-lg text-warning"></i></span>
 					</div>
@@ -424,9 +429,9 @@ if (!$confirmed && !$completed &&
 ?>
 				<input type="hidden" name="pkg" value="<?=$pkgname;?>" />
 				<input type="hidden" name="confirmed" value="true" />
-				<button type="submit" class="btn btn-success" name="pkgconfirm" id="pkgconfirm" value="<?=gettext("Confirm")?>">
+				<button type="submit" class="btn btn-success" name="pkgconfirm" id="pkgconfirm" value="<?=gettext("확인")?>">
 					<i class="fa fa-check icon-embed-btn"></i>
-					<?=gettext("Confirm")?>
+					<?=gettext("확인")?>
 				</button>
 <?php
 	endif;
@@ -438,7 +443,7 @@ if (!$confirmed && !$completed &&
 endif;
 ?>
 	<div id="unable" style="display: none">
-		<?=print_info_box(gettext("Unable to retrieve system versions."), 'danger')?>
+		<?=print_info_box(gettext("검색이 불가능한 시스템 버전입니다."), 'danger')?>
 	</div>
 <?php
 
@@ -453,30 +458,30 @@ if ($_POST) {
 $pkgname_bold = '<b>' . $pkgname . '</b>';
 
 if ($firmwareupdate) {
-	$panel_heading_txt = gettext("Updating System");
-	$pkg_success_txt = gettext('System update successfully completed.');
-	$pkg_fail_txt = gettext('System update failed!');
-	$pkg_wait_txt = gettext('Please wait while the system update completes.');
+	$panel_heading_txt = gettext("시스템 업데이트중");
+	$pkg_success_txt = gettext('시스템 업데이트가 성공적으로 완료되었습니다.');
+	$pkg_fail_txt = gettext('시스템 업데이트를 실패하였습니다.');
+	$pkg_wait_txt = gettext('시스템 업데이트가 완료 될 때까지 기다려주십시오.');
 } else if ($pkgmode == 'delete') {
-	$panel_heading_txt = gettext("Package Removal");
-	$pkg_success_txt = sprintf(gettext('%1$s removal successfully completed.'), $pkgname_bold);
-	$pkg_fail_txt = sprintf(gettext('%1$s removal failed!'), $pkgname_bold);
-	$pkg_wait_txt = sprintf(gettext('Please wait while the removal of %1$s completes.'), $pkgname_bold);
+	$panel_heading_txt = gettext("패키지 제거");
+	$pkg_success_txt = sprintf(gettext('%1$s가 성공적으로 삭제되었습니다.'), $pkgname_bold);
+	$pkg_fail_txt = sprintf(gettext('%1$s삭제를 실패하였습니다.'), $pkgname_bold);
+	$pkg_wait_txt = sprintf(gettext('%1$s가 삭제 될 때까지 기다려주십시오.'), $pkgname_bold);
 } else if ($pkgmode == 'reinstallall') {
-	$panel_heading_txt = gettext("Packages Reinstallation");
-	$pkg_success_txt = gettext('All packages reinstallation successfully completed.');
-	$pkg_fail_txt = gettext('All packages reinstallation failed!');
-	$pkg_wait_txt = gettext('Please wait while the reinstallation of all packages completes.');
+	$panel_heading_txt = gettext("패키지 재설치");
+	$pkg_success_txt = gettext('모든 패키지 재설치가 성공적으로 완료되었습니다.');
+	$pkg_fail_txt = gettext('모든 패키지 재설치를 실패하였습니다.');
+	$pkg_wait_txt = gettext('재설치가 완료 될 때까지 기다려주십시오.');
 } else if ($pkgmode == 'reinstallpkg') {
-	$panel_heading_txt = gettext("Package Reinstallation");
-	$pkg_success_txt = sprintf(gettext('%1$s reinstallation successfully completed.'), $pkgname_bold);
-	$pkg_fail_txt = sprintf(gettext('%1$s reinstallation failed!'), $pkgname_bold);
-	$pkg_wait_txt = sprintf(gettext('Please wait while the reinstallation of %1$s completes.'), $pkgname_bold);
+	$panel_heading_txt = gettext("패키지 재설치");
+	$pkg_success_txt = sprintf(gettext('%1$s 재설치가 성공적으로 완료되었습니다.'), $pkgname_bold);
+	$pkg_fail_txt = sprintf(gettext('%1$s 재설치를 실패하였습니다.'), $pkgname_bold);
+	$pkg_wait_txt = sprintf(gettext('%1$s의 재설치가 완료 될 때까지 기다려주십시오.'), $pkgname_bold);
 } else {
-	$panel_heading_txt = gettext("Package Installation");
-	$pkg_success_txt = sprintf(gettext('%1$s installation successfully completed.'), $pkgname_bold);
-	$pkg_fail_txt = sprintf(gettext('%1$s installation failed!'), $pkgname_bold);
-	$pkg_wait_txt = sprintf(gettext('Please wait while the installation of %1$s completes.'), $pkgname_bold);
+	$panel_heading_txt = gettext("패키지 설치");
+	$pkg_success_txt = sprintf(gettext('%1$s 설치가 성공적으로 완료되었습니다.'), $pkgname_bold);
+	$pkg_fail_txt = sprintf(gettext('%1$s 설치를 실패하였습니다.'), $pkgname_bold);
+	$pkg_wait_txt = sprintf(gettext('%1$s의 설치가 완료 될 때까지 기다려주십시오.'), $pkgname_bold);
 }
 
 if ($confirmed):
@@ -505,7 +510,7 @@ if ($confirmed):
 		</div>
 
 		<div class="panel-body">
-			<textarea rows="15" class="form-control" id="output" name="output"><?=($completed ? $_POST['output'] : gettext("Please wait while the update system initializes"))?></textarea>
+			<textarea rows="15" class="form-control" id="output" name="output"><?=($completed ? $_POST['output'] : gettext("업데이트 시스템이 초기화되는 동안 기다려주십시오."))?></textarea>
 		</div>
 	</div>
 
@@ -535,7 +540,7 @@ ob_flush();
 
 if ($confirmed && !$completed) {
 	/* Write out configuration to create a backup prior to pkg install. */
-	write_config(gettext("Creating restore point before package installation."));
+	write_config(gettext("패키지 설치 전 복원 지점 만들기."));
 
 	$progbar = true;
 	$upgrade_script = "/usr/local/sbin/{$g['product_name']}-upgrade -y -l {$logfilename}.txt -p {$g['tmp_path']}/{$g['product_name']}-upgrade.sock";
@@ -575,10 +580,10 @@ if ($confirmed && !$completed) {
 	}
 }
 
-$uptodatemsg = gettext("Up to date.");
-$newerversionmsg = gettext("Running a newer version.");
+$uptodatemsg = gettext("최신 정보를 얻을 수 있습니다.");
+$newerversionmsg = gettext("최신 버전을 실행하는 중입니다.");
 $confirmlabel = gettext("Confirm Update");
-$sysmessage = gettext("Status");
+$sysmessage = gettext("상태");
 
 // $completed just means that we are refreshing the page to update any new menu items
 // that were installed
@@ -623,7 +628,7 @@ function show_success() {
 	if ("<?=$pkgmode?>" != "reinstallall") {
 		$('#final').html("<?=$pkg_success_txt?>");
 	} else {
-		$('#final').html("<?=gettext('Reinstallation of all packages successfully completed.')?>");
+		$('#final').html("<?=gettext('모든 패키지를 성공적으로 재설치했습니다.')?>");
 	}
 
 	$('#final').show();
@@ -636,7 +641,7 @@ function show_failure() {
 	if ("<?=$pkgmode?>" != "reinstallall") {
 		$('#final').html("<?=$pkg_fail_txt?>");
 	} else {
-		$('#final').html("<?=gettext('Reinstallation of all packages failed.')?>");
+		$('#final').html("<?=gettext('패키지 재설치를 실패하였습니다.')?>");
 	}
 	$('#final').show();
 }
@@ -646,10 +651,10 @@ function show_info() {
 	$('#final').addClass("alert-info");
 	if ("<?=$pkgmode?>" != "reinstallall") {
 		$('#final').html("<p><?=$pkg_wait_txt?>" + "</p><p>" +
-			"<?=gettext("This may take several minutes. Do not leave or refresh the page!")?>" + "</p>");
+			"<?=gettext("이 작업은 몇분 정도 걸릴 수 있습니다.")?>" + "</p>");
 	} else {
-		$('#final').html("<p><?=gettext('Please wait while the reinstallation of all packages completes.')?>" + "</p><p>" +
-			"<?=gettext("This may take several minutes!")?>" + "</p>");
+		$('#final').html("<p><?=gettext('모든 패키지 재설치가 완료될 때까지 기다리십시오.')?>" + "</p><p>" +
+			"<?=gettext("이 작업은 몇분 정도 걸릴 수 있습니다.")?>" + "</p>");
 	}
 	$('#final').show();
 }
@@ -803,7 +808,7 @@ function checkonline() {
 function startCountdown() {
 	setInterval(function() {
 		if (time == "<?=$guitimeout?>") {
-			$('#countdown').html('<h4><?=sprintf(gettext('Rebooting%1$sPage will automatically reload in %2$s seconds'), "<br />", "<span id=\"secs\"></span>");?></h4>');
+			$('#countdown').html('<h4><?=sprintf(gettext('%1$s페이지를 재부팅하면 %2$s초 안에 자동으로 다시 로드됩니다.'), "<br />", "<span id=\"secs\"></span>");?></h4>');
 		}
 
 		if (time > 0) {
@@ -811,7 +816,7 @@ function startCountdown() {
 			time--;
 		} else {
 			time = "<?=$guiretry?>";
-			$('#countdown').html('<h4><?=sprintf(gettext('Not yet ready%1$s Retrying in another %2$s seconds'), "<br />", "<span id=\"secs\"></span>");?></h4>');
+			$('#countdown').html('<h4><?=sprintf(gettext('%1$s 가 아직 준비되지 않았습니다. 다른 %2$s 초에서 재시도 중입니다.'), "<br />", "<span id=\"secs\"></span>");?></h4>');
 			$('#secs').html(time);
 			checkonline();
 		}
