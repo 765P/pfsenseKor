@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-ntp
 ##|*NAME=Status: NTP
@@ -63,31 +68,31 @@ if (!isset($config['ntpd']['noquery'])) {
 		switch ($status_char) {
 			case " ":
 				if ($server['refid'] == ".POOL.") {
-					$server['status'] = gettext("Pool Placeholder");
+					$server['status'] = gettext("풀 자리 표시자");
 				} else {
-					$server['status'] = gettext("Unreach/Pending");
+					$server['status'] = gettext("해제/바인딩");
 				}
 				break;
 			case "*":
 				$server['status'] = gettext("Active Peer");
 				break;
 			case "+":
-				$server['status'] = gettext("Candidate");
+				$server['status'] = gettext("후보");
 				break;
 			case "o":
-				$server['status'] = gettext("PPS Peer");
+				$server['status'] = gettext("PPS 피어");
 				break;
 			case "#":
-				$server['status'] = gettext("Selected");
+				$server['status'] = gettext("선택됨");
 				break;
 			case ".":
-				$server['status'] = gettext("Excess Peer");
+				$server['status'] = gettext("엑세스 피어");
 				break;
 			case "x":
-				$server['status'] = gettext("False Ticker");
+				$server['status'] = gettext("가짜 표시");
 				break;
 			case "-":
-				$server['status'] = gettext("Outlier");
+				$server['status'] = gettext("");
 				break;
 		}
 
@@ -198,13 +203,13 @@ function print_status() {
 
 		print("<tr>\n");
 		print('<td class="warning" colspan="11">');
-		printf(gettext('Statistics unavailable because ntpq and ntpdc queries are disabled in the %1$sNTP service settings%2$s'), '<a href="services_ntpd.php">', '</a>');
+		printf(gettext('%1$sNTP서비스 설정%2$s에서 ntpd및 ntpdc쿼리를 사용할 수 없기 때문에 통계를 사용할 수 없습니다.'), '<a href="services_ntpd.php">', '</a>');
 		print("</td>\n");
 		print("</tr>\n");
 	elseif (count($ntpq_servers) == 0):
 		print("<tr>\n");
 		print('<td class="warning" colspan="11">');
-		printf(gettext('No peers found, %1$sis the ntp service running?%2$s'), '<a href="status_services.php">', '</a>');
+		printf(gettext('발견된 피어가 없습니다. ntp 서비스가 작동중인지 확인하십시오.'), '<a href="status_services.php">', '</a>');
 		print("</td>\n");
 		print("</tr>\n");
 	else:
@@ -287,21 +292,21 @@ include("head.inc");
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Network Time Protocol Status");?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("네트워크 시간 프로토콜 상태");?></h2></div>
 	<div class="panel-body">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 			<thead>
 				<tr>
 					<th><?=gettext("Status")?></th>
-					<th><?=gettext("Server")?></th>
+					<th><?=gettext("서버")?></th>
 					<th><?=gettext("Ref ID")?></th>
 					<th><?=gettext("Stratum")?></th>
-					<th><?=gettext("Type")?></th>
-					<th><?=gettext("When")?></th>
+					<th><?=gettext("타입")?></th>
+					<th><?=gettext("시간")?></th>
 					<th><?=gettext("Poll")?></th>
 					<th><?=gettext("Reach")?></th>
-					<th><?=gettext("Delay")?></th>
-					<th><?=gettext("Offset")?></th>
+					<th><?=gettext("딜레이")?></th>
+					<th><?=gettext("오프셋")?></th>
 					<th><?=gettext("Jitter")?></th>
 				</tr>
 			</thead>
@@ -324,17 +329,17 @@ if (($gps_ok) && ($gps_lat) && ($gps_lon)):
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("GPS Information");?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("GPS 정보");?></h2></div>
 	<div class="panel-body">
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th><?=gettext("Clock Latitude")?></th>
-					<th><?=gettext("Clock Longitude")?></th>
+					<th><?=gettext("시계 위도")?></th>
+					<th><?=gettext("시계 경도")?></th>
 <?php
 	if (isset($gps_alt)) {
 ?>
-					<th><?=gettext("Clock Altitude")?></th>
+					<th><?=gettext("시계 고도")?></th>
 <?php
 		$gps_goo_lnk++;
 	}
