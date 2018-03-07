@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-advanced-admin
 ##|*NAME=System: Advanced: Admin Access Page
@@ -296,7 +301,7 @@ if ($_POST) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Advanced"), gettext("Admin Access"));
+$pgtitle = array(gettext("시스템"), gettext("어드밴스드"), gettext("어드민 엑세스"));
 $pglinks = array("", "@self", "@self");
 include("head.inc");
 
@@ -309,19 +314,19 @@ if ($changes_applied) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Admin Access"), true, "system_advanced_admin.php");
-$tab_array[] = array(htmlspecialchars(gettext("Firewall & NAT")), false, "system_advanced_firewall.php");
-$tab_array[] = array(gettext("Networking"), false, "system_advanced_network.php");
+$tab_array[] = array(gettext("어드민 엑세스"), true, "system_advanced_admin.php");
+$tab_array[] = array(htmlspecialchars(gettext("방화벽 & NAT")), false, "system_advanced_firewall.php");
+$tab_array[] = array(gettext("네트워킹"), false, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), false, "system_advanced_misc.php");
-$tab_array[] = array(gettext("System Tunables"), false, "system_advanced_sysctl.php");
+$tab_array[] = array(gettext("시스템 터널링"), false, "system_advanced_sysctl.php");
 $tab_array[] = array(gettext("Notifications"), false, "system_advanced_notifications.php");
 display_top_tabs($tab_array);
 
 ?><div id="container"><?php
 
 $form = new Form;
-$section = new Form_Section('webConfigurator');
-$group = new Form_Group('Protocol');
+$section = new Form_Section('웹 구성자');
+$group = new Form_Group('프로토콜');
 
 $group->add(new Form_Checkbox(
 	'webguiproto',
@@ -576,10 +581,10 @@ if ($restart_webgui) {
 
 if ($restart_sshd) {
 	killbyname("sshd");
-	log_error(gettext("secure shell configuration has changed. Stopping sshd."));
+	log_error(gettext("secure shell 구성이 변경되었습니다. sshd를 중지하는 중입니다."));
 
 	if ($config['system']['enablesshd']) {
-		log_error(gettext("secure shell configuration has changed. Restarting sshd."));
+		log_error(gettext("secure shell 구성이 변경되었습니다. sshd를 중지하는 중입니다."));
 		send_event("service restart sshd");
 	}
 }
@@ -587,7 +592,7 @@ if ($restart_sshd) {
 if ($restart_webgui) {
 	ob_flush();
 	flush();
-	log_error(gettext("webConfigurator configuration has changed. Restarting webConfigurator."));
+	log_error(gettext("웹 구성자 구성이 변경되었습니다. 웹 모니터를 재시작하는 중입니다."));
 	send_event("service restart webgui");
 }
 ?>
