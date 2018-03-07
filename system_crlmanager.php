@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-crlmanager
 ##|*NAME=System: CRL Manager
@@ -35,8 +40,8 @@ require_once("vpn.inc");
 global $openssl_crl_status;
 
 $crl_methods = array(
-	"internal" => gettext("Create an internal Certificate Revocation List"),
-	"existing" => gettext("Import an existing Certificate Revocation List"));
+	"internal" => gettext("내부 인증서 해지 목록 생성"),
+	"existing" => gettext("기존 인증서 해지 목록 가져오기"));
 
 if (isset($_REQUEST['id']) && ctype_alnum($_REQUEST['id'])) {
 	$id = $_REQUEST['id'];
@@ -77,14 +82,14 @@ if (!empty($id)) {
 if (!$thiscrl && (($act != "") && ($act != "new"))) {
 	pfSenseHeader("system_crlmanager.php");
 	$act="";
-	$savemsg = gettext("Invalid CRL reference.");
+	$savemsg = gettext("CRL참조가 잘못되었습니다.");
 	$class = "danger";
 }
 
 if ($_POST['act'] == "del") {
 	$name = htmlspecialchars($thiscrl['descr']);
 	if (crl_in_use($id)) {
-		$savemsg = sprintf(gettext("Certificate Revocation List %s is in use and cannot be deleted."), $name);
+		$savemsg = sprintf(gettext("인증서 해지 목록%s이(가) 사용중이므로 삭제할 수 없습니다."), $name);
 		$class = "danger";
 	} else {
 		foreach ($a_crl as $cid => $acrl) {
@@ -93,7 +98,7 @@ if ($_POST['act'] == "del") {
 			}
 		}
 		write_config("Deleted CRL {$name}.");
-		$savemsg = sprintf(gettext("Certificate Revocation List %s successfully deleted."), $name);
+		$savemsg = sprintf(gettext("인증서 해지 목록%s을(를) 삭제했습니다."), $name);
 		$class = "success";
 	}
 }
@@ -133,14 +138,14 @@ if ($act == "addcert") {
 	$cert = lookup_cert($pconfig['certref']);
 
 	if (!$crl['caref'] || !$cert['caref']) {
-		$input_errors[] = gettext("Both the Certificate and CRL must be specified.");
+		$input_errors[] = gettext("인증서와 CRL을 모두 지정해야 합니다.");
 	}
 
 	if ($crl['caref'] != $cert['caref']) {
-		$input_errors[] = gettext("CA mismatch between the Certificate and CRL. Unable to Revoke.");
+		$input_errors[] = gettext("CA가 인증서와 CRL이 일치하지 않습니다. 취소할 수 없습니다.");
 	}
 	if (!is_crl_internal($crl)) {
-		$input_errors[] = gettext("Cannot revoke certificates for an imported/external CRL.");
+		$input_errors[] = gettext("가져온 CRL의 인증서를 해지할 수 없습니다.");
 	}
 
 	if (!$input_errors) {
@@ -174,14 +179,14 @@ if ($act == "delcert") {
 	$certname = htmlspecialchars($thiscert['descr']);
 	$crlname = htmlspecialchars($thiscrl['descr']);
 	if (cert_unrevoke($thiscert, $thiscrl)) {
-		$savemsg = sprintf(gettext('Deleted Certificate %1$s from CRL %2$s.'), $certname, $crlname);
+		$savemsg = sprintf(gettext('CRL %2$s에서 인증서 %1$s을(를) 삭제했습니다.'), $certname, $crlname);
 		$class = "success";
 		// refresh IPsec and OpenVPN CRLs
 		openvpn_refresh_crls();
 		vpn_ipsec_configure();
 		write_config($savemsg);
 	} else {
-		$savemsg = sprintf(gettext('Failed to delete Certificate %1$s from CRL %2$s.'), $certname, $crlname);
+		$savemsg = sprintf(gettext('CRL %2$s에서 인증서 %1$s을(를) 삭제하지못했습니다.'), $certname, $crlname);
 		$class = "danger";
 	}
 	$act="edit";
@@ -195,14 +200,14 @@ if ($_POST['save']) {
 	if (($pconfig['method'] == "existing") || ($act == "editimported")) {
 		$reqdfields = explode(" ", "descr crltext");
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Certificate Revocation List data"));
+			gettext("기술적인 이름"),
+			gettext("인증서 해지 목록 데이터"));
 	}
 	if ($pconfig['method'] == "internal") {
 		$reqdfields = explode(" ", "descr caref");
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Certificate Authority"));
+			gettext("기술적인 이름"),
+			gettext("인증 기관"));
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
@@ -242,7 +247,7 @@ if ($_POST['save']) {
 			$a_crl[] = $crl;
 		}
 
-		write_config("Saved CRL {$crl['descr']}");
+		write_config("CRL 저장 {$crl['descr']}");
 		// refresh IPsec and OpenVPN CRLs
 		openvpn_refresh_crls();
 		vpn_ipsec_configure();
@@ -250,11 +255,11 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Certificate Manager"), gettext("Certificate Revocation"));
+$pgtitle = array(gettext("시스템"), gettext("인증서 매니저"), gettext("인증서 폐지"));
 $pglinks = array("", "system_camanager.php", "system_crlmanager.php");
 
-if ($act == "new" || $act == gettext("Save") || $input_errors || $act == "edit") {
-	$pgtitle[] = gettext('Edit');
+if ($act == "new" || $act == gettext("저장") || $input_errors || $act == "edit") {
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 include("head.inc");
@@ -269,12 +274,12 @@ function method_change() {
 
 	switch (method) {
 		case "internal":
-			document.getElementById("existing").style.display="none";
-			document.getElementById("internal").style.display="";
+			document.getElementById("기존의").style.display="none";
+			document.getElementById("내부").style.display="";
 			break;
 		case "existing":
-			document.getElementById("existing").style.display="";
-			document.getElementById("internal").style.display="none";
+			document.getElementById("기존의").style.display="";
+			document.getElementById("내부").style.display="none";
 			break;
 	}
 }
@@ -334,15 +339,15 @@ if ($savemsg) {
 
 $tab_array = array();
 $tab_array[] = array(gettext("CAs"), false, "system_camanager.php");
-$tab_array[] = array(gettext("Certificates"), false, "system_certmanager.php");
-$tab_array[] = array(gettext("Certificate Revocation"), true, "system_crlmanager.php");
+$tab_array[] = array(gettext("인증서"), false, "system_certmanager.php");
+$tab_array[] = array(gettext("인증서 폐지"), true, "system_crlmanager.php");
 display_top_tabs($tab_array);
 
-if ($act == "new" || $act == gettext("Save") || $input_errors) {
+if ($act == "new" || $act == gettext("저장") || $input_errors) {
 	if (!isset($id)) {
 		$form = new Form();
 
-		$section = new Form_Section('Create new Revocation List');
+		$section = new Form_Section('새 해지 목록 만들기');
 
 		$section->addInput(new Form_Select(
 			'method',
@@ -456,19 +461,19 @@ if ($act == "new" || $act == gettext("Save") || $input_errors) {
 ?>
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext("Currently Revoked Certificates for CRL") . ': ' . $crl['descr']?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext("현재 CRL에 대해 해지된 인증서") . ': ' . $crl['descr']?></h2></div>
 		<div class="panel-body table-responsive">
 <?php
 	if (!is_array($crl['cert']) || (count($crl['cert']) == 0)) {
-		print_info_box(gettext("No certificates found for this CRL."), 'danger');
+		print_info_box(gettext("이 CRL에 대한 인증서를 찾을 수 없습니다."), 'danger');
 	} else {
 ?>
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th><?=gettext("Certificate Name")?></th>
-						<th><?=gettext("Revocation Reason")?></th>
-						<th><?=gettext("Revoked At")?></th>
+						<th><?=gettext("인증서 이름")?></th>
+						<th><?=gettext("폐지 사유")?></th>
+						<th><?=gettext("다음 시간에 폐지됨")?></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -489,7 +494,7 @@ if ($act == "new" || $act == gettext("Save") || $input_errors) {
 						</td>
 						<td class="list">
 							<a href="system_crlmanager.php?act=delcert&amp;id=<?=$crl['refid']; ?>&amp;certref=<?=$cert['refid']; ?>" usepost>
-								<i class="fa fa-trash" title="<?=gettext("Delete this certificate from the CRL")?>" alt="<?=gettext("Delete this certificate from the CRL")?>"></i>
+								<i class="fa fa-trash" title="<?=gettext("CRL에서 이 인증서 삭제")?>" alt="<?=gettext("CRL에서 이 인증서 삭제")?>"></i>
 							</a>
 						</td>
 					</tr>
@@ -513,7 +518,7 @@ if ($act == "new" || $act == gettext("Save") || $input_errors) {
 	}
 
 	if (count($ca_certs) == 0) {
-		print_info_box(gettext("No certificates found for this CA."), 'danger');
+		print_info_box(gettext("이 CA에 대한 인증서를 찾을 수 없습니다."), 'danger');
 	} else {
 		$section = new Form_Section('Choose a Certificate to Revoke');
 		$group = new Form_Group(null);
@@ -570,15 +575,15 @@ if ($act == "new" || $act == gettext("Save") || $input_errors) {
 ?>
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext("Additional Certificate Revocation Lists")?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext("추가 인증서 해지 목록")?></h2></div>
 		<div class="panel-body table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext("Name")?></th>
-						<th><?=gettext("Internal")?></th>
-						<th><?=gettext("Certificates")?></th>
-						<th><?=gettext("In Use")?></th>
+						<th><?=gettext("이름")?></th>
+						<th><?=gettext("내부")?></th>
+						<th><?=gettext("인증서")?></th>
+						<th><?=gettext("사용중")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
 				</thead>
@@ -614,14 +619,14 @@ if ($act == "new" || $act == gettext("Save") || $input_errors) {
 ?>
 							<a href="system_crlmanager.php?act=new&amp;caref=<?=$ca['refid']; ?>" class="btn btn-xs btn-success">
 								<i class="fa fa-plus icon-embed-btn"></i>
-								<?=gettext("Add or Import CRL")?>
+								<?=gettext("CRL추가 또는 가져오기")?>
 							</a>
 <?php
 		else:
 ?>
 							<a href="system_crlmanager.php?act=new&amp;caref=<?=$ca['refid']; ?>&amp;importonly=yes" class="btn btn-xs btn-success">
 								<i class="fa fa-plus icon-embed-btn"></i>
-								<?=gettext("Add or Import CRL")?>
+								<?=gettext("CRL추가 또는 가져오기")?>
 							</a>
 <?php
 		endif;
@@ -643,18 +648,18 @@ if ($act == "new" || $act == gettext("Save") || $input_errors) {
 						<?php echo cert_usedby_description($tmpcrl['refid'], $certificates_used_by_packages); ?>
 						</td>
 						<td>
-							<a href="system_crlmanager.php?act=exp&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-download" title="<?=gettext("Export CRL")?>" ></a>
+							<a href="system_crlmanager.php?act=exp&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-download" title="<?=gettext("CRL 내보내기")?>" ></a>
 <?php
 				if ($internal): ?>
-							<a href="system_crlmanager.php?act=edit&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-pencil" title="<?=gettext("Edit CRL")?>"></a>
+							<a href="system_crlmanager.php?act=edit&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-pencil" title="<?=gettext("CRL 편집")?>"></a>
 <?php
 				else:
 ?>
-							<a href="system_crlmanager.php?act=editimported&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-pencil" title="<?=gettext("Edit CRL")?>"></a>
+							<a href="system_crlmanager.php?act=editimported&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-pencil" title="<?=gettext("CRL 편집")?>"></a>
 <?php			endif;
 				if (!$inuse):
 ?>
-							<a href="system_crlmanager.php?act=del&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-trash" title="<?=gettext("Delete CRL")?>" usepost></a>
+							<a href="system_crlmanager.php?act=del&amp;id=<?=$tmpcrl['refid']?>" class="fa fa-trash" title="<?=gettext("CRL ")?>" usepost></a>
 <?php
 				endif;
 ?>
