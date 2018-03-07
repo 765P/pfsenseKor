@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-wirelessstatus
 ##|*NAME=Status: Wireless
@@ -74,7 +79,7 @@ display_top_tabs($tab_array);
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Nearby Access Points or Ad-Hoc Peers")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("주변 액세스 포인트 또는 Ad-Hoc 피어")?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
@@ -143,7 +148,7 @@ display_top_tabs($tab_array);
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Associated or Ad-Hoc Peers")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("연결되어있거나 혹은 Ad-Hoc 피어")?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
@@ -200,7 +205,7 @@ display_top_tabs($tab_array);
 		<input type="hidden" name="if" id="if" value="<?=htmlspecialchars($if)?>" />
 		<button type="submit" class="btn btn-success" name="rescanwifi" id="rescanwifi" value="Rescan">
 			<i class="fa fa-refresh icon-embed-btn"></i>
-			<?=gettext("Rescan")?>
+			<?=gettext("다시 스캔")?>
 		</button>
 	</nav>
 </form>
