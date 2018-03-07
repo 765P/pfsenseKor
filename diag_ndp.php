@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-ndptable
 ##|*NAME=Diagnostics: NDP Table
@@ -47,8 +52,8 @@ if (isset($_POST['deleteentry'])) {
 	}
 
 	$deleteResultMessage = ($deleteSucceededFlag)
-		? sprintf(gettext("The NDP entry for %s has been deleted."), $ip)
-		: sprintf(gettext("%s is not a valid IPv6 address or could not be deleted."), $ip);
+		? sprintf(gettext("%s의 NDP 항목이 삭제되었습니다."), $ip)
+		: sprintf(gettext("%s은(는) 유효한 IPv6 주소가 아니거나 삭제할 수 없습니다."), $ip);
 	$deleteResultMessageType = ($deleteSucceededFlag)
 		? 'success'
 		: 'alert-warning';
@@ -118,7 +123,7 @@ $data = msort($data, "dnsresolve");
 // Load MAC-Manufacturer table
 $mac_man = load_mac_manufacturer_table();
 
-$pgtitle = array(gettext("Diagnostics"), gettext("NDP Table"));
+$pgtitle = array(gettext("진단"), gettext("NDP 테이블"));
 include("head.inc");
 
 // Show message if defined.
@@ -128,18 +133,18 @@ if (isset($deleteResultMessage, $deleteResultMessageType)) {
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('NDP Table')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('NDP 테이블')?></h2></div>
 	<div class="panel-body">
 
 <div class="table-responsive">
 	<table class="table table-striped table-condensed table-hover sortable-theme-bootstrap" data-sortable>
 		<thead>
 			<tr>
-				<th><?=gettext("IPv6 address")?></th>
-				<th><?=gettext("MAC address")?></th>
-				<th><?=gettext("Hostname")?></th>
-				<th><?=gettext("Interface")?></th>
-				<th><?=gettext("Expiration")?></th>
+				<th><?=gettext("IPv6 주소")?></th>
+				<th><?=gettext("MAC 주소")?></th>
+				<th><?=gettext("호스트이름")?></th>
+				<th><?=gettext("인터페이스")?></th>
+				<th><?=gettext("만료")?></th>
 				<th data-sortable="false"><?=gettext("Actions")?></th>
 			</tr>
 	</thead>
@@ -175,7 +180,7 @@ if (isset($deleteResultMessage, $deleteResultMessageType)) {
 						<?=$entry['expiration']?>
 					</td>
 					<td>
-						<a class="fa fa-trash" title="<?=gettext('Delete NDP entry')?>"	href="diag_ndp.php?deleteentry=<?=$entry['ipv6']?>" usepost></a>
+						<a class="fa fa-trash" title="<?=gettext('NDP 항목 삭제')?>"	href="diag_ndp.php?deleteentry=<?=$entry['ipv6']?>" usepost></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
