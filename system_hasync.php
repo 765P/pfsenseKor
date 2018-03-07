@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-hasync
 ##|*NAME=System: High Availability Sync
@@ -70,12 +75,12 @@ if ($_POST) {
 				$a_hasync['password'] = $pconfig['passwordfld'];
 		}
 	} else {
-		$input_errors[] = gettext("Password and confirmation must match.");
+		$input_errors[] = gettext("암호가 서로 일치하지 않습니다.");
 	}
 
 	if ($pconfig['pfsyncpeerip'] != "") {
 		if (!is_ipaddrv4($pconfig['pfsyncpeerip'])) {
-			$input_errors[] = gettext("pfsync Synchronize Peer IP must be an IPv4 IP.");
+			$input_errors[] = gettext("pfsync 동기화 피어 IP는 IPv4 IP 여야합니다.");
 		}
 	}
 
@@ -99,7 +104,7 @@ $pconfig['passwordfld']	 = $a_hasync['password'];
 $ifaces = get_configured_interface_with_descr();
 $ifaces["lo0"] = "loopback";
 
-$pgtitle = array(gettext("System"), gettext("High Availability Sync"));
+$pgtitle = array(gettext("시스템"), gettext("고 가용성 동기화"));
 $shortcut_section = "carp";
 
 // Build a list of available interfaces
