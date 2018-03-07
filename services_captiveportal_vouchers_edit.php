@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-captiveportal-voucher-edit
 ##|*NAME=Services: Captive Portal Voucher Rolls
@@ -47,7 +52,7 @@ if (!is_array($config['captiveportal'])) {
 
 $a_cp =& $config['captiveportal'];
 
-$pgtitle = array(gettext("Services"), gettext("Captive Portal"), $a_cp[$cpzone]['zone'], gettext("Vouchers"), gettext("Edit"));
+$pgtitle = array(gettext("Services"), gettext("전속 포털"), $a_cp[$cpzone]['zone'], gettext("바우처"), gettext(""));
 $pglinks = array("", "services_captiveportal_zones.php", "services_captiveportal.php?zone=" . $cpzone, "services_captiveportal_vouchers.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal-vouchers";
 
@@ -81,7 +86,7 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "number count minutes");
-	$reqdfieldsn = array(gettext("Roll #"), gettext("Count"), gettext("Minutes per ticket"));
+	$reqdfieldsn = array(gettext("Roll #"), gettext("카운트"), gettext("분(minute)당 티켓"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -91,21 +96,21 @@ if ($_POST['save']) {
 			continue;
 		}
 		if ($re['number'] == $_POST['number']) {
-			$input_errors[] = sprintf(gettext("Roll number %s already exists."), $_POST['number']);
+			$input_errors[] = sprintf(gettext("롤 번호 %s이 (가) 이미 있습니다."), $_POST['number']);
 			break;
 		}
 	}
 
 	if (!is_numeric($_POST['number']) || $_POST['number'] >= $maxnumber) {
-		$input_errors[] = sprintf(gettext("Roll number must be numeric and less than %s"), $maxnumber);
+		$input_errors[] = sprintf(gettext("롤 번호는 숫자 여야하며 %s보다 작아야합니다."), $maxnumber);
 	}
 
 	if (!is_numeric($_POST['count']) || $_POST['count'] < 1 || $_POST['count'] > $maxcount) {
-		$input_errors[] = sprintf(gettext("A roll has at least one voucher and less than %s."), $maxcount);
+		$input_errors[] = sprintf(gettext("롤에는 적어도 하나의 바우처가 있으며 %s보다 적습니다."), $maxcount);
 	}
 
 	if (!is_numeric($_POST['minutes']) || $_POST['minutes'] < 1) {
-		$input_errors[] = gettext("Each voucher must be good for at least 1 minute.");
+		$input_errors[] = gettext("각 바우처는 1분 이상 유효해야합니다.");
 	}
 
 	if (!$input_errors) {
@@ -129,7 +134,7 @@ if ($_POST['save']) {
 			$rollent['active'] = array();
 			voucher_write_used_db($rollent['number'], $rollent['used']);
 			voucher_write_active_db($rollent['number'], array());	// create empty DB
-			voucher_log(LOG_INFO, sprintf(gettext('All %1$s vouchers from Roll %2$s marked unused'), $rollent['count'], $rollent['number']));
+			voucher_log(LOG_INFO, sprintf(gettext('롤 %2$s의 모든 %1$s 바우처가 사용되지 않은 것으로 표시되었습니다.'), $rollent['count'], $rollent['number']));
 		} else {
 			// existing roll has been modified but without changing the count
 			// read active and used DB from ramdisk and store it in XML config
