@@ -21,6 +21,11 @@
  */
 
 /*
+2018.03.07
+한글화 번역 시작
+*/
+
+/*
 	<logging>
 		<logtab>arpwatch</logtab>
 		<grepfor>arpwatch</logtab>
@@ -68,7 +73,7 @@ if (!$apkg) { // If we aren't looking for a specific package, locate the first p
 	}
 }
 
-$pgtitle = array(gettext("Status"), gettext("Package Logs"));
+$pgtitle = array(gettext("Status"), gettext("패키지 "));
 $pglinks = array("", "status_pkglogs.php");
 
 if ($pkgwithlogging && !empty($apkg)) {
@@ -78,7 +83,7 @@ if ($pkgwithlogging && !empty($apkg)) {
 include("head.inc");
 
 if ($pkgwithlogging == false) {
-	print_info_box(gettext("No packages with logging facilities are currently installed."));
+	print_info_box(gettext("현재 로깅 기능이 포함된 패키지가 설치되어 있지 않습니다."));
 } else {
 	$tab_array = array();
 	foreach ($config['installedpackages']['package'] as $package) {
@@ -99,7 +104,7 @@ if ($pkgwithlogging == false) {
 ?>
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=sprintf(gettext('Last %1$s %2$s Log Entries'), $nentries, $curtab)?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=sprintf(gettext('마지막 %1$s%2$s 로그 항목'), $nentries, $curtab)?></h2></div>
 		<div class="panel-body">
 			<pre>
 <?php
