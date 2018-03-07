@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-upnpstatus
 ##|*NAME=Status: UPnP Status
@@ -32,7 +37,7 @@ require_once("guiconfig.inc");
 if ($_POST) {
 	if ($_POST['clear']) {
 		upnp_action('restart');
-		$savemsg = gettext("Rules have been cleared and the daemon restarted.");
+		$savemsg = gettext("룰이 지워지고 데몬이 다시 시작됩니다.");
 	}
 }
 
@@ -52,7 +57,7 @@ if (!$config['installedpackages'] ||
     !$config['installedpackages']['miniupnpd']['config'][0]['iface_array'] ||
     !$config['installedpackages']['miniupnpd']['config'][0]['enable']) {
 
-	print_info_box(sprintf(gettext('UPnP is currently disabled. It can be enabled here: %1$s%2$s%3$s.'), '<a href="pkg_edit.php?xml=miniupnpd.xml">', gettext('Services &gt; UPnP &amp; NAT-PMP'), '</a>'), 'danger');
+	print_info_box(sprintf(gettext('현재 UPnP가 비활성화되어 있습니다. 여기에서 활성화 할 수 있습니다 : %1$s%2$s%3$s.'), '<a href="pkg_edit.php?xml=miniupnpd.xml">', gettext('Services &gt; UPnP &amp; NAT-PMP'), '</a>'), 'danger');
 	include("foot.inc");
 	exit;
 }
@@ -66,10 +71,10 @@ if (!$config['installedpackages'] ||
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 				<thead>
 					<tr>
-						<th><?=gettext("Port")?></th>
-						<th><?=gettext("Protocol")?></th>
-						<th><?=gettext("Internal IP")?></th>
-						<th><?=gettext("Int. Port")?></th>
+						<th><?=gettext("포트")?></th>
+						<th><?=gettext("프로토콜")?></th>
+						<th><?=gettext("내부IP")?></th>
+						<th><?=gettext("내부 포트")?></th>
 						<th><?=gettext("Description")?></th>
 					</tr>
 				</thead>
@@ -117,9 +122,9 @@ foreach ($rdr_entries as $rdr_entry) {
 <div>
 	<form action="status_upnp.php" method="post">
 		<nav class="action-buttons">
-			<button class="btn btn-danger btn-sm" type="submit" name="clear" id="clear" value="<?=gettext("Clear all sessions")?>">
+			<button class="btn btn-danger btn-sm" type="submit" name="clear" id="clear" value="<?=gettext("세션 초기화")?>">
 				<i class="fa fa-trash icon-embed-btn"></i>
-				<?=gettext("Clear all sessions")?>
+				<?=gettext("세션 초")?>
 			</button>
 		</nav>
 	</form>
