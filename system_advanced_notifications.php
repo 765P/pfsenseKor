@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.07
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-advanced-notifications
 ##|*NAME=System: Advanced: Notifications
@@ -101,7 +106,7 @@ if ($_POST) {
 			} else {
 				// Bug #7129 - do not nag people about passwords mismatch when growl is disabled
 				if ($_POST['disable_growl'] != "yes") {
-					$input_errors[] = gettext("Growl passwords must match");
+					$input_errors[] = gettext("Growl 패스워드가 서로 일치하지 않습니다.");
 				}
 			}
 		}
@@ -134,7 +139,7 @@ if ($_POST) {
 			} else {
 				if ($_POST['disable_smtp'] != "yes") {
 					// Bug #7129 - do not nag people about passwords mismatch when SMTP notifications are disabled
-					$input_errors[] = gettext("SMTP passwords must match");
+					$input_errors[] = gettext("SMTP 패스워드가 서로 일치하지 않습니다.");
 				}
 			}
 		}
@@ -169,9 +174,9 @@ if ($_POST) {
 		if (isset($config['notifications']['growl']['ipaddress'])) {
 			unlink_if_exists($g['vardb_path'] . "/growlnotices_lastmsg.txt");
 			register_via_growl();
-			$test_result = notify_via_growl(sprintf(gettext("This is a test message from %s.  It is safe to ignore this message."), $g['product_name']), true);
+			$test_result = notify_via_growl(sprintf(gettext("%s에서 온 테스트 메시지입니다. 이 메시지는 무시하셔도 좋습니다."), $g['product_name']), true);
 			if (empty($test_result)) {
-				$test_result = gettext("Growl testing notification successfully sent");
+				$test_result = gettext("Growl 테스트 알림이 전송되었습니다.");
 				$test_class = 'success';
 			} else {
 				$test_class = 'danger';
@@ -184,9 +189,9 @@ if ($_POST) {
 		if (file_exists("/var/db/notices_lastmsg.txt")) {
 			unlink("/var/db/notices_lastmsg.txt");
 		}
-		$test_result = notify_via_smtp(sprintf(gettext("This is a test message from %s. It is safe to ignore this message."), $g['product_name']), true);
+		$test_result = notify_via_smtp(sprintf(gettext("%s에서 온 테스트 메시지입니다. 이 메시지는 무시하셔도 좋습니다."), $g['product_name']), true);
 		if (empty($test_result)) {
-			$test_result = gettext("SMTP testing e-mail successfully sent");
+			$test_result = gettext("SMTP 테스트 이메일이 성공적으로 전송되었습니다.");
 			$test_class = 'success';
 		} else {
 			$test_class = 'danger';
@@ -194,7 +199,7 @@ if ($_POST) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Advanced"), gettext("Notifications"));
+$pgtitle = array(gettext("시스템"), gettext("어드밴스드"), gettext("Notifications"));
 $pglinks = array("", "system_advanced_admin.php", "@self");
 include("head.inc");
 
@@ -207,11 +212,11 @@ if ($test_result) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Admin Access"), false, "system_advanced_admin.php");
-$tab_array[] = array(htmlspecialchars(gettext("Firewall & NAT")), false, "system_advanced_firewall.php");
-$tab_array[] = array(gettext("Networking"), false, "system_advanced_network.php");
+$tab_array[] = array(gettext("어드민 엑세스"), false, "system_advanced_admin.php");
+$tab_array[] = array(htmlspecialchars(gettext("방화벽 & NAT")), false, "system_advanced_firewall.php");
+$tab_array[] = array(gettext("네트워킹"), false, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), false, "system_advanced_misc.php");
-$tab_array[] = array(gettext("System Tunables"), false, "system_advanced_sysctl.php");
+$tab_array[] = array(gettext("System 터널링"), false, "system_advanced_sysctl.php");
 $tab_array[] = array(gettext("Notifications"), true, "system_advanced_notifications.php");
 display_top_tabs($tab_array);
 
