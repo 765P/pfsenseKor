@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-captiveportal-editzones
 ##|*NAME=Services: Captive Portal: Edit Zones
@@ -32,7 +37,7 @@ require_once("filter.inc");
 require_once("shaper.inc");
 require_once("captiveportal.inc");
 
-$pgtitle = array(gettext("Services"), gettext("Captive Portal"), gettext("Add Zone"));
+$pgtitle = array(gettext("Services"), gettext("Captive Portal"), gettext("존 추가"));
 $pglinks = array("", "services_captiveportal_zones.php", "@self");
 $shortcut_section = "captiveportal";
 
@@ -58,7 +63,7 @@ if ($_POST['Submit']) {
 
 	foreach ($a_cp as $cpkey => $cpent) {
 		if ($cpent['zone'] == $_POST['zone']) {
-			$input_errors[] = sprintf(gettext("Zone [%s] already exists."), $_POST['zone']);
+			$input_errors[] = sprintf(gettext("[%s]이(가) 이미 있습니다."), $_POST['zone']);
 			break;
 		}
 	}
