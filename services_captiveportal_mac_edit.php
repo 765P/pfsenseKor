@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-captiveportal-editmacaddresses
 ##|*NAME=Services: Captive Portal: Edit MAC Addresses
@@ -92,7 +97,7 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "action mac");
-	$reqdfieldsn = array(gettext("Action"), gettext("MAC address"));
+	$reqdfieldsn = array(gettext("Action"), gettext("MAC 주소"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -103,25 +108,25 @@ if ($_POST['save']) {
 			$iflist = get_interface_list();
 			foreach ($iflist as $if) {
 				if ($_POST['mac'] == strtolower($if['mac'])) {
-					$input_errors[] = sprintf(gettext("The MAC address %s belongs to a local interface. It cannot be used here."), $_POST['mac']);
+					$input_errors[] = sprintf(gettext("MAC 주소 %s은(는) 로컬 인터페이스에 속합니다. 여기서는 사용할 수 없습니다."), $_POST['mac']);
 					break;
 				}
 			}
 		} else {
-			$input_errors[] = sprintf(gettext('A valid MAC address must be specified. [%s]'), $_POST['mac']);
+			$input_errors[] = sprintf(gettext('유효한 MAC 주소를 지정해야합니다.[%s]'), $_POST['mac']);
 		}
 	}
 	if ($_POST['bw_up'] && !is_numeric($_POST['bw_up'])) {
-		$input_errors[] = gettext("Upload speed needs to be an integer");
+		$input_errors[] = gettext("업로드 속도는 정수 여야합니다.");
 	}
 	if ($_POST['bw_down'] && !is_numeric($_POST['bw_down'])) {
-		$input_errors[] = gettext("Download speed needs to be an integer");
+		$input_errors[] = gettext("다운로드 속도는 정수 여야합니다.");
 	}
 	if ($_POST['bw_up'] && ($_POST['bw_up'] > 999999 || $_POST['bw_up'] < 1)) {
-		$input_errors[] = gettext("Upload speed must be between 1 and 999999");
+		$input_errors[] = gettext("업로드 속도는 1에서 999999사이 여야합니다.");
 	}
 	if ($_POST['bw_down'] && ($_POST['bw_down'] > 999999 || $_POST['bw_down'] < 1)) {
-		$input_errors[] = gettext("Download speed must be between 1 and 999999");
+		$input_errors[] = gettext("다운로드 속도는 1에서 999999사이 여야합니다.");
 	}
 
 	foreach ($a_passthrumacs as $macent) {
@@ -130,7 +135,7 @@ if ($_POST['save']) {
 		}
 
 		if ($macent['mac'] == $_POST['mac']) {
-			$input_errors[] = sprintf(gettext('[%s] already exists.'), $_POST['mac']);
+			$input_errors[] = sprintf(gettext('[%s]는 이미 존재합니다.'), $_POST['mac']);
 			break;
 		}
 	}
@@ -191,13 +196,13 @@ if ($input_errors) {
 
 $form = new Form();
 
-$section = new Form_Section('Edit MAC Address Rules');
+$section = new Form_Section('MAC 주소 룰 편집');
 
 $section->addInput(new Form_Select(
 	'action',
 	'*Action',
 	strtolower($pconfig['action']),
-	array('pass' => gettext('Pass'), 'block' => gettext('Block'))
+	array('pass' => gettext('통과'), 'block' => gettext('Block'))
 ))->setHelp('Choose what to do with packets coming from this MAC address.');
 
 $macaddress = new Form_Input(
