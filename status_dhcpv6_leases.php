@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-dhcpv6leases
 ##|*NAME=Status: DHCPv6 leases
@@ -191,14 +196,14 @@ $l = 0;
 $p = 0;
 
 // Translate these once so we don't do it over and over in the loops below.
-$online_string = gettext("online");
-$offline_string = gettext("offline");
+$online_string = gettext("온라인");
+$offline_string = gettext("오프라인");
 $active_string = gettext("active");
 $expired_string = gettext("expired");
 $reserved_string = gettext("reserved");
 $released_string = gettext("released");
-$dynamic_string = gettext("dynamic");
-$static_string = gettext("static");
+$dynamic_string = gettext("동적");
+$static_string = gettext("정적");
 
 // Put everything together again
 while ($i < $leases_count) {
@@ -392,12 +397,12 @@ if ($_REQUEST['order']) {
 if (count($pools) > 0) {
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Pool Status')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('풀 상태')?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 		<thead>
 			<tr>
-				<th><?=gettext("Failover Group")?></a></th>
+				<th><?=gettext("장애 조치 그룹")?></a></th>
 				<th><?=gettext("My State")?></a></th>
 				<th><?=gettext("Since")?></a></th>
 				<th><?=gettext("Peer State")?></a></th>
@@ -423,7 +428,7 @@ if (count($pools) > 0) {
 }
 
 if (!$leasesfile_found) {
-	print_info_box(gettext("No leases file found. Is the DHCPv6 server active?"), 'warning', false);
+	print_info_box(gettext("리스 파일을 찾을 수 없습니다. DHCPv6 서버가 활성화되어있는지 확인해주십시오."), 'warning', false);
 }
 
 ?>
@@ -434,15 +439,15 @@ if (!$leasesfile_found) {
 		<thead>
 			<tr>
 				<th><!-- icon --></th>
-				<th><?=gettext("IPv6 address")?></th>
+				<th><?=gettext("IPv6 주소")?></th>
 				<th><?=gettext("IAID")?></th>
 				<th><?=gettext("DUID")?></th>
-				<th><?=gettext("MAC address")?></th>
-				<th><?=gettext("Hostname")?></th>
-				<th><?=gettext("Start")?></th>
-				<th><?=gettext("End")?></th>
-				<th><?=gettext("Online")?></th>
-				<th><?=gettext("Lease Type")?></th>
+				<th><?=gettext("MAC 주소")?></th>
+				<th><?=gettext("호스트이름")?></th>
+				<th><?=gettext("시작")?></th>
+				<th><?=gettext("끝")?></th>
+				<th><?=gettext("온라인")?></th>
+				<th><?=gettext("리스 타입")?></th>
 				<th><?=gettext("Actions")?></th>
 			</tr>
 		</thead>
@@ -510,11 +515,11 @@ foreach ($leases as $data):
 				<td><?=$data['act']?></td>
 				<td>
 <?php if ($data['type'] == $dynamic_string): ?>
-					<a class="fa fa-plus-square-o" title="<?=gettext("Add static mapping")?>" href="services_dhcpv6_edit.php?if=<?=$data['if']?>&amp;duid=<?=$data['duid']?>&amp;hostname=<?=htmlspecialchars($data['hostname'])?>"></a>
+					<a class="fa fa-plus-square-o" title="<?=gettext("정적 매핑 추가")?>" href="services_dhcpv6_edit.php?if=<?=$data['if']?>&amp;duid=<?=$data['duid']?>&amp;hostname=<?=htmlspecialchars($data['hostname'])?>"></a>
 <?php endif; ?>
-					<a class="fa fa-plus-square" title="<?=gettext("Add WOL mapping")?>" href="services_wol_edit.php?if=<?=$data['if']?>&amp;mac=<?=$data['mac']?>&amp;descr=<?=htmlentities($data['hostname'])?>"></a>
+					<a class="fa fa-plus-square" title="<?=gettext("WOL 매핑 추가")?>" href="services_wol_edit.php?if=<?=$data['if']?>&amp;mac=<?=$data['mac']?>&amp;descr=<?=htmlentities($data['hostname'])?>"></a>
 <?php if ($data['type'] == $dynamic_string && $data['online'] != $online_string):?>
-					<a class="fa fa-trash" title="<?=gettext('Delete lease')?>"	href="status_dhcpv6_leases.php?deleteip=<?=$data['ip']?>&amp;all=<?=intval($_REQUEST['all'])?>" usepost></a>
+					<a class="fa fa-trash" title="<?=gettext('리스 삭제')?>"	href="status_dhcpv6_leases.php?deleteip=<?=$data['ip']?>&amp;all=<?=intval($_REQUEST['all'])?>" usepost></a>
 <?php endif; ?>
 				</td>
 			</tr>
@@ -531,11 +536,11 @@ foreach ($leases as $data):
 		<thead>
 			<tr>
 				<th><!-- icon --></th>
-				<th><?=gettext("IPv6 Prefix")?></th>
+				<th><?=gettext("IPv6 접두사")?></th>
 				<th><?=gettext("IAID")?></th>
 				<th><?=gettext("DUID")?></th>
-				<th><?=gettext("Start")?></th>
-				<th><?=gettext("End")?></th>
+				<th><?=gettext("시작")?></th>
+				<th><?=gettext("끝")?></th>
 				<th><?=gettext("State")?></th>
 			</tr>
 		</thead>
@@ -604,9 +609,9 @@ foreach ($prefixes as $data):
 </div>
 
 <?php if ($_REQUEST['all']): ?>
-	<a class="btn btn-info" href="status_dhcpv6_leases.php?all=0"><i class="fa fa-minus-circle icon-embed-btn"></i><?=gettext("Show active and static leases only")?></a>
+	<a class="btn btn-info" href="status_dhcpv6_leases.php?all=0"><i class="fa fa-minus-circle icon-embed-btn"></i><?=gettext("활성 및 정적 리스만 표시")?></a>
 <?php else: ?>
-	<a class="btn btn-info" href="status_dhcpv6_leases.php?all=1"><i class="fa fa-plus-circle icon-embed-btn"></i><?=gettext("Show all configured leases")?></a>
+	<a class="btn btn-info" href="status_dhcpv6_leases.php?all=1"><i class="fa fa-plus-circle icon-embed-btn"></i><?=gettext("구성된 모든 리스 표시")?></a>
 <?php endif;
 
 include("foot.inc");
