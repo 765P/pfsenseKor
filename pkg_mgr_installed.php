@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-packagemanager-installed
 ##|*NAME=System: Package Manager: Installed
@@ -31,10 +36,10 @@ require_once("pkg-utils.inc");
 
 /* if upgrade in progress, alert user */
 if (is_subsystem_dirty('packagelock')) {
-	$pgtitle = array(gettext("System"), gettext("Package Manager"));
+	$pgtitle = array(gettext("시스템"), gettext("패키지 매니저"));
 	$pglinks = array("", "@self");
 	include("head.inc");
-	print_info_box("Please wait while packages are reinstalled in the background.");
+	print_info_box("패키지가 백그라운드에서 다시 설치되는 동안 기다려주십시오.");
 	include("foot.inc");
 	exit;
 }
@@ -64,9 +69,9 @@ function get_pkg_table() {
 	$pkgtbl .='			<thead>';
 	$pkgtbl .='				<tr>';
 	$pkgtbl .='					<th><!-- Status icon --></th>';
-	$pkgtbl .='					<th>' . gettext("Name") . '</th>';
-	$pkgtbl .='					<th>' . gettext("Category") . '</th>';
-	$pkgtbl .='					<th>' . gettext("Version") . '</th>';
+	$pkgtbl .='					<th>' . gettext("이름") . '</th>';
+	$pkgtbl .='					<th>' . gettext("카테고리") . '</th>';
+	$pkgtbl .='					<th>' . gettext("버전") . '</th>';
 	$pkgtbl .='					<th>' . gettext("Description") . '</th>';
 	$pkgtbl .='					<th>' . gettext("Actions") . '</th>';
 	$pkgtbl .='				</tr>';
@@ -88,21 +93,21 @@ function get_pkg_table() {
 			// package is configured, but does not exist in the system
 			$txtcolor = "text-danger";
 			$missing = true;
-			$status = gettext('Package is configured, but not installed!');
+			$status = gettext('패키지가 구성되었지만 설치되지 않았습니다!');
 		} else if (isset($pkg['obsolete'])) {
 			// package is configured, but does not exist in the system
 			$txtcolor = "text-danger";
 			$missing = true;
-			$status = gettext('Package is installed, but is not available on remote repository!');
+			$status = gettext('패키지가 설치되었지만 원격 저장소에서 사용할 수 없습니다!');
 		} else if (isset($pkg['installed_version']) && isset($pkg['version'])) {
 			$version_compare = pkg_version_compare($pkg['installed_version'], $pkg['version']);
 
 			if ($version_compare == '>') {
 				// we're running a newer version of the package
-				$status = sprintf(gettext('Newer than available (%s)'), $pkg['version']);
+				$status = sprintf(gettext('사용 가능한 크기(%s)보다 큼'), $pkg['version']);
 			} else if ($version_compare == '<') {
 				// we're running an older version of the package
-				$status = sprintf(gettext('Upgrade available to %s'), $pkg['version']);
+				$status = sprintf(gettext('%s에서 사용 가능한 업그레이드'), $pkg['version']);
 				$txtcolor = "text-warning";
 				$upgradeavail = true;
 				$vergetstr = '&amp;from=' . $pkg['installed_version'] . '&amp;to=' . $pkg['version'];
@@ -110,7 +115,7 @@ function get_pkg_table() {
 				// we're running the current version
 				$status = gettext('Up-to-date');
 			} else {
-				$status = gettext('Error comparing version');
+				$status = gettext('버전을 비교하던 중 오류 발생');
 			}
 		} else {
 			// unknown available package version
@@ -138,7 +143,7 @@ function get_pkg_table() {
 		$pkgtbl .='					<td>';
 
 		if (!$g['disablepackagehistory']) {
-			$pkgtbl .='						<a target="_blank" title="' . gettext("View changelog") . '" href="' . htmlspecialchars($pkg['changeloglink']) . '">' .
+			$pkgtbl .='						<a target="_blank" title="' . gettext("변경내역 보기") . '" href="' . htmlspecialchars($pkg['changeloglink']) . '">' .
 		    htmlspecialchars($pkg['installed_version']) . '</a>';
 		} else {
 			$pkgtbl .='						' . htmlspecialchars($pkg['installed_version']);
@@ -149,7 +154,7 @@ function get_pkg_table() {
 		$pkgtbl .='						' . $pkg['desc'];
 
 		if (is_array($pkg['deps']) && count($pkg['deps'])) {
-			$pkgtbl .='						<br /><br />' . gettext("Package Dependencies") . ':<br/>';
+			$pkgtbl .='						<br /><br />' . gettext("패키지 종속성") . ':<br/>';
 			foreach ($pkg['deps'] as $pdep) {
 				$pkgtbl .='						<a target="_blank" href="https://freshports.org/' . $pdep['origin'] . '">&nbsp;' .
 				    '<i class="fa fa-paperclip"></i> ' . basename($pdep['origin']) . '-' . $pdep['version'] . '</a>&emsp;';
@@ -157,19 +162,19 @@ function get_pkg_table() {
 		}
 		$pkgtbl .='					</td>';
 		$pkgtbl .='					<td>';
-		$pkgtbl .='							<a title="' . sprintf(gettext("Remove package %s"), $pkg['name']) .
+		$pkgtbl .='							<a title="' . sprintf(gettext("%s 패키지 삭제"), $pkg['name']) .
 		    '" href="pkg_mgr_install.php?mode=delete&amp;pkg=' . $pkg['name'] . '" class="fa fa-trash"></a>';
 
 		if ($upgradeavail) {
-			$pkgtbl .='						<a title="' . sprintf(gettext("Update package %s"), $pkg['name']) .
+			$pkgtbl .='						<a title="' . sprintf(gettext("%s 패키지 업데이트"), $pkg['name']) .
 			    '" href="pkg_mgr_install.php?mode=reinstallpkg&amp;pkg=' . $pkg['name'] . $vergetstr . '" class="fa fa-refresh"></a>';
 		} else if (!isset($pkg['obsolete'])) {
-			$pkgtbl .='						<a title="' . sprintf(gettext("Reinstall package %s"), $pkg['name']) .
+			$pkgtbl .='						<a title="' . sprintf(gettext("%s 패키지 재설치"), $pkg['name']) .
 			    '" href="pkg_mgr_install.php?mode=reinstallpkg&amp;pkg=' . $pkg['name'] . '" class="fa fa-retweet"></a>';
 		}
 
 		if (!isset($g['disablepackageinfo']) && $pkg['www'] != 'UNKNOWN') {
-			$pkgtbl .='						<a target="_blank" title="' . gettext("View more information") . '" href="' .
+			$pkgtbl .='						<a target="_blank" title="' . gettext("더보기") . '" href="' .
 			    htmlspecialchars($pkg['www']) . '" class="fa fa-info"></a>';
 		}
 		$pkgtbl .='					</td>';
@@ -184,47 +189,47 @@ function get_pkg_table() {
 	return $pkgtbl;
 }
 
-$pgtitle = array(gettext("System"), gettext("Package Manager"), gettext("Installed Packages"));
+$pgtitle = array(gettext("시스템"), gettext("패키지 매니저"), gettext("설치된 패키지"));
 $pglinks = array("", "@self", "@self");
 include("head.inc");
 
 $tab_array = array();
-$tab_array[] = array(gettext("Installed Packages"), true, "pkg_mgr_installed.php");
-$tab_array[] = array(gettext("Available Packages"), false, "pkg_mgr.php");
+$tab_array[] = array(gettext("설치된 패키지"), true, "pkg_mgr_installed.php");
+$tab_array[] = array(gettext("사용 가능한 패키지"), false, "pkg_mgr.php");
 display_top_tabs($tab_array);
 
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Installed Packages')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('설치된 패키지')?></h2></div>
 	<div id="pkgtbl" class="panel-body">
 		<div id="waitmsg">
-			<?php print_info_box(gettext("Please wait while the list of packages is retrieved and formatted.") . '&nbsp;<i class="fa fa-cog fa-spin"></i>'); ?>
+			<?php print_info_box(gettext("패키지 목록을 가져 와서 포맷하는 동안 잠시 기다려주십시오.") . '&nbsp;<i class="fa fa-cog fa-spin"></i>'); ?>
 		</div>
 
 		<div id="errmsg" style="display: none;">
-			<?php print_info_box("<ul><li>" . gettext("Unable to retrieve package information.") . "</li></ul>", 'danger'); ?>
+			<?php print_info_box("<ul><li>" . gettext("패키지 정보를 검색 할 수 없습니다.") . "</li></ul>", 'danger'); ?>
 		</div>
 
 		<div id="nopkg" style="display: none;">
-			<?php print_info_box(gettext("There are no packages currently installed."), 'warning', false); ?>
+			<?php print_info_box(gettext("현재 설치된 패키지가 없습니다."), 'warning', false); ?>
 		</div>
 	</div>
 
 	<div id="legend" class="alert-info text-center">
 		<p>
-		<i class="fa fa-refresh"></i> = <?=gettext('Update')?>  &nbsp;
+		<i class="fa fa-refresh"></i> = <?=gettext('업데이트')?>  &nbsp;
 		<i class="fa fa-check"></i> = <?=gettext('Current')?> &nbsp;
 		</p>
 		<p>
-		<i class="fa fa-trash"></i> = <?=gettext('Remove')?> &nbsp;
-		<i class="fa fa-info"></i> = <?=gettext('Information')?> &nbsp;
-		<i class="fa fa-retweet"></i> = <?=gettext('Reinstall')?>
+		<i class="fa fa-trash"></i> = <?=gettext('제거')?> &nbsp;
+		<i class="fa fa-info"></i> = <?=gettext('정보')?> &nbsp;
+		<i class="fa fa-retweet"></i> = <?=gettext('재설치')?>
 		</p>
 		<p>
-		<span class="text-warning"><?=gettext("Newer version available")?></span>
+		<span class="text-warning"><?=gettext("사용 가능한 최신 버전")?></span>
 		</p>
-		<span class="text-danger"><?=gettext("Package is configured but not (fully) installed or deprecated")?></span>
+		<span class="text-danger"><?=gettext("패키지가 구성되었지만 완전히 설치되지 않았거나 더 이상 사용되지 않습니다.")?></span>
 	</div>
 </div>
 
