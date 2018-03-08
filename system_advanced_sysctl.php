@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-advanced-sysctl
 ##|*NAME=System: Advanced: Tunables
@@ -85,14 +90,14 @@ if ($_POST['save'] || $_POST['apply']) {
 		clear_subsystem_dirty('sysctl');
 	}
 
-	if ($_POST['save'] == gettext("Save")) {
+	if ($_POST['save'] == gettext("저장")) {
 
 		$tunableent = array();
 
 		if (!$_POST['tunable'] || !isset($_POST['value'])) {
-			$input_errors[] = gettext("Both a name and a value must be specified.");
+			$input_errors[] = gettext("이름과 값을 모두 지정해야 합니다.");
 		} else if (preg_match("/[^a-zA-Z0-9.\-_%\/]/", $_POST['value'])) {
-			$input_errors[] = gettext("The value may only contain alphanumeric characters, -, _, %, and /.");
+			$input_errors[] = gettext("값은 영숫자 및 특수문자만 포함할 수 있습니다.");
 		} else {
 			$tunableent['tunable'] = htmlspecialchars($_POST['tunable']);
 			$tunableent['value'] = htmlspecialchars($_POST['value']);
@@ -116,7 +121,7 @@ $pgtitle = array(gettext("System"), gettext("Advanced"), gettext("System Tunable
 $pglinks = array("", "system_advanced_admin.php", "system_advanced_sysctl.php");
 
 if ($act == "edit") {
-	$pgtitle[] = gettext('Edit');
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 
@@ -131,22 +136,22 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('sysctl') && ($act != "edit" )) {
-	print_apply_box(gettext("The firewall tunables have changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("방화벽 터널링 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Admin Access"), false, "system_advanced_admin.php");
-$tab_array[] = array(htmlspecialchars(gettext("Firewall & NAT")), false, "system_advanced_firewall.php");
-$tab_array[] = array(gettext("Networking"), false, "system_advanced_network.php");
+$tab_array[] = array(gettext("어드민 엑세스"), false, "system_advanced_admin.php");
+$tab_array[] = array(htmlspecialchars(gettext("방화벽 & NAT")), false, "system_advanced_firewall.php");
+$tab_array[] = array(gettext("네트워킹"), false, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), false, "system_advanced_misc.php");
-$tab_array[] = array(gettext("System Tunables"), true, "system_advanced_sysctl.php");
-$tab_array[] = array(gettext("Notifications"), false, "system_advanced_notifications.php");
+$tab_array[] = array(gettext("시스템 터널링"), true, "system_advanced_sysctl.php");
+$tab_array[] = array(gettext("알림"), false, "system_advanced_notifications.php");
 display_top_tabs($tab_array);
 
 if ($act != "edit"): ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h2 class="panel-title"><?=gettext('System Tunables'); ?></h2>
+		<h2 class="panel-title"><?=gettext('시스템 터널링'); ?></h2>
 	</div>
 	<div class="panel-body">
 		<div class="form-group">
@@ -177,9 +182,9 @@ if ($act != "edit"): ?>
 					?>
 					</td>
 					<td>
-					<a class="fa fa-pencil" title="<?=gettext("Edit tunable"); ?>" href="system_advanced_sysctl.php?act=edit&amp;id=<?=$i;?>"></a>
+					<a class="fa fa-pencil" title="<?=gettext("터널링 편"); ?>" href="system_advanced_sysctl.php?act=edit&amp;id=<?=$i;?>"></a>
 						<?php if (isset($tunable['modified'])): ?>
-						<a class="fa fa-trash" title="<?=gettext("Delete/Reset tunable")?>" href="system_advanced_sysctl.php?act=del&amp;id=<?=$i;?>" usepost></a>
+						<a class="fa fa-trash" title="<?=gettext("터널링 삭제/리셋")?>" href="system_advanced_sysctl.php?act=del&amp;id=<?=$i;?>" usepost></a>
 						<?php endif; ?>
 					</td>
 				</tr>
@@ -194,7 +199,7 @@ if ($act != "edit"): ?>
 
 <?php else:
 	$form = new Form;
-	$section = new Form_Section('Edit Tunable');
+	$section = new Form_Section('터널링 편');
 
 	$section->addInput(new Form_Input(
 		'tunable',
