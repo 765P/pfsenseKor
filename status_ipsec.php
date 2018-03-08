@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-ipsec
 ##|*NAME=Status: IPsec
@@ -502,11 +507,11 @@ display_top_tabs($tab_array);
 			<thead>
 				<tr>
 					<th><?=gettext("Description")?></th>
-					<th><?=gettext("Local ID")?></th>
-					<th><?=gettext("Local IP")?></th>
-					<th><?=gettext("Remote ID")?></th>
-					<th><?=gettext("Remote IP")?></th>
-					<th><?=gettext("Role")?></th>
+					<th><?=gettext("로컬 ID")?></th>
+					<th><?=gettext("로컬 IP")?></th>
+					<th><?=gettext("원격 ID")?></th>
+					<th><?=gettext("원격 IP")?></th>
+					<th><?=gettext("롤")?></th>
 					<th><?=gettext("Reauth")?></th>
 					<th><?=gettext("Algo")?></th>
 					<th><?=gettext("Status")?></th>
@@ -516,7 +521,7 @@ display_top_tabs($tab_array);
 			<tbody id="ipsec-body">
 				<tr>
 					<td colspan="10">
-						<?=print_info_box(gettext("Collecting IPsec status information."), "warning", "")?>
+						<?=print_info_box(gettext("IPsec 상태 정보를 수집하는 중입니다."), "warning", "")?>
 					</td>
 				</tr>
 			</tbody>
@@ -533,7 +538,7 @@ if (ipsec_enabled()) {
 	print('<div class="infoblock blockopen">');
 }
 
-print_info_box(sprintf(gettext('IPsec can be configured %1$shere%2$s.'), '<a href="vpn_ipsec.php">', '</a>'), 'info', false);
+print_info_box(sprintf(gettext('%1$s여기%2$s에서 IPsec을 구성할 수 있습니다.'), '<a href="vpn_ipsec.php">', '</a>'), 'info', false);
 ?>
 </div>
 
