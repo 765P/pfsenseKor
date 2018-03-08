@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-pppoeserver-edit
 ##|*NAME=Services: PPPoE Server: Edit
@@ -102,57 +107,57 @@ if ($_POST['save']) {
 	/* input validation */
 	if ($_POST['mode'] == "server") {
 		$reqdfields = explode(" ", "localip remoteip");
-		$reqdfieldsn = array(gettext("Server address"), gettext("Remote start address"));
+		$reqdfieldsn = array(gettext("서버 주소"), gettext("원격 시작 주소"));
 
 		if ($_POST['radiusenable']) {
 			$reqdfields = array_merge($reqdfields, explode(" ", "radiusserver radiussecret"));
 			$reqdfieldsn = array_merge($reqdfieldsn,
-				array(gettext("RADIUS server address"), gettext("RADIUS shared secret")));
+				array(gettext("RADIUS 서버 주소"), gettext("RADIUS 공유 비밀")));
 		}
 
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 		if (($_POST['localip'] && !is_ipaddr($_POST['localip']))) {
-			$input_errors[] = gettext("A valid server address must be specified.");
+			$input_errors[] = gettext("유효한 서버 주소를 지정해야합니다.");
 		}
 		if (($_POST['remoteip'] && !is_ipaddr($_POST['remoteip']))) {
-			$input_errors[] = gettext("A valid remote start address must be specified.");
+			$input_errors[] = gettext("유효한 원격 시작 주소를 지정해야합니다.");
 		}
 		if (($_POST['radiusserver'] && !is_ipaddr($_POST['radiusserver']))) {
-			$input_errors[] = gettext("A valid RADIUS server address must be specified.");
+			$input_errors[] = gettext("유효한 RADIUS 서버 주소를 지정해야합니다.");
 		}
 		if (!is_numericint($_POST['n_pppoe_units']) || $_POST['n_pppoe_units'] > 255) {
-			$input_errors[] = gettext("Number of PPPoE users must be between 1 and 255");
+			$input_errors[] = gettext("PPPoE 사용자 수는 1에서 255 사이 여야합니다.");
 		}
 		if (!is_numericint($_POST['n_pppoe_maxlogin']) || $_POST['n_pppoe_maxlogin'] > 255) {
-			$input_errors[] = gettext("User Max Logins must be between 1 and 255");
+			$input_errors[] = gettext("사용자 최대 로그인은 1에서 255 사이 여야합니다.");
 		}
 		if (!is_numericint($_POST['pppoe_subnet']) || $_POST['pppoe_subnet'] > 32) {
-			$input_errors[] = gettext("Subnet mask must be an integer between 0 and 32");
+			$input_errors[] = gettext("서브넷 마스크는 0과 32 사이의 정수 여야합니다.");
 		}
 
 		$_POST['remoteip'] = $pconfig['remoteip'] = gen_subnet($_POST['remoteip'], $_POST['pppoe_subnet']);
 		if (is_inrange_v4($_POST['localip'], $_POST['remoteip'], ip_after($_POST['remoteip'], $_POST['pppoe_subnet'] - 1))) {
-			$input_errors[] = gettext("The specified server address lies in the remote subnet.");
+			$input_errors[] = gettext("지정된 서버 주소가 원격 서브넷에 있습니다.");
 		}
 		if ($_POST['localip'] == get_interface_ip($_POST['interface'])) {
-			$input_errors[] = gettext("The specified server address is equal to an interface ip address.");
+			$input_errors[] = gettext("지정된 서버 주소는 인터페이스 IP 주소와 동일합니다.");
 		}
 
 		for ($x = 0; $x < 4999; $x++) {
 			if ($_POST["username{$x}"]) {
 				if (empty($_POST["password{$x}"])) {
-					$input_errors[] = sprintf(gettext("No password specified for username %s"), $_POST["username{$x}"]);
+					$input_errors[] = sprintf(gettext("사용자 이름 %s에 대해 암호가 지정되지 않았습니다."), $_POST["username{$x}"]);
 				}
 				if ($_POST["ip{$x}"] != "" && !is_ipaddr($_POST["ip{$x}"])) {
-					$input_errors[] = sprintf(gettext("Incorrect ip address specified for username %s"), $_POST["username{$x}"]);
+					$input_errors[] = sprintf(gettext("사용자 이름 % s에 대해 잘못된 IP 주소가 지정되었습니다."), $_POST["username{$x}"]);
 				}
 			}
 		}
 	}
 
 	if ($_POST['pppoeid'] && !is_numeric($_POST['pppoeid'])) {
-		$input_errors[] = gettext("Wrong data submitted");
+		$input_errors[] = gettext("잘못된 데이터가 제출되었습니다.");
 	}
 
 	if (!$input_errors) {
@@ -274,7 +279,7 @@ function build_interface_list() {
 	return($list);
 }
 
-$pgtitle = array(gettext("Services"), gettext("PPPoE Server"), gettext("Edit"));
+$pgtitle = array(gettext("Services"), gettext("PPPoE 서버"), gettext("편집"));
 $pglinks = array("", "services_pppoe.php", "@self");
 $shortcut_section = "pppoes";
 include("head.inc");
@@ -562,7 +567,7 @@ $form->add($section);
 
 print($form);
 
-print_info_box(gettext('Don\'t forget to add a firewall rule to permit traffic from PPPoE clients.'));
+print_info_box(gettext('PPPoE 클라이언트의 트래픽을 허용하는 방화벽 규칙을 추가하는 것을 잊지 마십시오.'));
 ?>
 <script type="text/javascript">
 //<![CDATA[
