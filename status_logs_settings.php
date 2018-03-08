@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-logs-settings
 ##|*NAME=Status: Logs: Settings
@@ -78,31 +83,31 @@ function is_valid_syslog_server($target) {
 		|| is_hostnamewithport($target));
 }
 
-if ($_POST['resetlogs'] == gettext("Reset Log Files")) {
+if ($_POST['resetlogs'] == gettext("로그 파일 리셋")) {
 	clear_all_log_files(true);
-	$reset_msg = gettext("The log files have been reset.");
+	$reset_msg = gettext("로그파일이 리셋되었습니다.");
 } elseif ($_POST) {
 	unset($input_errors);
 	$pconfig = $_POST;
 
 	/* input validation */
 	if ($_POST['enable'] && !is_valid_syslog_server($_POST['remoteserver'])) {
-		$input_errors[] = gettext("A valid IP address/hostname or IP/hostname:port must be specified for remote syslog server #1.");
+		$input_errors[] = gettext("원격 syslog 서버#1에 유효한 IP/호스트이름 또는 IP/호스트이름:포트를 지정해야합니다.");
 	}
 	if ($_POST['enable'] && $_POST['remoteserver2'] && !is_valid_syslog_server($_POST['remoteserver2'])) {
-		$input_errors[] = gettext("A valid IP address/hostname or IP/hostname:port must be specified for remote syslog server #2.");
+		$input_errors[] = gettext("원격 syslog 서버#2에 유효한 IP/호스트이름 또는 IP/호스트이름:포트를 지정해야합니다.");
 	}
 	if ($_POST['enable'] && $_POST['remoteserver3'] && !is_valid_syslog_server($_POST['remoteserver3'])) {
-		$input_errors[] = gettext("A valid IP address/hostname or IP/hostname:port must be specified for remote syslog server #3.");
+		$input_errors[] = gettext("원격 syslog 서버#3에 유효한 IP/호스트이름 또는 IP/호스트이름:포트를 지정해야합니다.");
 	}
 
 	if (($_POST['nentries'] < 5) || ($_POST['nentries'] > 2000)) {
-		$input_errors[] = gettext("Number of log entries to show must be between 5 and 2000.");
+		$input_errors[] = gettext("표시할 로그 항목 수는 5와 2000 사이 여야합니다.");
 	}
 
 	if (isset($_POST['logfilesize']) && (strlen($_POST['logfilesize']) > 0)) {
 		if (!is_numeric($_POST['logfilesize']) || ($_POST['logfilesize'] < 100000)) {
-			$input_errors[] = gettext("Log file size must be numeric and greater than or equal to 100000.");
+			$input_errors[] = gettext("로그 파일 크기는 숫자 여야하고 100000 이상이어야합니다.");
 		}
 	}
 	if (!$input_errors) {
@@ -175,9 +180,9 @@ if ($_POST['resetlogs'] == gettext("Reset Log Files")) {
 		if ($oldnolognginx !== isset($config['syslog']['nolognginx'])) {
 			ob_flush();
 			flush();
-			log_error(gettext("webConfigurator configuration has changed. Restarting webConfigurator."));
+			log_error(gettext("웹 구성자 구성이 변경되었습니다. 웹 구성자를 다시 시작합니다."));
 			send_event("service restart webgui");
-			$extra_save_msg = gettext("WebGUI process is restarting.");
+			$extra_save_msg = gettext("WebGUI 프로세스를 재시작합니다.");
 		}
 
 		filter_pflog_start(true);
@@ -188,17 +193,17 @@ $pgtitle = array(gettext("Status"), gettext("System Logs"), gettext("Settings"))
 $pglinks = array("", "status_logs.php", "@self");
 include("head.inc");
 
-$logfilesizeHelp =	gettext("Logs are held in constant-size circular log files. This field controls how large each log file is, and thus how many entries may exist inside the log. By default this is approximately 500KB per log file, and there are nearly 20 such log files.") .
+$logfilesizeHelp =	gettext("로그는 고정 크기 순환 로그 파일에 보관됩니다. 이 필드는 각 로그 파일의 크기 및 로그 내에 존재할 수있는 항목 수를 제어합니다. 기본적으로 이것은 로그 파일 당 약 500KB이며, 거의 20 개의 로그 파일이 있습니다.") .
 					'<br /><br />' .
-					gettext("NOTE: Log sizes are changed the next time a log file is cleared or deleted. To immediately increase the size of the log files, first save the options to set the size, then clear all logs using the \"Reset Log Files\" option farther down this page. ") .
-					gettext("Be aware that increasing this value increases every log file size, so disk usage will increase significantly.") . '<br /><br />' .
-					gettext("Disk space currently used by log files is: ") . exec("/usr/bin/du -sh /var/log | /usr/bin/awk '{print $1;}'") .
-					gettext(" Remaining disk space for log files: ") . exec("/bin/df -h /var/log | /usr/bin/awk '{print $4;}'");
+					gettext("참고 : 다음에 로그 파일을 지우거나 삭제할 때 로그 크기가 변경됩니다. 즉시 로그 파일의 크기를 늘리려면 먼저 옵션을 저장하여 크기를 설정 한 다음이 페이지 아래쪽의 \"로그 파일 재설정\"옵션을 사용하여 모든 로그를 지우십시오.") .
+					gettext("이 값을 늘리면 모든 로그 파일 크기가 증가하므로 디스크 사용량이 크게 증가합니다.") . '<br /><br />' .
+					gettext("로그 파일에서 현재 사용되는 디스크 공간은 다음과 같습니다.: ") . exec("/usr/bin/du -sh /var/log | /usr/bin/awk '{print $1;}'") .
+					gettext(" 로그 파일의 남은 디스크 공간 : ") . exec("/bin/df -h /var/log | /usr/bin/awk '{print $4;}'");
 
-$remoteloghelp =	gettext("This option will allow the logging daemon to bind to a single IP address, rather than all IP addresses.") . " " .
-					gettext("If a single IP is picked, remote syslog servers must all be of that IP type. To mix IPv4 and IPv6 remote syslog servers, bind to all interfaces.") .
+$remoteloghelp =	gettext("이 옵션을 사용하면 로깅 데몬이 모든 IP 주소가 아닌 단일 IP 주소에 바인드됩니다.") . " " .
+					gettext("단일 IP가 선택되면 원격 syslog 서버는 모두 해당 IP 유형이어야합니다. IPv4 및 IPv6 원격 syslog 서버를 혼합하려면 모든 인터페이스에 바인드하십시오.") .
 					"<br /><br />" .
-					gettext("NOTE: If an IP address cannot be located on the chosen interface, the daemon will bind to all addresses.");
+					gettext("참고 : 선택한 인터페이스에서 IP 주소를 찾을 수 없으면 데몬이 모든 주소에 바인딩됩니다.");
 
 if ($input_errors) {
 	print_input_errors($input_errors);
@@ -228,7 +233,7 @@ display_top_tabs($tab_array);
 
 $form = new Form();
 
-$section = new Form_Section('General Logging Options');
+$section = new Form_Section('일반 로깅 옵션');
 
 $section->addInput(new Form_Checkbox(
 	'reverse',
@@ -307,9 +312,9 @@ $section->addInput(new Form_Select(
 	'Where to show rule descriptions',
 	!isset($pconfig['filterdescriptions']) ? '0':$pconfig['filterdescriptions'],
 	array(
-		'0' => gettext('Dont load descriptions'),
-		'1' => gettext('Display as column'),
-		'2' => gettext('Display as second row')
+		'0' => gettext('설명 로드하지 않음'),
+		'1' => gettext('열(column)로 표시'),
+		'2' => gettext('두 번째 행으로 표시')
 	)
 ))->setHelp('Show the applied rule description below or in the firewall log rows.%1$s' .
 			'Displaying rule descriptions for all lines in the log might affect performance with large rule sets.',
