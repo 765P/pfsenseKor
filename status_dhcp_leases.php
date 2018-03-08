@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-dhcpleases
 ##|*NAME=Status: DHCP leases
@@ -33,7 +38,7 @@
 require_once("guiconfig.inc");
 require_once("config.inc");
 
-$pgtitle = array(gettext("Status"), gettext("DHCP Leases"));
+$pgtitle = array(gettext("Status"), gettext("DHCP 리스"));
 $shortcut_section = "dhcp";
 
 $leasesfile = "{$g['dhcpd_chroot_path']}/var/db/dhcpd.leases";
@@ -138,13 +143,13 @@ $l = 0;
 $p = 0;
 
 // Translate these once so we don't do it over and over in the loops below.
-$online_string = gettext("online");
-$offline_string = gettext("offline");
-$active_string = gettext("active");
-$expired_string = gettext("expired");
-$reserved_string = gettext("reserved");
-$dynamic_string = gettext("dynamic");
-$static_string = gettext("static");
+$online_string = gettext("온라인");
+$offline_string = gettext("오프라인");
+$active_string = gettext("작동");
+$expired_string = gettext("만료");
+$reserved_string = gettext("예약");
+$dynamic_string = gettext("동적");
+$static_string = gettext("정적");
 
 // Put everything together again
 foreach ($leases_content as $lease) {
@@ -186,7 +191,7 @@ foreach ($leases_content as $lease) {
 				if ($data[$f+1] == "never") {
 					// Quote from dhcpd.leases(5) man page:
 					// If a lease will never expire, date is never instead of an actual date.
-					$leases[$l]['end'] = gettext("Never");
+					$leases[$l]['end'] = gettext("아니오");
 					$f = $f+1;
 				} else {
 					$leases[$l]['end'] = $data[$f+2];
@@ -312,16 +317,16 @@ if ($_REQUEST['order']) {
 if (count($pools) > 0) {
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Pool Status')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('풀 상태')?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 		<thead>
 			<tr>
-				<th><?=gettext("Failover Group")?></a></th>
-				<th><?=gettext("My State")?></a></th>
-				<th><?=gettext("Since")?></a></th>
-				<th><?=gettext("Peer State")?></a></th>
-				<th><?=gettext("Since")?></a></th>
+				<th><?=gettext("장애 조치 그룹")?></a></th>
+				<th><?=gettext("나의 상태")?></a></th>
+				<th><?=gettext("제작년도")?></a></th>
+				<th><?=gettext("피어 상태")?></a></th>
+				<th><?=gettext("제작년도")?></a></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -343,28 +348,28 @@ if (count($pools) > 0) {
 }
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Leases')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('리스')?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 			<thead>
 				<tr>
 					<th><!-- icon --></th>
-					<th><?=gettext("IP address")?></th>
-					<th><?=gettext("MAC address")?></th>
+					<th><?=gettext("IP 주소")?></th>
+					<th><?=gettext("MAC 주소")?></th>
 <?php
 /* only make CID column when we have one */
 if ($got_cid) {
 ?>
-					<th><?=gettext("Client Id")?></th>
+					<th><?=gettext("클라이언트 Id")?></th>
 <?php
 }
 ?>
-					<th><?=gettext("Hostname")?></th>
+					<th><?=gettext("호스트이름")?></th>
 					<th><?=gettext("Description")?></th>
-					<th><?=gettext("Start")?></th>
-					<th><?=gettext("End")?></th>
-					<th><?=gettext("Online")?></th>
-					<th><?=gettext("Lease Type")?></th>
+					<th><?=gettext("시작")?></th>
+					<th><?=gettext("끝")?></th>
+					<th><?=gettext("온라인")?></th>
+					<th><?=gettext("리스 타입")?></th>
 					<th data-sortable="false"><?=gettext("Actions")?></th>
 				</tr>
 			</thead>
@@ -460,17 +465,17 @@ if ($got_cid) {
 					<td><?=htmlspecialchars($data['act'])?></td>
 					<td>
 <?php if ($data['type'] == $dynamic_string): ?>
-						<a class="fa fa-plus-square-o"	title="<?=gettext("Add static mapping")?>"	href="services_dhcp_edit.php?if=<?=htmlspecialchars($data['if'])?>&amp;mac=<?=htmlspecialchars($data['mac'])?>&amp;hostname=<?=htmlspecialchars($data['hostname'])?>"></a>
+						<a class="fa fa-plus-square-o"	title="<?=gettext("정적 매핑 추가")?>"	href="services_dhcp_edit.php?if=<?=htmlspecialchars($data['if'])?>&amp;mac=<?=htmlspecialchars($data['mac'])?>&amp;hostname=<?=htmlspecialchars($data['hostname'])?>"></a>
 <?php else: ?>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit static mapping')?>"	href="services_dhcp_edit.php?if=<?=htmlspecialchars($data['if'])?>&amp;id=<?=htmlspecialchars($data['staticmap_array_index'])?>"></a>
+						<a class="fa fa-pencil"	title="<?=gettext('정적 매핑 편집')?>"	href="services_dhcp_edit.php?if=<?=htmlspecialchars($data['if'])?>&amp;id=<?=htmlspecialchars($data['staticmap_array_index'])?>"></a>
 <?php endif; ?>
-						<a class="fa fa-plus-square" title="<?=gettext("Add WOL mapping")?>" href="services_wol_edit.php?if=<?=htmlspecialchars($data['if'])?>&amp;mac=<?=htmlspecialchars($data['mac'])?>&amp;descr=<?=htmlspecialchars($data['hostname'])?>"></a>
+						<a class="fa fa-plus-square" title="<?=gettext("WOL 매핑 추가")?>" href="services_wol_edit.php?if=<?=htmlspecialchars($data['if'])?>&amp;mac=<?=htmlspecialchars($data['mac'])?>&amp;descr=<?=htmlspecialchars($data['hostname'])?>"></a>
 <?php if ($data['online'] != $online_string):?>
-						<a class="fa fa-power-off" title="<?=gettext("Send WOL packet")?>" href="services_wol.php?if=<?=htmlspecialchars($data['if'])?>&amp;mac=<?=htmlspecialchars($data['mac'])?>" usepost></a>
+						<a class="fa fa-power-off" title="<?=gettext("WOL 패킷 전송")?>" href="services_wol.php?if=<?=htmlspecialchars($data['if'])?>&amp;mac=<?=htmlspecialchars($data['mac'])?>" usepost></a>
 <?php endif; ?>
 
 <?php if ($data['type'] == $dynamic_string && $data['online'] != $online_string):?>
-						<a class="fa fa-trash" title="<?=gettext('Delete lease')?>"	href="status_dhcp_leases.php?deleteip=<?=htmlspecialchars($data['ip'])?>&amp;all=<?=intval($_POST['all'])?>" usepost></a>
+						<a class="fa fa-trash" title="<?=gettext('리스 제거')?>"	href="status_dhcp_leases.php?deleteip=<?=htmlspecialchars($data['ip'])?>&amp;all=<?=intval($_POST['all'])?>" usepost></a>
 <?php endif; ?>
 					</td>
 				</tr>
@@ -478,7 +483,7 @@ if ($got_cid) {
 <?php if ($no_leases_displayed): ?>
 				<tr>
 					<td></td>
-					<td><?=gettext("No leases to display")?></td>
+					<td><?=gettext("표시된 리스가 없습니다.")?></td>
 				</tr>
 <?php endif; ?>
 			</tbody>
@@ -487,15 +492,15 @@ if ($got_cid) {
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Leases in Use')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('사용중인 리스')?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 			<thead>
 				<tr>
-					<th><?=gettext("Interface")?></th>
-					<th><?=gettext("Pool Start")?></th>
-					<th><?=gettext("Pool End")?></th>
-					<th><?=gettext("# of leases in use")?></th>
+					<th><?=gettext("인터페이스")?></th>
+					<th><?=gettext("풀 시작")?></th>
+					<th><?=gettext("풀 끝")?></th>
+					<th><?=gettext("사용중인 리스의 수")?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -515,7 +520,7 @@ if (count($dhcp_leases_subnet_counter)):
 else:
 ?>
 				<tr>
-					<td><?=gettext("No leases are in use")?></td>
+					<td><?=gettext("사용중인 리스가 없습니다.")?></td>
 				</tr>
 <?php endif; ?>
 			</tbody>
@@ -524,9 +529,9 @@ else:
 </div>
 
 <?php if ($_REQUEST['all']): ?>
-	<a class="btn btn-info" href="status_dhcp_leases.php?all=0"><i class="fa fa-minus-circle icon-embed-btn"></i><?=gettext("Show active and static leases only")?></a>
+	<a class="btn btn-info" href="status_dhcp_leases.php?all=0"><i class="fa fa-minus-circle icon-embed-btn"></i><?=gettext("활성 및 정적 임대 만 표시")?></a>
 <?php else: ?>
-	<a class="btn btn-info" href="status_dhcp_leases.php?all=1"><i class="fa fa-plus-circle icon-embed-btn"></i><?=gettext("Show all configured leases")?></a>
+	<a class="btn btn-info" href="status_dhcp_leases.php?all=1"><i class="fa fa-plus-circle icon-embed-btn"></i><?=gettext("구성된 모든 리스 표시")?></a>
 <?php endif;
 
 include("foot.inc");
