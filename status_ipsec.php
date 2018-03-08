@@ -241,16 +241,16 @@ function print_ipsec_body() {
 
 			if ($ikesa['state'] != 'ESTABLISHED') {
 
-				print('<a href="status_ipsec.php?act=connect&amp;ikeid=' . $con_id . '&amp;ikesaid=' .$ikesa['uniqueid'] . '" class="btn btn-xs btn-success" data-toggle="tooltip" title="' . gettext("Connect VPN"). '" usepost>');
+				print('<a href="status_ipsec.php?act=connect&amp;ikeid=' . $con_id . '&amp;ikesaid=' .$ikesa['uniqueid'] . '" class="btn btn-xs btn-success" data-toggle="tooltip" title="' . gettext("VPN 연결"). '" usepost>');
 				print('<i class="fa fa-sign-in icon-embed-btn"></i>');
-				print(gettext("Connect VPN"));
+				print(gettext("VPN 연결"));
 				print("</a>\n");
 
 			} else {
 
-				print('<a href="status_ipsec.php?act=ikedisconnect&amp;ikeid=' . $con_id . '&amp;ikesaid=' .$ikesa['uniqueid'] . '"class="btn btn-xs btn-danger" data-toggle="tooltip" title="' . gettext("Disconnect VPN") . '" usepost>');
+				print('<a href="status_ipsec.php?act=ikedisconnect&amp;ikeid=' . $con_id . '&amp;ikesaid=' .$ikesa['uniqueid'] . '"class="btn btn-xs btn-danger" data-toggle="tooltip" title="' . gettext("VPN 연결종료") . '" usepost>');
 				print('<i class="fa fa-trash icon-embed-btn"></i>');
-				print(gettext("Disconnect"));
+				print(gettext("연결종료"));
 				print("</a><br />\n");
 
 			}
@@ -270,16 +270,16 @@ function print_ipsec_body() {
 				print('<div>');
 				print('<a type="button" id="btnchildsa-'. $child_key .  '" class="btn btn-sm btn-info">');
 				print('<i class="fa fa-plus-circle icon-embed-btn"></i>');
-				print(gettext('Show child SA entries'));
+				print(gettext('하위 SA 항목 표시'));
 				print("</a>\n");
 				print("	</div>\n");
 
 				print('<table class="table table-hover table-condensed" id="childsa-'.$child_key . '" style="display:none">');
 				print("<thead>\n");
 				print('<tr class="bg-info">');
-				print('<th><?=gettext("Local subnets")?></th>');
-				print('<th><?=gettext("Local SPI(s)")?></th>');
-				print('<th><?=gettext("Remote subnets")?></th>');
+				print('<th><?=gettext("로컬 서브넷")?></th>');
+				print('<th><?=gettext("로컬 SPI")?></th>');
+				print('<th><?=gettext("원격 서브넷")?></th>');
 				print('<th><?=gettext("Times")?></th>');
 				print('<th><?=gettext("Algo")?></th>');
 				print('<th><?=gettext("Stats")?></th>');
@@ -304,11 +304,11 @@ function print_ipsec_body() {
 					print("<td>\n");
 
 					if (isset($childsa['spi-in'])) {
-						print(gettext("Local: ") . htmlspecialchars($childsa['spi-in']));
+						print(gettext("로컬: ") . htmlspecialchars($childsa['spi-in']));
 					}
 
 					if (isset($childsa['spi-out'])) {
-						print('<br/>' . gettext('Remote: ') . htmlspecialchars($childsa['spi-out']));
+						print('<br/>' . gettext('원격: ') . htmlspecialchars($childsa['spi-out']));
 					}
 
 					print("</td>\n");
@@ -329,7 +329,7 @@ function print_ipsec_body() {
 					print('<br/>');
 					printf(gettext('Life: %1$s seconds (%2$s)'), htmlspecialchars($childsa['life-time']), convert_seconds_to_dhms($childsa['life-time']));
 					print('<br/>');
-					printf(gettext('Install: %1$s seconds (%2$s)'), htmlspecialchars($childsa['install-time']), convert_seconds_to_dhms($childsa['install-time']));
+					printf(gettext('설치: %1$s seconds (%2$s)'), htmlspecialchars($childsa['install-time']), convert_seconds_to_dhms($childsa['install-time']));
 
 
 					print("</td>\n");
@@ -369,7 +369,7 @@ function print_ipsec_body() {
 					print("<td>\n");
 					print('<a href="status_ipsec.php?act=childdisconnect&amp;ikeid=' . $childsa['name'] . '&amp;ikesaid=' . $childsa['uniqueid'] . '" class="btn btn-xs btn-warning" data-toggle="tooltip" title="' . gettext('Disconnect Child SA') . '" usepost>');
 					print('<i class="fa fa-trash icon-embed-btn"></i>');
-					print(gettext("Disconnect"));
+					print(gettext("연결종료"));
 					print("</a>\n");
 					print("</td>\n");
 					print("</tr>\n");
@@ -456,7 +456,7 @@ function print_ipsec_body() {
 			if (isset($ph1ent['mobile'])) {
 
 				print("<td>\n");
-				print(gettext("Awaiting connections"));
+				print(gettext("연결 대기 중"));
 				print("</td>\n");
 				print("<td>\n");
 				print("</td>\n");
@@ -464,12 +464,12 @@ function print_ipsec_body() {
 			} else {
 
 				print("<td>\n");
-				print(gettext("Disconnected"));
+				print(gettext("연결이 끊어짐"));
 				print("</td>\n");
 				print("<td>\n");
 				print('<a href="status_ipsec.php?act=connect&amp;ikeid=' . $ph1ent['ikeid'] . '" class="btn btn-xs btn-success" usepost>');
 				print('<i class="fa fa-sign-in icon-embed-btn"></i>');
-				print(gettext("Connect VPN"));
+				print(gettext("VPN 연결"));
 				print("</a>\n");
 				print("</td>\n");
 
@@ -489,7 +489,7 @@ include("head.inc");
 
 $tab_array = array();
 $tab_array[] = array(gettext("Overview"), true, "status_ipsec.php");
-$tab_array[] = array(gettext("Leases"), false, "status_ipsec_leases.php");
+$tab_array[] = array(gettext("리스"), false, "status_ipsec_leases.php");
 $tab_array[] = array(gettext("SADs"), false, "status_ipsec_sad.php");
 $tab_array[] = array(gettext("SPDs"), false, "status_ipsec_spd.php");
 display_top_tabs($tab_array);
