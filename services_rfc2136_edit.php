@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-rfc2136edit
 ##|*NAME=Services: RFC 2136 Client: Edit
@@ -78,7 +83,7 @@ if ($_POST['save'] || $_POST['force']) {
 
 	/* input validation */
 	$reqdfields = array('host', 'ttl', 'keyname', 'keydata');
-	$reqdfieldsn = array(gettext("Hostname"), gettext("TTL"), gettext("Key name"), gettext("Key"));
+	$reqdfieldsn = array(gettext("호스트이름"), gettext("TTL"), gettext("키 이름"), gettext("키"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -162,7 +167,7 @@ function build_us_list() {
 	return(array_merge($list, get_possible_listen_ips()));
 }
 
-$pgtitle = array(gettext("Services"), gettext("Dynamic DNS"), gettext("RFC 2136 Clients"), gettext("Edit"));
+$pgtitle = array(gettext("Services"), gettext("동적 DNS"), gettext("RFC 2136 클라이언트"), gettext("편집"));
 $pglinks = array("", "services_dyndns.php", "services_rfc2136.php", "@self");
 include("head.inc");
 
@@ -320,8 +325,7 @@ if (isset($id) && $a_rfc2136[$id]) {
 $form->add($section);
 print($form);
 
-print_info_box(sprintf(gettext('A DNS server must be configured in %1$sSystem: ' .
-					'General Setup %2$sor allow the DNS server list to be overridden ' .
-					'by DHCP/PPP on WAN for dynamic DNS updates to work.'), '<a href="system.php">', '</a>'));
+print_info_box(sprintf(gettext('%1$s시스템에서 DNS 서버를 구성해야합니다.: ' .
+					'일반 설정 %2$s또는 동적 DNS 업데이트가 작동하려면 WAN에서 DHCP/PPP에 의해 DNS 서버 목록을 무시하십시오.'), '<a href="system.php">', '</a>'));
 
 include("foot.inc");
