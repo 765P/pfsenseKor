@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.08
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-camanager
 ##|*NAME=System: CA Manager
@@ -32,9 +37,9 @@ require_once("certs.inc");
 require_once("pfsense-utils.inc");
 
 $ca_methods = array(
-	"existing" => gettext("Import an existing Certificate Authority"),
-	"internal" => gettext("Create an internal Certificate Authority"),
-	"intermediate" => gettext("Create an intermediate Certificate Authority"));
+	"existing" => gettext("기존 인증 기관 가져 오기"),
+	"internal" => gettext("내부 인증 기관 만들기"),
+	"intermediate" => gettext("중간 인증 기관 만들기"));
 
 $ca_keylens = array("512", "1024", "2048", "3072", "4096", "7680", "8192", "15360", "16384");
 global $openssl_digest_algs;
@@ -91,7 +96,7 @@ if ($_POST['act'] == "del") {
 	$name = $a_ca[$id]['descr'];
 	unset($a_ca[$id]);
 	write_config();
-	$savemsg = sprintf(gettext("Certificate Authority %s and its CRLs (if any) successfully deleted."), htmlspecialchars($name));
+	$savemsg = sprintf(gettext("인증 기관 %s 및 해당 CRL(있는 경우)이 성공적으로 삭제되었습니다."), htmlspecialchars($name));
 	pfSenseHeader("system_camanager.php");
 	exit;
 }
@@ -164,16 +169,16 @@ if ($_POST['save']) {
 	if ($pconfig['method'] == "existing") {
 		$reqdfields = explode(" ", "descr cert");
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Certificate data"));
+			gettext("기술적인 이름"),
+			gettext("인증서 데이터"));
 		if ($_POST['cert'] && (!strstr($_POST['cert'], "BEGIN CERTIFICATE") || !strstr($_POST['cert'], "END CERTIFICATE"))) {
-			$input_errors[] = gettext("This certificate does not appear to be valid.");
+			$input_errors[] = gettext("이 인증서는 유효하지 않습니다.");
 		}
 		if ($_POST['key'] && strstr($_POST['key'], "ENCRYPTED")) {
-			$input_errors[] = gettext("Encrypted private keys are not yet supported.");
+			$input_errors[] = gettext("암호화 된 개인 키는 아직 지원되지 않습니다.");
 		}
 		if (!$input_errors && !empty($_POST['key']) && cert_get_publickey($_POST['cert'], false) != cert_get_publickey($_POST['key'], false, 'prv')) {
-			$input_errors[] = gettext("The submitted private key does not match the submitted certificate data.");
+			$input_errors[] = gettext("제출 된 개인 키가 제출 된 인증서 데이터와 일치하지 않습니다.");
 		}
 		/* we must ensure the certificate is capable of acting as a CA
 		 * https://redmine.pfsense.org/issues/7885
@@ -181,7 +186,7 @@ if ($_POST['save']) {
 		if (!$input_errors) {
 			$purpose = cert_get_purpose($_POST['cert'], false);
 			if ($purpose['ca'] != 'Yes') {
-				$input_errors[] = gettext("The submitted certificate does not appear to be a Certificate Authority, import it on the Certificates tab instead.");
+				$input_errors[] = gettext("제출 된 인증서가 인증 기관이 아닌 것으로 나타나면 대신 인증서 탭에 가져 오십시오.");
 			}
 		}
 	}
@@ -190,52 +195,52 @@ if ($_POST['save']) {
 			"descr keylen lifetime dn_country dn_state dn_city ".
 			"dn_organization dn_email dn_commonname");
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Key length"),
-			gettext("Lifetime"),
-			gettext("Distinguished name Country Code"),
-			gettext("Distinguished name State or Province"),
-			gettext("Distinguished name City"),
-			gettext("Distinguished name Organization"),
-			gettext("Distinguished name Email Address"),
-			gettext("Distinguished name Common Name"));
+			gettext("기술적인 이름"),
+			gettext("키 길이"),
+			gettext("유효기간"),
+			gettext("국가 코드"),
+			gettext("주 또는 도 이름"),
+			gettext("도시 이름"),
+			gettext("소속"),
+			gettext("이메일 주소"),
+			gettext("이름"));
 	}
 	if ($pconfig['method'] == "intermediate") {
 		$reqdfields = explode(" ",
 			"descr caref keylen lifetime dn_country dn_state dn_city ".
 			"dn_organization dn_email dn_commonname");
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Signing Certificate Authority"),
-			gettext("Key length"),
-			gettext("Lifetime"),
-			gettext("Distinguished name Country Code"),
-			gettext("Distinguished name State or Province"),
-			gettext("Distinguished name City"),
-			gettext("Distinguished name Organization"),
-			gettext("Distinguished name Email Address"),
-			gettext("Distinguished name Common Name"));
+			gettext("기술적인 이름"),
+			gettext("서명 인증 기관"),
+			gettext("키 길이"),
+			gettext("유효기간"),
+			gettext("국가 코드"),
+			gettext("주 또는 도 이름"),
+			gettext("도시 이름"),
+			gettext("소속"),
+			gettext("이메일 주소"),
+			gettext("이름"));
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 	if ($pconfig['method'] != "existing") {
 		/* Make sure we do not have invalid characters in the fields for the certificate */
 		if (preg_match("/[\?\>\<\&\/\\\"\']/", $_POST['descr'])) {
-			array_push($input_errors, gettext("The field 'Descriptive Name' contains invalid characters."));
+			array_push($input_errors, gettext("'기술적인 이름'필드에 잘못된 문자가 있습니다."));
 		}
 
 		for ($i = 0; $i < count($reqdfields); $i++) {
 			if ($reqdfields[$i] == 'dn_email') {
 				if (preg_match("/[\!\#\$\%\^\(\)\~\?\>\<\&\/\\\,\"\']/", $_POST["dn_email"])) {
-					array_push($input_errors, gettext("The field 'Distinguished name Email Address' contains invalid characters."));
+					array_push($input_errors, gettext("'이메일 주소'필드에 유효하지 않은 문자가 포함되어 있습니다."));
 				}
 			}
 		}
 		if (!in_array($_POST["keylen"], $ca_keylens)) {
-			array_push($input_errors, gettext("Please select a valid Key Length."));
+			array_push($input_errors, gettext("올바른 키 길이를 선택하십시오."));
 		}
 		if (!in_array($_POST["digest_alg"], $openssl_digest_algs)) {
-			array_push($input_errors, gettext("Please select a valid Digest Algorithm."));
+			array_push($input_errors, gettext("유효한 알고리즘을 선택하십시오."));
 		}
 	}
 
@@ -321,11 +326,11 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Certificate Manager"), gettext("CAs"));
+$pgtitle = array(gettext("System"), gettext("인증서 매니저"), gettext("CAs"));
 $pglinks = array("", "system_camanager.php", "system_camanager.php");
 
-if ($act == "new" || $act == "edit" || $act == gettext("Save") || $input_errors) {
-	$pgtitle[] = gettext('Edit');
+if ($act == "new" || $act == "edit" || $act == gettext("저장") || $input_errors) {
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 include("head.inc");
@@ -355,19 +360,19 @@ $tab_array[] = array(gettext("Certificates"), false, "system_certmanager.php");
 $tab_array[] = array(gettext("Certificate Revocation"), false, "system_crlmanager.php");
 display_top_tabs($tab_array);
 
-if (!($act == "new" || $act == "edit" || $act == gettext("Save") || $input_errors)) {
+if (!($act == "new" || $act == "edit" || $act == gettext("저장") || $input_errors)) {
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Certificate Authorities')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('인증 기관')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 		<table class="table table-striped table-hover table-rowdblclickedit">
 			<thead>
 				<tr>
-					<th><?=gettext("Name")?></th>
-					<th><?=gettext("Internal")?></th>
-					<th><?=gettext("Issuer")?></th>
-					<th><?=gettext("Certificates")?></th>
+					<th><?=gettext("이름")?></th>
+					<th><?=gettext("내부")?></th>
+					<th><?=gettext("발행자")?></th>
+					<th><?=gettext("인증서")?></th>
 					<th><?=gettext("Distinguished Name")?></th>
 					<th><?=gettext("In Use")?></th>
 					<th><?=gettext("Actions")?></th>
@@ -386,9 +391,9 @@ foreach ($a_ca as $i => $ca):
 	$issuer = cert_get_issuer($ca['crt']);
 	list($startdate, $enddate) = cert_get_dates($ca['crt']);
 	if ($subj == $issuer) {
-		$issuer_name = gettext("self-signed");
+		$issuer_name = gettext("자가 서명");
 	} else {
-		$issuer_name = gettext("external");
+		$issuer_name = gettext("외부");
 	}
 	$subj = htmlspecialchars(cert_escape_x509_chars($subj, true));
 	$issuer = htmlspecialchars($issuer);
@@ -420,32 +425,32 @@ foreach ($a_ca as $i => $ca):
 						<?=$subj?>
 						<br />
 						<small>
-							<?=gettext("Valid From")?>: <b><?=$startdate ?></b><br /><?=gettext("Valid Until")?>: <b><?=$enddate ?></b>
+							<?=gettext("유효기간 시작")?>: <b><?=$startdate ?></b><br /><?=gettext("유효기간 만료")?>: <b><?=$enddate ?></b>
 						</small>
 					</td>
 					<td class="text-nowrap">
 						<?php if (is_openvpn_server_ca($ca['refid'])): ?>
-							<?=gettext("OpenVPN Server")?><br/>
+							<?=gettext("OpenVPN 서버")?><br/>
 						<?php endif?>
 						<?php if (is_openvpn_client_ca($ca['refid'])): ?>
-							<?=gettext("OpenVPN Client")?><br/>
+							<?=gettext("OpenVPN 클라이언트")?><br/>
 						<?php endif?>
 						<?php if (is_ipsec_peer_ca($ca['refid'])): ?>
-							<?=gettext("IPsec Tunnel")?><br/>
+							<?=gettext("IPsec 터널")?><br/>
 						<?php endif?>
 						<?php if (is_ldap_peer_ca($ca['refid'])): ?>
-							<?=gettext("LDAP Server")?>
+							<?=gettext("LDAP 서버")?>
 						<?php endif?>
 						<?php echo cert_usedby_description($ca['refid'], $certificates_used_by_packages); ?>
 					</td>
 					<td class="text-nowrap">
-						<a class="fa fa-pencil"	title="<?=gettext("Edit CA")?>"	href="system_camanager.php?act=edit&amp;id=<?=$i?>"></a>
-						<a class="fa fa-certificate"	title="<?=gettext("Export CA")?>"	href="system_camanager.php?act=exp&amp;id=<?=$i?>"></a>
+						<a class="fa fa-pencil"	title="<?=gettext("CA 편집")?>"	href="system_camanager.php?act=edit&amp;id=<?=$i?>"></a>
+						<a class="fa fa-certificate"	title="<?=gettext("CA 내보내기")?>"	href="system_camanager.php?act=exp&amp;id=<?=$i?>"></a>
 					<?php if ($ca['prv']): ?>
-						<a class="fa fa-key"	title="<?=gettext("Export key")?>"	href="system_camanager.php?act=expkey&amp;id=<?=$i?>"></a>
+						<a class="fa fa-key"	title="<?=gettext("key 내보내기")?>"	href="system_camanager.php?act=expkey&amp;id=<?=$i?>"></a>
 					<?php endif?>
 					<?php if (!ca_in_use($ca['refid'])): ?>
-						<a class="fa fa-trash" 	title="<?=gettext("Delete CA and its CRLs")?>"	href="system_camanager.php?act=del&amp;id=<?=$i?>" usepost ></a>
+						<a class="fa fa-trash" 	title="<?=gettext("CA 및 해당 CRL 삭제")?>"	href="system_camanager.php?act=del&amp;id=<?=$i?>" usepost ></a>
 					<?php endif?>
 					</td>
 				</tr>
@@ -459,7 +464,7 @@ foreach ($a_ca as $i => $ca):
 <nav class="action-buttons">
 	<a href="?act=new" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 <?php
