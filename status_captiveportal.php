@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-captiveportal
 ##|*NAME=Status: Captive Portal
@@ -39,22 +44,22 @@ require_once("captiveportal.inc");
 function print_details($cpent) {
 	global $config, $cpzone, $cpzoneid;
 
-	printf("<a data-toggle=\"popover\" data-trigger=\"hover focus\" title=\"%s\" data-content=\" ", gettext("Session details"));
+	printf("<a data-toggle=\"popover\" data-trigger=\"hover focus\" title=\"%s\" data-content=\" ", gettext("세션 정보"));
 
 	/* print the duration of the session */
 	$session_time = time() - $cpent[0];
-	printf(gettext("Session duration: %s") . "<br>", convert_seconds_to_dhms($session_time));
+	printf(gettext("세션 기간: %s") . "<br>", convert_seconds_to_dhms($session_time));
 
 	/* print the time left before session timeout or session terminate time or the closer of the two if both are set */
 	if (!empty($cpent[7]) && !empty($cpent[9])) {
 		$session_time_left = min($cpent[0] + $cpent[7] - time(),$cpent[9] - time());
-		printf(gettext("Session time left: %s") . "<br>", convert_seconds_to_dhms($session_time_left));
+		printf(gettext("세션 종료: %s") . "<br>", convert_seconds_to_dhms($session_time_left));
 	} elseif (!empty($cpent[7]) && empty($cpent[9])) {
 		$session_time_left = $cpent[0] + $cpent[7] - time();
-		printf(gettext("Session time left: %s") . "<br>", convert_seconds_to_dhms($session_time_left));
+		printf(gettext("세션 종료: %s") . "<br>", convert_seconds_to_dhms($session_time_left));
 	} elseif (empty($cpent[7]) && !empty($cpent[9])) {
 		$session_time_left = $cpent[9] - time();
-		printf(gettext("Session time left: %s") . "<br>", convert_seconds_to_dhms($session_time_left));
+		printf(gettext("세션 종료: %s") . "<br>", convert_seconds_to_dhms($session_time_left));
 	}
 
 	/* print idle time and time left before disconnection if idle timeout is set */
@@ -65,11 +70,11 @@ function print_details($cpent) {
 		$last_act = $last_act ? $last_act : $cpent[0];
 
 		$idle_time = time() - $last_act;
-		printf(gettext("Idle time: %s") . "<br>", convert_seconds_to_dhms((int)$idle_time));
+		printf(gettext("유휴기간: %s") . "<br>", convert_seconds_to_dhms((int)$idle_time));
 
 		if (!empty($cpent[8])) {
 			$idle_time_left = $last_act + $cpent[8] - time();
-			printf(gettext("Idle time left: %s") . "<br>", convert_seconds_to_dhms((int)$idle_time_left));
+			printf(gettext("유휴기간 종료: %s") . "<br>", convert_seconds_to_dhms((int)$idle_time_left));
 		}
 	}
 
@@ -77,9 +82,9 @@ function print_details($cpent) {
 	$volume = getVolume($cpent[2]);
 	$reverse = isset($config['captiveportal'][$cpzone]['reverseacct']) ? true : false;
 	if ($reverse) {
-		printf(gettext("Bytes sent: %s") . "<br>" . gettext("Bytes received: %s") . "\" data-html=\"true\">", format_bytes($volume['output_bytes']), format_bytes($volume['input_bytes']));
+		printf(gettext("바이트 전송: %s") . "<br>" . gettext("받은 바이트: %s") . "\" data-html=\"true\">", format_bytes($volume['output_bytes']), format_bytes($volume['input_bytes']));
 	} else {
-		printf(gettext("Bytes sent: %s") . "<br>" . gettext("Bytes received: %s") . "\" data-html=\"true\">", format_bytes($volume['input_bytes']), format_bytes($volume['output_bytes']));
+		printf(gettext("바이트 전송: %s") . "<br>" . gettext("받은 바이트: %s") . "\" data-html=\"true\">", format_bytes($volume['input_bytes']), format_bytes($volume['output_bytes']));
 	}
 
 	/* print username */
@@ -144,11 +149,11 @@ include("head.inc");
 
 if (!empty($cpzone) && isset($config['voucher'][$cpzone]['enable'])):
 	$tab_array = array();
-	$tab_array[] = array(gettext("Active Users"), true, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
-	$tab_array[] = array(gettext("Active Vouchers"), false, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
-	$tab_array[] = array(gettext("Voucher Rolls"), false, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
-	$tab_array[] = array(gettext("Test Vouchers"), false, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
-	$tab_array[] = array(gettext("Expire Vouchers"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
+	$tab_array[] = array(gettext("활성 사용자"), true, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
+	$tab_array[] = array(gettext("활성 바우처"), false, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
+	$tab_array[] = array(gettext("바우처 롤"), false, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
+	$tab_array[] = array(gettext("바우처 테스트"), false, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
+	$tab_array[] = array(gettext("만료 바우처"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
 	display_top_tabs($tab_array);
 endif;
 
@@ -181,25 +186,25 @@ if (count($a_cp) > 1) {
 if (!empty($cpzone)): ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=sprintf(gettext("Users Logged In (%d)"), count($cpdb))?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=sprintf(gettext("로그인한 유저 (%d)"), count($cpdb))?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 			<thead>
 				<tr>
-					<th><?=gettext("IP address")?></th>
+					<th><?=gettext("IP 주소")?></th>
 <?php
 	if (!isset($config['captiveportal'][$cpzone]['nomacfilter'])):
 ?>
-					<th><?=gettext("MAC address")?></th>
+					<th><?=gettext("MAC 주소")?></th>
 <?php
 	endif;
 ?>
-					<th><?=gettext("Username")?></th>
-					<th><?=gettext("Session start")?></th>
+					<th><?=gettext("유저이름")?></th>
+					<th><?=gettext("세션시작")?></th>
 <?php
 	if ($_REQUEST['showact']):
 ?>
-					<th><?=gettext("Last activity")?></th>
+					<th><?=gettext("마지막 작동")?></th>
 <?php
 	endif;
 ?>
@@ -251,7 +256,7 @@ if (!empty($cpzone)): ?>
 		endif;
 ?>
 					<td>
-						<a href="?zone=<?=htmlspecialchars($cpzone)?>&amp;showact=<?=htmlspecialchars($_REQUEST['showact'])?>&amp;act=del&amp;id=<?=htmlspecialchars($cpent[5])?>" usepost><i class="fa fa-trash" title="<?=gettext("Disconnect this User")?>"></i></a>
+						<a href="?zone=<?=htmlspecialchars($cpzone)?>&amp;showact=<?=htmlspecialchars($_REQUEST['showact'])?>&amp;act=del&amp;id=<?=htmlspecialchars($cpent[5])?>" usepost><i class="fa fa-trash" title="<?=gettext("해당 유저 연결끊기")?>"></i></a>
 					</td>
 				</tr>
 <?php
@@ -265,7 +270,7 @@ if (!empty($cpzone)): ?>
 else:
 	if (empty($a_cp)) {
 		// If no zones have been defined
-		print_info_box(sprintf(gettext('No Captive Portal zones have been configured. New zones may be added here: %1$sServices > Captive Portal%2$s.'), '<a href="services_captiveportal_zones.php">', '</a>'), 'warning', false);
+		print_info_box(sprintf(gettext('포털 포털 영역이 구성되어 있지 않습니다. 여기에 새 영역을 추가 할 수 있습니다 : %1$sServices> 전속 포털 %2$s.'), '<a href="services_captiveportal_zones.php">', '</a>'), 'warning', false);
 	}
 endif;
 ?>
@@ -274,23 +279,23 @@ endif;
 <?php
 if (!empty($cpzone)):
 	if ($_REQUEST['showact']): ?>
-	<a href="status_captiveportal.php?zone=<?=htmlspecialchars($cpzone)?>&amp;showact=0" role="button" class="btn btn-info" title="<?=gettext("Don't show last activity")?>">
+	<a href="status_captiveportal.php?zone=<?=htmlspecialchars($cpzone)?>&amp;showact=0" role="button" class="btn btn-info" title="<?=gettext("마지막 활동 표시 안 함")?>">
 		<i class="fa fa-minus-circle icon-embed-btn"></i>
-		<?=gettext("Hide Last Activity")?>
+		<?=gettext("마지막 작동 숨기기")?>
 	</a>
 <?php
 	else:
 ?>
-	<a href="status_captiveportal.php?zone=<?=htmlspecialchars($cpzone)?>&amp;showact=1" role="button" class="btn btn-info" title="<?=gettext("Show last activity")?>">
+	<a href="status_captiveportal.php?zone=<?=htmlspecialchars($cpzone)?>&amp;showact=1" role="button" class="btn btn-info" title="<?=gettext("마지막 활동 표시")?>">
 		<i class="fa fa-plus-circle icon-embed-btn"></i>
-		<?=gettext("Show Last Activity")?>
+		<?=gettext("마지막 작동 보기")?>
 	</a>
 <?php
 	endif;
 ?>
-	<a href="status_captiveportal.php?zone=<?=htmlspecialchars($cpzone)?>&amp;deleteall=1" role="button" class="btn btn-danger" title="<?=gettext("Disconnect all active users")?>" usepost>
+	<a href="status_captiveportal.php?zone=<?=htmlspecialchars($cpzone)?>&amp;deleteall=1" role="button" class="btn btn-danger" title="<?=gettext("모든 활성 사용자 연결 끊기")?>" usepost>
 		<i class="fa fa-trash icon-embed-btn"></i>
-		<?=gettext("Disconnect All Users")?>
+		<?=gettext("모든 유저 연결해제")?>
 	</a>
 <?php
 endif;
