@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-vpnl2tp
 ##|*NAME=VPN: L2TP
@@ -58,59 +63,59 @@ if ($_POST['save']) {
 	/* input validation */
 	if ($_POST['mode'] == "server") {
 		$reqdfields = explode(" ", "localip remoteip");
-		$reqdfieldsn = array(gettext("Server address"), gettext("Remote start address"));
+		$reqdfieldsn = array(gettext("서버 주소"), gettext("원격 시작 주소"));
 
 		if ($_POST['radiusenable']) {
 			$reqdfields = array_merge($reqdfields, explode(" ", "radiusserver radiussecret"));
 			$reqdfieldsn = array_merge($reqdfieldsn,
-				array(gettext("RADIUS server address"), gettext("RADIUS shared secret")));
+				array(gettext("RADIUS 서버 주소"), gettext("RADIUS 비밀 공유")));
 		}
 
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 		if (($_POST['localip'] && !is_ipaddr($_POST['localip']))) {
-			$input_errors[] = gettext("A valid server address must be specified.");
+			$input_errors[] = gettext("유효한 서버 주소를 지정해야합니다.");
 		}
 		if (is_ipaddr_configured($_POST['localip'])) {
-			$input_errors[] = gettext("'Server address' parameter should NOT be set to any IP address currently in use on this firewall.");
+			$input_errors[] = gettext("'서버 주소'매개 변수는이 방화벽에서 현재 사용중인 모든 IP 주소로 설정하면 안됩니다.");
 		}
 		if (($_POST['l2tp_subnet'] && !is_ipaddr($_POST['remoteip']))) {
-			$input_errors[] = gettext("A valid remote start address must be specified.");
+			$input_errors[] = gettext("유효한 원격 시작 주소를 지정해야합니다.");
 		}
 		if (($_POST['radiusserver'] && !is_ipaddr($_POST['radiusserver']))) {
-			$input_errors[] = gettext("A valid RADIUS server address must be specified.");
+			$input_errors[] = gettext("유효한 RADIUS 서버 주소를 지정해야합니다.");
 		}
 
 		if ($_POST['secret'] != $_POST['secret_confirm']) {
-			$input_errors[] = gettext("Secret and confirmation must match");
+			$input_errors[] = gettext("비밀과 확인이 일치해야합니다.");
 		}
 
 		if ($_POST['radiussecret'] != $_POST['radiussecret_confirm']) {
-			$input_errors[] = gettext("RADIUS secret and confirmation must match");
+			$input_errors[] = gettext("RADIUS 비밀 및 확인은 일치해야합니다.");
 		}
 
 		if (!is_numericint($_POST['n_l2tp_units']) || $_POST['n_l2tp_units'] > 255) {
-			$input_errors[] = gettext("Number of L2TP users must be between 1 and 255");
+			$input_errors[] = gettext("L2TP 사용자 수는 1에서 255 사이 여야합니다.");
 		}
 
 		if (!$input_errors) {
 			$_POST['remoteip'] = $pconfig['remoteip'] = gen_subnet($_POST['remoteip'], $_POST['l2tp_subnet']);
 			if (is_inrange_v4($_POST['localip'], $_POST['remoteip'], ip_after($_POST['remoteip'], $_POST['n_l2tp_units'] - 1))) {
-				$input_errors[] = gettext("The specified server address lies in the remote subnet.");
+				$input_errors[] = gettext("지정된 서버 주소가 원격 서브넷에 있습니다.");
 			}
 			if ($_POST['localip'] == get_interface_ip("lan")) {
-				$input_errors[] = gettext("The specified server address is equal to the LAN interface address.");
+				$input_errors[] = gettext("지정된 서버 주소는 LAN 인터페이스 주소와 동일합니다.");
 			}
 		}
 
 		if (!empty($_POST['l2tp_dns1']) && !is_ipaddrv4(trim($_POST['l2tp_dns1']))) {
-			$input_errors[] = gettext("The field 'Primary L2TP DNS Server' must contain a valid IPv4 address.");
+			$input_errors[] = gettext("'기본 L2TP DNS 서버'필드에는 유효한 IPv4 주소가 있어야합니다.");
 		}
 		if (!empty($_POST['l2tp_dns2']) && !is_ipaddrv4(trim($_POST['l2tp_dns2']))) {
-			$input_errors[] = gettext("The field 'Secondary L2TP DNS Server' must contain a valid IPv4 address.");
+			$input_errors[] = gettext("'보조 L2TP DNS 서버'필드에는 유효한 IPv4 주소가 있어야합니다.");
 		}
 		if (!empty($_POST['l2tp_dns2']) && empty($_POST['l2tp_dns1'])) {
-			$input_errors[] = gettext("The Secondary L2TP DNS Server cannot be set when the Primary L2TP DNS Server is empty.");
+			$input_errors[] = gettext("기본 L2TP DNS 서버가 비어있는 경우 보조 L2TP DNS 서버를 설정할 수 없습니다.");
 		}
 
 	}
@@ -168,7 +173,7 @@ if ($_POST['save']) {
 			unset($l2tpcfg['radius']['radiusissueips']);
 		}
 
-		write_config(gettext("L2TP VPN configuration changed."));
+		write_config(gettext("L2TP VPN 구성이 변경되었습니다."));
 
 		$changes_applied = true;
 		$retval = 0;
@@ -176,7 +181,7 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("VPN"), gettext("L2TP"), gettext("Configuration"));
+$pgtitle = array(gettext("VPN"), gettext("L2TP"), gettext("구성"));
 $pglinks = array("", "@self", "@self");
 $shortcut_section = "l2tps";
 include("head.inc");
@@ -190,13 +195,13 @@ if ($changes_applied) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Configuration"), true, "vpn_l2tp.php");
-$tab_array[] = array(gettext("Users"), false, "vpn_l2tp_users.php");
+$tab_array[] = array(gettext("구성"), true, "vpn_l2tp.php");
+$tab_array[] = array(gettext("사용자"), false, "vpn_l2tp_users.php");
 display_top_tabs($tab_array);
 
 $form = new Form();
 
-$section = new Form_Section("Enable L2TP");
+$section = new Form_Section("L2TP 연결");
 
 $section->addInput(new Form_Checkbox(
 	'mode',
@@ -324,7 +329,7 @@ print($form);
 ?>
 <div class="infoblock blockopen">
 <?php
-	print_info_box(gettext("Don't forget to add a firewall rule to permit traffic from L2TP clients."), 'info', false);
+	print_info_box(gettext("L2TP 클라이언트의 트래픽을 허용하는 방화벽 규칙을 추가하는 것을 잊지 마십시오."), 'info', false);
 ?>
 </div>
 
