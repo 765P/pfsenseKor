@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 추가
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-gatewaygroups
 ##|*NAME=Status: Gateway Groups
@@ -40,7 +45,7 @@ if (!is_array($config['gateways']['gateway_group'])) {
 }
 
 $a_gateway_groups = &$config['gateways']['gateway_group'];
-$changedesc = gettext("Gateway Groups") . ": ";
+$changedesc = gettext("게이트웨이 그룹") . ": ";
 
 $gateways_status = return_gateways_status();
 
@@ -50,19 +55,19 @@ $shortcut_section = "gateway-groups";
 include("head.inc");
 
 $tab_array = array();
-$tab_array[0] = array(gettext("Gateways"), false, "status_gateways.php");
-$tab_array[1] = array(gettext("Gateway Groups"), true, "status_gateway_groups.php");
+$tab_array[0] = array(gettext("게이트웨이"), false, "status_gateways.php");
+$tab_array[1] = array(gettext("게이트웨이 그룹"), true, "status_gateway_groups.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Gateway Groups')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('게이트웨이 그룹')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
-						<th><?=gettext("Group Name"); ?></th>
-						<th><?=gettext("Gateways"); ?></th>
+						<th><?=gettext("그룹 이름"); ?></th>
+						<th><?=gettext("게이트웨이"); ?></th>
 						<th><?=gettext("Description"); ?></th>
 					</tr>
 				</thead>
@@ -117,19 +122,19 @@ display_top_tabs($tab_array);
 										if ($p == $c) {
 											$status = $gateways_status[$monitor]['status'];
 											if (stristr($status, "down")) {
-													$online = gettext("Offline");
+													$online = gettext("오프라인");
 													$bgcolor = "bg-danger";
 											} elseif (stristr($status, "loss")) {
-													$online = gettext("Warning, Packetloss");
+													$online = gettext("경고, 패킷손실 발생");
 													$bgcolor = "bg-warning";
 											} elseif (stristr($status, "delay")) {
-													$online = gettext("Warning, Latency");
+													$online = gettext("경고, 대기");
 													$bgcolor = "bg-warning";
 											} elseif ($status == "none") {
-													$online = gettext("Online");
+													$online = gettext("온라인");
 													$bgcolor = "bg-success";
 											} else {
-												$online = gettext("Gathering data");
+												$online = gettext("데이터 ");
 												$bgcolor = "bg-info";
 											}
 
