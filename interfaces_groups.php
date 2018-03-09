@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-groups
 ##|*NAME=Interfaces: Groups
@@ -57,27 +62,27 @@ $shortcut_section = "interfaces";
 include("head.inc");
 
 $tab_array = array();
-$tab_array[] = array(gettext("Interface Assignments"), false, "interfaces_assign.php");
-$tab_array[] = array(gettext("Interface Groups"), true, "interfaces_groups.php");
-$tab_array[] = array(gettext("Wireless"), false, "interfaces_wireless.php");
+$tab_array[] = array(gettext("인터페이스 과제"), false, "interfaces_assign.php");
+$tab_array[] = array(gettext("인터페이스 그룹"), true, "interfaces_groups.php");
+$tab_array[] = array(gettext("무선통신"), false, "interfaces_wireless.php");
 $tab_array[] = array(gettext("VLANs"), false, "interfaces_vlan.php");
 $tab_array[] = array(gettext("QinQs"), false, "interfaces_qinq.php");
 $tab_array[] = array(gettext("PPPs"), false, "interfaces_ppps.php");
 $tab_array[] = array(gettext("GREs"), false, "interfaces_gre.php");
 $tab_array[] = array(gettext("GIFs"), false, "interfaces_gif.php");
-$tab_array[] = array(gettext("Bridges"), false, "interfaces_bridge.php");
+$tab_array[] = array(gettext("브리지"), false, "interfaces_bridge.php");
 $tab_array[] = array(gettext("LAGGs"), false, "interfaces_lagg.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Interface Groups')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('인터페이스 그룹')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext('Name');?></th>
-						<th><?=gettext('Members');?></th>
+						<th><?=gettext('이름');?></th>
+						<th><?=gettext('멤버');?></th>
 						<th><?=gettext('Description');?></th>
 						<th><?=gettext('Actions');?></th>
 					</tr>
@@ -109,8 +114,8 @@ display_top_tabs($tab_array);
 							<?=htmlspecialchars($ifgroupentry['descr']);?>
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit group')?>"	href="interfaces_groups_edit.php?id=<?=$i; ?>"></a>
-							<a class="fa fa-trash"	title="<?=gettext('Delete group')?>"	href="interfaces_groups.php?act=del&amp;id=<?=$i; ?>" usepost></a>
+							<a class="fa fa-pencil"	title="<?=gettext('그룹 편집')?>"	href="interfaces_groups_edit.php?id=<?=$i; ?>"></a>
+							<a class="fa fa-trash"	title="<?=gettext('그룹 삭제')?>"	href="interfaces_groups.php?act=del&amp;id=<?=$i; ?>" usepost></a>
 						</td>
 					</tr>
 <?php endforeach; ?>
@@ -123,13 +128,12 @@ display_top_tabs($tab_array);
 <nav class="action-buttons">
 	<a class="btn btn-success btn-sm" href="interfaces_groups_edit.php" role="button">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add");?>
+		<?=gettext("추가");?>
 	</a>
 </nav>
 
 <div class="infoblock">
-	<?php print_info_box(sprintf(gettext('Interface Groups allow setting up rules for multiple interfaces without duplicating the rules.%s' .
-					   'If members are removed from an interface group, the group rules are no longer applicable to that interface.'), '<br />'), 'info', false); ?>
+	<?php print_info_box(sprintf(gettext('인터페이스 그룹을 사용하면 규칙을 복제하지 않고 여러 인터페이스에 대한 규칙을 설정할 수 있습니다. %s 인터페이스 그룹에서 구성원을 제거하면 그룹 규칙이 더 이상 해당 인터페이스에 적용되지 않습니다.'), '<br />'), 'info', false); ?>
 
 </div>
 <?php
