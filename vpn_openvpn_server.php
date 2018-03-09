@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-openvpn-server
 ##|*NAME=OpenVPN: Servers
@@ -86,13 +91,13 @@ if ($_POST['act'] == "del") {
 	}
 	if (!empty($a_server[$id])) {
 		openvpn_delete('server', $a_server[$id]);
-		$wc_msg = sprintf(gettext('Deleted OpenVPN server from %1$s:%2$s %3$s'), convert_friendly_interface_to_friendly_descr($a_server[$id]['interface']), $a_server[$id]['local_port'], $a_server[$id]['description']);
+		$wc_msg = sprintf(gettext('%1$s에서 삭제 된 OpenVPN 서버:%2$s %3$s'), convert_friendly_interface_to_friendly_descr($a_server[$id]['interface']), $a_server[$id]['local_port'], $a_server[$id]['description']);
 	} else {
-		$wc_msg = gettext('Deleted empty OpenVPN server');
+		$wc_msg = gettext('빈 OpenVPN 서버를 삭제했습니다.');
 	}
 	unset($a_server[$id]);
 	write_config($wc_msg);
-	$savemsg = gettext("Server successfully deleted.");
+	$savemsg = gettext("서버가 성공적으로 삭제되었습니다.");
 }
 
 if ($act == "new") {
@@ -271,25 +276,25 @@ if ($_POST['save']) {
 
 	$cipher_validation_list = array_keys(openvpn_get_cipherlist());
 	if (!in_array($pconfig['crypto'], $cipher_validation_list)) {
-		$input_errors[] = gettext("The selected Encryption Algorithm is not valid.");
+		$input_errors[] = gettext("선택한 암호화 알고리즘이 유효하지 않습니다.");
 	}
 
 	list($iv_iface, $iv_ip) = explode ("|", $pconfig['interface']);
 	if (is_ipaddrv4($iv_ip) && (stristr($pconfig['protocol'], "6") !== false)) {
-		$input_errors[] = gettext("Protocol and IP address families do not match. An IPv6 protocol and an IPv4 IP address cannot be selected.");
+		$input_errors[] = gettext("프로토콜 및 IP 주소 패밀리가 일치하지 않습니다. IPv6 프로토콜 및 IPv4 IP 주소를 선택할 수 없습니다.");
 	} elseif (is_ipaddrv6($iv_ip) && (stristr($pconfig['protocol'], "6") === false)) {
-		$input_errors[] = gettext("Protocol and IP address families do not match. An IPv4 protocol and an IPv6 IP address cannot be selected.");
+		$input_errors[] = gettext("프로토콜 및 IP 주소 패밀리가 일치하지 않습니다. IPv4 프로토콜 및 IPv6 IP 주소를 선택할 수 없습니다.");
 	} elseif ((stristr($pconfig['protocol'], "6") === false) && !get_interface_ip($iv_iface) && ($pconfig['interface'] != "any")) {
 		// If an underlying interface to be used by this server uses DHCP, then it may not have received an IP address yet.
 		// So in that case we do not report a problem.
 		if (!interface_has_dhcp($iv_iface, 4)) {
-			$input_errors[] = gettext("An IPv4 protocol was selected, but the selected interface has no IPv4 address.");
+			$input_errors[] = gettext("IPv4 프로토콜이 선택되었지만 선택한 인터페이스에는 IPv4 주소가 없습니다.");
 		}
 	} elseif ((stristr($pconfig['protocol'], "6") !== false) && !get_interface_ipv6($iv_iface) && ($pconfig['interface'] != "any")) {
 		// If an underlying interface to be used by this server uses DHCP6, then it may not have received an IP address yet.
 		// So in that case we do not report a problem.
 		if (!interface_has_dhcp($iv_iface, 6)) {
-			$input_errors[] = gettext("An IPv6 protocol was selected, but the selected interface has no IPv6 address.");
+			$input_errors[] = gettext("IPv6 프로토콜이 선택되었지만 선택한 인터페이스에는 IPv6 주소가 없습니다.");
 		}
 	}
 
@@ -300,7 +305,7 @@ if ($_POST['save']) {
 	}
 
 	if (empty($pconfig['authmode']) && (($pconfig['mode'] == "server_user") || ($pconfig['mode'] == "server_tls_user"))) {
-		$input_errors[] = gettext("A Backend for Authentication must be selected if the server mode requires User Auth.");
+		$input_errors[] = gettext("서버 모드에 사용자 인증이 필요한 경우 인증을위한 백엔드를 선택해야합니다.");
 	}
 
 	/* input validation */
@@ -334,7 +339,7 @@ if ($_POST['save']) {
 
 	$portused = openvpn_port_used($pconfig['protocol'], $pconfig['interface'], $pconfig['local_port'], $vpnid);
 	if (($portused != $vpnid) && ($portused != 0)) {
-		$input_errors[] = gettext("The specified 'Local port' is in use. Please select another value");
+		$input_errors[] = gettext("지정한 '로컬 포트'가 사용 중입니다. 다른 값을 선택하십시오.");
 	}
 
 	if ($pconfig['autokey_enable']) {
@@ -344,131 +349,131 @@ if ($_POST['save']) {
 	if (!$tls_mode && !$pconfig['autokey_enable']) {
 		if (!strstr($pconfig['shared_key'], "-----BEGIN OpenVPN Static key V1-----") ||
 		    !strstr($pconfig['shared_key'], "-----END OpenVPN Static key V1-----")) {
-			$input_errors[] = gettext("The field 'Shared Key' does not appear to be valid");
+			$input_errors[] = gettext("'공유 키'필드가 유효하지 않은 것으로 나타납니다.");
 		}
 	}
 
 	if ($tls_mode && $pconfig['tlsauth_enable'] && !$pconfig['autotls_enable']) {
 		if (!strstr($pconfig['tls'], "-----BEGIN OpenVPN Static key V1-----") ||
 		    !strstr($pconfig['tls'], "-----END OpenVPN Static key V1-----")) {
-			$input_errors[] = gettext("The field 'TLS Key' does not appear to be valid");
+			$input_errors[] = gettext("'TLS Key'필드가 유효하지 않은 것으로 나타납니다.");
 		}
 		if (!in_array($pconfig['tls_type'], array_keys($openvpn_tls_modes))) {
-			$input_errors[] = gettext("The field 'TLS Key Usage Mode' is not valid");
+			$input_errors[] = gettext("'TLS 키 사용 모드'필드가 유효하지 않습니다.");
 		}
 	}
 
 	if ($pconfig['dns_server_enable']) {
 		if (!empty($pconfig['dns_server1']) && !is_ipaddr(trim($pconfig['dns_server1']))) {
-			$input_errors[] = gettext("The field 'DNS Server #1' must contain a valid IPv4 or IPv6 address");
+			$input_errors[] = gettext("'DNS 서버#1'필드에 올바른 IPv4 또는 IPv6 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['dns_server2']) && !is_ipaddr(trim($pconfig['dns_server2']))) {
-			$input_errors[] = gettext("The field 'DNS Server #2' must contain a valid IPv4 or IPv6 address");
+			$input_errors[] = gettext("'DNS 서버#2'필드에 유효한 IPv4 또는 IPv6 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['dns_server3']) && !is_ipaddr(trim($pconfig['dns_server3']))) {
-			$input_errors[] = gettext("The field 'DNS Server #3' must contain a valid IPv4 or IPv6 address");
+			$input_errors[] = gettext("'DNS 서버#3'필드에 유효한 IPv4 또는 IPv6 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['dns_server4']) && !is_ipaddr(trim($pconfig['dns_server4']))) {
-			$input_errors[] = gettext("The field 'DNS Server #4' must contain a valid IPv4 or IPv6 address");
+			$input_errors[] = gettext("'DNS 서버#4'필드에 유효한 IPv4 또는 IPv6 주소가 있어야합니다.");
 		}
 	}
 
 	if ($pconfig['ntp_server_enable']) {
 		if (!empty($pconfig['ntp_server1']) && !is_ipaddr(trim($pconfig['ntp_server1']))) {
-			$input_errors[] = gettext("The field 'NTP Server #1' must contain a valid IP address");
+			$input_errors[] = gettext("'NTP 서버#1'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['ntp_server2']) && !is_ipaddr(trim($pconfig['ntp_server2']))) {
-			$input_errors[] = gettext("The field 'NTP Server #2' must contain a valid IP address");
+			$input_errors[] = gettext("NTP 서버#2'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['ntp_server3']) && !is_ipaddr(trim($pconfig['ntp_server3']))) {
-			$input_errors[] = gettext("The field 'NTP Server #3' must contain a valid IP address");
+			$input_errors[] = gettext("NTP 서버#3'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['ntp_server4']) && !is_ipaddr(trim($pconfig['ntp_server4']))) {
-			$input_errors[] = gettext("The field 'NTP Server #4' must contain a valid IP address");
+			$input_errors[] = gettext("NTP 서버#4'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 	}
 
 	if ($pconfig['netbios_enable']) {
 		if ($pconfig['wins_server_enable']) {
 			if (!empty($pconfig['wins_server1']) && !is_ipaddr(trim($pconfig['wins_server1']))) {
-				$input_errors[] = gettext("The field 'WINS Server #1' must contain a valid IP address");
+				$input_errors[] = gettext("'WINS 서버#1'필드에 올바른 IP 주소가 있어야합니다.");
 			}
 			if (!empty($pconfig['wins_server2']) && !is_ipaddr(trim($pconfig['wins_server2']))) {
-				$input_errors[] = gettext("The field 'WINS Server #2' must contain a valid IP address");
+				$input_errors[] = gettext("'WINS 서버#2'필드에 올바른 IP 주소가 있어야합니다.");
 			}
 		}
 		if ($pconfig['nbdd_server_enable']) {
 			if (!empty($pconfig['nbdd_server1']) && !is_ipaddr(trim($pconfig['nbdd_server1']))) {
-				$input_errors[] = gettext("The field 'NetBIOS Data Distribution Server #1' must contain a valid IP address");
+				$input_errors[] = gettext("'NetBIOS 데이터 배포 서버#1'필드에 유효한 IP 주소가 있어야합니다.");
 			}
 		}
 	}
 
 	if ($pconfig['maxclients'] && !is_numericint($pconfig['maxclients'])) {
-		$input_errors[] = gettext("The field 'Concurrent connections' must be numeric.");
+		$input_errors[] = gettext("'동시 연결'필드는 숫자 여야합니다.");
 	}
 
 	if (!array_key_exists($pconfig['topology'], $openvpn_topologies)) {
-		$input_errors[] = gettext("The field 'Topology' contains an invalid selection");
+		$input_errors[] = gettext("필드 '토폴로지'에 잘못된 선택 사항이 있습니다.");
 	}
 
 	/* If we are not in shared key mode, then we need the CA/Cert. */
 	if ($pconfig['mode'] != "p2p_shared_key") {
 		if (empty(trim($pconfig['certref']))) {
-			$input_errors[] = gettext("The selected certificate is not valid");
+			$input_errors[] = gettext("선택한 인증서가 유효하지 않습니다.");
 		}
 
 		if (!empty($pconfig['dh_length']) && !in_array($pconfig['dh_length'], array_keys($openvpn_dh_lengths))) {
-			$input_errors[] = gettext("The specified DH Parameter length is invalid or the DH file does not exist.");
+			$input_errors[] = gettext("지정된 DH 매개 변수 길이가 잘못되었거나 DH 파일이 없습니다.");
 		}
 
 		if (!empty($pconfig['ecdh_curve']) && !openvpn_validate_curve($pconfig['ecdh_curve'])) {
-			$input_errors[] = gettext("The specified ECDH Curve is invalid.");
+			$input_errors[] = gettext("지정된 ECDH 곡선이 유효하지 않습니다.");
 		}
 
 		if (($pconfig['ncp_enable'] != "disabled") && !empty($pconfig['ncp-ciphers']) && is_array($pconfig['ncp-ciphers'])) {
 			foreach ($pconfig['ncp-ciphers'] as $ncpc) {
 				if (!in_array(trim($ncpc), $cipher_validation_list)) {
-					$input_errors[] = gettext("One or more of the selected NCP Algorithms is not valid.");
+					$input_errors[] = gettext("선택한 NCP 알고리즘 중 하나 이상이 유효하지 않습니다.");
 				}
 			}
 		}
 
 		$reqdfields = explode(" ", "caref certref");
-		$reqdfieldsn = array(gettext("Certificate Authority"), gettext("Certificate"));
+		$reqdfieldsn = array(gettext("인증 기관"), gettext("인증서"));
 	} elseif (!$pconfig['autokey_enable']) {
 		/* We only need the shared key filled in if we are in shared key mode and autokey is not selected. */
 		$reqdfields = array('shared_key');
-		$reqdfieldsn = array(gettext('Shared key'));
+		$reqdfieldsn = array(gettext('공유키'));
 	}
 
 	if (($pconfig['mode'] == "p2p_shared_key") && strstr($pconfig['crypto'], "GCM")) {
-		$input_errors[] = gettext("GCM Encryption Algorithms cannot be used with Shared Key mode.");
+		$input_errors[] = gettext("GCM 암호화 알고리즘은 공유 키 모드와 함께 사용할 수 없습니다.");
 	}
 
 	if ($pconfig['dev_mode'] != "tap") {
 		$reqdfields[] = 'tunnel_network';
-		$reqdfieldsn[] = gettext('IPv4 Tunnel network');
+		$reqdfieldsn[] = gettext('IPv4 터널 네트워크');
 	} else {
 		if ($pconfig['serverbridge_dhcp'] && $pconfig['tunnel_network']) {
-			$input_errors[] = gettext("Using a tunnel network and server bridge settings together is not allowed.");
+			$input_errors[] = gettext("터널 네트워크와 서버 브리지 설정을 함께 사용하는 것은 허용되지 않습니다.");
 		}
 		if (($pconfig['serverbridge_dhcp'] && $pconfig['serverbridge_routegateway']) &&
 		    ((empty($pconfig['serverbridge_interface'])) || (strcmp($pconfig['serverbridge_interface'], "none") == 0))) {
-			$input_errors[] = gettext("Bridge Route Gateway requires a valid Bridge Interface.");
+			$input_errors[] = gettext("브리지 라우트 게이트웨이에는 유효한 브리지 인터페이스가 필요합니다.");
 		}
 		if (($pconfig['serverbridge_dhcp_start'] && !$pconfig['serverbridge_dhcp_end']) ||
 		    (!$pconfig['serverbridge_dhcp_start'] && $pconfig['serverbridge_dhcp_end'])) {
-			$input_errors[] = gettext("Server Bridge DHCP Start and End must both be empty, or defined.");
+			$input_errors[] = gettext("서버 브리지 DHCP 시작 및 끝은 모두 비어 있거나 정의되어 있어야합니다.");
 		}
 		if (($pconfig['serverbridge_dhcp_start'] && !is_ipaddrv4($pconfig['serverbridge_dhcp_start']))) {
-			$input_errors[] = gettext("Server Bridge DHCP Start must be an IPv4 address.");
+			$input_errors[] = gettext("서버 브리지 DHCP 시작은 IPv4 주소 여야합니다.");
 		}
 		if (($pconfig['serverbridge_dhcp_end'] && !is_ipaddrv4($pconfig['serverbridge_dhcp_end']))) {
-			$input_errors[] = gettext("Server Bridge DHCP End must be an IPv4 address.");
+			$input_errors[] = gettext("서버 브리지 DHCP 끝은 IPv4 주소 여야합니다.");
 		}
 		if (ip_greater_than($pconfig['serverbridge_dhcp_start'], $pconfig['serverbridge_dhcp_end'])) {
-			$input_errors[] = gettext("The Server Bridge DHCP range is invalid (start higher than end).");
+			$input_errors[] = gettext("서버 브리지 DHCP 범위가 잘못되었습니다 (끝보다 높게 시작).");
 		}
 	}
 
@@ -481,7 +486,7 @@ if ($_POST['save']) {
 	}
 
 	if (!empty($pconfig['sndrcvbuf']) && !array_key_exists($pconfig['sndrcvbuf'], openvpn_get_buffer_values())) {
-		$input_errors[] = gettext("The supplied Send/Receive Buffer size is invalid.");
+		$input_errors[] = gettext("제공된 보내기/받기 버퍼 크기가 잘못되었습니다.");
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
@@ -625,10 +630,10 @@ if ($_POST['save']) {
 
 		if (isset($id) && $a_server[$id]) {
 			$a_server[$id] = $server;
-			$wc_msg = sprintf(gettext('Updated OpenVPN server on %1$s:%2$s %3$s'), convert_friendly_interface_to_friendly_descr($server['interface']), $server['local_port'], $server['description']);
+			$wc_msg = sprintf(gettext('%1$s에서 업데이트 된 OpenVPN 서버:%2$s %3$s'), convert_friendly_interface_to_friendly_descr($server['interface']), $server['local_port'], $server['description']);
 		} else {
 			$a_server[] = $server;
-			$wc_msg = sprintf(gettext('Added OpenVPN server on %1$s:%2$s %3$s'), convert_friendly_interface_to_friendly_descr($server['interface']), $server['local_port'], $server['description']);
+			$wc_msg = sprintf(gettext('%1$s에 OpenVPN 서버 추가:%2$s %3$s'), convert_friendly_interface_to_friendly_descr($server['interface']), $server['local_port'], $server['description']);
 		}
 
 		write_config($wc_msg);
@@ -652,7 +657,7 @@ $pgtitle = array(gettext("VPN"), gettext("OpenVPN"), gettext("Servers"));
 $pglinks = array("", "vpn_openvpn_server.php", "vpn_openvpn_server.php");
 
 if ($act=="new" || $act=="edit") {
-	$pgtitle[] = gettext('Edit');
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 $shortcut_section = "openvpn";
@@ -672,10 +677,10 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Servers"), true, "vpn_openvpn_server.php");
-$tab_array[] = array(gettext("Clients"), false, "vpn_openvpn_client.php");
-$tab_array[] = array(gettext("Client Specific Overrides"), false, "vpn_openvpn_csc.php");
-$tab_array[] = array(gettext("Wizards"), false, "wizard.php?xml=openvpn_wizard.xml");
+$tab_array[] = array(gettext("서버"), true, "vpn_openvpn_server.php");
+$tab_array[] = array(gettext("클라이언트"), false, "vpn_openvpn_client.php");
+$tab_array[] = array(gettext("클라이언트별 재정의"), false, "vpn_openvpn_csc.php");
+$tab_array[] = array(gettext("마법사"), false, "wizard.php?xml=openvpn_wizard.xml");
 add_package_tabs("OpenVPN", $tab_array);
 display_top_tabs($tab_array);
 
@@ -684,7 +689,7 @@ $form = new Form();
 if ($act=="new" || $act=="edit"):
 
 
-	$section = new Form_Section('General Information');
+	$section = new Form_Section('일반 정보');
 
 	$section->addInput(new Form_Checkbox(
 		'disable',
@@ -1391,15 +1396,15 @@ if ($act=="new" || $act=="edit"):
 else:
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('OpenVPN Servers')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('OpenVPN 서버')?></h2></div>
 		<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 			<thead>
 				<tr>
-					<th><?=gettext("Interface")?></th>
-					<th><?=gettext("Protocol / Port")?></th>
-					<th><?=gettext("Tunnel Network")?></th>
-					<th><?=gettext("Crypto")?></th>
+					<th><?=gettext("인터페이스")?></th>
+					<th><?=gettext("프로토콜 / 포트")?></th>
+					<th><?=gettext("터널 / 네트워크")?></th>
+					<th><?=gettext("암호화")?></th>
 					<th><?=gettext("Description")?></th>
 					<th><?=gettext("Actions")?></th>
 				</tr>
@@ -1433,8 +1438,8 @@ else:
 						<?=htmlspecialchars(sprintf('%1$s (%2$s)', $server['description'], $server['dev_mode']))?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit server')?>" href="vpn_openvpn_server.php?act=edit&amp;id=<?=$i?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete server')?>" href="vpn_openvpn_server.php?act=del&amp;id=<?=$i?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('서버 편집')?>" href="vpn_openvpn_server.php?act=edit&amp;id=<?=$i?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('서버 삭제')?>" href="vpn_openvpn_server.php?act=del&amp;id=<?=$i?>" usepost></a>
 					</td>
 				</tr>
 <?php
@@ -1449,7 +1454,7 @@ else:
 <nav class="action-buttons">
 	<a href="vpn_openvpn_server.php?act=new" class="btn btn-sm btn-success btn-sm">
 	<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 
@@ -1848,7 +1853,7 @@ events.push(function() {
 		var errmsg = "";
 
 		if ($(this).find(":selected").index() >= "<?=$servercerts?>") {
-			var errmsg = '<span class="text-danger">' + "<?=gettext('Warning: The selected server certificate was not created as an SSL Server certificate and may not work as expected')?>" + '</span>';
+			var errmsg = '<span class="text-danger">' + "<?=gettext('경고 : 선택한 서버 인증서가 SSL 서버 인증서로 만들어지지 않았으며 예상대로 작동하지 않을 수 있습니다.')?>" + '</span>';
 		}
 
 		$('#certtype').html(errmsg);
