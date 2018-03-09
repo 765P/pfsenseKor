@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-gateways-editgatewaygroups
 ##|*NAME=System: Gateways: Edit Gateway Groups
@@ -39,10 +44,10 @@ $a_gateway_groups = &$config['gateways']['gateway_group'];
 $a_gateways = return_gateways_array();
 
 $categories = array(
-	'down' => gettext("Member Down"),
-	'downloss' => gettext("Packet Loss"),
-	'downlatency' => gettext("High Latency"),
-	'downlosslatency' => gettext("Packet Loss or High Latency"));
+	'down' => gettext("멤버 아래로"),
+	'downloss' => gettext("패킷 손실"),
+	'downlatency' => gettext("긴 대기시간"),
+	'downlosslatency' => gettext("패킷 손실 또는 긴 대기시간"));
 
 if (isset($_REQUEST['id']) && is_numericint($_REQUEST['id'])) {
 	$id = $_REQUEST['id'];
@@ -75,10 +80,10 @@ if (isset($_POST['save'])) {
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (!isset($_POST['name'])) {
-		$input_errors[] = gettext("A valid gateway group name must be specified.");
+		$input_errors[] = gettext("유효한 게이트웨이 그룹 이름을 지정해야합니다.");
 	}
 	if (!is_validaliasname($_POST['name'])) {
-		$input_errors[] = invalidaliasnamemsg($_POST['name'], gettext("gateway group"));
+		$input_errors[] = invalidaliasnamemsg($_POST['name'], gettext("게이트웨이 그룹"));
 	}
 
 	if (isset($_POST['name'])) {
@@ -87,13 +92,13 @@ if (isset($_POST['save'])) {
 			foreach ($a_gateway_groups as $gateway_group) {
 				if (isset($id) && ($a_gateway_groups[$id]) && ($a_gateway_groups[$id] === $gateway_group)) {
 					if ($gateway_group['name'] != $_POST['name']) {
-						$input_errors[] = gettext("Changing name on a gateway group is not allowed.");
+						$input_errors[] = gettext("게이트웨이 그룹의 이름 변경은 허용되지 않습니다.");
 					}
 					continue;
 				}
 
 				if ($gateway_group['name'] == $_POST['name']) {
-					$input_errors[] = sprintf(gettext('A gateway group with this name "%s" already exists.'), $_POST['name']);
+					$input_errors[] = sprintf(gettext('이름이 "%s"인 게이트웨이 그룹이 이미 있습니다.'), $_POST['name']);
 					break;
 				}
 			}
@@ -110,12 +115,12 @@ if (isset($_POST['save'])) {
 		}
 		/* check for overlaps */
 		if ($_POST['name'] == $gwname) {
-			$input_errors[] = sprintf(gettext('A gateway group cannot have the same name as a gateway "%s" please choose another name.'), $_POST['name']);
+			$input_errors[] = sprintf(gettext('게이트웨이 그룹은 게이트웨이 "%s"와 같은 이름을 가질 수 없습니다. 다른 이름을 선택하십시오.'), $_POST['name']);
 		}
 
 	}
 	if (count($pconfig['item']) == 0) {
-		$input_errors[] = gettext("No gateway(s) have been selected to be used in this group");
+		$input_errors[] = gettext("이 그룹에서 사용할 게이트웨이를 선택하지 않았습니다.");
 	}
 
 	if (!$input_errors) {
@@ -141,7 +146,7 @@ if (isset($_POST['save'])) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Routing"), gettext("Gateway Groups"), gettext("Edit"));
+$pgtitle = array(gettext("System"), gettext("라우팅"), gettext("게이트웨이 그룹"), gettext("편집"));
 $pglinks = array("", "system_gateways.php", "system_gateway_groups.php", "@self");
 $shortcut_section = "gateway-groups";
 
@@ -157,7 +162,7 @@ function build_gateway_protocol_map (&$a_gateways) {
 function build_vip_list($family = 'all') {
 	global $gateway;
 
-	$list = array('address' => gettext('Interface Address'));
+	$list = array('address' => gettext('인터페이스 주소'));
 
 	$viplist = get_configured_vip_list($family);
 	foreach ($viplist as $vip => $address) {
