@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-ipsec-settings
 ##|*NAME=VPN: IPsec: Settings
@@ -163,7 +168,7 @@ if ($_POST['save']) {
 			}
 		}
 
-		write_config(gettext("Saved IPsec advanced settings."));
+		write_config(gettext("저장된 IPsec 고급 설정."));
 
 		$changes_applied = true;
 		$retval = 0;
@@ -214,10 +219,10 @@ if ($input_errors) {
 }
 
 $tab_array = array();
-$tab_array[0] = array(gettext("Tunnels"), false, "vpn_ipsec.php");
-$tab_array[1] = array(gettext("Mobile Clients"), false, "vpn_ipsec_mobile.php");
-$tab_array[2] = array(gettext("Pre-Shared Keys"), false, "vpn_ipsec_keys.php");
-$tab_array[3] = array(gettext("Advanced Settings"), true, "vpn_ipsec_settings.php");
+$tab_array[0] = array(gettext("터널"), false, "vpn_ipsec.php");
+$tab_array[1] = array(gettext("모바일 클라이언트"), false, "vpn_ipsec_mobile.php");
+$tab_array[2] = array(gettext("사전 공유 키"), false, "vpn_ipsec_keys.php");
+$tab_array[3] = array(gettext("어드밴스드 설정"), true, "vpn_ipsec_settings.php");
 display_top_tabs($tab_array);
 
 $form = new Form;
