@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작 
+*/
+
 // On the page, add in like so:
 //   $shortcut_section = "relayd";
 
@@ -87,7 +92,7 @@ function get_shortcut_main_link($shortcut_section, $addspace = true, $service = 
 			break;
 	}
 	if (!empty($link) && ($_SERVER['REQUEST_URI'] != "/{$link}")) {
-		return "{$space}<a href=\"{$link}\" title=\"" . gettext("Related settings") . "\"><i class=\"fa fa-sliders\"></i></a>";
+		return "{$space}<a href=\"{$link}\" title=\"" . gettext("관련 설정") . "\"><i class=\"fa fa-sliders\"></i></a>";
 	}
 	return "";
 }
@@ -116,7 +121,7 @@ function get_shortcut_status_link($shortcut_section, $addspace = true, $service 
 			break;
 	}
 	if (!empty($link)) {
-		return "{$space}<a href=\"{$link}\" title=\"" . gettext("Related status") . "\"><i class=\"fa fa-bar-chart\"></i></a>";
+		return "{$space}<a href=\"{$link}\" title=\"" . gettext("관련 설정") . "\"><i class=\"fa fa-bar-chart\"></i></a>";
 	}
 	return "";
 }
@@ -125,7 +130,7 @@ function get_shortcut_log_link($shortcut_section, $addspace = true) {
 	global $g, $shortcuts;
 	$space = ($addspace) ? "&nbsp;" : "" ;
 	if (!empty($shortcut_section) && !empty($shortcuts[$shortcut_section]['log'])) {
-		return "{$space}<a href=\"{$shortcuts[$shortcut_section]['log']}\" title=\"" . gettext("Related log entries") . "\"><i class=\"fa fa-list-alt\"></i></a>";
+		return "{$space}<a href=\"{$shortcuts[$shortcut_section]['log']}\" title=\"" . gettext("관련 로그 항목") . "\"><i class=\"fa fa-list-alt\"></i></a>";
 	}
 	return "";
 }
