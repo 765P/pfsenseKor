@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-gateways
 ##|*NAME=System: Gateways
@@ -73,9 +78,9 @@ function can_delete_disable_gateway_item($id, $disable = false) {
 				$items = explode("|", $item);
 				if ($items[0] == $a_gateways[$id]['name']) {
 					if (!$disable) {
-						$input_errors[] = sprintf(gettext('Gateway "%1$s" cannot be deleted because it is in use on Gateway Group "%2$s"'), $a_gateways[$id]['name'], $group['name']);
+						$input_errors[] = sprintf(gettext('게이트웨이 "%1$s"은 게이트웨이 그룹 "%2$s"에서 사용 중이므로 삭제할 수 없습니다.'), $a_gateways[$id]['name'], $group['name']);
 					} else {
-						$input_errors[] = sprintf(gettext('Gateway "%1$s" cannot be disabled because it is in use on Gateway Group "%2$s"'), $a_gateways[$id]['name'], $group['name']);
+						$input_errors[] = sprintf(gettext('게이트웨이 "%1$s"은(는) 게이트웨이 그룹 "%2$s"에서 사용 중이므로 비활성화 할 수 없습니다.'), $a_gateways[$id]['name'], $group['name']);
 					}
 				}
 			}
@@ -87,11 +92,11 @@ function can_delete_disable_gateway_item($id, $disable = false) {
 			if ($route['gateway'] == $a_gateways[$id]['name']) {
 				if (!$disable) {
 					// The user wants to delete this gateway, but there is a static route (enabled or disabled) that refers to the gateway.
-					$input_errors[] = sprintf(gettext('Gateway "%1$s" cannot be deleted because it is in use on Static Route "%2$s"'), $a_gateways[$id]['name'], $route['network']);
+					$input_errors[] = sprintf(gettext('게이트웨이 "%1$s"은(는) 정적 경로 "%2$s에서 사용 중이므로 삭제할 수 없습니다.'), $a_gateways[$id]['name'], $route['network']);
 				} else if (!isset($route['disabled'])) {
 					// The user wants to disable this gateway.
 					// But there is a static route that uses this gateway and is enabled (not disabled).
-					$input_errors[] = sprintf(gettext('Gateway "%1$s" cannot be disabled because it is in use on Static Route "%2$s"'), $a_gateways[$id]['name'], $route['network']);
+					$input_errors[] = sprintf(gettext('게이트웨이 "%1$s"은(는) 정적 경로 "%2$s"에서 사용 중이므로 비활성화 할 수 없습니다.'), $a_gateways[$id]['name'], $route['network']);
 				}
 			}
 		}
@@ -174,7 +179,7 @@ if (isset($_REQUEST['del_x'])) {
 				$items_deleted .= "{$rulei} ";
 			}
 			if (!empty($items_deleted)) {
-				write_config(sprintf(gettext("Gateways: removed gateways %s", $items_deleted)));
+				write_config(sprintf(gettext("게이트웨이: 제거된 게이트웨이 %s", $items_deleted)));
 				mark_subsystem_dirty('staticroutes');
 			}
 			header("Location: system_gateways.php");
@@ -229,28 +234,28 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('staticroutes')) {
-	print_apply_box(gettext("The gateway configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("게이트웨이 구성이 변경되었습니다.") . "<br />" . gettext("변경 사항을 적용해야 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[0] = array(gettext("Gateways"), true, "system_gateways.php");
-$tab_array[1] = array(gettext("Static Routes"), false, "system_routes.php");
-$tab_array[2] = array(gettext("Gateway Groups"), false, "system_gateway_groups.php");
+$tab_array[0] = array(gettext("게이트웨이"), true, "system_gateways.php");
+$tab_array[1] = array(gettext("정적 라우트"), false, "system_routes.php");
+$tab_array[2] = array(gettext("게이트웨이 그룹"), false, "system_gateway_groups.php");
 display_top_tabs($tab_array);
 
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Gateways')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('게이트웨이')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
 						<th></th>
-						<th><?=gettext("Name")?></th>
-						<th><?=gettext("Interface")?></th>
-						<th><?=gettext("Gateway")?></th>
-						<th><?=gettext("Monitor IP")?></th>
+						<th><?=gettext("이름")?></th>
+						<th><?=gettext("인터페이스")?></th>
+						<th><?=gettext("게이트웨이")?></th>
+						<th><?=gettext("모니터 IP")?></th>
 						<th><?=gettext("Description")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
@@ -267,7 +272,7 @@ foreach ($a_gateways as $i => $gateway):
 	}
 
 	if (isset($gateway['inactive'])) {
-		$title = gettext("This gateway is inactive because interface is missing");
+		$title = gettext("인터페이스가 없으므로이 게이트웨이는 비활성 상태입니다.");
 	} else {
 		$title = '';
 	}
@@ -295,8 +300,8 @@ foreach ($a_gateways as $i => $gateway):
 							<?=htmlspecialchars($gateway['descr'])?>
 						</td>
 						<td>
-							<a href="system_gateways_edit.php?id=<?=$i?>" class="fa fa-pencil" title="<?=gettext('Edit gateway');?>"></a>
-							<a href="system_gateways_edit.php?dup=<?=$i?>" class="fa fa-clone" title="<?=gettext('Copy gateway')?>"></a>
+							<a href="system_gateways_edit.php?id=<?=$i?>" class="fa fa-pencil" title="<?=gettext('게이트웨이 편집');?>"></a>
+							<a href="system_gateways_edit.php?dup=<?=$i?>" class="fa fa-clone" title="<?=gettext('게이트웨이 복사')?>"></a>
 
 <?php if (is_numeric($gateway['attribute'])): ?>
 	<?php if (isset($gateway['disabled'])) {
@@ -322,7 +327,7 @@ foreach ($a_gateways as $i => $gateway):
 <nav class="action-buttons">
 	<a href="system_gateways_edit.php" role="button" class="btn btn-success">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add");?>
+		<?=gettext("추가");?>
 	</a>
 </nav>
 <?php
