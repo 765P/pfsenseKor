@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-ntpd
 ##|*NAME=Services: NTP Settings
@@ -41,7 +46,7 @@ if (empty($config['ntpd']['interface'])) {
 	    is_array($config['installedpackages']['openntpd']['config'][0]) && !empty($config['installedpackages']['openntpd']['config'][0]['interface'])) {
 		$pconfig['interface'] = explode(",", $config['installedpackages']['openntpd']['config'][0]['interface']);
 		unset($config['installedpackages']['openntpd']);
-		write_config(gettext("Upgraded settings from openttpd"));
+		write_config(gettext("openttpd에서 업그레이드 된 설정"));
 	} else {
 		$pconfig['interface'] = array();
 	}
@@ -54,7 +59,7 @@ if ($_POST) {
 	$pconfig = $_POST;
 
 	if ((strlen($pconfig['ntporphan']) > 0) && (!is_numericint($pconfig['ntporphan']) || ($pconfig['ntporphan'] < 1) || ($pconfig['ntporphan'] > 15))) {
-		$input_errors[] = gettext("The supplied value for NTP Orphan Mode is invalid.");
+		$input_errors[] = gettext("NTP 고아 모드에 대해 제공된 값이 유효하지 않습니다.");
 	}
 
 	if (!$input_errors) {
@@ -149,7 +154,7 @@ if ($_POST) {
 			$config['ntpd']['leapsec'] = base64_encode(file_get_contents($_FILES['leapfile']['tmp_name']));
 		}
 
-		write_config("Updated NTP Server Settings");
+		write_config("업데이트 된 NTP 서버 설정");
 
 		$changes_applied = true;
 		$retval = 0;
@@ -185,7 +190,7 @@ if (empty($pconfig['interface'])) {
 } else {
 	$pconfig['interface'] = explode(",", $pconfig['interface']);
 }
-$pgtitle = array(gettext("Services"), gettext("NTP"), gettext("Settings"));
+$pgtitle = array(gettext("Services"), gettext("NTP"), gettext("설정"));
 $pglinks = array("", "@self", "@self");
 $shortcut_section = "ntp";
 include("head.inc");
@@ -199,7 +204,7 @@ if ($changes_applied) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Settings"), true, "services_ntpd.php");
+$tab_array[] = array(gettext("설정"), true, "services_ntpd.php");
 $tab_array[] = array(gettext("ACLs"), false, "services_ntpd_acls.php");
 $tab_array[] = array(gettext("Serial GPS"), false, "services_ntpd_gps.php");
 $tab_array[] = array(gettext("PPS"), false, "services_ntpd_pps.php");
@@ -208,7 +213,7 @@ display_top_tabs($tab_array);
 $form = new Form;
 $form->setMultipartEncoding();	// Allow file uploads
 
-$section = new Form_Section('NTP Server Configuration');
+$section = new Form_Section('NTP 서버 ');
 
 $iflist = build_interface_list();
 
@@ -229,7 +234,7 @@ for ($counter=0; $counter < $maxrows; $counter++) {
 	$group = new Form_Group($counter == 0 ? 'Time Servers':'');
 	$group->addClass('repeatable');
 	$group->setAttribute('max_repeats', NUMTIMESERVERS);
-	$group->setAttribute('max_repeats_alert', sprintf(gettext('%d is the maximum number of configured servers.'), NUMTIMESERVERS));
+	$group->setAttribute('max_repeats_alert', sprintf(gettext('%d는 구성된 최대 서버 수입니다.'), NUMTIMESERVERS));
 
 	$group->add(new Form_Input(
 		'server' . $counter,
@@ -484,9 +489,9 @@ events.push(function() {
 		hideInput('leapfile', !showadvleap);
 
 		if (showadvleap) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvleap').html('<i class="fa fa-cog"></i> ' + text);
 	}
