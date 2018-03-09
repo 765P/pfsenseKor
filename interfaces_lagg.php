@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-lagg
 ##|*NAME=Interfaces: LAGG:
@@ -56,12 +61,12 @@ function lagg_inuse($num) {
 
 if ($_POST['act'] == "del") {
 	if (!isset($_POST['id'])) {
-		$input_errors[] = gettext("Wrong parameters supplied");
+		$input_errors[] = gettext("잘못된 파라미터가 제공되었습니다.");
 	} else if (empty($a_laggs[$_POST['id']])) {
-		$input_errors[] = gettext("Wrong index supplied");
+		$input_errors[] = gettext("잘못된 색인이 제공되었습니다.");
 	/* check if still in use */
 	} else if (lagg_inuse($_POST['id'])) {
-		$input_errors[] = gettext("This LAGG interface cannot be deleted because it is still being used.");
+		$input_errors[] = gettext("이 LAGG 인터페이스는 아직 사용 중이기 때문에 삭제할 수 없습니다.");
 	} else {
 		pfSense_interface_destroy($a_laggs[$_POST['id']]['laggif']);
 		unset($a_laggs[$_POST['id']]);
@@ -73,7 +78,7 @@ if ($_POST['act'] == "del") {
 	}
 }
 
-$pgtitle = array(gettext("Interfaces"), gettext("LAGGs"));
+$pgtitle = array(gettext("인터페이스"), gettext("LAGGs"));
 $shortcut_section = "interfaces";
 include("head.inc");
 
@@ -82,27 +87,27 @@ if ($input_errors) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Interface Assignments"), false, "interfaces_assign.php");
-$tab_array[] = array(gettext("Interface Groups"), false, "interfaces_groups.php");
-$tab_array[] = array(gettext("Wireless"), false, "interfaces_wireless.php");
+$tab_array[] = array(gettext("인터페이스 과제"), false, "interfaces_assign.php");
+$tab_array[] = array(gettext("인터페이스 그룹"), false, "interfaces_groups.php");
+$tab_array[] = array(gettext("무선통신"), false, "interfaces_wireless.php");
 $tab_array[] = array(gettext("VLANs"), false, "interfaces_vlan.php");
 $tab_array[] = array(gettext("QinQs"), false, "interfaces_qinq.php");
 $tab_array[] = array(gettext("PPPs"), false, "interfaces_ppps.php");
 $tab_array[] = array(gettext("GREs"), false, "interfaces_gre.php");
 $tab_array[] = array(gettext("GIFs"), false, "interfaces_gif.php");
-$tab_array[] = array(gettext("Bridges"), false, "interfaces_bridge.php");
+$tab_array[] = array(gettext("브리지"), false, "interfaces_bridge.php");
 $tab_array[] = array(gettext("LAGGs"), true, "interfaces_lagg.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('LAGG Interfaces')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('LAGG 인터페이스')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext("Interface"); ?></th>
-						<th><?=gettext("Members"); ?></th>
+						<th><?=gettext("인터페이스"); ?></th>
+						<th><?=gettext("멤버"); ?></th>
 						<th><?=gettext("Description"); ?></th>
 						<th><?=gettext("Actions"); ?></th>
 					</tr>
@@ -125,8 +130,8 @@ foreach ($a_laggs as $lagg) {
 							<?=htmlspecialchars($lagg['descr'])?>
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit LAGG interface')?>"	href="interfaces_lagg_edit.php?id=<?=$i?>"></a>
-							<a class="fa fa-trash"	title="<?=gettext('Delete LAGG interface')?>"	href="interfaces_lagg.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil"	title="<?=gettext('LAGG 인터페이스 편집')?>"	href="interfaces_lagg_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-trash"	title="<?=gettext('LAGG 인터페이스 삭제')?>"	href="interfaces_lagg.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 					</tr>
 <?php
