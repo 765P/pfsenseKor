@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-usermanager-passwordmg
 ##|*NAME=System: User Password Manager
@@ -30,7 +35,7 @@ require_once("auth.inc");
 require_once("certs.inc");
 require_once("guiconfig.inc");
 
-$pgtitle = array(gettext("System"), gettext("User Password"));
+$pgtitle = array(gettext("System"), gettext("유저 패스워드"));
 
 if (isset($_POST['save'])) {
 	unset($input_errors);
@@ -41,7 +46,7 @@ if (isset($_POST['save'])) {
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($_POST['passwordfld1'] != $_POST['passwordfld2']) {
-		$input_errors[] = gettext("The passwords do not match.");
+		$input_errors[] = gettext("패스워드가 일치하지 않습니다.");
 	}
 
 	if (!$input_errors) {
@@ -56,7 +61,7 @@ if (isset($_POST['save'])) {
 
 		write_config();
 
-		$savemsg = gettext("Password successfully changed.");
+		$savemsg = gettext("패스워드가 성공적으로 변경되었습니다.");
 	}
 }
 
@@ -83,7 +88,7 @@ if ($savemsg) {
 }
 
 if ($islocal == false) {
-	echo gettext("The password cannot be changed for a non-local user.");
+	echo gettext("로컬 사용자가 아닌 경우 암호를 변경할 수 없습니다.");
 	include("foot.inc");
 	exit;
 }
