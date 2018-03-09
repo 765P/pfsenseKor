@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.09
+한글화 번역 시작 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-vlan-edit
 ##|*NAME=Interfaces: VLAN: Edit
@@ -70,25 +75,25 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "if tag");
-	$reqdfieldsn = array(gettext("Parent interface"), gettext("VLAN tag"));
+	$reqdfieldsn = array(gettext("상위 인터페이스"), gettext("VLAN 태그"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (isset($_POST['tag']) && !vlan_valid_tag($_POST['tag'])) {
-		$input_errors[] = gettext("The VLAN tag must be an integer between 1 and 4094.");
+		$input_errors[] = gettext("VLAN 태그는 1에서 4094 사이의 정수 여야합니다.");
 	}
 	if (isset($_POST['pcp']) && !empty($_POST['pcp']) && (!is_numericint($_POST['pcp']) || ($_POST['pcp'] < '0') || ($_POST['pcp'] > '7'))) {
-		$input_errors[] = gettext("The VLAN Priority must be an integer between 0 and 7.");
+		$input_errors[] = gettext("VLAN 우선 순위는 0과 7 사이의 정수 여야합니다.");
  	}
 
 	if (!does_interface_exist($_POST['if'])) {
-		$input_errors[] = gettext("Interface supplied as parent is invalid");
+		$input_errors[] = gettext("상위로 제공된 인터페이스가 잘못되었습니다.");
 	}
 
 	if (isset($id)) {
 		if ($_POST['tag'] && $_POST['tag'] != $a_vlans[$id]['tag']) {
 			if (!empty($a_vlans[$id]['vlanif']) && convert_real_interface_to_friendly_interface_name($a_vlans[$id]['vlanif']) != NULL) {
-				$input_errors[] = gettext("The VLAN tag cannot be changed while the interface is assigned.");
+				$input_errors[] = gettext("인터페이스가 할당되어있는 동안에는 VLAN 태그를 변경할 수 없습니다.");
 			}
 		}
 	}
@@ -98,14 +103,14 @@ if ($_POST['save']) {
 		}
 
 		if (($vlan['if'] == $_POST['if']) && ($vlan['tag'] == $_POST['tag'])) {
-			$input_errors[] = sprintf(gettext("A VLAN with the tag %s is already defined on this interface."), $vlan['tag']);
+			$input_errors[] = sprintf(gettext("이 인터페이스에는 이미 % s 태그가있는 VLAN이 정의되어 있습니다."), $vlan['tag']);
 			break;
 		}
 	}
 	if (is_array($config['qinqs']['qinqentry'])) {
 		foreach ($config['qinqs']['qinqentry'] as $qinq) {
 			if ($qinq['tag'] == $_POST['tag'] && $qinq['if'] == $_POST['if']) {
-				$input_errors[] = sprintf(gettext('A QinQ VLAN exists on %s with this tag. Please remove it to use this tag for a normal VLAN.'), $_POST['if']);
+				$input_errors[] = sprintf(gettext('QinQ VLAN이이 태그와 함께 % s에 있습니다. 이 태그를 일반 VLAN에 사용하려면이 태그를 제거하십시오.'), $_POST['if']);
 			}
 		}
 	}
@@ -135,7 +140,7 @@ if ($_POST['save']) {
 		$vlanif = interface_vlan_configure($vlan);
 		if ($vlanif == NULL || $vlanif != $vlan['vlanif']) {
 			pfSense_interface_destroy($vlan['vlanif']);
-			$input_errors[] = gettext("Error occurred creating interface, please retry.");
+			$input_errors[] = gettext("인터페이스를 생성하는 동안 오류가 발생했습니다. 다시 시도하십시오.");
 		} else {
 			if (isset($id) && $a_vlans[$id]) {
 				$a_vlans[$id] = $vlan;
@@ -171,7 +176,7 @@ function build_interfaces_list() {
 	return($list);
 }
 
-$pgtitle = array(gettext("Interfaces"), gettext("VLANs"), gettext("Edit"));
+$pgtitle = array(gettext("인터페이스"), gettext("VLANs"), gettext("편집"));
 $pglinks = array("", "interfaces_vlan.php", "@self");
 $shortcut_section = "interfaces";
 include("head.inc");
@@ -181,14 +186,14 @@ if ($input_errors) {
 }
 
 $form = new Form;
-$section = new Form_Section('VLAN Configuration');
+$section = new Form_Section('VLAN 구성');
 
 $section->addInput(new Form_Select(
 	'if',
 	'*Parent Interface',
 	$pconfig['if'],
 	build_interfaces_list()
-))->setWidth(6)->setHelp('Only VLAN capable interfaces will be shown.');
+))->setWidth(6)->setHelp('VLAN 가능 인터페이스 만 표시됩니다..');
 
 $section->addInput(new Form_Input(
 	'tag',
