@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-pfsensewizardsubsystem
 ##|*NAME=pfSense wizard subsystem
@@ -50,25 +55,25 @@ $xml = htmlspecialchars($_REQUEST['xml']);
 
 if (empty($xml)) {
 	$xml = "not_defined";
-	print_info_box(sprintf(gettext("Could not open %s."), $xml), 'danger');
+	print_info_box(sprintf(gettext("%s를 열 수 없습니다."), $xml), 'danger');
 	die;
 } else {
 	$wizard_xml_prefix = "{$g['www_path']}/wizards";
 	$wizard_full_path = "{$wizard_xml_prefix}/{$xml}";
 	if (substr_compare(realpath($wizard_full_path), $wizard_xml_prefix, 0, strlen($wizard_xml_prefix))) {
-		print_info_box(gettext("Invalid path specified."), 'danger');
+		print_info_box(gettext("유효하지 않은 경로가 지정되었습니다."), 'danger');
 		die;
 	}
 	if (file_exists($wizard_full_path)) {
 		$pkg = parse_xml_config_pkg($wizard_full_path, "pfsensewizard");
 	} else {
-		print_info_box(sprintf(gettext("Could not open %s."), $xml), 'danger');
+		print_info_box(sprintf(gettext("%s를 열 수 없습니다."), $xml), 'danger');
 		die;
 	}
 }
 
 if (!is_array($pkg)) {
-	print_info_box(sprintf(gettext('Could not parse %1$s/wizards/%2$s file.'), $g['www_path'], $xml), 'danger');
+	print_info_box(sprintf(gettext('%1$s/wizards/%2$s 파일을 분석 할 수 없습니다.'), $g['www_path'], $xml), 'danger');
 	die;
 }
 
@@ -114,7 +119,7 @@ if ($_POST && !$input_errors) {
 		eval($pkg['step'][$stepid]['stepsubmitphpaction']);
 	}
 	if (!$input_errors) {
-		write_config(gettext("Configuration changed via the pfSense wizard subsystem."));
+		write_config(gettext("pfSense 마법사 하위 시스템을 통해 구성이 변경되었습니다."));
 	}
 
 	$stepid++;
@@ -432,7 +437,7 @@ $pbclass = ($completion == 100) ? "progress-bar progress-bar-success":"progress-
 <!-- Draw a progress bar to show step progress -->
 <div class="progress">
 	<div class="<?=$pbclass?>" role="progressbar" aria-valuenow="<?=$completion?>" aria-valuemin="0" aria-valuemax="100" style="width:<?=$completion?>%; line-height: 15px;">
-		<?php print(sprintf(gettext("Step %s of %s"), $stepid, $totalsteps-1)); ?>
+		<?php print(sprintf(gettext("%s 의 %s"), $stepid, $totalsteps-1)); ?>
 	</div>
 </div>
 <br />
@@ -499,7 +504,7 @@ if ($pkg['step'][$stepid]['fields']['field'] != "") {
 
 
 		if (DEBUG) {
-			print('Step: ' . $pkg['step'][$stepid]['id'] . ', Field: ' . $field['type'] . ', Name: ' . $name . '<br />');
+			print('단계: ' . $pkg['step'][$stepid]['id'] . ', Field: ' . $field['type'] . ', Name: ' . $name . '<br />');
 		}
 
 		switch ($field['type']) {
