@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-ipsec-sad
 ##|*NAME=Status: IPsec: SADs
@@ -51,8 +56,8 @@ if ($_POST['act'] == "del") {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Overview"), false, "status_ipsec.php");
-$tab_array[] = array(gettext("Leases"), false, "status_ipsec_leases.php");
+$tab_array[] = array(gettext("개요"), false, "status_ipsec.php");
+$tab_array[] = array(gettext("리스"), false, "status_ipsec_leases.php");
 $tab_array[] = array(gettext("SADs"), true, "status_ipsec_sad.php");
 $tab_array[] = array(gettext("SPDs"), false, "status_ipsec_spd.php");
 display_top_tabs($tab_array);
@@ -63,13 +68,13 @@ if (count($sad)) {
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th><?=gettext("Source")?></th>
-					<th><?=gettext("Destination")?></th>
-					<th><?=gettext("Protocol")?></th>
+					<th><?=gettext("발신지")?></th>
+					<th><?=gettext("수신지")?></th>
+					<th><?=gettext("프로토콜")?></th>
 					<th><?=gettext("SPI")?></th>
 					<th><?=gettext("Enc. alg.")?></th>
 					<th><?=gettext("Auth. alg.")?></th>
-					<th><?=gettext("Data")?></th>
+					<th><?=gettext("데이터")?></th>
 					<th></th>
 				</tr>
 			</thead>
@@ -103,7 +108,7 @@ if (count($sad)) {
 						$args .= "&amp;proto=" . rawurlencode($sa['proto']);
 						$args .= "&amp;spi=" . rawurlencode("0x" . $sa['spi']);
 					?>
-					<a href="status_ipsec_sad.php?act=del&amp;<?=$args?>"><i class="fa fa-trash" title="<?=gettext("Remove this SPD Entry")?>" usepost></i></a>
+					<a href="status_ipsec_sad.php?act=del&amp;<?=$args?>"><i class="fa fa-trash" title="<?=gettext("이 SPD 항목을 제거하십시오.")?>" usepost></i></a>
 				</td>
 			</tr>
 
@@ -114,7 +119,7 @@ if (count($sad)) {
 	</div>
 <?php
 } else {
-	print_info_box(gettext('No IPsec security associations.'));
+	print_info_box(gettext('IPsec 보안 연결 없음'));
 }
 
 if (ipsec_enabled()) {
@@ -126,7 +131,7 @@ if (ipsec_enabled()) {
 <div class="infoblock blockopen">
 <?php
 }
-print_info_box(sprintf(gettext('IPsec can be configured %1$shere%2$s.'), '<a href="vpn_ipsec.php">', '</a>'), 'info', false);
+print_info_box(sprintf(gettext('IPsec은 %1$s여기%2$s에서 구성 할 수 있습니다.'), '<a href="vpn_ipsec.php">', '</a>'), 'info', false);
 ?>
 </div>
 <?php
