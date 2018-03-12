@@ -30,6 +30,11 @@
 ##|*MATCH=services_captiveportal.php*
 ##|-PRIV
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 require_once("functions.inc");
 require_once("filter.inc");
 require_once("shaper.inc");
@@ -847,21 +852,21 @@ $group->add(new Form_IpAddress(
 	'radiusip4',
 	null,
 	$pconfig['radiusip4']
-))->setHelp('IP address of the RADIUS server to authenticate against.');
+))->setHelp('인증 할 RADIUS 서버의 IP 주소입니다.');
 
 $group->add(new Form_Input(
 	'radiusport4',
 	null,
 	'number',
 	$pconfig['radiusport4']
-))->setHelp('RADIUS port. Leave blank for default (1812)');
+))->setHelp('기본 포트 (1813)를 사용하려면 비워 두십시오.');
 
 $group->add(new Form_Input(
 	'radiuskey4',
 	null,
 	'text',
 	$pconfig['radiuskey4']
-))->setHelp('RADIUS shared secret. Leave blank to not use a shared secret (not recommended)');
+))->setHelp('RADIUS 공유 암호. 공유 암호를 사용하지 않으려면 비워 두십시오 (권장하지 않음).');
 
 $section->add($group);
 $form->add($section);
@@ -881,7 +886,7 @@ $section->addInput(new Form_Input(
 	'Accounting Port',
 	'text',
 	$pconfig['radiusacctport']
-))->setHelp('Leave blank to use the default port (1813).');
+))->setHelp('기본 포트 (1813)를 사용하려면 비워 두십시오.');
 
 $group = new Form_Group('Accounting updates');
 
@@ -929,18 +934,17 @@ $section->addInput(new Form_Checkbox(
 	'Reauthentication',
 	'Reauthenticate connected users every minute',
 	$pconfig['reauthenticate']
-))->setHelp('If reauthentication is enabled, Access-Requests will be sent to the RADIUS server for each user that is logged in every minute. ' .
-			'If an Access-Reject is received for a user, that user is disconnected from the captive portal immediately. ' .
-			'Reauthentication requires user credentials to be cached in the captive portal database while a user is logged in; ' .
-			'The cached credentials are necessary for the portal to perform automatic reauthentication requests.');
+))->setHelp('재 인증을 사용하면 매분마다 로그인 한 각 사용자의 액세스 요청이 RADIUS 서버로 전송됩니다. ' .
+			'사용자에 대해 액세스 거부가 수신되면 해당 사용자는 포털과 즉시 연결이 끊어집니다. ' .
+			'재 인증을 사용하려면 사용자가 로그인 한 상태에서 포털 데이터베이스에 사용자 자격 증명을 캐시해야합니다. ' .
+			'캐시 된 자격 증명은 포털이 자동 재 인증 요청을 수행하는 데 필요합니다.');
 
 $section->addInput(new Form_Checkbox(
 	'radmac_enable',
 	'RADIUS MAC Authentication',
 	'Enable RADIUS MAC authentication',
 	$pconfig['radmac_enable']
-))->setHelp('If this option is enabled, the captive portal will try to authenticate users by sending their MAC address as the username ' .
-			'and the password entered below to the RADIUS server.');
+))->setHelp('활성화 된 경우, 종속 포털은 사용자의 MAC 주소를 아래에 입력 한 사용자 이름과 암호로 RADIUS 서버에 보내 사용자를 인증하려고 시도합니다.');
 
 $section->addInput(new Form_Input(
 	'radmac_secret',
@@ -954,54 +958,52 @@ $section->addInput(new Form_Select(
 	'RADIUS NAS IP Attribute',
 	$pconfig['radiussrcip_attribute'],
 	build_radiusnas_list()
-))->setHelp('Choose the IP to use for calling station attribute.');
+))->setHelp('호출 스테이션 속성에 사용할 IP를 선택하십시오.');
 
 $section->addInput(new Form_Checkbox(
 	'radiussession_timeout',
 	'Session timeout',
 	'Use RADIUS Session-Timeout attributes',
 	$pconfig['radiussession_timeout']
-))->setHelp('When enabled, clients will be disconnected after the amount of time retrieved from the RADIUS Session-Timeout attribute.');
+))->setHelp('활성화 된 경우, RADIUS 세션 - 시간 초과 속성에서 설정한 시간이 지나면 클라이언트의 연결이 끊어집니다.');
 
 $section->addInput(new Form_Select(
 	'radiusvendor',
 	'Type',
 	$pconfig['radiusvendor'],
 	['default' => gettext('default'), 'cisco' => 'cisco']
-))->setHelp('If RADIUS type is set to Cisco, in Access-Requests the value of Calling-Station-ID will be set to the client\'s IP address and the ' .
-			'Called-Station-Id to the client\'s MAC address. Default behavior is Calling-Station-Id = client\'s MAC address and ' .
-			'Called-Station-ID = pfSense\'s WAN IP address.');
+))->setHelp('RADIUS 유형이 Cisco로 설정된 경우, Access-Requests에서 Calling-Station-ID의 값은 클라이언트의 IP 주소로 설정되고 Called-Station-Id는 클라이언트의 MAC 주소로 설정됩니다.' .
+			'기본 동작은 Calling-Station-Id = 클라이언트의 MAC 주소 및 호출 된 스테이션 ID = pfSense의 WAN IP 주소입니다.');
 
 $section->addInput(new Form_Checkbox(
 	'reverseacct',
 	'Accounting style',
 	'Invert Acct-Input-Octets and Acct-Output-Octets',
 	$pconfig['reverseacct']
-))->setHelp('When enabled, data counts for RADIUS accounting packets will be taken from the client perspective, not the NAS. ' .
-			'Acct-Input-Octets will represent download, and Acct-Output-Octets will represent upload.');
+))->setHelp('활성화 된 경우, RADIUS 계정 패킷의 데이터 수는 NAS가 아닌 클라이언트 관점에서 취합니다. ' .
+			'Acct-Input-Octets은 다운로드를 나타내고 Acct-Output-Octets은 업로드를 나타냅니다.');
 
 $section->addInput(new Form_Checkbox(
 	'includeidletime',
 	'Idle time accounting',
 	'Include idle time in session time',
 	$pconfig['includeidletime']
-))->setHelp('When enabled, if a client is disconnected for exceeding the idle timeout the time spent idle is included in the total session time. ' .
-			'Otherwise the session time reported to the RADIUS server is the time between when the session started and when the last ' .
-			'activity was recorded.');
+))->setHelp('활성화 된 경우, 유휴 시간을 초과하여 클라이언트의 연결이 끊어지면 유휴 시간이 전체 세션 시간에 포함됩니다. ' .
+			'그렇지 않은 경우 RADIUS 서버에 보고 된 세션 시간은 세션이 시작된 시간과 마지막 작업이 기록 된 시간 사이의 값입니다.');
 
 $section->addInput(new Form_Input(
 	'radiusnasid',
 	'NAS Identifier',
 	'text',
 	$pconfig['radiusnasid']
-))->setHelp('Specify a NAS identifier to override the default value (pfSense.localdomain)');
+))->setHelp('NAS 식별자를 지정하여 기본값을 무시 (pfSense.localdomain)');
 
 $section->addInput(new Form_Select(
 	'radmac_format',
 	'MAC address format',
 	$pconfig['radmac_format'],
 	['default' => 'Default', 'singledash' => gettext('Single dash'), 'ietf' => 'IETF', 'cisco' => 'Cisco', 'unformatted' => gettext('Unformatted')]
-))->setHelp('This option changes the MAC address format used in the whole RADIUS system. Change this if the username format also needs to be changed for ' .
+))->setHelp('이 옵션은 전체 RADIUS 시스템에서 사용되는 MAC 주소 형식을 변경합니다. 사용자 이름 형식도 변경해야하는 경우 변경하십시오. ' .
 			'RADIUS MAC authentication. %1$s' .
 			'Default: 00:11:22:33:44:55 %1$s' .
 			'Single dash: 001122-334455 %1$s' .
@@ -1019,34 +1021,34 @@ $section->addInput(new Form_Checkbox(
 	'Login',
 	'Enable HTTPS login',
 	$pconfig['httpslogin_enable']
-))->setHelp('When enabled, the username and password will be transmitted over an HTTPS connection to protect against eavesdroppers. ' .
-			'A server name and certificate must also be specified below.');
+))->setHelp('사용하도록 설정하면 사용자 이름과 비밀번호를 보호하기 위해 HTTPS 연결을 통해 전송됩니다 ' .
+			'서버 이름과 인증서도 아래에 지정해야합니다.');
 
 $section->addInput(new Form_Input(
 	'httpsname',
 	'*HTTPS server name',
 	'text',
 	$pconfig['httpsname']
-))->setHelp('This name will be used in the form action for the HTTPS POST and should match the Common Name (CN) in the certificate ' .
-			'(otherwise, the client browser will most likely display a security warning). ' .
-			'Make sure captive portal clients can resolve this name in DNS and verify on the client that the IP resolves to the correct interface IP on pfSense.');
+))->setHelp('이 이름은 HTTPS POST에 대한 양식 작업에 사용되며 인증서의 일반 이름 (CN)과 일치해야합니다. ' .
+			'(그렇지 않으면 클라이언트 브라우저가 보안 경고를 표시 할 가능성이 큽니다.). ' .
+			'종속 포털 클라이언트가 DNS에서 이름을 확인할 수 있고 클라이언트가 IP가 pfSense의 올바른 인터페이스 IP로 확인되는지 혹은 확인할 수 있는지 확인하십시오.');
 
 $section->addInput(new Form_Select(
 	'certref',
 	'*SSL Certificate',
 	$pconfig['certref'],
 	build_cert_list()
-))->setHelp('If no certificates are defined, one may be defined here: %1$sSystem &gt; Cert. Manager%2$s', '<a href="system_certmanager.php">', '</a>');
+))->setHelp('정의된 인증서가 없으면, 여기서 인증할 수 있습니다: %1$sSystem &gt; Cert. Manager%2$s', '<a href="system_certmanager.php">', '</a>');
 
 $section->addInput(new Form_Checkbox(
 	'nohttpsforwards',
 	'HTTPS Forwards',
 	'Disable HTTPS Forwards',
 	$pconfig['nohttpsforwards']
-))->setHelp('If this option is set, attempts to connect to SSL/HTTPS (Port 443) sites will not be forwarded to the captive portal. ' .
-			'This prevents certificate errors from being presented to the user even if HTTPS logins are enabled. ' .
-			'Users must attempt a connecton to an HTTP (Port 80) site to get forwarded to the captive portal. ' .
-			'If HTTPS logins are enabled, the user will be redirected to the HTTPS login page.');
+))->setHelp('이 옵션을 설정하면 SSL / HTTPS (포트 443) 사이트에 연결하려는 시도가 종속 포털로 전달되지 않습니다. ' .
+			'이렇게하면, HTTPS 로그인을 사용할 수있는 경우에도 인증서 오류가 사용자에게 표시되지 않습니다. ' .
+			'즉, 사용자는 종속 포털로 전달하기 위해 HTTP (포트 80) 사이트에 연결을 시도해야합니다. ' .
+			'HTTPS 로그인을 사용하면 사용자가 HTTPS 로그인 페이지로 리디렉션됩니다.');
 
 $form->add($section);
 
@@ -1058,10 +1060,10 @@ $section->addInput(new Form_Input(
 	'Portal page contents',
 	'file',
 	$pconfig['htmlfile']
-))->setHelp('Upload an HTML/PHP file for the portal page here (leave blank to keep the current one). Make sure to include a form (POST to "$PORTAL_ACTION$") ' .
-			'with a submit button (name="accept") and a hidden field with name="redirurl" and value="$PORTAL_REDIRURL$". ' .
-			'Include the "auth_user" and "auth_pass" and/or "auth_voucher" input fields if authentication is enabled, otherwise it will always fail.%1$s' .
-			'Example code for the form: %1$s' .
+))->setHelp('포털 페이지에 대한 HTML / PHP 파일을 여기에 업로드하십시오. (현재 페이지를 유지하려면 비워 두십시오) ' .
+			'제출 버튼 (name = "accept")과 name = "redirurl" 및 value = "$PORTAL_REDIRURL$ 인 숨겨진 필드를 포함한 양식 (POST를 "$PORTAL_ACTION$"에 포함)을 포함 시키십시오. ' .
+			'"auth_user "및" auth_pass "및 / 또는"auth_voucher "입력 필드를 사용해야합니다. 그렇지 않으면 항상 실패합니다.%1$s' .
+			'양식 예제 코드: %1$s' .
 			'&lt;form method=&quot;post&quot; action=&quot;$PORTAL_ACTION$&quot;&gt;%1$s' .
 			'&nbsp;&nbsp;&nbsp;&lt;input name=&quot;auth_user&quot; type=&quot;text&quot;&gt;%1$s' .
 			'&nbsp;&nbsp;&nbsp;&lt;input name=&quot;auth_pass&quot; type=&quot;password&quot;&gt;%1$s' .
@@ -1118,9 +1120,8 @@ $section->addInput(new Form_Input(
 	'Auth error page contents',
 	'file',
 	$pconfig['errfile']
-))->setHelp('The contents of the HTML/PHP file that is uploaded here are displayed when an authentication error occurs. ' .
-			'It may include "$PORTAL_MESSAGE$", which will be replaced by the error or reply messages from the RADIUS ' .
-			'server, if any.')->addClass('btn btn-info btn-sm');
+))->setHelp('여기에 업로드 된 HTML / PHP 파일의 내용은 인증 오류가 발생할 때 표시됩니다. ' .
+			'"$PORTAL_MESSAGE$"이(가) 포함될 수 있으며 RADIUS 서버(있는 경우)의 오류 또는 회신 메시지로 대체됩니다. ')->addClass('btn btn-info btn-sm');
 
 if ($pconfig['page']['errtext']) {
 	$group = new Form_Group('Current Auth Error Page');
@@ -1152,7 +1153,7 @@ $section->addInput(new Form_Input(
 	'Logout page contents',
 	'file',
 	$pconfig['logoutfile']
-))->setHelp('The contents of the HTML/PHP file that is uploaded here are displayed on authentication success when the logout popup is enabled.')->addClass('btn btn-info btn-sm');
+))->setHelp('여기에 업로드 된 HTML / PHP 파일의 내용은 로그 아웃 팝업이 활성화되었을 때 인증 성공시 표시됩니다.')->addClass('btn btn-info btn-sm');
 
 if ($pconfig['page']['logouttext']) {
 	$group = new Form_Group('Current Logout Page');
@@ -1188,9 +1189,9 @@ $section->addInput(new Form_Input(
 $form->add($section);
 print($form);
 
-print_info_box(gettext('Don\'t forget to enable the DHCP server on the captive portal interface! ' .
-					   'Make sure that the default/maximum DHCP lease time is higher than the hard timeout entered on this page. ' .
-					   'Also, the DNS Forwarder or Resolver must be enabled for DNS lookups by unauthenticated clients to work.'));
+print_info_box(gettext('포털 인터페이스에서 DHCP 서버를 활성화하는 것을 잊지 마십시오! ' .
+					   '기본 / 최대 DHCP 임대 시간이 페이지에 입력 된 제한 시간보다 높은지 확인하십시오. ' .
+					   '또한 DNS 전달자 또는 확인자가 인증되지 않은 클라이언트의 DNS 조회를 사용하도록 설정되어 있어야합니다.'));
 
 ?>
 
