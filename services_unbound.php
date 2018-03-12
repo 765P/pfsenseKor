@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dnsresolver
 ##|*NAME=Services: DNS Resolver
@@ -109,7 +114,7 @@ if ($_POST['save']) {
 
 	if (isset($pconfig['enable']) && isset($config['dnsmasq']['enable'])) {
 		if ($pconfig['port'] == $config['dnsmasq']['port']) {
-			$input_errors[] = gettext("The DNS Forwarder is enabled using this port. Choose a non-conflicting port, or disable the DNS Forwarder.");
+			$input_errors[] = gettext("DNS 전달자는이 포트를 사용하여 활성화됩니다. 비 충돌 포트를 선택하거나 DNS 전달자를 비활성화하십시오.");
 		}
 	}
 
@@ -134,22 +139,22 @@ if ($_POST['save']) {
 			}
 		}
 		if ($founddns == false) {
-			$input_errors[] = gettext("At least one DNS server must be specified under System &gt; General Setup to enable Forwarding mode.");
+			$input_errors[] = gettext("전달 모드를 사용하려면 시스템 &gt; 일반 설정에서 하나 이상의 DNS 서버를 지정해야합니다.");
 		}
 	}
 
 	if (empty($pconfig['active_interface'])) {
-		$input_errors[] = gettext("One or more Network Interfaces must be selected for binding.");
+		$input_errors[] = gettext("바인딩을 위해 하나 이상의 네트워크 인터페이스를 선택해야합니다.");
 	} else if (!isset($config['system']['dnslocalhost']) && (!in_array("lo0", $pconfig['active_interface']) && !in_array("all", $pconfig['active_interface']))) {
-		$input_errors[] = gettext("This system is configured to use the DNS Resolver as its DNS server, so Localhost or All must be selected in Network Interfaces.");
+		$input_errors[] = gettext("이 시스템은 DNS 확인자를 DNS 서버로 사용하도록 구성되어 있으므로 네트워크 인터페이스에서 로컬 호스트 또는 모두를 선택해야합니다.");
 	}
 
 	if (empty($pconfig['outgoing_interface'])) {
-		$input_errors[] = gettext("One or more Outgoing Network Interfaces must be selected.");
+		$input_errors[] = gettext("하나 이상의 발신 네트워크 인터페이스를 선택해야합니다.");
 	}
 
 	if ($pconfig['port'] && !is_port($pconfig['port'])) {
-		$input_errors[] = gettext("A valid port number must be specified.");
+		$input_errors[] = gettext("올바른 포트 번호를 지정해야 합니다.");
 	}
 
 	if (is_array($pconfig['active_interface']) && !empty($pconfig['active_interface'])) {
@@ -158,11 +163,11 @@ if ($_POST['save']) {
 	}
 
 	if ((isset($pconfig['regdhcp']) || isset($pconfig['regdhcpstatic'])) && !is_dhcp_server_enabled()) {
-		$input_errors[] = gettext("DHCP Server must be enabled for DHCP Registration to work in DNS Resolver.");
+		$input_errors[] = gettext("DNS확인자에서 DHCP등록이 작동하려면 DHCP서버가 사용하도록 설정되어 있어야 합니다.");
 	}
 
 	if (($pconfig['system_domain_local_zone_type'] == "redirect") && isset($pconfig['regdhcp'])) {
-		$input_errors[] = gettext('A System Domain Local Zone Type of "redirect" is not compatible with dynamic DHCP Registration.');
+		$input_errors[] = gettext('리다이렉션의 시스템 도메인 로컬 영역 유형이 동적 DHCP등록과 호환되지 않습니다.');
 	}
 
 	$display_custom_options = $pconfig['custom_options'];
@@ -175,7 +180,7 @@ if ($_POST['save']) {
 
 	$test_output = array();
 	if (test_unbound_config($pconfig, $test_output)) {
-		$input_errors[] = gettext("The generated config file cannot be parsed by unbound. Please correct the following errors:");
+		$input_errors[] = gettext("생성된 구성 파일은 바인딩 되지 않은 상태로 구문 분석할 수 없습니다. 다음 오류를 해결하십시오.:");
 		$input_errors = array_merge($input_errors, $test_output);
 	}
 
@@ -192,7 +197,7 @@ if ($_POST['save']) {
 		$a_unboundcfg['system_domain_local_zone_type'] = $pconfig['system_domain_local_zone_type'];
 		$a_unboundcfg['custom_options'] = $pconfig['custom_options'];
 
-		write_config(gettext("DNS Resolver configured."));
+		write_config(gettext("DNS확인자가 구성되었습니다."));
 		mark_subsystem_dirty('unbound');
 	}
 
@@ -250,7 +255,7 @@ function build_if_list($selectedifs) {
 	return($iflist);
 }
 
-$pgtitle = array(gettext("Services"), gettext("DNS Resolver"), gettext("General Settings"));
+$pgtitle = array(gettext("Services"), gettext("DNS확인자"), gettext("일반 설정"));
 $pglinks = array("", "@self", "@self");
 $shortcut_section = "resolver";
 
@@ -265,18 +270,18 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('unbound')) {
-	print_apply_box(gettext("The DNS resolver configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("DNS확인자 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("General Settings"), true, "services_unbound.php");
-$tab_array[] = array(gettext("Advanced Settings"), false, "services_unbound_advanced.php");
-$tab_array[] = array(gettext("Access Lists"), false, "/services_unbound_acls.php");
+$tab_array[] = array(gettext("일반 설정"), true, "services_unbound.php");
+$tab_array[] = array(gettext("어드밴스드 설정"), false, "services_unbound_advanced.php");
+$tab_array[] = array(gettext("액세스 목록"), false, "/services_unbound_acls.php");
 display_top_tabs($tab_array, true);
 
 $form = new Form();
 
-$section = new Form_Section('General DNS Resolver Options');
+$section = new Form_Section('일반 DNS확인자 옵션');
 
 $section->addInput(new Form_Checkbox(
 	'enable',
@@ -406,9 +411,9 @@ events.push(function() {
 		hideInput('custom_options', !showadvcustom);
 
 		if (showadvcustom) {
-			text = "<?=gettext('Hide Custom Options');?>";
+			text = "<?=gettext('커스텀 옵션 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Custom Options');?>";
+			text = "<?=gettext('커스텀 옵션 보이기');?>";
 		}
 		$('#btnadvcustom').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -452,14 +457,14 @@ events.push(function() {
 </script>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Host Overrides")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("호스트 재정의")?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 			<thead>
 				<tr>
-					<th><?=gettext("Host")?></th>
-					<th><?=gettext("Parent domain of host")?></th>
-					<th><?=gettext("IP to return for host")?></th>
+					<th><?=gettext("호스트")?></th>
+					<th><?=gettext("호스트 상위 도메인")?></th>
+					<th><?=gettext("호스트에 대해 반환할 IP")?></th>
 					<th><?=gettext("Description")?></th>
 					<th><?=gettext("Actions")?></th>
 				</tr>
@@ -483,8 +488,8 @@ foreach ($a_hosts as $hostent):
 						<?=htmlspecialchars($hostent['descr'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit host override')?>" href="services_unbound_host_edit.php?id=<?=$i?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete host override')?>" href="services_unbound.php?type=host&amp;act=del&amp;id=<?=$i?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('호스트 재정의 편집')?>" href="services_unbound_host_edit.php?id=<?=$i?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('호스트 재정의 삭제')?>" href="services_unbound.php?type=host&amp;act=del&amp;id=<?=$i?>" usepost></a>
 					</td>
 				</tr>
 
@@ -500,14 +505,14 @@ foreach ($a_hosts as $hostent):
 						<?=$alias['domain']?>
 					</td>
 					<td>
-						<?=gettext("Alias for ");?><?=$hostent['host'] ? $hostent['host'] . '.' . $hostent['domain'] : $hostent['domain']?>
+						<?=gettext("을 위한 Alias ");?><?=$hostent['host'] ? $hostent['host'] . '.' . $hostent['domain'] : $hostent['domain']?>
 					</td>
 					<td>
 						<i class="fa fa-angle-double-right text-info"></i>
 						<?=htmlspecialchars($alias['description'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit host override')?>" 	href="services_unbound_host_edit.php?id=<?=$i?>"></a>
+						<a class="fa fa-pencil"	title="<?=gettext('호스트 재정의 편집')?>" 	href="services_unbound_host_edit.php?id=<?=$i?>"></a>
 					</td>
 				</tr>
 <?php
@@ -522,28 +527,26 @@ endforeach;
 </div>
 
 <span class="help-block">
-	Enter any individual hosts for which the resolver's standard DNS lookup process should be overridden and a specific
-	IPv4 or IPv6 address should automatically be returned by the resolver. Standard and also non-standard names and parent domains 
-	can be entered, such as 'test', 'mycompany.localdomain', '1.168.192.in-addr.arpa', or 'somesite.com'. Any lookup attempt for 
-	the host will automatically return the given IP address, and the usual lookup server for the domain will not be queried for 
-	the host's records.
+	리졸버의 표준 DNS조회 프로세스가 재정의되어야 하는 모든 개별 호스트를 입력하고 특정 IPv4또는 IPv6주소를 리졸버에 의해 자동으로 반환해야 합니다.
+	'test', 'mycompany.localdomain', '1.168.192.in-addr.arpa'또는 'somesite.com'과 같이 표준 및 비표준 이름과 상위 도메인을 입력 할 수 있습니다.
+	호스트에 대한 검색 시도는 자동으로 지정된 IP주소를 반환하고 도메인에 대한 일반적인 검색 서버는 호스트의 레코드에 대해 쿼리 되지 않습니다.
 </span>
 
 <nav class="action-buttons">
 	<a href="services_unbound_host_edit.php" class="btn btn-sm btn-success">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Domain Overrides")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("도메인 재정의")?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 			<thead>
 				<tr>
 					<th><?=gettext("Domain")?></th>
-					<th><?=gettext("Lookup Server IP Address")?></th>
+					<th><?=gettext("Lookup 서버 IP주소")?></th>
 					<th><?=gettext("Description")?></th>
 					<th><?=gettext("Actions")?></th>
 				</tr>
@@ -565,8 +568,8 @@ foreach ($a_domainOverrides as $doment):
 						<?=htmlspecialchars($doment['descr'])?>&nbsp;
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit domain override')?>" href="services_unbound_domainoverride_edit.php?id=<?=$i?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete domain override')?>" href="services_unbound.php?act=del&amp;type=doverride&amp;id=<?=$i?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('도메인 재정의 편집')?>" href="services_unbound_domainoverride_edit.php?id=<?=$i?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('도메인 재정의 삭제')?>" href="services_unbound.php?act=del&amp;type=doverride&amp;id=<?=$i?>" usepost></a>
 					</td>
 				</tr>
 <?php
@@ -579,28 +582,25 @@ endforeach;
 </div>
 
 <span class="help-block">
-	Enter any domains for which the resolver's standard DNS lookup process should be overridden and a different (non-standard) 
-	lookup server should be queried instead. Non-standard, 'invalid' and local domains, and subdomains, can also be entered, 
-	such as 'test', 'mycompany.localdomain', '1.168.192.in-addr.arpa', or 'somesite.com'. The IP address is treated as the 
-	authoritative lookup server for the domain (including all of its subdomains), and other lookup servers will not be queried.
+	리졸버의 표준 DNS조회 프로세스를 재정의하고 대신 다른(비표준)조회 서버를 쿼리할 도메인을 입력합니다.
+	'test', 'mycompany.localdomain', '1.168.192.in-addr.arpa'또는 'somesite.com'과 같이 비표준의 '유효하지 않은'로컬 도메인과 하위 도메인을 입력 할 수도 있습니다.
+	IP 주소는 도메인 (모든 하위 도메인 포함)의 신뢰할 수있는 조회 서버로 취급되며 다른 조회 서버는 쿼리되지 않습니다.
 </span>
 
 <nav class="action-buttons">
 	<a href="services_unbound_domainoverride_edit.php" class="btn btn-sm btn-success">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
 <div class="infoblock">
-	<?php print_info_box(sprintf(gettext('If the DNS Resolver is enabled, the DHCP'.
-		' service (if enabled) will automatically serve the LAN IP'.
-		' address as a DNS server to DHCP clients so they will use'.
-		' the DNS Resolver. If Forwarding is enabled, the DNS Resolver will use the DNS servers'.
-		' entered in %1$sSystem &gt; General Setup%2$s'.
-		' or those obtained via DHCP or PPP on WAN if &quot;Allow'.
-		' DNS server list to be overridden by DHCP/PPP on WAN&quot;'.
-		' is checked.'), '<a href="system.php">', '</a>'), 'info', false); ?>
+	<?php print_info_box(sprintf(gettext('DNS 확인 프로그램을 사용하는 경우 DHCP '.
+		'서비스 (사용하는 경우)는 자동으로 LAN IP 주소를 DHCP 클라이언트에 '.
+		'대한 DNS 서버로 제공하여 DNS 확인 프로그램을 사용합니다. '.
+		'전달 기능이 활성화 된 경우 DNS 확인 프로그램은 [시스템 &gt; 일반 설정]에'.
+		'입력 된 DNS 서버 또는 WAN상의 DHCP / PPP로 DNS 서버 목록을 무시하도록 허용 된'.
+		'경우 WAN에서 DHCP 또는 PPP를 통해 얻은 DNS 서버를 사용합니다.'), '<a href="system.php">', '</a>'), 'info', false); ?>
 </div>
 
 <?php include("foot.inc");
