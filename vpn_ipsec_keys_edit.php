@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-ipsec-editkeys
 ##|*NAME=VPN: IPsec: Edit Pre-Shared Keys
@@ -62,28 +67,28 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "ident psk");
-	$reqdfieldsn = array(gettext("Identifier"), gettext("Pre-Shared Key"));
+	$reqdfieldsn = array(gettext("식별자"), gettext("사전 공유 키"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (preg_match("/[^a-zA-Z0-9@\.\-]/", $_POST['ident'])) {
-		$input_errors[] = gettext("The identifier contains invalid characters.");
+		$input_errors[] = gettext("식별자에 잘못된 문자가 있습니다.");
 	}
 
 	if (array_key_exists($_POST['ident'], $userids)) {
-		$input_errors[] = gettext("A user with this name already exists. Add the key to the user instead.");
+		$input_errors[] = gettext("이 이름의 사용자가 이미 있습니다. 대신 사용자에게 키를 추가하십시오.");
 	}
 	unset($userids);
 
 	if (isset($_POST['psk']) && !preg_match('/^[[:ascii:]]*$/', $_POST['psk'])) {
-		$input_errors[] = gettext("Pre-Shared Key contains invalid characters.");
+		$input_errors[] = gettext("사전 공유 키에 잘못된 문자가 있습니다.");
 	}
 
 	if (!$input_errors && !(isset($id) && $a_secret[$id])) {
 		/* make sure there are no dupes */
 		foreach ($a_secret as $secretent) {
 			if ($secretent['ident'] == $_POST['ident']) {
-				$input_errors[] = gettext("Another entry with the same identifier already exists.");
+				$input_errors[] = gettext("동일한 식별자를 가진 다른 항목이 이미 있습니다.");
 				break;
 			}
 		}
@@ -102,10 +107,10 @@ if ($_POST['save']) {
 
 		if (isset($id) && $a_secret[$id]) {
 			$a_secret[$id] = $secretent;
-			$text = gettext("Edited IPsec Pre-Shared Keys");
+			$text = gettext("편집된 IPsec 사전 공유 키");
 		} else {
 			$a_secret[] = $secretent;
-			$text = gettext("Added IPsec Pre-Shared Keys");
+			$text = gettext("추가된 IPsec 사전 공유 키");
 		}
 
 		write_config($text);
@@ -116,7 +121,7 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("Pre-Shared Keys"), gettext("Edit"));
+$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("사전 공유 키"), gettext("Edit"));
 $pglinks = array("", "vpn_ipsec.php", "vpn_ipsec_keys.php", "@self");
 $shortcut_section = "ipsec";
 
@@ -165,7 +170,7 @@ print $form;
 ?>
 <div class="infoblock blockopen">
 <?php
-print_info_box(gettext("PSK for any user can be set by using an identifier of any."), 'info', false);
+print_info_box(gettext("임의의 사용자에 대한 PSK는 any의 식별자를 사용하여 설정할 수 있습니다."), 'info', false);
 ?>
 </div>
 <?php
