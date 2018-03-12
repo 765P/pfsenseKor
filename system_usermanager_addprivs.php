@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-usermanager-addprivs
 ##|*NAME=System: User Manager: Add Privileges
@@ -35,7 +40,7 @@ if (isset($_REQUEST['userid']) && is_numericint($_REQUEST['userid'])) {
 	$userid = $_REQUEST['userid'];
 }
 
-$pgtitle = array(gettext("System"), gettext("User Manager"), gettext("Users"), gettext("Edit"), gettext("Add Privileges"));
+$pgtitle = array(gettext("System"), gettext("유저 매니저"), gettext("Users"), gettext("Edit"), gettext("Add Privileges"));
 $pglinks = array("", "system_usermanager.php", "system_usermanager.php", "system_usermanager.php?act=edit&userid=" . $userid, "@self");
 
 if (!isset($config['system']['user'][$userid]) && !is_array($config['system']['user'][$userid])) {
@@ -59,7 +64,7 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "sysprivs");
-	$reqdfieldsn = array(gettext("Selected privileges"));
+	$reqdfieldsn = array(gettext("선택된 권한"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -123,10 +128,10 @@ if ($input_errors) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Users"), true, "system_usermanager.php");
-$tab_array[] = array(gettext("Groups"), false, "system_groupmanager.php");
-$tab_array[] = array(gettext("Settings"), false, "system_usermanager_settings.php");
-$tab_array[] = array(gettext("Authentication Servers"), false, "system_authservers.php");
+$tab_array[] = array(gettext("유저"), true, "system_usermanager.php");
+$tab_array[] = array(gettext("그룹"), false, "system_groupmanager.php");
+$tab_array[] = array(gettext("설정"), false, "system_usermanager_settings.php");
+$tab_array[] = array(gettext("인증 서버"), false, "system_authservers.php");
 display_top_tabs($tab_array);
 
 $form = new Form();
@@ -169,15 +174,14 @@ $section->addInput(new Form_Input(
 ))->setHelp('Show only the choices containing this term');
 
 $section->addInput(new Form_StaticText(
-	gettext('Privilege information'),
+	gettext('권한 정보'),
 	'<span class="help-block">'.
-	gettext('The following privileges effectively give the user administrator-level access ' .
-		' because the user gains access to execute general commands, edit system files, ' .
-		' modify users, change passwords or similar:') .
+	gettext('다음 권한은 사용자가 일반 명령을 실행하고 시스템 파일을 편집하고 사용자를 ' .
+		'수정하고 암호를 변경하는 등의 액세스 권한을 얻으므로 효과적으로 사용자에게 관리자 수준의 액세스 권한을 부여합니다.:') .
 	'<br/>' .
 	get_root_priv_item_text() .
 	'<br/><br/>' .
-	gettext('Please take care when granting these privileges.') .
+	gettext('이러한 권한을 부여 할 때는 주의하십시오.') .
 	'</span>'
 ));
 
@@ -217,7 +221,7 @@ $form->add($section);
 print($form);
 ?>
 
-<div class="panel panel-body alert-info col-sm-10 col-sm-offset-2" id="pdesc"><?=gettext("Select a privilege from the list above for a description")?></div>
+<div class="panel panel-body alert-info col-sm-10 col-sm-offset-2" id="pdesc"><?=gettext("설명을 보려면 위의 목록에서 권한을 선택하십시오.")?></div>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -237,7 +241,7 @@ events.push(function() {
 			}
 			$desc = preg_replace("/pfSense/i", $g['product_name'], $pdata['descr']);
 			if (isset($pdata['warn']) && ($pdata['warn'] == 'standard-warning-root')) {
-				$desc .= ' ' . gettext('(This privilege effectively gives administrator-level access to the user)');
+				$desc .= ' ' . gettext('(이 권한은 효과적으로 관리자 수준의 사용자 액세스 권한을 부여합니다)');
 			}
 			$desc = addslashes($desc);
 			$jdescs .= "descs[{$id}] = '{$desc}';\n";
