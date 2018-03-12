@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-ipsec-editphase1
 ##|*NAME=VPN: IPsec: Edit Phase 1
@@ -210,17 +215,17 @@ if ($_POST['save']) {
 	switch ($method) {
 		case 'eap-mschapv2':
 			if ($pconfig['iketype'] != 'ikev2') {
-				$input_errors[] = gettext("EAP-MSChapv2 can only be used with IKEv2 type VPNs.");
+				$input_errors[] = gettext("EAP-MSChapv2는 IKEv2 유형 VPN에서만 사용할 수 있습니다.");
 			}
 			break;
 		case "eap-tls":
 			if ($pconfig['iketype'] != 'ikev2') {
-				$input_errors[] = gettext("EAP-TLS can only be used with IKEv2 type VPNs.");
+				$input_errors[] = gettext("EAP-TLS는 IKEv2 유형 VPN에서만 사용할 수 있습니다.");
 			}
 			break;
 		case "eap-radius":
 			if ($pconfig['iketype'] != 'ikev2') {
-				$input_errors[] = gettext("EAP-RADIUS can only be used with IKEv2 type VPNs.");
+				$input_errors[] = gettext("EAP-RADIUS는 IKEv2 유형 VPN에서만 사용할 수 있습니다.");
 			}
 			break;
 		case "pre_shared_key":
@@ -231,13 +236,13 @@ if ($_POST['save']) {
 			}
 		case "xauth_psk_server":
 			$reqdfields = explode(" ", "pskey");
-			$reqdfieldsn = array(gettext("Pre-Shared Key"));
+			$reqdfieldsn = array(gettext("사전 공유 키"));
 			$validate_pskey = true;
 			break;
 		case "xauth_rsa_server":
 		case "rsasig":
 			$reqdfields = explode(" ", "caref certref");
-			$reqdfieldsn = array(gettext("Certificate Authority"), gettext("Certificate"));
+			$reqdfieldsn = array(gettext("인증기관"), gettext("인증서"));
 			break;
 		default:
 			/* Other types do not use this validation mechanism. */
@@ -245,35 +250,35 @@ if ($_POST['save']) {
 
 	if (!$pconfig['mobile']) {
 		$reqdfields[] = "remotegw";
-		$reqdfieldsn[] = gettext("Remote gateway");
+		$reqdfieldsn[] = gettext("원격 게이트웨이");
 	}
 
 	do_input_validation($pconfig, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (isset($validate_pskey) && isset($pconfig['pskey']) && !preg_match('/^[[:ascii:]]*$/', $pconfig['pskey'])) {
 		unset($validate_pskey);
-		$input_errors[] = gettext("Pre-Shared Key contains invalid characters.");
+		$input_errors[] = gettext("사전 공유 키에 잘못된 문자가 있습니다.");
 	}
 
 	if (($pconfig['lifetime'] && !is_numericint($pconfig['lifetime']))) {
-		$input_errors[] = gettext("The P1 lifetime must be an integer.");
+		$input_errors[] = gettext("P1 수명은 정수 여야합니다.");
 	}
 
 	if (!isset($pconfig['rekey_enable']) && $pconfig['margintime']) {
 		if(!is_numericint($pconfig['margintime'])){
-			 $input_errors[] = gettext("The margintime must be an integer.");
+			 $input_errors[] = gettext("마진은 정수 여야합니다.");
 		} else if(intval($pconfig['margintime']) >= intval($pconfig['lifetime'])){
-			 $input_errors[] = gettext("The margintime must be smaller than the P1 lifetime.");
+			 $input_errors[] = gettext("한계 기간은 P1 수명보다 짧아야합니다.");
 		}
 	}
 
 	if ($pconfig['remotegw']) {
 		if (!is_ipaddr($pconfig['remotegw']) && !is_domain($pconfig['remotegw'])) {
-			$input_errors[] = gettext("A valid remote gateway address or host name must be specified.");
+			$input_errors[] = gettext("유효한 원격 게이트웨이 주소 또는 호스트 이름을 지정해야합니다.");
 		} elseif (is_ipaddrv4($pconfig['remotegw']) && ($pconfig['protocol'] == "inet6")) {
-			$input_errors[] = gettext("A valid remote gateway IPv4 address must be specified or protocol needs to be changed to IPv6");
+			$input_errors[] = gettext("유효한 원격 게이트웨이 IPv4 주소를 지정해야하거나 프로토콜을 IPv6로 변경해야합니다.");
 		} elseif (is_ipaddrv6($pconfig['remotegw']) && ($pconfig['protocol'] == "inet")) {
-			$input_errors[] = gettext("A valid remote gateway IPv6 address must be specified or protocol needs to be changed to IPv4");
+			$input_errors[] = gettext("유효한 원격 게이트웨이 IPv6 주소를 지정해야하거나 프로토콜을 IPv4로 변경해야합니다.");
 		}
 	}
 
@@ -283,7 +288,7 @@ if ($_POST['save']) {
 			if ($p1index != $t) {
 				$tremotegw = $pconfig['remotegw'];
 				if (($ph1tmp['remote-gateway'] == $tremotegw) && !isset($ph1tmp['disabled'])) {
-					$input_errors[] = sprintf(gettext('The remote gateway "%1$s" is already used by phase1 "%2$s".'), $tremotegw, $ph1tmp['descr']);
+					$input_errors[] = sprintf(gettext('원격 게이트웨이 "%1$s"은(는) 이미 1단계의 "%2$s"에서 사용되었습니다.'), $tremotegw, $ph1tmp['descr']);
 				}
 			}
 			$t++;
@@ -294,11 +299,11 @@ if ($_POST['save']) {
 		foreach ($a_phase2 as $phase2) {
 			if ($phase2['ikeid'] == $pconfig['ikeid']) {
 				if (($pconfig['protocol'] == "inet") && ($phase2['mode'] == "tunnel6")) {
-					$input_errors[] = gettext("There is a Phase 2 using IPv6, cannot use IPv4.");
+					$input_errors[] = gettext("IPv6를 사용하는 2 단계가 있으며 IPv4를 사용할 수 없습니다.");
 					break;
 				}
 				if (($pconfig['protocol'] == "inet6") && ($phase2['mode'] == "tunnel")) {
-					$input_errors[] = gettext("There is a Phase 2 using IPv4, cannot use IPv6.");
+					$input_errors[] = gettext("IPv4를 사용하는 2 단계가 있으며 IPv6을 사용할 수 없습니다.");
 					break;
 				}
 			}
@@ -312,49 +317,49 @@ if ($_POST['save']) {
 	}
 
 	if ($pconfig['myid_type'] == "address" and $pconfig['myid_data'] == "") {
-		$input_errors[] = gettext("Please enter an address for 'My Identifier'");
+		$input_errors[] = gettext("'내 식별자'에 대한 주소를 입력하십시오.");
 	}
 
 	if ($pconfig['myid_type'] == "keyid tag" and $pconfig['myid_data'] == "") {
-		$input_errors[] = gettext("Please enter a keyid tag for 'My Identifier'");
+		$input_errors[] = gettext("'내 식별자'에 대한 keyid 태그를 입력하십시오.");
 	}
 
 	if ($pconfig['myid_type'] == "fqdn" and $pconfig['myid_data'] == "") {
-		$input_errors[] = gettext("Please enter a fully qualified domain name for 'My Identifier'");
+		$input_errors[] = gettext("'내 식별자'에 대한 정규화 된 도메인 이름을 입력하십시오.");
 	}
 
 	if ($pconfig['myid_type'] == "user_fqdn" and $pconfig['myid_data'] == "") {
-		$input_errors[] = gettext("Please enter a user and fully qualified domain name for 'My Identifier'");
+		$input_errors[] = gettext("'내 식별자'에 대한 사용자 및 정규화 된 도메인 이름을 입력하십시오.");
 	}
 
 	if ($pconfig['myid_type'] == "dyn_dns" and $pconfig['myid_data'] == "") {
-		$input_errors[] = gettext("Please enter a dynamic domain name for 'My Identifier'");
+		$input_errors[] = gettext("'내 식별자'에 대한 동적 도메인 이름을 입력하십시오.");
 	}
 
 	if (($pconfig['myid_type'] == "address") && !is_ipaddr($pconfig['myid_data'])) {
-		$input_errors[] = gettext("A valid IP address for 'My identifier' must be specified.");
+		$input_errors[] = gettext("'내 식별자'에 유효한 IP 주소를 지정해야합니다.");
 	}
 
 	if (($pconfig['myid_type'] == "fqdn") && !is_domain($pconfig['myid_data'])) {
-		$input_errors[] = gettext("A valid domain name for 'My identifier' must be specified.");
+		$input_errors[] = gettext("'내 식별자'에 유효한 도메인 이름을 지정해야합니다.");
 	}
 
 	if ($pconfig['myid_type'] == "fqdn") {
 		if (is_domain($pconfig['myid_data']) == false) {
-			$input_errors[] = gettext("A valid FQDN for 'My identifier' must be specified.");
+			$input_errors[] = gettext("'내 식별자'에 대한 유효한 FQDN을 지정해야합니다.");
 		}
 	}
 
 	if ($pconfig['myid_type'] == "user_fqdn") {
 		$user_fqdn = explode("@", $pconfig['myid_data']);
 		if (is_domain($user_fqdn[1]) == false) {
-			$input_errors[] = gettext("A valid User FQDN in the form of user@my.domain.com for 'My identifier' must be specified.");
+			$input_errors[] = gettext("'내 식별자'에 대한 유효한 사용자 FQDN을 user@my.domain.com 형식으로 지정해야합니다.");
 		}
 	}
 
 	if ($pconfig['myid_type'] == "dyn_dns") {
 		if (is_domain($pconfig['myid_data']) == false) {
-			$input_errors[] = gettext("A valid Dynamic DNS address for 'My identifier' must be specified.");
+			$input_errors[] = gettext("'내 식별자'에 유효한 동적 DNS 주소를 지정해야합니다.");
 		}
 	}
 
@@ -367,64 +372,64 @@ if ($_POST['save']) {
 	// Only enforce peer ID if we are not dealing with a pure-psk mobile config.
 	if (!(($pconfig['authentication_method'] == "pre_shared_key") && ($pconfig['mobile']))) {
 		if ($pconfig['peerid_type'] == "address" and $pconfig['peerid_data'] == "") {
-			$input_errors[] = gettext("Please enter an address for 'Peer Identifier'");
+			$input_errors[] = gettext("'피어 식별자'의 주소를 입력하십시오.");
 		}
 
 		if ($pconfig['peerid_type'] == "keyid tag" and $pconfig['peerid_data'] == "") {
-			$input_errors[] = gettext("Please enter a keyid tag for 'Peer Identifier'");
+			$input_errors[] = gettext("'피어 식별자'에 대한 keyid 태그를 입력하십시오.");
 		}
 
 		if ($pconfig['peerid_type'] == "fqdn" and $pconfig['peerid_data'] == "") {
-			$input_errors[] = gettext("Please enter a fully qualified domain name for 'Peer Identifier'");
+			$input_errors[] = gettext("'피어 식별자'에 대한 정규화 된 도메인 이름을 입력하십시오.");
 		}
 
 		if ($pconfig['peerid_type'] == "user_fqdn" and $pconfig['peerid_data'] == "") {
-			$input_errors[] = gettext("Please enter a user and fully qualified domain name for 'Peer Identifier'");
+			$input_errors[] = gettext("'피어 식별자'에 대한 사용자 및 정규화 된 도메인 이름을 입력하십시오.");
 		}
 
 		if ((($pconfig['peerid_type'] == "address") && !is_ipaddr($pconfig['peerid_data']))) {
-			$input_errors[] = gettext("A valid IP address for 'Peer identifier' must be specified.");
+			$input_errors[] = gettext("'피어 식별자'에 유효한 IP 주소를 지정해야합니다.");
 		}
 
 		if ((($pconfig['peerid_type'] == "fqdn") && !is_domain($pconfig['peerid_data']))) {
-			$input_errors[] = gettext("A valid domain name for 'Peer identifier' must be specified.");
+			$input_errors[] = gettext("'피어 식별자'의 유효한 도메인 이름을 지정해야합니다.");
 		}
 
 		if ($pconfig['peerid_type'] == "fqdn") {
 			if (is_domain($pconfig['peerid_data']) == false) {
-				$input_errors[] = gettext("A valid FQDN for 'Peer identifier' must be specified.");
+				$input_errors[] = gettext("'피어 식별자'에 대한 유효한 FQDN을 지정해야합니다.");
 			}
 		}
 
 		if ($pconfig['peerid_type'] == "user_fqdn") {
 			$user_fqdn = explode("@", $pconfig['peerid_data']);
 			if (is_domain($user_fqdn[1]) == false) {
-				$input_errors[] = gettext("A valid User FQDN in the form of user@my.domain.com for 'Peer identifier' must be specified.");
+				$input_errors[] = gettext("'피어 식별자'에 대한 유효한 사용자 FQDN을 user@my.domain.com 형식으로 지정해야합니다.");
 			}
 		}
 	}
 
 	if ($pconfig['dpd_enable']) {
 		if (!is_numericint($pconfig['dpd_delay'])) {
-			$input_errors[] = gettext("A numeric value must be specified for DPD delay.");
+			$input_errors[] = gettext("DPD 지연을 위해 숫자 값을 지정해야합니다.");
 		}
 
 		if (!is_numericint($pconfig['dpd_maxfail'])) {
-			$input_errors[] = gettext("A numeric value must be specified for DPD retries.");
+			$input_errors[] = gettext("DPD 재 시도를 위해 숫자 값을 지정해야합니다.");
 		}
 	}
 
 	if ($pconfig['tfc_bytes'] && !is_numericint($pconfig['tfc_bytes'])) {
-		$input_errors[] = gettext("A numeric value must be specified for TFC bytes.");
+		$input_errors[] = gettext("TFC 바이트에는 숫자 값을 지정해야합니다.");
 	}
 
 	if (!empty($pconfig['iketype']) && $pconfig['iketype'] != "ikev1" && $pconfig['iketype'] != "ikev2" && $pconfig['iketype'] != "auto") {
-		$input_errors[] = gettext("Valid arguments for IKE type are v1, v2 or auto");
+		$input_errors[] = gettext("IKE 유형에 유효한 인수는 v1, v2 또는 auto입니다.");
 	}
 	
 	foreach($pconfig['encryption']['item'] as $p1algo) {
 		if (preg_match("/aes\d+gcm/", $p1algo['encryption-algorithm']['name']) && $_POST['iketype'] != "ikev2") {
-			$input_errors[] = gettext("Encryption Algorithm AES-GCM can only be used with IKEv2");
+			$input_errors[] = gettext("암호화 알고리즘 AES-GCM은 IKEv2에서만 사용할 수 있습니다.");
 		}
 	}
 	/* auth backend for mobile eap-radius VPNs should be a RADIUS server */
@@ -434,7 +439,7 @@ if ($_POST['save']) {
 			foreach ($auth_server_list as $auth_server_name) {
 				$auth_server       = auth_get_authserver($auth_server_name);
 				if (!is_array($auth_server) || ($auth_server['type'] != 'radius')) {
-					$input_errors[] = gettext("A valid RADIUS server must be selected for user authentication on the Mobile Clients tab in order to set EAP-RADIUS as the authentication method.");
+					$input_errors[] = gettext("EAP-RADIUS를 인증 방법으로 설정하려면 모바일 클라이언트 탭에서 사용자 인증을 위해 유효한 RADIUS 서버를 선택해야합니다.");
 				}
 			}
 		}
@@ -536,7 +541,7 @@ if ($_POST['save']) {
 			$a_phase1[] = $ph1ent;
 		}
 
-		write_config(gettext("Saved IPsec tunnel Phase 1 configuration."));
+		write_config(gettext("저장된 IPsec 터널 1 단계 구성."));
 		mark_subsystem_dirty('ipsec');
 
 		header("Location: vpn_ipsec.php");
@@ -564,7 +569,7 @@ function build_interface_list() {
 			$vipif = $group[0]['int'];
 		}
 
-		$interfaces[$name] = sprintf(gettext("GW Group %s"), $name);
+		$interfaces[$name] = sprintf(gettext("GW 그룹 %s"), $name);
 	}
 
 	return($interfaces);
@@ -654,10 +659,10 @@ function build_eal_list() {
 }
 
 if ($pconfig['mobile']) {
-	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("Mobile Clients"), gettext("Edit Phase 1"));
+	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("모바일 클라이언트"), gettext("1단계 편집"));
 	$pglinks = array("", "vpn_ipsec.php", "vpn_ipsec_mobile.php", "@self");
 } else {
-	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("Tunnels"), gettext("Edit Phase 1"));
+	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("터널"), gettext("1단계 편집"));
 	$pglinks = array("", "vpn_ipsec.php", "vpn_ipsec.php", "@self");
 }
 
@@ -670,15 +675,15 @@ if ($input_errors) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Tunnels"), true, "vpn_ipsec.php");
-$tab_array[] = array(gettext("Mobile Clients"), false, "vpn_ipsec_mobile.php");
-$tab_array[] = array(gettext("Pre-Shared Keys"), false, "vpn_ipsec_keys.php");
-$tab_array[] = array(gettext("Advanced Settings"), false, "vpn_ipsec_settings.php");
+$tab_array[] = array(gettext("터널"), true, "vpn_ipsec.php");
+$tab_array[] = array(gettext("모바일 클라이언트"), false, "vpn_ipsec_mobile.php");
+$tab_array[] = array(gettext("사전 공유 키"), false, "vpn_ipsec_keys.php");
+$tab_array[] = array(gettext("어드밴스드 설정"), false, "vpn_ipsec_settings.php");
 display_top_tabs($tab_array);
 
 $form = new Form();
 
-$section = new Form_Section('General Information');
+$section = new Form_Section('일반 정보');
 
 $section->addInput(new Form_Checkbox(
 	'disabled',
@@ -742,7 +747,7 @@ $section->addInput(new Form_Select(
 	array("main" => gettext("Main"), "aggressive" => gettext("Aggressive"))
 ))->setHelp('Aggressive is more flexible, but less secure.');
 
-$group = new Form_Group('*My identifier');
+$group = new Form_Group('*내 ');
 
 $group->add(new Form_Select(
 	'myid_type',
