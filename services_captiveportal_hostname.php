@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-captiveportal-allowedhostnames
 ##|*NAME=Services: Captive Portal: Allowed Hostnames
@@ -29,9 +34,9 @@
 $directionicons = array('to' => '&#x2192;', 'from' => '&#x2190;', 'both' => '&#x21c4;');
 
 $notestr =
-	sprintf(gettext('Adding new hostnames will allow a DNS hostname access to/from the captive portal without being taken to the portal page. ' .
-	'This can be used for a web server serving images for the portal page, or a DNS server on another network, for example. ' .
-	'By specifying %1$sfrom%2$s addresses, it may be used to always allow pass-through access from a client behind the captive portal.'),
+	sprintf(gettext('새 호스트 이름을 추가하면 포털 페이지로 이동하지 않고도 DNS 호스트 이름에 전속 포털간 액세스가 가능합니다. ' .
+	'포털 페이지의 이미지를 제공하는 웹 서버 또는 다른 네트워크의 DNS 서버에 사용할 수 있습니다. ' .
+	'%1$sfrom$2$s 주소를 지정하면 캡 티브 포털에서 클라이언트의 통과 액세스를 항상 허용하는 데 사용할 수 있습니다.'),
 	'<em>', '</em>');
 
 require_once("guiconfig.inc");
@@ -59,7 +64,7 @@ if (isset($cpzone) && !empty($cpzone) && isset($a_cp[$cpzone]['zoneid'])) {
 	$cpzoneid = $a_cp[$cpzone]['zoneid'];
 }
 
-$pgtitle = array(gettext("Services"), gettext("Captive Portal"), $a_cp[$cpzone]['zone'], gettext("Allowed Hostnames"));
+$pgtitle = array(gettext("서비스"), gettext("전속 포털"), $a_cp[$cpzone]['zone'], gettext("허용된 호스트이름"));
 $pglinks = array("", "services_captiveportal_zones.php", "services_captiveportal.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal";
 
@@ -100,19 +105,19 @@ if ($_POST['act'] == "del" && !empty($cpzone) && isset($cpzoneid)) {
 include("head.inc");
 
 $tab_array = array();
-$tab_array[] = array(gettext("Configuration"), false, "services_captiveportal.php?zone={$cpzone}");
+$tab_array[] = array(gettext("구성"), false, "services_captiveportal.php?zone={$cpzone}");
 $tab_array[] = array(gettext("MACs"), false, "services_captiveportal_mac.php?zone={$cpzone}");
-$tab_array[] = array(gettext("Allowed IP Addresses"), false, "services_captiveportal_ip.php?zone={$cpzone}");
-$tab_array[] = array(gettext("Allowed Hostnames"), true, "services_captiveportal_hostname.php?zone={$cpzone}");
-$tab_array[] = array(gettext("Vouchers"), false, "services_captiveportal_vouchers.php?zone={$cpzone}");
-$tab_array[] = array(gettext("File Manager"), false, "services_captiveportal_filemanager.php?zone={$cpzone}");
+$tab_array[] = array(gettext("허용된 IP 주소"), false, "services_captiveportal_ip.php?zone={$cpzone}");
+$tab_array[] = array(gettext("허용된 호스트이름"), true, "services_captiveportal_hostname.php?zone={$cpzone}");
+$tab_array[] = array(gettext("바우처"), false, "services_captiveportal_vouchers.php?zone={$cpzone}");
+$tab_array[] = array(gettext("파일 매니저"), false, "services_captiveportal_filemanager.php?zone={$cpzone}");
 display_top_tabs($tab_array, true);
 ?>
 <div class="table-responsive">
 	<table class="table table-hover table-striped table-condensed table-rowdblclickedit sortable-theme-bootstrap" data-sortable>
 		<thead>
 			<tr>
-				<th><?=gettext("Hostname"); ?></th>
+				<th><?=gettext("호스트이름"); ?></th>
 				<th><?=gettext("Description"); ?></th>
 				<th data-sortable="false"><?=gettext("Actions"); ?></th>
 			</tr>
@@ -132,8 +137,8 @@ foreach ($a_cp[$cpzone]['allowedhostname'] as $ip): ?>
 					<?=htmlspecialchars($ip['descr'])?>
 				</td>
 				<td>
-					<a class="fa fa-pencil"	title="<?=gettext("Edit hostname"); ?>" href="services_captiveportal_hostname_edit.php?zone=<?=$cpzone?>&amp;id=<?=$i?>"></a>
-					<a class="fa fa-trash"	title="<?=gettext("Delete hostname")?>" href="services_captiveportal_hostname.php?zone=<?=$cpzone?>&amp;act=del&amp;id=<?=$i?>" usepost></a>
+					<a class="fa fa-pencil"	title="<?=gettext("호스트이름 편집"); ?>" href="services_captiveportal_hostname_edit.php?zone=<?=$cpzone?>&amp;id=<?=$i?>"></a>
+					<a class="fa fa-trash"	title="<?=gettext("호스트이름 삭제")?>" href="services_captiveportal_hostname.php?zone=<?=$cpzone?>&amp;act=del&amp;id=<?=$i?>" usepost></a>
 				</td>
 			</tr>
 <?php
@@ -141,9 +146,9 @@ $i++;
 endforeach; ?>
 		<tbody>
 	</table>
-	<?=$directionicons['to'] . ' = ' . sprintf(gettext('All connections %1$sto%2$s the hostname are allowed'), '<u>', '</u>') . ', '?>
-	<?=$directionicons['from'] . ' = ' . sprintf(gettext('All connections %1$sfrom%2$s the hostname are allowed'), '<u>', '</u>') . ', '?>
-	<?=$directionicons['both'] . ' = ' . sprintf(gettext('All connections %1$sto or from%2$s are allowed'), '<u>', '</u>')?>
+	<?=$directionicons['to'] . ' = ' . sprintf(gettext('%1$sto%2$s 호스트 이름에 대한 모든 연결이 허용됩니다.'), '<u>', '</u>') . ', '?>
+	<?=$directionicons['from'] . ' = ' . sprintf(gettext('호스트 이름 %1$sfrom%2$s의 모든 연결이 허용됩니다.'), '<u>', '</u>') . ', '?>
+	<?=$directionicons['both'] . ' = ' . sprintf(gettext('%1$sto%2$s 또는 %1$sfrom%2$s 호스트 이름에 대한 모든 연결이 허용됩니다.'), '<u>', '</u>')?>
 <?php
 else:
 ?>
@@ -157,7 +162,7 @@ endif;
 <nav class="action-buttons">
 	<a href="services_captiveportal_hostname_edit.php?zone=<?=$cpzone?>&amp;act=add" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 
