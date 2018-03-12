@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dnsforwarder-edithost
 ##|*NAME=Services: DNS Forwarder: Edit host
@@ -58,26 +63,26 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "domain ip");
-	$reqdfieldsn = array(gettext("Domain"), gettext("IP address"));
+	$reqdfieldsn = array(gettext("Domain"), gettext("IP주소"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($_POST['host']) {
 		if (!is_hostname($_POST['host'])) {
-			$input_errors[] = gettext("The hostname can only contain the characters A-Z, 0-9 and '-'. It may not start or end with '-'.");
+			$input_errors[] = gettext("호스트 이름에는 문자 A-Z, 0-9 및 '-'만 사용할 수 있습니다. '-'로 시작하거나 끝나지 않을 수 있습니다.");
 		} else {
 			if (!is_unqualified_hostname($_POST['host'])) {
-				$input_errors[] = gettext("A valid hostname is specified, but the domain name part should be omitted");
+				$input_errors[] = gettext("유효한 호스트 이름이 지정되었지만 도메인 이름 부분은 생략해야합니다.");
 			}
 		}
 	}
 
 	if (($_POST['domain'] && !is_domain($_POST['domain']))) {
-		$input_errors[] = gettext("A valid domain must be specified.");
+		$input_errors[] = gettext("유효한 도메인을 지정해야합니다.");
 	}
 
 	if (($_POST['ip'] && !is_ipaddr($_POST['ip']))) {
-		$input_errors[] = gettext("A valid IP address must be specified.");
+		$input_errors[] = gettext("유효한 IP 주소를 지정해야합니다.");
 	}
 
 	/* collect aliases */
@@ -110,16 +115,16 @@ if ($_POST['save']) {
 			do_input_validation($_POST, $aliasreqdfields, $aliasreqdfieldsn, $input_errors);
 			if ($alias['host']) {
 				if (!is_hostname($alias['host'])) {
-					$input_errors[] = gettext("Hostnames in an alias list can only contain the characters A-Z, 0-9 and '-'. They may not start or end with '-'.");
+					$input_errors[] = gettext("별칭 목록의 호스트 이름은 A-Z, 0-9 및 '-'문자 만 포함 할 수 있습니다. 그들은 '-'로 시작하거나 끝낼 수 없습니다.");
 				} else {
 					if (!is_unqualified_hostname($alias['host'])) {
-						$input_errors[] = gettext("A valid alias hostname is specified, but the domain name part should be omitted");
+						$input_errors[] = gettext("유효한 별칭 hostname이 지정되었지만 도메인 이름 부분은 생략해야합니다.");
 					}
 				}
 			}
 
 			if (($alias['domain'] && !is_domain($alias['domain']))) {
-				$input_errors[] = gettext("A valid domain must be specified in alias list.");
+				$input_errors[] = gettext("별칭 목록에 올바른 도메인을 지정해야합니다.");
 			}
 		}
 	}
@@ -133,11 +138,11 @@ if ($_POST['save']) {
 		if (($hostent['host'] == $_POST['host']) &&
 		    ($hostent['domain'] == $_POST['domain'])) {
 			if (is_ipaddrv4($hostent['ip']) && is_ipaddrv4($_POST['ip'])) {
-				$input_errors[] = gettext("This host/domain override combination already exists with an IPv4 address.");
+				$input_errors[] = gettext("이 [호스트/도메인] 재 지정 조합은 이미 IPv4 주소와 함께 존재합니다.");
 				break;
 			}
 			if (is_ipaddrv6($hostent['ip']) && is_ipaddrv6($_POST['ip'])) {
-				$input_errors[] = gettext("This host/domain override combination already exists with an IPv6 address.");
+				$input_errors[] = gettext("이 [호스트/도메인] 재 지정 조합은 이미 IPv6 주소와 함께 존재합니다.");
 				break;
 			}
 		}
@@ -184,7 +189,7 @@ if ($_REQUEST['act'] == "addopt") {
 	array_push($pconfig['aliases']['item'], array('host' => null, 'domain' => null, 'description' => null));
 }
 
-$pgtitle = array(gettext("Services"), gettext("DNS Forwarder"), gettext("Edit Host Override"));
+$pgtitle = array(gettext("Services"), gettext("DNS Forwarder"), gettext("호스트 재정의 편집"));
 $pglinks = array("", "services_dnsmasq.php", "@self");
 $shortcut_section = "forwarder";
 include("head.inc");
