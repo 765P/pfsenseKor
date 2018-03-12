@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-igmpproxy
 ##|*NAME=Services: IGMP Proxy
@@ -68,21 +73,21 @@ if ($changes_applied) {
 }
 
 if (is_subsystem_dirty('igmpproxy')) {
-	print_apply_box(gettext('The IGMP entry list has been changed.') . '<br />' . gettext('The changes must be applied for them to take effect.'));
+	print_apply_box(gettext('IGMP 항목 목록이 변경되었습니다.') . '<br />' . gettext('변경사항을 저장하면 적용됩니다.'));
 }
 ?>
 
 <form action="services_igmpproxy.php" method="post">
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext('IGMP Proxy')?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext('IGMP 프록시')?></h2></div>
 		<div class="panel-body">
 			<div class="table-responsive">
 				<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 					<thead>
 						<tr>
-							<th><?=gettext("Name")?></th>
-							<th><?=gettext("Type")?></th>
-							<th><?=gettext("Values")?></th>
+							<th><?=gettext("이름")?></th>
+							<th><?=gettext("유형")?></th>
+							<th><?=gettext("요소 값")?></th>
 							<th><?=gettext("Description")?></th>
 							<th><?=gettext("Actions")?></th>
 						</tr>
@@ -115,8 +120,8 @@ foreach ($a_igmpproxy as $igmpentry):
 								<?=htmlspecialchars($igmpentry['descr'])?>&nbsp;
 							</td>
 							<td>
-								<a class="fa fa-pencil"	title="<?=gettext('Edit IGMP entry')?>" href="services_igmpproxy_edit.php?id=<?=$i?>"></a>
-								<a class="fa fa-trash"	title="<?=gettext('Delete IGMP entry')?>" href="services_igmpproxy.php?act=del&amp;id=<?=$i?>" usepost></a>
+								<a class="fa fa-pencil"	title="<?=gettext('IGMP 항목 편집')?>" href="services_igmpproxy_edit.php?id=<?=$i?>"></a>
+								<a class="fa fa-trash"	title="<?=gettext('IGMP 항목 삭제')?>" href="services_igmpproxy.php?act=del&amp;id=<?=$i?>" usepost></a>
 							</td>
 						</tr>
 <?php
@@ -133,13 +138,13 @@ endforeach;
 <nav class="action-buttons">
 	<a href="services_igmpproxy_edit.php" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
 <div class="infoblock">
-<?php print_info_box(gettext('Please add the interface for upstream, the allowed subnets, and the downstream interfaces for the proxy to allow. ' .
-					   'Only one "upstream" interface can be configured.'), 'info', false); ?>
+<?php print_info_box(gettext('프록시가 허용 할 업스트림, 허용 된 서브넷 및 다운 스트림 인터페이스에 대한 인터페이스를 추가하십시오. 하나의 ' .
+					   '"업스트림"인터페이스 만 구성 할 수 있습니다.'), 'info', false); ?>
 </div>
 <?php
 include("foot.inc");
