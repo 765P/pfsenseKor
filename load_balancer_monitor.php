@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-loadbalancer-monitor
 ##|*NAME=Services: Load Balancer: Monitors
@@ -52,7 +57,7 @@ if ($_POST['act'] == "del") {
 		if (is_array($config['load_balancer']['lbpool'])) {
 			foreach ($config['load_balancer']['lbpool'] as $pool) {
 				if ($pool['monitor'] == $a_monitor[$_POST['id']]['name']) {
-					$input_errors[] = gettext("This entry cannot be deleted because it is still referenced by at least one pool.");
+					$input_errors[] = gettext("이 항목은 적어도 하나 이상의 풀에서 계속 참조되므로 삭제할 수 없습니다.");
 					break;
 				}
 			}
@@ -68,7 +73,7 @@ if ($_POST['act'] == "del") {
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("Load Balancer"), gettext("Monitors"));
+$pgtitle = array(gettext("Services"), gettext("로드 밸런스"), gettext("모니터"));
 $pglinks = array("", "load_balancer_pool.php", "@self");
 $shortcut_section = "relayd";
 
@@ -83,27 +88,27 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('loadbalancer')) {
-	print_apply_box(gettext("The load balancer configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("로드 밸런서 구성이 변경되었습니다.") . "<br />" . gettext("변경 사항을 적용해야 적용됩니다."));
 }
 
 /* active tabs */
 $tab_array = array();
-$tab_array[] = array(gettext("Pools"), false, "load_balancer_pool.php");
-$tab_array[] = array(gettext("Virtual Servers"), false, "load_balancer_virtual_server.php");
-$tab_array[] = array(gettext("Monitors"), true, "load_balancer_monitor.php");
-$tab_array[] = array(gettext("Settings"), false, "load_balancer_setting.php");
+$tab_array[] = array(gettext("풀"), false, "load_balancer_pool.php");
+$tab_array[] = array(gettext("가상 서버"), false, "load_balancer_virtual_server.php");
+$tab_array[] = array(gettext("모니터"), true, "load_balancer_monitor.php");
+$tab_array[] = array(gettext("설정"), false, "load_balancer_setting.php");
 display_top_tabs($tab_array);
 ?>
 
 <form action="load_balancer_monitor.php" method="post">
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext('Monitor')?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext('모니터')?></h2></div>
 		<div class="panel-body table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext('Name')?></th>
-						<th><?=gettext('Type')?></th>
+						<th><?=gettext('이름')?></th>
+						<th><?=gettext('유형')?></th>
 						<th><?=gettext('Description')?></th>
 						<th><?=gettext('Actions')?></th>
 					</tr>
@@ -124,9 +129,9 @@ foreach ($a_monitor as $monitor) {
 							<?=$monitor['descr']?>
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit monitor')?>"	href="load_balancer_monitor_edit.php?id=<?=$idx?>"></a>
-							<a class="fa fa-clone"	title="<?=gettext('Copy monitor')?>"	href="load_balancer_monitor_edit.php?act=dup&amp;id=<?=$idx?>"></a>
-							<a class="fa fa-trash"	title="<?=gettext('Delete monitor')?>"	href="load_balancer_monitor.php?act=del&amp;id=<?=$idx?>" usepost></a>
+							<a class="fa fa-pencil"	title="<?=gettext('모니터 편집')?>"	href="load_balancer_monitor_edit.php?id=<?=$idx?>"></a>
+							<a class="fa fa-clone"	title="<?=gettext('모니터 복사')?>"	href="load_balancer_monitor_edit.php?act=dup&amp;id=<?=$idx?>"></a>
+							<a class="fa fa-trash"	title="<?=gettext('모니터 삭제')?>"	href="load_balancer_monitor.php?act=del&amp;id=<?=$idx?>" usepost></a>
 						</td>
 					</tr>
 <?php
@@ -142,7 +147,7 @@ foreach ($a_monitor as $monitor) {
 <nav class="action-buttons">
 	<a href="load_balancer_monitor_edit.php" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
