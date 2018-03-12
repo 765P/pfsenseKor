@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-openvpn-csc
 ##|*NAME=OpenVPN: Client Specific Override
@@ -54,11 +59,11 @@ if ($_POST['act'] == "del") {
 		exit;
 	}
 
-	$wc_msg = sprintf(gettext('Deleted OpenVPN client specific override %1$s %2$s'), $a_csc[$id]['common_name'], $a_csc[$id]['description']);
+	$wc_msg = sprintf(gettext('삭제 된 OpenVPN 클라이언트 관련 재정의 %1$s %2$s'), $a_csc[$id]['common_name'], $a_csc[$id]['description']);
 	openvpn_delete_csc($a_csc[$id]);
 	unset($a_csc[$id]);
 	write_config($wc_msg);
-	$savemsg = gettext("Client specific override successfully deleted.");
+	$savemsg = gettext("클라이언트 특정 재지정이 성공적으로 삭제되었습니다.");
 }
 
 if ($act == "edit") {
@@ -155,46 +160,46 @@ if ($_POST['save']) {
 
 	if ($pconfig['dns_server_enable']) {
 		if (!empty($pconfig['dns_server1']) && !is_ipaddr(trim($pconfig['dns_server1']))) {
-			$input_errors[] = gettext("The field 'DNS Server #1' must contain a valid IP address");
+			$input_errors[] = gettext("'DNS 서버# 1'필드에 올바른 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['dns_server2']) && !is_ipaddr(trim($pconfig['dns_server2']))) {
-			$input_errors[] = gettext("The field 'DNS Server #2' must contain a valid IP address");
+			$input_errors[] = gettext("'DNS 서버# 2'필드에 올바른 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['dns_server3']) && !is_ipaddr(trim($pconfig['dns_server3']))) {
-			$input_errors[] = gettext("The field 'DNS Server #3' must contain a valid IP address");
+			$input_errors[] = gettext("'DNS 서버# 3'필드에 올바른 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['dns_server4']) && !is_ipaddr(trim($pconfig['dns_server4']))) {
-			$input_errors[] = gettext("The field 'DNS Server #4' must contain a valid IP address");
+			$input_errors[] = gettext("'DNS 서버# 4'필드에 올바른 IP 주소가 있어야합니다.");
 		}
 	}
 
 	if ($pconfig['ntp_server_enable']) {
 		if (!empty($pconfig['ntp_server1']) && !is_ipaddr(trim($pconfig['ntp_server1']))) {
-			$input_errors[] = gettext("The field 'NTP Server #1' must contain a valid IP address");
+			$input_errors[] = gettext("'NTP 서버# 1'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['ntp_server2']) && !is_ipaddr(trim($pconfig['ntp_server2']))) {
-			$input_errors[] = gettext("The field 'NTP Server #2' must contain a valid IP address");
+			$input_errors[] = gettext("'NTP 서버# 2'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['ntp_server3']) && !is_ipaddr(trim($pconfig['ntp_server3']))) {
-			$input_errors[] = gettext("The field 'NTP Server #3' must contain a valid IP address");
+			$input_errors[] = gettext("'NTP 서버# 3'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 		if (!empty($pconfig['ntp_server4']) && !is_ipaddr(trim($pconfig['ntp_server4']))) {
-			$input_errors[] = gettext("The field 'NTP Server #4' must contain a valid IP address");
+			$input_errors[] = gettext("'NTP 서버# 4'필드에 유효한 IP 주소가 있어야합니다.");
 		}
 	}
 
 	if ($pconfig['netbios_enable']) {
 		if ($pconfig['wins_server_enable']) {
 			if (!empty($pconfig['wins_server1']) && !is_ipaddr(trim($pconfig['wins_server1']))) {
-				$input_errors[] = gettext("The field 'WINS Server #1' must contain a valid IP address");
+				$input_errors[] = gettext("'WINS 서버# 1'필드에 올바른 IP 주소가 있어야합니다.");
 			}
 			if (!empty($pconfig['wins_server2']) && !is_ipaddr(trim($pconfig['wins_server2']))) {
-				$input_errors[] = gettext("The field 'WINS Server #2' must contain a valid IP address");
+				$input_errors[] = gettext("WINS 서버# 2'필드에 올바른 IP 주소가 있어야합니다.");
 			}
 		}
 		if ($pconfig['nbdd_server_enable']) {
 			if (!empty($pconfig['nbdd_server1']) && !is_ipaddr(trim($pconfig['nbdd_server1']))) {
-				$input_errors[] = gettext("The field 'NetBIOS Data Distribution Server #1' must contain a valid IP address");
+				$input_errors[] = gettext("'NetBIOS 데이터 배포 서버# 1'필드에 유효한 IP 주소가 있어야합니다.");
 			}
 		}
 	}
@@ -262,10 +267,10 @@ if ($_POST['save']) {
 		if (isset($id) && $a_csc[$id]) {
 			$old_csc = $a_csc[$id];
 			$a_csc[$id] = $csc;
-			$wc_msg = sprintf(gettext('Updated OpenVPN client specific override %1$s %2$s'), $csc['common_name'], $csc['description']);
+			$wc_msg = sprintf(gettext('업데이트 된 OpenVPN 클라이언트 관련 %1$s %2$s'), $csc['common_name'], $csc['description']);
 		} else {
 			$a_csc[] = $csc;
-			$wc_msg = sprintf(gettext('Added OpenVPN client specific override %1$s %2$s'), $csc['common_name'], $csc['description']);
+			$wc_msg = sprintf(gettext('OpenVPN 클라이언트에 특화된 %1$s %2$s가 추가되었습니다.'), $csc['common_name'], $csc['description']);
 		}
 
 		if (!empty($old_csc['common_name'])) {
@@ -279,7 +284,7 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("VPN"), gettext("OpenVPN"), gettext("Client Specific Overrides"));
+$pgtitle = array(gettext("VPN"), gettext("OpenVPN"), gettext("클라이언트 별 재정의"));
 $pglinks = array("", "vpn_openvpn_server.php", "vpn_openvpn_csc.php");
 
 if ($act=="new" || $act=="edit") {
@@ -299,10 +304,10 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Servers"), false, "vpn_openvpn_server.php");
-$tab_array[] = array(gettext("Clients"), false, "vpn_openvpn_client.php");
-$tab_array[] = array(gettext("Client Specific Overrides"), true, "vpn_openvpn_csc.php");
-$tab_array[] = array(gettext("Wizards"), false, "wizard.php?xml=openvpn_wizard.xml");
+$tab_array[] = array(gettext("서버"), false, "vpn_openvpn_server.php");
+$tab_array[] = array(gettext("클라이언트"), false, "vpn_openvpn_client.php");
+$tab_array[] = array(gettext("클라이언트 별 재정의"), true, "vpn_openvpn_csc.php");
+$tab_array[] = array(gettext("마법사"), false, "wizard.php?xml=openvpn_wizard.xml");
 add_package_tabs("OpenVPN", $tab_array);
 display_top_tabs($tab_array);
 
@@ -653,13 +658,13 @@ else :  // Not an 'add' or an 'edit'. Just the table of Override CSCs
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('CSC Overrides')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('CSC 재정의')?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed table-rowdblclickedit">
 			<thead>
 				<tr>
-					<th><?=gettext("Disabled")?></th>
-					<th><?=gettext("Common Name")?></th>
+					<th><?=gettext("비활성화")?></th>
+					<th><?=gettext("일반이름")?></th>
 					<th><?=gettext("Description")?></th>
 					<th><?=gettext("Actions")?></th>
 				</tr>
@@ -681,8 +686,8 @@ else :  // Not an 'add' or an 'edit'. Just the table of Override CSCs
 						<?=htmlspecialchars($csc['description'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit CSC Override')?>"	href="vpn_openvpn_csc.php?act=edit&amp;id=<?=$i?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete CSC Override')?>"	href="vpn_openvpn_csc.php?act=del&amp;id=<?=$i?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('CSC 재정의 편집')?>"	href="vpn_openvpn_csc.php?act=edit&amp;id=<?=$i?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('CSC 재정의 삭제')?>"	href="vpn_openvpn_csc.php?act=del&amp;id=<?=$i?>" usepost></a>
 					</td>
 				</tr>
 <?php
@@ -697,7 +702,7 @@ else :  // Not an 'add' or an 'edit'. Just the table of Override CSCs
 <nav class="action-buttons">
 	<a href="vpn_openvpn_csc.php?act=new" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
