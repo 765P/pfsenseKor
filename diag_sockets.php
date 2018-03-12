@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-sockets
 ##|*NAME=Diagnostics: Sockets
@@ -33,7 +38,7 @@ $pgtitle = array(gettext("Diagnostics"), gettext("Sockets"));
 include('head.inc');
 
 $showAll = isset($_REQUEST['showAll']);
-$showAllText = $showAll ? gettext("Show only listening sockets") : gettext("Show all socket connections");
+$showAllText = $showAll ? gettext("수신받는 소켓만 표시") : gettext("모든 소켓 표시");
 $showAllOption = $showAll ? "" : "?showAll";
 
 ?>
@@ -59,7 +64,7 @@ $showAllOption = $showAll ? "" : "?showAll";
 		$name = ($tabindex == 0 ? 'IPv4' : 'IPv6');
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=$name?> <?=gettext("System Socket Information")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=$name?> <?=gettext("시스템 소켓 정보")?></h2></div>
 	<div class="panel-body">
 		<div class="table table-responsive">
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
@@ -105,20 +110,20 @@ $showAllOption = $showAll ? "" : "?showAll";
 <div class="infoblock">
 <?php
 print_info_box(
-	gettext('Socket Information') .
+	gettext('소켓 정보') .
 		'<br /><br />' .
-		sprintf(gettext('This page shows all listening sockets by default, and shows both listening and outbound connection sockets when %1$sShow all socket connections%2$s is clicked.'), '<strong>', '</strong>') .
+		sprintf(gettext('이 페이지는 기본적으로 모든 청취 소켓을 표시하며 %1$s모든 소켓 표시%2$s를 클릭하면 청취 소켓과 아웃 바운드 연결 소켓을 모두 표시합니다.'), '<strong>', '</strong>') .
 		'<br /><br />' .
-		gettext('The information listed for each socket is:') .
+		gettext('각 소켓에 대해 나열된 정보는 다음과 같습니다.:') .
 		'<br /><br />' .
 		'<dl class="dl-horizontal responsive">' .
-		sprintf(gettext('%1$sUSER%2$s	%3$sThe user who owns the socket.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
-		sprintf(gettext('%1$sCOMMAND%2$s	%3$sThe command which holds the socket.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
-		sprintf(gettext('%1$sPID%2$s	%3$sThe process ID of the command which holds the socket.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
-		sprintf(gettext('%1$sFD%2$s	%3$sThe file descriptor number of the socket.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
-		sprintf(gettext('%1$sPROTO%2$s	%3$sThe transport protocol associated with the socket.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
-		sprintf(gettext('%1$sLOCAL ADDRESS%2$s	%3$sThe address the local end of the socket is bound to.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
-		sprintf(gettext('%1$sFOREIGN ADDRESS%2$s	%3$sThe address the foreign end of the socket is bound to.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
+		sprintf(gettext('%1$s사용자%2$s	%3$s소켓을 소유한 사용자.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
+		sprintf(gettext('%1$s커멘드%2$s	%3$s소켓을 보유하는 명령.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
+		sprintf(gettext('%1$sPID%2$s	%3$s소켓을 보유하고있는 명령의 프로세스 ID.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
+		sprintf(gettext('%1$sFD%2$s	%3$s소켓의 파일 기술자 번호.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
+		sprintf(gettext('%1$sPROTO%2$s	%3$s소켓과 관련된 전송 프로토콜입니다.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
+		sprintf(gettext('%1$s로컬 주소%2$s	%3$s소켓의 로컬 끝이 바인드 된 주소입니다.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
+		sprintf(gettext('%1$s외부 주소%2$s	%3$s소켓의 외부 끝이 바인딩 된 주소입니다.%4$s'), '<dt>', '</dt>', '<dd>', '</dd>') .
 		'</dl>',
 	'info',
 	false);
