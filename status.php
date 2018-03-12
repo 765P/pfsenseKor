@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-hidden-detailedstatus
 ##|*NAME=Hidden: Detailed Status
@@ -159,10 +164,10 @@ function listCmds() {
 	$rubbish = array('|', '-', '/', '.', ' ');	/* fixes the <a> tag to be W3C compliant */
 
 	print('<div class="panel panel-default">');
-	print('<div class="panel-heading"><h2 class="panel-title">' . sprintf(gettext("Firewall Status on %s"), $currentDate) . '</h2></div>');
+	print('<div class="panel-heading"><h2 class="panel-title">' . sprintf(gettext("%s의 방화벽 상태"), $currentDate) . '</h2></div>');
 	print('<div class="panel-body">');
 	print('    <div class="content">');
-	print("\n<p>" . gettext("This status page includes the following information") . ":\n");
+	print("\n<p>" . gettext("이 상태 페이지에는 다음 정보가 포함되어 있습니다.") . ":\n");
 	print("<ul>\n");
 	for ($i = 0; isset($commands[$i]); $i++) {
 		print("\t<li><strong><a href=\"#" . str_replace($rubbish, '', $commands[$i][0]) . "\">" . $commands[$i][0] . "</a></strong></li>\n");
@@ -359,14 +364,14 @@ include("head.inc"); ?>
 <form action="status.php" method="post">
 
 <?php print_info_box(
-	gettext("Make sure all sensitive information is removed! (Passwords, etc.) before posting information from this page in public places (like mailing lists).") .
+	gettext("이 페이지에 있는 정보를 공공 장소에 게시하기 전에 중요한 정보가 모두 제거되었는지 확인하십시오!(비밀 번호 등)") .
 	'<br />' .
-	gettext("Common password fields in config.xml have been automatically redacted.") .
+	gettext("config.xml의 공통 암호 필드가 자동으로 수정되었습니다.") .
 	'<br />' .
-	sprintf(gettext('When the page has finished loading, the output is stored in %1$s. It may be downloaded via scp or using this button: '), $output_file) .
+	sprintf(gettext('페이지 로딩이 끝나면 출력은 %1$s에 저장됩니다. scp를 통해 다운로드하거나 이 버튼을 사용하여 다운로드 할 수 있습니다.: '), $output_file) .
 	' <button name="submit" type="submit" class="btn btn-primary btn-sm" id="download" value="DOWNLOAD">' .
 	'<i class="fa fa-download icon-embed-btn"></i>' .
-	gettext("Download") .
+	gettext("다운로드") .
 	'</button>'); ?>
 
 </form>
@@ -376,7 +381,7 @@ include("head.inc"); ?>
 listCmds();
 execCmds();
 
-print(gettext("Saving output to archive..."));
+print(gettext("아카이브에 출력 저장 중 ..."));
 
 if (is_dir($output_path)) {
 	mwexec("/usr/bin/tar czpf " . escapeshellarg($output_file) . " -C " . escapeshellarg(dirname($output_path)) . " " . escapeshellarg(basename($output_path)));
@@ -384,6 +389,6 @@ if (is_dir($output_path)) {
 	@rmdir($output_path);
 }
 
-print(gettext("Done."));
+print(gettext("끝."));
 
 include("foot.inc");
