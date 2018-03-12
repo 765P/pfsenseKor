@@ -110,7 +110,7 @@ if ($_POST['save']) {
 		/* validate aliases */
 		foreach ($aliases as $idx => $alias) {
 			$aliasreqdfields = array('aliasdomain' . $idx);
-			$aliasreqdfieldsn = array(gettext("Alias Domain"));
+			$aliasreqdfieldsn = array(gettext("도메인 alias"));
 
 			do_input_validation($_POST, $aliasreqdfields, $aliasreqdfieldsn, $input_errors);
 			if ($alias['host']) {
@@ -189,7 +189,7 @@ if ($_REQUEST['act'] == "addopt") {
 	array_push($pconfig['aliases']['item'], array('host' => null, 'domain' => null, 'description' => null));
 }
 
-$pgtitle = array(gettext("Services"), gettext("DNS Forwarder"), gettext("호스트 재정의 편집"));
+$pgtitle = array(gettext("Services"), gettext("DNS 전달자"), gettext("호스트 재정의 편집"));
 $pglinks = array("", "services_dnsmasq.php", "@self");
 $shortcut_section = "forwarder";
 include("head.inc");
