@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-checkipservices
 ##|*NAME=Services: Check IP Service
@@ -43,19 +48,19 @@ if ($_POST['act'] == "del") {
 	if ($a_checkipservice[$_POST['id']]) {
 		if (isset($a_checkipservice[$_POST['id']]['enable'])) {
 			unset($a_checkipservice[$_POST['id']]['enable']);
-			$wc_msg = gettext('Disabled a check IP service.');
+			$wc_msg = gettext('IP 검사 서비스를 사용할 수 없습니다.');
 		} else {
 			$a_checkipservice[$_POST['id']]['enable'] = true;
-			$wc_msg = gettext('Enabled a check IP service.');
+			$wc_msg = gettext('IP 검사 서비스를 활성화했습니다.');
 		}
 		$dirty = true;
 	} else if ($_POST['id'] == count($a_checkipservice)) {
 		if (isset($config['checkipservices']['disable_factory_default'])) {
 			unset($config['checkipservices']['disable_factory_default']);
-			$wc_msg = gettext('Enabled the default check IP service.');
+			$wc_msg = gettext('기본 체크 IP 서비스를 활성화했습니다.');
 		} else {
 			$config['checkipservices']['disable_factory_default'] = true;
-			$wc_msg = gettext('Disabled the default check IP service.');
+			$wc_msg = gettext('기본 체크 IP 서비스를 비활성화했습니다.');
 		}
 		$dirty = true;
 	}
@@ -67,14 +72,14 @@ if ($dirty) {
 	exit;
 }
 
-$pgtitle = array(gettext("Services"), gettext("Dynamic DNS"), gettext("Check IP Services"));
+$pgtitle = array(gettext("Services"), gettext("동적 DNS"), gettext("Check IP Services"));
 $pglinks = array("", "services_dyndns.php", "@self");
 include("head.inc");
 
 $tab_array = array();
-$tab_array[] = array(gettext("Dynamic DNS Clients"), false, "services_dyndns.php");
-$tab_array[] = array(gettext("RFC 2136 Clients"), false, "services_rfc2136.php");
-$tab_array[] = array(gettext("Check IP Services"), true, "services_checkip.php");
+$tab_array[] = array(gettext("동적 DNS 클라이언트"), false, "services_dyndns.php");
+$tab_array[] = array(gettext("RFC 2136 클라이언트"), false, "services_rfc2136.php");
+$tab_array[] = array(gettext("IP 체크 서비스"), true, "services_checkip.php");
 display_top_tabs($tab_array);
 
 if ($input_errors) {
@@ -84,15 +89,15 @@ if ($input_errors) {
 
 <form action="services_checkip.php" method="post" name="iform" id="iform">
 	<div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Check IP Services')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('IP 체크 서비스')?></h2></div>
 		<div class="panel-body">
 			<div class="table-responsive">
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Name")?></th>
+							<th><?=gettext("이름")?></th>
 							<th><?=gettext("URL")?></th>
-							<th><?=gettext("Verify SSL Peer")?></th>
+							<th><?=gettext("SSL 피어 확인")?></th>
 							<th><?=gettext("Description")?></th>
 							<th><?=gettext("Actions")?></th>
 						</tr>
@@ -132,16 +137,16 @@ foreach ($a_checkipservice as $checkipservice):
 							<?=htmlspecialchars($checkipservice['descr'])?>
 						</td>
 						<td>
-							<a class="fa fa-pencil <?=$visibility?>" title="<?=gettext('Edit service')?>" href="services_checkip_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-pencil <?=$visibility?>" title="<?=gettext('서비스 편집')?>" href="services_checkip_edit.php?id=<?=$i?>"></a>
 						<?php if (isset($checkipservice['enable'])) {
 						?>
-							<a	class="fa fa-ban" title="<?=gettext('Disable service')?>" href="?act=toggle&amp;id=<?=$i?>" usepost></a>
+							<a	class="fa fa-ban" title="<?=gettext('서비스 비활성화')?>" href="?act=toggle&amp;id=<?=$i?>" usepost></a>
 						<?php } else {
 						?>
-							<a class="fa fa-check-square-o" title="<?=gettext('Enable service')?>" href="?act=toggle&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-check-square-o" title="<?=gettext('서비스 활성화')?>" href="?act=toggle&amp;id=<?=$i?>" usepost></a>
 						<?php }
 						?>
-							<a class="fa fa-trash <?=$visibility?>" title="<?=gettext('Delete service')?>" href="services_checkip.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-trash <?=$visibility?>" title="<?=gettext('서비스 삭제')?>" href="services_checkip.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 					</tr>
 <?php
@@ -158,18 +163,17 @@ endforeach; ?>
 <nav class="action-buttons">
 	<a href="services_checkip_edit.php" class="btn btn-sm btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext('Add')?>
+		<?=gettext('추가')?>
 	</a>
 </nav>
 
 <div class="infoblock">
-	<?php print_info_box(gettext('The server must return the client IP address ' .
-	'as a string in the following format: ') .
-	'<pre>Current IP Address: x.x.x.x</pre>' .
+	<?php print_info_box(gettext('서버는 클라이언트 IP 주소를 다음 형식의 문자열로 반환해야합니다.: ') .
+	'<pre>현재 IP 주소: x.x.x.x</pre>' .
 	gettext(
-	'The first (highest in list) enabled check ip service will be used to ' .
-	'check IP addresses for Dynamic DNS services, and ' .
-	'RFC 2136 entries that have the "Use public IP" option enabled.') .
+	'첫 번째 (목록에서 최상위) 활성화 된 check ip 서비스는 ' .
+	'동적 DNS 서비스의 IP 주소를 검사하고 "공용 IP 사용"옵션이 ' .
+	'활성화 된 RFC 2136 항목을 확인하는 데 사용됩니다.') .
 	'<br/><br/>'
 	, 'info', false);
 
@@ -179,14 +183,14 @@ endforeach; ?>
 	'<pre> location = /ip {
 	default_type text/html;
 	content_by_lua \'
-		ngx.say("' . htmlspecialchars('<html><head><title>Current IP Check</title></head><body>') . 'Current IP Address: ")
+		ngx.say("' . htmlspecialchars('<html><head><title>현재 IP 주소 </title></head><body>') . '현재 IP 주소: ")
 		ngx.say(ngx.var.remote_addr)
 		ngx.say("' . htmlspecialchars('</body></html>') . '")
 	\';
 	}</pre>' .
 	gettext('PHP') .
 	'<pre>' .
-	htmlspecialchars('<html><head><title>Current IP Check</title></head><body>Current IP Address: <?=$_SERVER[\'REMOTE_ADDR\']?></body></html>') .
+	htmlspecialchars('<html><head><title>Current IP Check</title></head><body>현재 IP 주소: <?=$_SERVER[\'REMOTE_ADDR\']?></body></html>') .
 	'</pre>'
 	, 'info', false); ?>
 </div>
