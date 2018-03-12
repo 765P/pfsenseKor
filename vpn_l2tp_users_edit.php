@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-vpnl2tp-users-edit
 ##|*NAME=VPN: L2TP: Users: Edit
@@ -26,7 +31,7 @@
 ##|*MATCH=vpn_l2tp_users_edit.php*
 ##|-PRIV
 
-$pgtitle = array(gettext("VPN"), gettext("L2TP"), gettext("Users"), gettext("Edit"));
+$pgtitle = array(gettext("VPN"), gettext("L2TP"), gettext("유저"), gettext("편집"));
 $pglinks = array("", "vpn_l2tp.php", "vpn_l2tp_users.php", "@self");
 $shortcut_section = "l2tps";
 
@@ -74,34 +79,34 @@ if ($_POST['save']) {
 	/* input validation */
 	if (isset($id) && ($a_secret[$id])) {
 		$reqdfields = explode(" ", "usernamefld");
-		$reqdfieldsn = array(gettext("Username"));
+		$reqdfieldsn = array(gettext("유저이름"));
 	} else {
 		$reqdfields = explode(" ", "usernamefld passwordfld");
-		$reqdfieldsn = array(gettext("Username"), gettext("Password"));
+		$reqdfieldsn = array(gettext("유저이름"), gettext("패스워드"));
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (preg_match("/[^a-zA-Z0-9\.\-_]/", $_POST['usernamefld'])) {
-		$input_errors[] = gettext("The username contains invalid characters.");
+		$input_errors[] = gettext("사용자 이름에 잘못된 문자가 있습니다.");
 	}
 
 	if (preg_match("/[^a-zA-Z0-9\.\-_]/", $_POST['passwordfld'])) {
-		$input_errors[] = gettext("The password contains invalid characters.");
+		$input_errors[] = gettext("암호에 유효하지 않은 문자가 들어 있습니다.");
 	}
 
 	if (($_POST['passwordfld']) && ($_POST['passwordfld'] != $_POST['passwordfld_confirm'])) {
-		$input_errors[] = gettext("The passwords do not match.");
+		$input_errors[] = gettext("암호가 서로 일치하지 않습니다.");
 	}
 	if (($_POST['ip'] && !is_ipaddr($_POST['ip']))) {
-		$input_errors[] = gettext("The IP address entered is not valid.");
+		$input_errors[] = gettext("입력한 IP 주소가 유효하지 않습니다.");
 	}
 
 	if (!$input_errors && !(isset($id) && $a_secret[$id])) {
 		/* make sure there are no dupes */
 		foreach ($a_secret as $secretent) {
 			if ($secretent['name'] == $_POST['usernamefld']) {
-				$input_errors[] = gettext("Another entry with the same username already exists.");
+				$input_errors[] = gettext("동일한 사용자 이름을 가진 다른 항목이 이미 있습니다.");
 				break;
 			}
 		}
@@ -127,7 +132,7 @@ if ($_POST['save']) {
 		}
 		l2tp_users_sort();
 
-		write_config(gettext("Configured a L2TP VPN user."));
+		write_config(gettext("L2TP VPN 사용자를 구성했습니다."));
 
 		$retval = vpn_l2tp_configure();
 
