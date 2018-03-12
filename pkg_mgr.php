@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-packagemanager
 ##|*NAME=System: Package Manager
@@ -35,10 +40,10 @@ require_once("pkg-utils.inc");
 
 // if upgrade in progress, alert user
 if (is_subsystem_dirty('packagelock')) {
-	$pgtitle = array(gettext("System"), gettext("Package Manager"));
+	$pgtitle = array(gettext("System"), gettext("패키지 매니저"));
 	$pglinks = array("", "@self");
 	include("head.inc");
-	print_info_box("Please wait while packages are reinstalled in the background.");
+	print_info_box("패키지가 백그라운드에서 다시 설치되는 동안 기다려주십시오.");
 	include("foot.inc");
 	exit;
 }
@@ -62,8 +67,8 @@ function get_pkg_table() {
 	$pkgtbl = 	'<table id="pkgtable" class="table table-striped table-hover">' . "\n";
 	$pkgtbl .= 		'<thead>' . "\n";
 	$pkgtbl .= 			'<tr>' . "\n";
-	$pkgtbl .= 				'<th>' . gettext("Name") . "</th>\n";
-	$pkgtbl .= 				'<th>' . gettext("Version") . "</th>\n";
+	$pkgtbl .= 				'<th>' . gettext("이름") . "</th>\n";
+	$pkgtbl .= 				'<th>' . gettext("버전") . "</th>\n";
 	$pkgtbl .= 				'<th>' . gettext("Description") . "</th>\n";
 	$pkgtbl .= 				'<th></th>' . "\n";
 	$pkgtbl .= 			'</tr>' . "\n";
@@ -79,7 +84,7 @@ function get_pkg_table() {
 		$pkgtbl .= 	'<td>' . "\n";
 
 		if (($index['www']) && ($index['www'] != "UNKNOWN")) {
-			$pkgtbl .= 	'<a title="' . gettext("Visit official website") . '" target="_blank" href="' . htmlspecialchars($index['www']) . '">' . "\n";
+			$pkgtbl .= 	'<a title="' . gettext("공식 웹 사이트 방문") . '" target="_blank" href="' . htmlspecialchars($index['www']) . '">' . "\n";
 			$pkgtbl .= htmlspecialchars($index['shortname']) . '</a>' . "\n";
 		} else {
 			$pkgtbl .= htmlspecialchars($index['shortname']);
@@ -88,7 +93,7 @@ function get_pkg_table() {
 		$pkgtbl .= 	'<td>' . "\n";
 
 		if (!$g['disablepackagehistory']) {
-			$pkgtbl .= '<a target="_blank" title="' . gettext("View changelog") . '" href="' . htmlspecialchars($index['changeloglink']) . '">' . "\n";
+			$pkgtbl .= '<a target="_blank" title="' . gettext("변경로그 보기") . '" href="' . htmlspecialchars($index['changeloglink']) . '">' . "\n";
 			$pkgtbl .= htmlspecialchars($index['version']) . '</a>' . "\n";
 		} else {
 			$pkgtbl .= htmlspecialchars($index['version']);
@@ -99,7 +104,7 @@ function get_pkg_table() {
 		$pkgtbl .= 		$index['desc'];
 
 		if (is_array($index['deps']) && count($index['deps'])) {
-			$pkgtbl .= 	'<br /><br />' . gettext("Package Dependencies") . ":<br/>\n";
+			$pkgtbl .= 	'<br /><br />' . gettext("패키지 종속성") . ":<br/>\n";
 
 			foreach ($index['deps'] as $pdep) {
 				$pkgtbl .= '<a target="_blank" href="https://freshports.org/' . $pdep['origin'] . '">&nbsp;<i class="fa fa-paperclip"></i> ' . basename($pdep['origin']) . '-' . $pdep['version'] . '</a>&emsp;' . "\n";
@@ -110,10 +115,10 @@ function get_pkg_table() {
 
 		$pkgtbl .= 	'</td>' . "\n";
 		$pkgtbl .= '<td>' . "\n";
-		$pkgtbl .= '<a title="' . gettext("Click to install") . '" href="pkg_mgr_install.php?pkg=' . $index['name'] . '" class="btn btn-success btn-sm"><i class="fa fa-plus icon-embed-btn"></i>Install</a>' . "\n";
+		$pkgtbl .= '<a title="' . gettext("설치") . '" href="pkg_mgr_install.php?pkg=' . $index['name'] . '" class="btn btn-success btn-sm"><i class="fa fa-plus icon-embed-btn"></i>Install</a>' . "\n";
 
 		if (!$g['disablepackageinfo'] && $index['pkginfolink'] && $index['pkginfolink'] != $index['www']) {
-			$pkgtbl .= '<a target="_blank" title="' . gettext("View more information") . '" href="' . htmlspecialchars($index['pkginfolink']) . '" class="btn btn-default btn-sm">info</a>' . "\n";
+			$pkgtbl .= '<a target="_blank" title="' . gettext("더보기") . '" href="' . htmlspecialchars($index['pkginfolink']) . '" class="btn btn-default btn-sm">info</a>' . "\n";
 		}
 
 		$pkgtbl .= 	'</td>' . "\n";
@@ -126,19 +131,19 @@ function get_pkg_table() {
 	return ($pkgtbl);
 }
 
-$pgtitle = array(gettext("System"), gettext("Package Manager"), gettext("Available Packages"));
+$pgtitle = array(gettext("System"), gettext("패키지 매니저"), gettext("사용 가능한 패키지"));
 $pglinks = array("", "pkg_mgr_installed.php", "@self");
 include("head.inc");
 
 $tab_array = array();
-$tab_array[] = array(gettext("Installed Packages"), false, "pkg_mgr_installed.php");
-$tab_array[] = array(gettext("Available Packages"), true, "pkg_mgr.php");
+$tab_array[] = array(gettext("설치된 패키지"), false, "pkg_mgr_installed.php");
+$tab_array[] = array(gettext("사용 가능한 패키지"), true, "pkg_mgr.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default" id="search-panel" style="display: none;">
 	<div class="panel-heading">
 		<h2 class="panel-title">
-			<?=gettext('Search')?>
+			<?=gettext('검색')?>
 			<span class="widget-heading-icon pull-right">
 				<a data-toggle="collapse" href="#search-panel_panel-body">
 					<i class="fa fa-plus-circle"></i>
@@ -149,36 +154,36 @@ display_top_tabs($tab_array);
 	<div id="search-panel_panel-body" class="panel-body collapse in">
 		<div class="form-group">
 			<label class="col-sm-2 control-label">
-				<?=gettext("Search term")?>
+				<?=gettext("검색어")?>
 			</label>
 			<div class="col-sm-5"><input class="form-control" name="searchstr" id="searchstr" type="text"/></div>
 			<div class="col-sm-2">
 				<select id="where" class="form-control">
-					<option value="0"><?=gettext("Name")?></option>
+					<option value="0"><?=gettext("이름")?></option>
 					<option value="1"><?=gettext("Description")?></option>
-					<option value="2" selected><?=gettext("Both")?></option>
+					<option value="2" selected><?=gettext("모두")?></option>
 				</select>
 			</div>
 			<div class="col-sm-3">
-				<a id="btnsearch" title="<?=gettext("Search")?>" class="btn btn-primary btn-sm"><i class="fa fa-search icon-embed-btn"></i><?=gettext("Search")?></a>
-				<a id="btnclear" title="<?=gettext("Clear")?>" class="btn btn-info btn-sm"><i class="fa fa-undo icon-embed-btn"></i><?=gettext("Clear")?></a>
+				<a id="btnsearch" title="<?=gettext("검색")?>" class="btn btn-primary btn-sm"><i class="fa fa-search icon-embed-btn"></i><?=gettext("검색")?></a>
+				<a id="btnclear" title="<?=gettext("클리어")?>" class="btn btn-info btn-sm"><i class="fa fa-undo icon-embed-btn"></i><?=gettext("클리어")?></a>
 			</div>
 			<div class="col-sm-10 col-sm-offset-2">
-				<span class="help-block"><?=gettext('Enter a search string or *nix regular expression to search package names and descriptions.')?></span>
+				<span class="help-block"><?=gettext('패키지 이름 및 설명을 검색하려면 검색 문자열 또는 *nix 정규식을 입력하십시오.')?></span>
 			</div>
 		</div>
 	</div>
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Packages')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('패키지')?></h2></div>
 	<div id="pkgtbl" class="panel-body table-responsive">
 		<div id="waitmsg">
-			<?php print_info_box(gettext("Please wait while the list of packages is retrieved and formatted.") . '&nbsp;<i class="fa fa-cog fa-spin"></i>'); ?>
+			<?php print_info_box(gettext("패키지 목록을 가져 와서 포맷하는 동안 잠시 기다려주십시오.") . '&nbsp;<i class="fa fa-cog fa-spin"></i>'); ?>
 		</div>
 
 		<div id="errmsg" style="display: none;">
-			<?php print_info_box("<ul><li>" . gettext("Unable to retrieve package information.") . "</li></ul>", 'danger'); ?>
+			<?php print_info_box("<ul><li>" . gettext("패키지 정보를 검색 할 수 없습니다.") . "</li></ul>", 'danger'); ?>
 		</div>
 	</div>
 </div>
