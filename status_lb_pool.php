@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-loadbalancer-pool
 ##|*NAME=Status: Load Balancer: Pool
@@ -56,7 +61,7 @@ if (!$nentries) {
 $now = time();
 $year = date("Y");
 
-$pgtitle = array(gettext("Status"), gettext("Load Balancer"), gettext("Pools"));
+$pgtitle = array(gettext("Status"), gettext("로드 밸런서"), gettext("Pools"));
 $pglinks = array("", "@self", "@self");
 $shortcut_section = "relayd";
 
@@ -102,12 +107,12 @@ if ($_POST) {
 		}
 
 		mark_subsystem_dirty('loadbalancer');
-		write_config(gettext("Updated load balancer pools via status screen."));
+		write_config(gettext("상태 화면을 통해 업데이트된 로드 밸런서 풀"));
 	}
 }
 
 if (is_subsystem_dirty('loadbalancer')) {
-	print_apply_box(gettext("The load balancer configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("로드 밸런서 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 if ($_POST['apply']) {
@@ -125,15 +130,15 @@ $rowsprinted = 0;
 
 <form action="status_lb_pool.php" method="post">
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext("Load Balancer Pools");?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext("로드 밸런서 풀");?></h2></div>
 		<div class="panel-body table-responsive">
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 				<thead>
 					<tr>
-						<th><?=gettext("Name")?></th>
-						<th><?=gettext("Mode")?></th>
-						<th><?=gettext("Servers")?></th>
-						<th><?=gettext("Monitor")?></th>
+						<th><?=gettext("이름")?></th>
+						<th><?=gettext("모드")?></th>
+						<th><?=gettext("서버")?></th>
+						<th><?=gettext("모니터")?></th>
 						<th><?=gettext("Description")?></th>
 					</tr>
 				</thead>
@@ -241,12 +246,12 @@ endforeach;
 if ($rowsprinted > 0) {
 ?>
                         <nav class="action-buttons">
-                                <button name="Submit" type="submit" class="btn btn-primary btn-sm" value="<?= gettext("Save"); ?>" >
+                                <button name="Submit" type="submit" class="btn btn-primary btn-sm" value="<?= gettext("저장"); ?>" >
                                         <i class="fa fa-save icon-embed-btn"></i>
-                                        <?=gettext("Save")?>
+                                        <?=gettext("저장")?>
                                 </button>
 
-                                <button name="Reset" type="reset"  class="btn btn-danger btn-sm" value="<?= gettext("Reset"); ?>">
+                                <button name="Reset" type="reset"  class="btn btn-danger btn-sm" value="<?= gettext("리셋"); ?>">
                                         <i class="fa fa-undo icon-embed-btn"></i>
                                         <?=gettext("Reset")?>
                                 </button>
