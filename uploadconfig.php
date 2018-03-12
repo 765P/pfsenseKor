@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-hidden-uploadconfiguration
 ##|*NAME=Hidden: Upload Configuration
@@ -40,7 +45,7 @@ header("Content-Type: text/plain");
 if ($_POST['config']) {
 	$fd = @fopen("{$g['tmp_path']}/config.xml", "w");
 	if (!$fd) {
-		echo gettext("ERR Could not save configuration.")."\n";
+		echo gettext("ERR 구성을 저장할 수 없습니다.")."\n";
 		exit(0);
 	}
 	fwrite($fd, $_POST['config']);
@@ -49,10 +54,10 @@ if ($_POST['config']) {
 		echo gettext("OK")."\n";
 		system_reboot();
 	} else {
-		echo gettext("ERR Could not install configuration.")."\n";
+		echo gettext("ERR 구성을 설치할 수 없습니다.")."\n";
 	}
 } else {
-	echo gettext("ERR Invalid configuration received.")."\n";
+	echo gettext("ERR 잘못된 구성을 받았습니다.")."\n";
 }
 
 exit(0);
