@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-logs-firewall
 ##|*NAME=Status: Logs: Firewall
@@ -42,7 +47,7 @@ if (isset($_POST['resolve'])) {
 	if ($res && $res != $ip) {
 		$response = array('resolve_ip' => $ip, 'resolve_text' => $res);
 	} else {
-		$response = array('resolve_ip' => $ip, 'resolve_text' => gettext("Cannot resolve"));
+		$response = array('resolve_ip' => $ip, 'resolve_text' => gettext("해결할 수 없음"));
 	}
 
 	echo json_encode(str_replace("\\", "\\\\", $response)); // single escape chars can break JSON decode
@@ -73,9 +78,9 @@ if (!$_REQUEST['logfile']) {
 	}
 }
 
-if ($view == 'normal')  { $view_title = gettext("Normal View"); }
-if ($view == 'dynamic') { $view_title = gettext("Dynamic View"); }
-if ($view == 'summary') { $view_title = gettext("Summary View"); }
+if ($view == 'normal')  { $view_title = gettext("일반 뷰"); }
+if ($view == 'dynamic') { $view_title = gettext("동적 뷰"); }
+if ($view == 'summary') { $view_title = gettext("요약 "); }
 
 $rulenum = getGETPOSTsettingvalue('getrulenum', null);
 
@@ -148,19 +153,19 @@ if (!$rawfilter) {
 				<tr class="text-nowrap">
 					<th><?=gettext("Action")?></th>
 					<th><?=gettext("Time")?></th>
-					<th><?=gettext("Interface")?></th>
+					<th><?=gettext("인터페이스")?></th>
 <?php
 	if ($config['syslog']['filterdescriptions'] === "1") {
 ?>
 					<th style="width:100%">
-						<?=gettext("Rule")?>
+						<?=gettext("룰")?>
 					</th>
 <?php
 	}
 ?>
-					<th><?=gettext("Source")?></th>
-					<th><?=gettext("Destination")?></th>
-					<th><?=gettext("Protocol")?></th>
+					<th><?=gettext("발신지")?></th>
+					<th><?=gettext("수신지")?></th>
+					<th><?=gettext("프로토콜")?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -273,7 +278,7 @@ if (!$rawfilter) {
 		</table>
 <?php
 	if (count($filterlog) == 0) {
-		print_info_box(gettext('No logs to display.'));
+		print_info_box(gettext('로그가 업습니다.'));
 	}
 ?>
 		</div>
@@ -295,8 +300,8 @@ if (!$rawfilter) {
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 			<thead>
 				<tr class="text-nowrap">
-					<th><?=gettext("Time")?></th>
-					<th style="width:100%"><?=gettext("Message")?></th>
+					<th><?=gettext("시간")?></th>
+					<th style="width:100%"><?=gettext("메시지")?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -316,7 +321,7 @@ events.push(function() {
 
 <?php
 	if ($rows == 0) {
-		print_info_box(gettext('No logs to display.'));
+		print_info_box(gettext('로그가 없습니다.'));
 	}
 ?>
 	</div>
@@ -329,7 +334,7 @@ events.push(function() {
 <?php
 print_info_box('<a href="https://doc.pfsense.org/index.php/What_are_TCP_Flags">' .
 	gettext("TCP Flags") . '</a>: F - FIN, S - SYN, A or . - ACK, R - RST, P - PSH, U - URG, E - ECE, C - CWR.' . '<br />' .
-	'<i class="fa fa-minus-square-o icon-primary"></i> = ' . gettext('Add to block list') . ', <i class="fa fa-plus-square-o icon-primary"></i> = ' . gettext('Pass traffic') . ', <i class="fa fa-info icon-primary"></i> = ' . gettext('Resolve'), 'info', false);
+	'<i class="fa fa-minus-square-o icon-primary"></i> = ' . gettext('블록 리스트 추가') . ', <i class="fa fa-plus-square-o icon-primary"></i> = ' . gettext('트래픽 통과') . ', <i class="fa fa-info icon-primary"></i> = ' . gettext('결정'), 'info', false);
 ?>
 </div>
 
