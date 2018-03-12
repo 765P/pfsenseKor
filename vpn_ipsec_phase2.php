@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-ipsec-editphase2
 ##|*NAME=VPN: IPsec: Edit Phase 2
@@ -134,15 +139,15 @@ if ($_POST['save']) {
 	$pconfig = $_POST;
 
 	if (!isset($_POST['ikeid'])) {
-		$input_errors[] = gettext("A valid ikeid must be specified.");
+		$input_errors[] = gettext("유효한 ikeid를 지정해야합니다.");
 	}
 
 	/* input validation */
 	$reqdfields = explode(" ", "localid_type uniqid");
-	$reqdfieldsn = array(gettext("Local network type"), gettext("Unique Identifier"));
+	$reqdfieldsn = array(gettext("로컬 네트워크 유형"), gettext("고유 식별자"));
 	if (!isset($pconfig['mobile'])) {
 		$reqdfields[] = "remoteid_type";
-		$reqdfieldsn[] = gettext("Remote network type");
+		$reqdfieldsn[] = gettext("원격 네트워크 유형");
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
@@ -151,15 +156,15 @@ if ($_POST['save']) {
 		switch ($pconfig['localid_type']) {
 			case "network":
 				if (($pconfig['localid_netbits'] != 0 && !$pconfig['localid_netbits']) || !is_numericint($pconfig['localid_netbits'])) {
-					$input_errors[] = gettext("A valid local network bit count must be specified.");
+					$input_errors[] = gettext("유효한 로컬 네트워크 비트 카운트를 지정하십시오.");
 				}
 			case "address":
 				if (!$pconfig['localid_address'] || !is_ipaddr($pconfig['localid_address'])) {
-					$input_errors[] = gettext("A valid local network IP address must be specified.");
+					$input_errors[] = gettext("유효한 로컬 네트워크 IP 주소를 지정해야합니다.");
 				} elseif (is_ipaddrv4($pconfig['localid_address']) && ($pconfig['mode'] != "tunnel")) {
-					$input_errors[] = gettext("A valid local network IPv4 address must be specified or Mode needs to be changed to IPv6");
+					$input_errors[] = gettext("유효한 로컬 네트워크 IPv4 주소를 지정해야하며, 모드를 IPv6로 변경해야합니다.");
 				} elseif (is_ipaddrv6($pconfig['localid_address']) && ($pconfig['mode'] != "tunnel6")) {
-					$input_errors[] = gettext("A valid local network IPv6 address must be specified or Mode needs to be changed to IPv4");
+					$input_errors[] = gettext("유효한 로컬 네트워크 IPv6 주소를 지정해야하며 모드를 IPv4로 변경해야합니다.");
 				}
 				break;
 		}
@@ -170,7 +175,7 @@ if ($_POST['save']) {
 			$netbits = get_interface_subnet($pconfig['localid_type']);
 
 			if (empty($address) || empty($netbits)) {
-				$input_errors[] = gettext("Invalid Local Network.") . " " . sprintf(gettext("%s has no subnet."), convert_friendly_interface_to_friendly_descr($pconfig['localid_type']));
+				$input_errors[] = gettext("로컬 네트워크가 잘못되었습니다.") . " " . sprintf(gettext("%s에 서브넷이 없습니다."), convert_friendly_interface_to_friendly_descr($pconfig['localid_type']));
 			}
 		}
 
@@ -178,18 +183,18 @@ if ($_POST['save']) {
 			switch ($pconfig['natlocalid_type']) {
 				case "network":
 					if (($pconfig['natlocalid_netbits'] != 0 && !$pconfig['natlocalid_netbits']) || !is_numericint($pconfig['natlocalid_netbits'])) {
-						$input_errors[] = gettext("A valid NAT local network bit count must be specified.");
+						$input_errors[] = gettext("유효한 NAT 로컬 네트워크 비트 수를 지정해야합니다.");
 					}
 					if ($pconfig['localid_type'] == "address") {
-						$input_errors[] = gettext("A network type address cannot be configured for NAT while only an address type is selected for local source.");
+						$input_errors[] = gettext("네트워크 유형 주소는 NAT에 대해 구성 할 수 없으며 주소 유형 만 로컬 소스에 대해 선택됩니다.");
 					}
 				case "address":
 					if (!empty($pconfig['natlocalid_address']) && !is_ipaddr($pconfig['natlocalid_address'])) {
-						$input_errors[] = gettext("A valid NAT local network IP address must be specified.");
+						$input_errors[] = gettext("유효한 NAT 로컬 네트워크 IP 주소를 지정해야합니다.");
 					} elseif (is_ipaddrv4($pconfig['natlocalid_address']) && ($pconfig['mode'] != "tunnel")) {
-						$input_errors[] = gettext("A valid NAT local network IPv4 address must be specified or Mode needs to be changed to IPv6");
+						$input_errors[] = gettext("유효한 NAT 로컬 네트워크 IPv4 주소를 지정해야하며 모드를 IPv6로 변경해야합니다.");
 					} elseif (is_ipaddrv6($pconfig['natlocalid_address']) && ($pconfig['mode'] != "tunnel6")) {
-						$input_errors[] = gettext("A valid NAT local network IPv6 address must be specified or Mode needs to be changed to IPv4");
+						$input_errors[] = gettext("유효한 NAT 로컬 네트워크 IPv6 주소를 지정해야하며 모드를 IPv4로 변경해야합니다.");
 					}
 					break;
 			}
@@ -200,7 +205,7 @@ if ($_POST['save']) {
 				$netbits = get_interface_subnet($pconfig['natlocalid_type']);
 
 				if (empty($address) || empty($netbits)) {
-					$input_errors[] = gettext("Invalid Local Network.") . " " . sprintf(gettext("%s has no subnet."), convert_friendly_interface_to_friendly_descr($pconfig['natlocalid_type']));
+					$input_errors[] = gettext("로컬 네트워크가 잘못되었습니다.") . " " . sprintf(gettext("%s에 서브넷이 없습니다."), convert_friendly_interface_to_friendly_descr($pconfig['natlocalid_type']));
 				}
 			}
 		}
@@ -208,15 +213,15 @@ if ($_POST['save']) {
 		switch ($pconfig['remoteid_type']) {
 			case "network":
 				if (($pconfig['remoteid_netbits'] != 0 && !$pconfig['remoteid_netbits']) || !is_numericint($pconfig['remoteid_netbits'])) {
-					$input_errors[] = gettext("A valid remote network bit count must be specified.");
+					$input_errors[] = gettext("유효한 원격 네트워크 비트 수를 지정해야합니다.");
 				}
 			case "address":
 				if (!$pconfig['remoteid_address'] || !is_ipaddr($pconfig['remoteid_address'])) {
-					$input_errors[] = gettext("A valid remote network IP address must be specified.");
+					$input_errors[] = gettext("유효한 원격 네트워크 IP 주소를 지정해야합니다.");
 				} elseif (is_ipaddrv4($pconfig['remoteid_address']) && ($pconfig['mode'] != "tunnel")) {
-					$input_errors[] = gettext("A valid remote network IPv4 address must be specified or Mode needs to be changed to IPv6");
+					$input_errors[] = gettext("유효한 원격 네트워크 IPv4 주소를 지정해야하며, 모드를 IPv6로 변경해야합니다.");
 				} elseif (is_ipaddrv6($pconfig['remoteid_address']) && ($pconfig['mode'] != "tunnel6")) {
-					$input_errors[] = gettext("A valid remote network IPv6 address must be specified or Mode needs to be changed to IPv4");
+					$input_errors[] = gettext("유효한 원격 네트워크 IPv6 주소를 지정해야하며 모드를 IPv4로 변경해야합니다.");
 				}
 				break;
 		}
@@ -242,7 +247,7 @@ if ($_POST['save']) {
 				$entered_localid_data = ipsec_idinfo_to_cidr($entered, false, $pconfig['mode']);
 				if ($localid_data == $entered_localid_data) {
 					/* adding new p2 entry */
-					$input_errors[] = gettext("Phase2 with this Local Network is already defined for mobile clients.");
+					$input_errors[] = gettext("이 로컬 네트워크가있는 Phase2는 모바일 클라이언트 용으로 이미 정의되어 있습니다.");
 					break;
 				}
 			}
@@ -275,7 +280,7 @@ if ($_POST['save']) {
 				$entered_remoteid_data = ipsec_idinfo_to_cidr($entered_remote, false, $pconfig['mode']);
 				if ($localid_data == $entered_localid_data && $remoteid_data == $entered_remoteid_data) {
 					/* adding new p2 entry */
-					$input_errors[] = gettext("Phase2 with this Local/Remote networks combination is already defined for this Phase1.");
+					$input_errors[] = gettext("이 로컬/원격 네트워크 조합이있는 Phase2는이 Phase1에 대해 이미 정의되어 있습니다.");
 					break;
 				}
 			}
@@ -314,12 +319,12 @@ if ($_POST['save']) {
 				if (is_ipaddr($phase1['remote-gateway'])) {
 					if ($pconfig['mode'] == "tunnel") {
 						if (check_subnets_overlap($interfaceip, 32, $entered_local_network, $entered_local_mask) && check_subnets_overlap($phase1['remote-gateway'], 32, $entered_remote_network, $entered_remote_mask)) {
-							$input_errors[] = gettext("The local and remote networks of a phase 2 entry cannot overlap the outside of the tunnel (interface and remote gateway) configured in its phase 1.");
+							$input_errors[] = gettext("2 단계 항목의 로컬 및 원격 네트워크는 1 단계에서 구성된 터널(인터페이스 및 원격 게이트웨이) 외부와 겹칠 수 없습니다.");
 							break;
 						}
 					} else if ($pconfig['mode'] == "tunnel6") {
 						if (check_subnetsv6_overlap($interfaceip, 128, $entered_local_network, $entered_local_mask) && check_subnets_overlap($phase1['remote-gateway'], 128, $entered_remote_network, $entered_remote_mask)) {
-							$input_errors[] = gettext("The local and remote networks of a phase 2 entry cannot overlap the outside of the tunnel (interface and remote gateway) configured in its phase 1.");
+							$input_errors[] = gettext("2 단계 항목의 로컬 및 원격 네트워크는 1 단계에서 구성된 터널(인터페이스 및 원격 게이트웨이) 외부와 겹칠 수 없습니다.");
 							break;
 						}
 					}
@@ -333,12 +338,12 @@ if ($_POST['save']) {
 		$ealgos = pconfig_to_ealgos($pconfig);
 
 		if (!count($ealgos)) {
-			$input_errors[] = gettext("At least one encryption algorithm must be selected.");
+			$input_errors[] = gettext("하나 이상의 암호화 알고리즘을 선택해야합니다.");
 		} else {
 			foreach ($ealgos as $ealgo) {
 				if (empty($pconfig['halgos'])) {
 					if (!strpos($ealgo['name'], "gcm")) {
-						$input_errors[] = gettext("At least one hashing algorithm needs to be selected.");
+						$input_errors[] = gettext("하나 이상의 해시 알고리즘을 선택해야합니다.");
 						break;
 					}
 				}
@@ -346,7 +351,7 @@ if ($_POST['save']) {
 		}
 	}
 	if (($_POST['lifetime'] && !is_numericint($_POST['lifetime']))) {
-		$input_errors[] = gettext("The P2 lifetime must be an integer.");
+		$input_errors[] = gettext("P2 수명은 정수 여야합니다.");
 	}
 
 	if (!$input_errors) {
@@ -392,7 +397,7 @@ if ($_POST['save']) {
 			$a_phase2[] = $ph2ent;
 		}
 
-		write_config(gettext("Saved IPsec tunnel Phase 2 configuration."));
+		write_config(gettext("저장된 IPsec 터널 2 단계 구성."));
 		mark_subsystem_dirty('ipsec');
 
 		header("Location: vpn_ipsec.php");
@@ -401,11 +406,11 @@ if ($_POST['save']) {
 }
 
 if ($pconfig['mobile']) {
-	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("Mobile Clients"), gettext("Edit Phase 2"));
+	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("모바일 클라이언트"), gettext("2단계 편집"));
 	$pglinks = array("", "vpn_ipsec.php", "vpn_ipsec_mobile.php", "@self");
 	$editing_mobile = true;
 } else {
-	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("Tunnels"), gettext("Edit Phase 2"));
+	$pgtitle = array(gettext("VPN"), gettext("IPsec"), gettext("터널"), gettext("2단계 편집"));
 	$pglinks = array("", "vpn_ipsec.php", "vpn_ipsec.php", "@self");
 	$editing_mobile = false;
 }
@@ -485,10 +490,10 @@ if ($input_errors) {
 }
 
 $tab_array = array();
-$tab_array[0] = array(gettext("Tunnels"), !$editing_mobile, "vpn_ipsec.php");
-$tab_array[1] = array(gettext("Mobile Clients"), $editing_mobile, "vpn_ipsec_mobile.php");
-$tab_array[2] = array(gettext("Pre-Shared Keys"), false, "vpn_ipsec_keys.php");
-$tab_array[3] = array(gettext("Advanced Settings"), false, "vpn_ipsec_settings.php");
+$tab_array[0] = array(gettext("터널"), !$editing_mobile, "vpn_ipsec.php");
+$tab_array[1] = array(gettext("모바일 클라이언트"), $editing_mobile, "vpn_ipsec_mobile.php");
+$tab_array[2] = array(gettext("사전 공유 키"), false, "vpn_ipsec_keys.php");
+$tab_array[3] = array(gettext("어드밴스드 설정"), false, "vpn_ipsec_settings.php");
 display_top_tabs($tab_array);
 
 $form = new Form();
@@ -521,7 +526,7 @@ $group->add(new Form_Select(
 	'localid_type',
 	null,
 	$pconfig['localid_type'],
-	['address' => gettext('Address'), 'network' => gettext('Network')] + $subnetarray
+	['address' => gettext('주소'), 'network' => gettext('네트워크')] + $subnetarray
 ))->setHelp('Type');
 
 $group->add(new Form_IpAddress(
@@ -541,7 +546,7 @@ foreach ($subnetarray as $ifname => $ifdescr) {
 }
 
 // Tack none, address & network on the beginning
-$subnetarray = array('none' => gettext('None'), 'address' => gettext('Address'), 'network' => gettext('Network')) + $subnetarray;
+$subnetarray = array('none' => gettext('None'), 'address' => gettext('주소'), 'network' => gettext('네트워크')) + $subnetarray;
 
 $group->add(new Form_Select(
 	'natlocalid_type',
@@ -567,7 +572,7 @@ if (!isset($pconfig['mobile'])) {
 		'remoteid_type',
 		null,
 		$pconfig['remoteid_type'],
-		array('address' => gettext('Address'), 'network' => gettext('Network'))
+		array('address' => gettext('주소'), 'network' => gettext('네트워크'))
 	))->setHelp('Type');
 
 	$group->add(new Form_IpAddress(
