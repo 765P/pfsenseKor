@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-gre-edit
 ##|*NAME=Interfaces: GRE: Edit
@@ -60,35 +65,35 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "if remote-addr tunnel-local-addr tunnel-remote-addr tunnel-remote-net");
-	$reqdfieldsn = array(gettext("Parent interface"), gettext("Remote tunnel endpoint IP address"), gettext("Local tunnel IP address"), gettext("Remote tunnel IP address"), gettext("Remote tunnel network"));
+	$reqdfieldsn = array(gettext("상위 인터페이스"), gettext("원격 터널 엔드포인트 IP 주소"), gettext("로컬 터널 IP 주소"), gettext("원격 터널 IP 주소"), gettext("원격 터널 주소"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ((!is_ipaddr($_POST['tunnel-local-addr'])) ||
 	    (!is_ipaddr($_POST['tunnel-remote-addr'])) ||
 	    (!is_ipaddr($_POST['remote-addr']))) {
-		$input_errors[] = gettext("The tunnel local and tunnel remote fields must have valid IP addresses.");
+		$input_errors[] = gettext("터널 로컬 및 터널 원격 필드에는 유효한 IP 주소가 있어야합니다.");
 	}
 
 	if (!is_numericint($_POST['tunnel-remote-net'])) {
-		$input_errors[] = gettext("The GRE tunnel subnet must be an integer.");
+		$input_errors[] = gettext("GRE 터널 서브넷은 정수 여야합니다.");
 	}
 
 	if (is_ipaddrv4($_POST['tunnel-local-addr'])) {
 		if (!is_ipaddrv4($_POST['tunnel-remote-addr'])) {
-			$input_errors[] = gettext("The GRE Tunnel remote address must be IPv4 where tunnel local address is IPv4.");
+			$input_errors[] = gettext("터널 로컬 주소가 IPv4 인 경우 GRE 터널 원격 주소는 IPv4 여야합니다.");
 		}
 		if ($_POST['tunnel-remote-net'] > 32 || $_POST['tunnel-remote-net'] < 1) {
-			$input_errors[] = gettext("The GRE tunnel subnet must be an integer between 1 and 32.");
+			$input_errors[] = gettext("GRE 터널 서브넷은 1에서 32 사이의 정수 여야합니다.");
 		}
 	}
 
 	if (is_ipaddrv6($_POST['tunnel-local-addr'])) {
 		if (!is_ipaddrv6($_POST['tunnel-remote-addr'])) {
-			$input_errors[] = gettext("The GRE Tunnel remote address must be IPv6 where tunnel local address is IPv6.");
+			$input_errors[] = gettext("GRE 터널 원격 주소는 터널 로컬 주소가 IPv6 인 IPv6이어야합니다.");
 		}
 		if ($_POST['tunnel-remote-net'] > 128 || $_POST['tunnel-remote-net'] < 1) {
-			$input_errors[] = gettext("The GRE tunnel subnet must be an integer between 1 and 128.");
+			$input_errors[] = gettext("GRE 터널 서브넷은 1에서 128 사이의 정수 여야합니다.");
 		}
 	}
 
@@ -98,7 +103,7 @@ if ($_POST['save']) {
 		}
 
 		if (($gre['if'] == $_POST['if']) && ($gre['tunnel-remote-addr'] == $_POST['tunnel-remote-addr'])) {
-			$input_errors[] = sprintf(gettext("A GRE tunnel with the network %s is already defined."), $gre['remote-network']);
+			$input_errors[] = sprintf(gettext("%s 네트워크가있는 GRE 터널이 이미 정의되어 있습니다."), $gre['remote-network']);
 			break;
 		}
 	}
@@ -118,7 +123,7 @@ if ($_POST['save']) {
 
 		$gre['greif'] = interface_gre_configure($gre);
 		if ($gre['greif'] == "" || !stristr($gre['greif'], "gre")) {
-			$input_errors[] = gettext("Error occurred creating interface, please retry.");
+			$input_errors[] = gettext("인터페이스를 생성하는 동안 오류가 발생했습니다. 다시 시도하십시오.");
 		} else {
 			if (isset($id) && $a_gres[$id]) {
 				$a_gres[$id] = $gre;
