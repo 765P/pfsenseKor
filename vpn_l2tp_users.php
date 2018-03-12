@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-vpn-vpnl2tp-users
 ##|*NAME=VPN: L2TP: Users
@@ -57,7 +62,7 @@ if ($_POST['apply']) {
 if ($_POST['act'] == "del") {
 	if ($a_secret[$_POST['id']]) {
 		unset($a_secret[$_POST['id']]);
-		write_config(gettext("Deleted a L2TP VPN user."));
+		write_config(gettext("L2TP VPN 사용자를 삭제하였습니다."));
 		mark_subsystem_dirty('l2tpusers');
 		pfSenseHeader("vpn_l2tp_users.php");
 		exit;
@@ -71,28 +76,28 @@ if ($_POST['apply']) {
 }
 
 if (isset($config['l2tp']['radius']['enable'])) {
-	print_info_box(gettext("RADIUS is enabled. The local user database will not be used."));
+	print_info_box(gettext("RADIUS가 사용됩니다. 로컬 사용자 데이터베이스는 사용되지 않습니다."));
 }
 
 if (is_subsystem_dirty('l2tpusers')) {
-	print_apply_box(gettext("The L2TP user list has been modified.") . "<br />" . gettext("The changes must be applied for them to take effect") . ".<br /><b>" . gettext("Warning: this will terminate all current L2TP sessions!") . "</b>");
+	print_apply_box(gettext("L2TP 사용자 목록이 수정되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다.") . ".<br /><b>" . gettext("경고 : 모든 L2TP 세션을 종료합니다!") . "</b>");
 }
 
 
 $tab_array = array();
-$tab_array[] = array(gettext("Configuration"), false, "vpn_l2tp.php");
-$tab_array[] = array(gettext("Users"), true, "vpn_l2tp_users.php");
+$tab_array[] = array(gettext("구성"), false, "vpn_l2tp.php");
+$tab_array[] = array(gettext("사용자"), true, "vpn_l2tp_users.php");
 display_top_tabs($tab_array);
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('L2TP Users')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('L2TP 사용자')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-rowdblclickedit">
 				<thead>
 					<tr>
-						<th><?=gettext("Username")?></th>
-						<th><?=gettext("IP address")?></th>
+						<th><?=gettext("사용자 이름")?></th>
+						<th><?=gettext("IP주소")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
 				</thead>
@@ -107,8 +112,8 @@ display_top_tabs($tab_array);
 							<?=htmlspecialchars($secretent['ip'])?>&nbsp;
 						</td>
 						<td>
-							<a class="fa fa-pencil"	title="<?=gettext('Edit user')?>"	href="vpn_l2tp_users_edit.php?id=<?=$i?>"></a>
-							<a class="fa fa-trash"	title="<?=gettext('Delete user')?>"	href="vpn_l2tp_users.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil"	title="<?=gettext('유저 편집')?>"	href="vpn_l2tp_users_edit.php?id=<?=$i?>"></a>
+							<a class="fa fa-trash"	title="<?=gettext('유저 삭제')?>"	href="vpn_l2tp_users.php?act=del&amp;id=<?=$i?>" usepost></a>
 						</td>
 					</tr>
 <?php $i++; endforeach?>
