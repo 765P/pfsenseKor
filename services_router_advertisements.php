@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-router-advertisements
 ##|*NAME=Services: Router Advertisements
@@ -51,8 +56,8 @@ if ($config['installedpackages']['olsrd']) {
 }
 
 if (!$_REQUEST['if']) {
-	$info_msg = gettext("The DHCPv6 Server can only be enabled on interfaces configured with static, non unique local IP addresses.") . "<br />" .
-	    gettext("Only interfaces configured with a static IP will be shown.");
+	$info_msg = gettext("DHCPv6 서버는 정적이 아닌 고유 한 로컬 IP 주소로 구성된 인터페이스에서만 활성화 할 수 있습니다.") . "<br />" .
+	    gettext("고정 IP로 구성된 인터페이스 만 표시됩니다.");
 }
 
 $iflist = get_configured_interface_with_descr();
@@ -101,36 +106,35 @@ if (!is_array($pconfig['subnets'])) {
 }
 
 $advertise_modes = array(
-	"disabled" => 	gettext("Disabled"),
-	"router" => 	gettext("Router Only - RA Flags [none], Prefix Flags [router]"),
-	"unmanaged" => 	gettext("Unmanaged - RA Flags [none], Prefix Flags [onlink, auto, router]"),
-	"managed" => 	gettext("Managed - RA Flags [managed, other stateful], Prefix Flags [onlink, router]"),
-	"assist" => 	gettext("Assisted - RA Flags [managed, other stateful], Prefix Flags [onlink, auto, router]"),
-	"stateless_dhcp" => gettext("Stateless DHCP - RA Flags [other stateful], Prefix Flags [onlink, auto, router]"));
+	"disabled" => 	gettext("비활성화"),
+	"router" => 	gettext("라우터전용 - RA Flags [none], Prefix Flags [router]"),
+	"unmanaged" => 	gettext("관리되지 않음 - RA Flags [none], Prefix Flags [onlink, auto, router]"),
+	"managed" => 	gettext("관리됨 - RA Flags [managed, other stateful], Prefix Flags [onlink, router]"),
+	"assist" => 	gettext("보조 - RA Flags [managed, other stateful], Prefix Flags [onlink, auto, router]"),
+	"stateless_dhcp" => gettext("상태없는 DHCP - RA Flags [other stateful], Prefix Flags [onlink, auto, router]"));
 $priority_modes = array(
-	"low" => 	gettext("Low"),
-	"medium" => gettext("Normal"),
-	"high" => 	gettext("High"));
+	"low" => 	gettext("낮음"),
+	"medium" => gettext("일반"),
+	"high" => 	gettext("높음"));
 
 $subnets_help = '<span class="help-block">' .
-	gettext("Subnets are specified in CIDR format.  " .
-		"Select the CIDR mask that pertains to each entry.	" .
-		"/128 specifies a single IPv6 host; /64 specifies a normal IPv6 network; etc.  " .
-		"If no subnets are specified here, the Router Advertisement (RA) Daemon will advertise to the subnet to which the router's interface is assigned.") .
+	gettext("서브넷은 CIDR 형식으로 지정됩니다. 각 항목과 관련된 CIDR 마스크를 선택하십시오.	" .
+		"/128은 단일 IPv6 호스트를 지정합니다. /64는 일반적인 IPv6 네트워크를 지정합니다.  " .
+		"여기에 서브넷이 지정되지 않으면 Router Advertisement(RA) 데몬은 라우터의 인터페이스가 할당 된 서브넷에 알립니다.") .
 	'</span>';
 
 // THe use of <div class="infoblock"> here causes the text to be hidden until the user clicks the "info" icon
-$ramode_help = gettext('Select the Operating Mode for the Router Advertisement (RA) Daemon.') .
+$ramode_help = gettext('Router Advertisement(RA) 데몬의 운영 모드를 선택하십시오.') .
 	'<div class="infoblock">' .
 	'<dl class="dl-horizontal responsive">' .
-	'<dt>' . gettext('Disabled') . 		 '</dt><dd>' . gettext('RADVD will not be enabled on this interface.') . '</dd>' .
-	'<dt>' . gettext('Router Only') . 	 '</dt><dd>' . gettext('Will advertise this router.') . '</dd>' .
-	'<dt>' . gettext('Unmanaged') . 	 '</dt><dd>' . gettext('Will advertise this router with stateless autoconfig.') . '</dd>' .
-	'<dt>' . gettext('Managed') . 		 '</dt><dd>' . gettext('Will advertise this router with all configuration through a DHCPv6 server.') . '</dd>' .
-	'<dt>' . gettext('Assisted') . 		 '</dt><dd>' . gettext('Will advertise this router with configuration through a DHCPv6 server and/or stateless autoconfig.') . '</dd>' .
-	'<dt>' . gettext('Stateless DHCP') . '</dt><dd>' . gettext('Will advertise this router with stateless autoconfig and other configuration information available via DHCPv6.') . '</dd>' .
+	'<dt>' . gettext('비활성화') . 		 '</dt><dd>' . gettext('이 인터페이스에서는 RADVD를 사용할 수 없습니다.') . '</dd>' .
+	'<dt>' . gettext('라우터전용') . 	 '</dt><dd>' . gettext('이 라우터를 광고합니다.') . '</dd>' .
+	'<dt>' . gettext('관리되지 않음') . 	 '</dt><dd>' . gettext('Stateless autoconfig를 사용하여이 라우터를 알립니다.') . '</dd>' .
+	'<dt>' . gettext('관리됨') . 		 '</dt><dd>' . gettext('DHCPv6 서버를 통해 모든 구성으로이 라우터를 알립니다.') . '</dd>' .
+	'<dt>' . gettext('보조') . 		 '</dt><dd>' . gettext('DHCPv6 서버 and/or 상태 비 저장 자동 구성을 통해이 라우터를 구성으로 알립니다.') . '</dd>' .
+	'<dt>' . gettext('상태없는 DHCP') . '</dt><dd>' . gettext('DHCPv6를 통해 사용 가능한 무국적 자동 구성 및 기타 구성 정보로이 라우터를 알립니다.') . '</dd>' .
 	'</dl>' .
-	gettext('It is not required to activate DHCPv6 server on pfSense when set to "Managed", "Assisted" or "Stateless DHCP", it can be another host on the network.') .
+	gettext('"관리됨", "보조"또는 "상태없는 DHCP"로 설정된 경우 pfSense에서 DHCPv6 서버를 활성화 할 필요가 없으며 네트워크의 다른 호스트가 될 수 있습니다.') .
 	'</div>';
 
 if ($_POST['save']) {
@@ -157,51 +161,51 @@ if ($_POST['save']) {
 		} else {
 			$pconfig['subnets'][] = $address . "/" . $bits;
 			if (!is_ipaddrv6($address)) {
-				$input_errors[] = sprintf(gettext('An invalid subnet or alias was specified. [%1$s/%2$s]'), $address, $bits);
+				$input_errors[] = sprintf(gettext('잘못된 서브넷 또는 별칭이 지정되었습니다. [%1$s/%2$s]'), $address, $bits);
 			}
 		}
 	}
 
 	if (($_POST['radns1'] && !is_ipaddrv6($_POST['radns1'])) || ($_POST['radns2'] && !is_ipaddrv6($_POST['radns2'])) || ($_POST['radns3'] && !is_ipaddrv6($_POST['radns3']))) {
-		$input_errors[] = gettext("A valid IPv6 address must be specified for each of the DNS servers.");
+		$input_errors[] = gettext("각 DNS서버에 올바른 IPv6주소를 지정해야 합니다.");
 	}
 	if ($_POST['radomainsearchlist']) {
 		$domain_array=preg_split("/[ ;]+/", $_POST['radomainsearchlist']);
 		foreach ($domain_array as $curdomain) {
 			if (!is_domain($curdomain)) {
-				$input_errors[] = gettext("A valid domain search list must be specified.");
+				$input_errors[] = gettext("올바른 도메인 검색 목록을 지정해야 합니다.");
 				break;
 			}
 		}
 	}
 
 	if ($_POST['ravalidlifetime'] && ($_POST['ravalidlifetime'] < 7200)) {
-		$input_errors[] = gettext("A valid lifetime below 2 hours will be ignored by clients (RFC 4862 Section 5.5.3 point e)");
+		$input_errors[] = gettext("2 시간 미만의 유효 기간은 클라이언트에 의해 무시됩니다.(RFC 4862 Section 5.5.3 point e)");
 	}
 	if ($_POST['ravalidlifetime'] && !is_numericint($_POST['ravalidlifetime'])) {
-		$input_errors[] = gettext("Valid lifetime must be an integer.");
+		$input_errors[] = gettext("유효한 유효 기간은 정수 여야합니다.");
 	}
 	if ($_POST['raminrtradvinterval']) {
 		if (!is_numericint($_POST['raminrtradvinterval'])) {
-			$input_errors[] = gettext("Minimum advertisement interval must be an integer.");
+			$input_errors[] = gettext("최소 광고 간격은 정수 여야합니다.");
 		}
 		if ($_POST['raminrtradvinterval'] < "3") {
-			$input_errors[] = gettext("Minimum advertisement interval must be no less than 3.");
+			$input_errors[] = gettext("최소 광고 간격은 3보다 작아야합니다.");
 		}
 		if ($_POST['ramaxrtradvinterval'] && $_POST['raminrtradvinterval'] > (0.75 * $_POST['ramaxrtradvinterval'])) {
-			$input_errors[] = gettext("Minimum advertisement interval must be no greater than 0.75 * Maximum advertisement interval");
+			$input_errors[] = gettext("최소 광고 간격은 [0.75 * 최대] 광고 간격보다 길지 않아야합니다.");
 		}
 	}
 	if ($_POST['ramaxrtradvinterval']) {
 		if (!is_numericint($_POST['ramaxrtradvinterval'])) {
-			$input_errors[] = gettext("Maximum advertisement interval must be an integer.");
+			$input_errors[] = gettext("최대 보급 간격은 정수 여야합니다.");
 		}
 		if ($_POST['ramaxrtradvinterval'] < "4" || $_POST['ramaxrtradvinterval'] > "1800") {
-			$input_errors[] = gettext("Maximum advertisement interval must be no less than 4 and no greater than 1800.");
+			$input_errors[] = gettext("최대 광고 간격은 4 이상 1800 이하 여야합니다.");
 		}
 	}
 	if ($_POST['raadvdefaultlifetime'] && !is_numericint($_POST['raadvdefaultlifetime'])) {
-		$input_errors[] = gettext("Router lifetime must be an integer between 0 and 9000.");
+		$input_errors[] = gettext("라우터 수명은 0에서 9000 사이의 정수 여야합니다.");
 	}
 
 	if (!$input_errors) {
@@ -246,14 +250,14 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("Services"), htmlspecialchars(gettext("DHCPv6 Server & RA")));
+$pgtitle = array(gettext("Services"), htmlspecialchars(gettext("DHCPv6 서버 & RA")));
 $pglinks = array("", "services_dhcpv6.php");
 
 if (!empty($if) && isset($iflist[$if])) {
 	$pgtitle[] = $iflist[$if];
 	$pglinks[] = "services_dhcpv6.php?if=" . $if;
 }
-$pgtitle[] = gettext("Router Advertisements");
+$pgtitle[] = gettext("라우터 광고");
 $pglinks[] = "@self";
 
 include("head.inc");
@@ -299,8 +303,8 @@ if ($tabscounter == 0) {
 display_top_tabs($tab_array);
 
 $tab_array = array();
-$tab_array[] = array(gettext("DHCPv6 Server"),		 false, "services_dhcpv6.php?if={$if}");
-$tab_array[] = array(gettext("Router Advertisements"), true,  "services_router_advertisements.php?if={$if}");
+$tab_array[] = array(gettext("DHCPv6 "),		 false, "services_dhcpv6.php?if={$if}");
+$tab_array[] = array(gettext("라우터 광고"), true,  "services_router_advertisements.php?if={$if}");
 display_top_tabs($tab_array, false, 'nav nav-tabs');
 
 $form = new Form();
