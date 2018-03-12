@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-ipsec-spd
 ##|*NAME=Status: IPsec: SPD
@@ -44,8 +49,8 @@ include("head.inc");
 $spd = ipsec_dump_spd();
 
 $tab_array = array();
-$tab_array[0] = array(gettext("Overview"), false, "status_ipsec.php");
-$tab_array[1] = array(gettext("Leases"), false, "status_ipsec_leases.php");
+$tab_array[0] = array(gettext("개요"), false, "status_ipsec.php");
+$tab_array[1] = array(gettext("리스"), false, "status_ipsec_leases.php");
 $tab_array[2] = array(gettext("SADs"), false, "status_ipsec_sad.php");
 $tab_array[3] = array(gettext("SPDs"), true, "status_ipsec_spd.php");
 display_top_tabs($tab_array);
@@ -56,11 +61,11 @@ if (count($spd)) {
 		<table class="table table-striped table-condensed table-hover sortable-theme-bootstrap" data-sortable>
 			<thead>
 				<tr>
-					<th><?= gettext("Source"); ?></th>
-					<th><?= gettext("Destination"); ?></th>
-					<th><?= gettext("Direction"); ?></th>
-					<th><?= gettext("Protocol"); ?></th>
-					<th><?= gettext("Tunnel endpoints"); ?></th>
+					<th><?= gettext("발신지"); ?></th>
+					<th><?= gettext("수신지"); ?></th>
+					<th><?= gettext("방향"); ?></th>
+					<th><?= gettext("프로토콜"); ?></th>
+					<th><?= gettext("터널 엔드포인트"); ?></th>
 				</tr>
 			</thead>
 
@@ -68,9 +73,9 @@ if (count($spd)) {
 <?php
 		foreach ($spd as $sp) {
 			if ($sp['dir'] == 'in') {
-				$dirstr = LEFTARROW . gettext(' Inbound');
+				$dirstr = LEFTARROW . gettext(' 인바운드');
 			} else {
-				$dirstr = RIGHTARROW . gettext(' Outbound');
+				$dirstr = RIGHTARROW . gettext(' 아웃바운드');
 			}
 ?>
 				<tr>
@@ -98,7 +103,7 @@ if (count($spd)) {
 	</div>
 <?php
 } else {
-	print_info_box(gettext('No IPsec security policies configured.'));
+	print_info_box(gettext('IPsec 보안 정책이 구성되지 않았습니다.'));
 }
 
 if (ipsec_enabled()) {
@@ -110,7 +115,7 @@ if (ipsec_enabled()) {
 <div class="infoblock blockopen">
 <?php
 }
-print_info_box(sprintf(gettext('IPsec can be configured %1$shere%2$s.'), '<a href="vpn_ipsec.php">', '</a>'), 'info', false);
+print_info_box(sprintf(gettext('IPsec을 %1$s여기%2$s에서 구성 할 수 있습니다.'), '<a href="vpn_ipsec.php">', '</a>'), 'info', false);
 ?>
 </div>
 <?php
