@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-captiveportal-vouchers
 ##|*NAME=Services: Captive Portal Vouchers
@@ -66,12 +71,12 @@ if (!is_array($config['voucher'])) {
 }
 
 if (empty($a_cp[$cpzone])) {
-	log_error(sprintf(gettext("Submission on captiveportal page with unknown zone parameter: %s"), htmlspecialchars($cpzone)));
+	log_error(sprintf(gettext("알 수 없는 영역 파라미터가있는 captiveportal 페이지에 대한 제출 : %s"), htmlspecialchars($cpzone)));
 	header("Location: services_captiveportal_zones.php");
 	exit;
 }
 
-$pgtitle = array(gettext("Services"), gettext("Captive Portal"), $a_cp[$cpzone]['zone'], gettext("Vouchers"));
+$pgtitle = array(gettext("Services"), gettext("Captive Portal"), $a_cp[$cpzone]['zone'], gettext("바우처"));
 $pglinks = array("", "services_captiveportal_zones.php", "services_captiveportal.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal-vouchers";
 
@@ -122,11 +127,11 @@ if (!isset($config['voucher'][$cpzone]['publickey'])) {
 
 // Check for invalid or expired vouchers
 if (!isset($config['voucher'][$cpzone]['descrmsgnoaccess'])) {
-	$config['voucher'][$cpzone]['descrmsgnoaccess'] = gettext("Voucher invalid");
+	$config['voucher'][$cpzone]['descrmsgnoaccess'] = gettext("바우처가 유효하지 않습니다.");
 }
 
 if (!isset($config['voucher'][$cpzone]['descrmsgexpired'])) {
-	$config['voucher'][$cpzone]['descrmsgexpired'] = gettext("Voucher expired");
+	$config['voucher'][$cpzone]['descrmsgexpired'] = gettext("바우처가 만료되었습니다.");
 }
 
 $a_roll = &$config['voucher'][$cpzone]['roll'];
@@ -149,7 +154,7 @@ if ($_POST['act'] == "del") {
 	if (strstr($privkey, "BEGIN RSA PRIVATE KEY")) {
 		$fd = fopen("{$g['varetc_path']}/voucher_{$cpzone}.private", "w");
 		if (!$fd) {
-			$input_errors[] = gettext("Cannot write private key file") . ".\n";
+			$input_errors[] = gettext("개인 키 파일을 쓸 수 없습니다.") . ".\n";
 		} else {
 			chmod("{$g['varetc_path']}/voucher_{$cpzone}.private", 0600);
 			fwrite($fd, $privkey);
@@ -171,7 +176,7 @@ if ($_POST['act'] == "del") {
 			exit;
 		}
 	} else {
-		$input_errors[] = gettext("Need private RSA key to print vouchers") . "\n";
+		$input_errors[] = gettext("바우처를 인쇄하려면 개인 RSA 키가 필요합니다.") . "\n";
 	}
 }
 
@@ -208,7 +213,7 @@ if ($_POST['save']) {
 			$reqdfieldsn = array(gettext("charset"), gettext("rollbits"), gettext("ticketbits"), gettext("checksumbits"), gettext("publickey"), gettext("magic"));
 		} else {
 			$reqdfields = explode(" ", "vouchersyncdbip vouchersyncport vouchersyncpass vouchersyncusername");
-			$reqdfieldsn = array(gettext("Synchronize Voucher Database IP"), gettext("Sync port"), gettext("Sync password"), gettext("Sync username"));
+			$reqdfieldsn = array(gettext("바우처 데이터베이스 IP 동기화"), gettext("Sync 포트"), gettext("Sync 패스워드"), gettext("Sync 유저이름"));
 		}
 
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
@@ -217,34 +222,34 @@ if ($_POST['save']) {
 	if (!$_POST['vouchersyncusername']) {
 		// Check for form errors
 		if ($_POST['charset'] && (strlen($_POST['charset']) < 2)) {
-			$input_errors[] = gettext("Need at least 2 characters to create vouchers.");
+			$input_errors[] = gettext("바우처를 만들려면 2문자 이상이 필요합니다.");
 		}
 		if ($_POST['charset'] && (strpos($_POST['charset'], "\"") > 0)) {
-			$input_errors[] = gettext("Double quotes aren't allowed.");
+			$input_errors[] = gettext("쌍따옴표는 허용되지 않습니다.");
 		}
 		if ($_POST['charset'] && (strpos($_POST['charset'], ",") > 0)) {
-			$input_errors[] = gettext("',' aren't allowed.");
+			$input_errors[] = gettext("','는 허용되지 않습니다.");
 		}
 		if ($_POST['rollbits'] && (!is_numeric($_POST['rollbits']) || ($_POST['rollbits'] < 1) || ($_POST['rollbits'] > 31))) {
-			$input_errors[] = gettext("# of Bits to store Roll Id needs to be between 1..31.");
+			$input_errors[] = gettext("롤 ID를 저장하는 비트 수는 1에서 31사이 여야합니다.");
 		}
 		if ($_POST['ticketbits'] && (!is_numeric($_POST['ticketbits']) || ($_POST['ticketbits'] < 1) || ($_POST['ticketbits'] > 16))) {
-			$input_errors[] = gettext("# of Bits to store Ticket Id needs to be between 1..16.");
+			$input_errors[] = gettext("티켓 ID를 저장할 비트 카운트는 1에서 16 사이여야합니다.");
 		}
 		if ($_POST['checksumbits'] && (!is_numeric($_POST['checksumbits']) || ($_POST['checksumbits'] < 1) || ($_POST['checksumbits'] > 31))) {
-			$input_errors[] = gettext("# of Bits to store checksum needs to be between 1..31.");
+			$input_errors[] = gettext("체크섬을 저장할 비트 카운트는 1.31 사이 여야합니다.");
 		}
 		if ($_POST['publickey'] && (!strstr($_POST['publickey'], "BEGIN PUBLIC KEY"))) {
-			$input_errors[] = gettext("This doesn't look like an RSA Public key.");
+			$input_errors[] = gettext("이것은 RSA 공개 키처럼 보이지 않습니다.");
 		}
 		if ($_POST['privatekey'] && (!strstr($_POST['privatekey'], "BEGIN RSA PRIVATE KEY"))) {
-			$input_errors[] = gettext("This doesn't look like an RSA Private key.");
+			$input_errors[] = gettext("이것은 RSA 개인 키처럼 보이지 않습니다.");
 		}
 		if ($_POST['vouchersyncdbip'] && (is_ipaddr_configured($_POST['vouchersyncdbip']))) {
-			$input_errors[] = gettext("The voucher database cannot be sync'd to this host (itself).");
+			$input_errors[] = gettext("바우처 데이터베이스는이 호스트 (자체)와 동기화 될 수 없습니다.");
 		}
 		if ($_POST['vouchersyncpass'] != $_POST['vouchersyncpass_confirm']) {
-			$input_errors[] = gettext("Password and confirmed password must match.");
+			$input_errors[] = gettext("암호와 확인 된 암호가 일치해야합니다.");
 		}
 	}
 
@@ -310,7 +315,7 @@ EOF;
 
 				if (!$input_errors) {
 					if (is_array($resp)) {
-						log_error(sprintf(gettext("The Captive Portal voucher database has been synchronized with %s (pfsense.exec_php)."), $url));
+						log_error(sprintf(gettext("전속 포털 바우처 데이터베이스가 %s(pfsense.exec_php)와 동기화되었습니다."), $url));
 						// If we received back the voucher roll and other information then store it.
 						if ($resp['voucher']['roll']) {
 							$newvoucher['roll'] = $resp['voucher']['roll'];
@@ -342,7 +347,7 @@ EOF;
 						if ($resp['voucher']['descrmsgexpired']) {
 							$newvoucher['descrmsgexpired'] = $resp['voucher']['descrmsgexpired'];
 						}
-						$savemsg = sprintf(gettext('Voucher database has been synchronized from %1$s'), $url);
+						$savemsg = sprintf(gettext('바우처 데이터베이스가 %1$s에서 동기화되었습니다.'), $url);
 
 						$config['voucher'][$cpzone] = $newvoucher;
 						write_config();
@@ -370,27 +375,27 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Configuration"), false, "services_captiveportal.php?zone={$cpzone}");
+$tab_array[] = array(gettext("구성"), false, "services_captiveportal.php?zone={$cpzone}");
 $tab_array[] = array(gettext("MACs"), false, "services_captiveportal_mac.php?zone={$cpzone}");
-$tab_array[] = array(gettext("Allowed IP Addresses"), false, "services_captiveportal_ip.php?zone={$cpzone}");
-$tab_array[] = array(gettext("Allowed Hostnames"), false, "services_captiveportal_hostname.php?zone={$cpzone}");
-$tab_array[] = array(gettext("Vouchers"), true, "services_captiveportal_vouchers.php?zone={$cpzone}");
-$tab_array[] = array(gettext("File Manager"), false, "services_captiveportal_filemanager.php?zone={$cpzone}");
+$tab_array[] = array(gettext("허용된 IP주소"), false, "services_captiveportal_ip.php?zone={$cpzone}");
+$tab_array[] = array(gettext("허용된 호스트이름"), false, "services_captiveportal_hostname.php?zone={$cpzone}");
+$tab_array[] = array(gettext("바우처"), true, "services_captiveportal_vouchers.php?zone={$cpzone}");
+$tab_array[] = array(gettext("파일 매니저"), false, "services_captiveportal_filemanager.php?zone={$cpzone}");
 display_top_tabs($tab_array, true);
 
 // We draw a simple table first, then present the controls to work with it
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Voucher Rolls");?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("바우처 롤");?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed table-rowdblclickedit sortable-theme-bootstrap" data-sortable>
 				<thead>
 					<tr>
-						<th><?=gettext("Roll #")?></th>
-						<th><?=gettext("Minutes/Ticket")?></th>
-						<th><?=gettext("# of Tickets")?></th>
-						<th><?=gettext("Comment")?></th>
+						<th><?=gettext("롤 #")?></th>
+						<th><?=gettext("분/티켓")?></th>
+						<th><?=gettext("티켓 수")?></th>
+						<th><?=gettext("코멘트")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
 				</thead>
@@ -406,9 +411,9 @@ foreach ($a_roll as $rollent):
 						<td><?=htmlspecialchars($rollent['descr']); ?></td>
 						<td>
 							<!-- These buttons are hidden/shown on checking the 'enable' checkbox -->
-							<a class="fa fa-pencil"		title="<?=gettext("Edit voucher roll"); ?>" href="services_captiveportal_vouchers_edit.php?zone=<?=$cpzone?>&amp;id=<?=$i; ?>"></a>
-							<a class="fa fa-trash"		title="<?=gettext("Delete voucher roll")?>" href="services_captiveportal_vouchers.php?zone=<?=$cpzone?>&amp;act=del&amp;id=<?=$i; ?>" usepost></a>
-							<a class="fa fa-file-excel-o"	title="<?=gettext("Export vouchers for this roll to a .csv file")?>" href="services_captiveportal_vouchers.php?zone=<?=$cpzone?>&amp;act=csv&amp;id=<?=$i; ?>"></a>
+							<a class="fa fa-pencil"		title="<?=gettext("바우처 롤 수정"); ?>" href="services_captiveportal_vouchers_edit.php?zone=<?=$cpzone?>&amp;id=<?=$i; ?>"></a>
+							<a class="fa fa-trash"		title="<?=gettext("바우처 롤 삭제")?>" href="services_captiveportal_vouchers.php?zone=<?=$cpzone?>&amp;act=del&amp;id=<?=$i; ?>" usepost></a>
+							<a class="fa fa-file-excel-o"	title="<?=gettext("이 롤에 대한 바우처를 .csv 파일로 내보내기")?>" href="services_captiveportal_vouchers.php?zone=<?=$cpzone?>&amp;act=csv&amp;id=<?=$i; ?>"></a>
 						</td>
 					</tr>
 <?php
@@ -426,7 +431,7 @@ if ($pconfig['enable']) : ?>
 	<nav class="action-buttons">
 		<a href="services_captiveportal_vouchers_edit.php?zone=<?=$cpzone?>" class="btn btn-success">
 			<i class="fa fa-plus icon-embed-btn"></i>
-			<?=gettext("Add")?>
+			<?=gettext("추가")?>
 		</a>
 	</nav>
 <?php
@@ -565,8 +570,8 @@ print($form);
 ?>
 <div class="rolledit">
 <?php
-	print_info_box(gettext('Changing any Voucher parameter (apart from managing the list of Rolls) on this page will render existing vouchers useless if they were generated with different settings. ' .
-							'Specifying the Voucher Database Synchronization options will not record any other value from the other options. They will be retrieved/synced from the master.'), 'info');
+	print_info_box(gettext('이 페이지에서 롤의 목록을 관리하는 것과는 별도로 바우처 매개 변수를 변경하면 기존 바우처가 다른 설정으로 생성 된 경우 쓸모 없게됩니다. ' .
+							'바우처 데이터베이스 지정 동기화 옵션은 다른 옵션의 다른 값을 기록하지 않습니다. 마스터로부터 검색/동기화 됩니다.'), 'info');
 ?>
 </div>
 
@@ -601,7 +606,7 @@ events.push(function() {
 	// Set initial state
 	setShowHide($('#enable').is(":checked"));
 
-	var generateButton = $('<a class="btn btn-xs btn-warning"><i class="fa fa-refresh icon-embed-btn"></i><?=gettext("Generate new keys");?></a>');
+	var generateButton = $('<a class="btn btn-xs btn-warning"><i class="fa fa-refresh icon-embed-btn"></i><?=gettext("새 키 생성");?></a>');
 	generateButton.on('click', function() {
 		$.ajax({
 			type: 'get',
