@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-ntpd-gps
 ##|*NAME=Services: NTP Serial GPS
@@ -307,7 +312,7 @@ function build_nmea_list() {
 }
 
 $pconfig = &$config['ntpd']['gps'];
-$pgtitle = array(gettext("Services"), gettext("NTP"), gettext("Serial GPS"));
+$pgtitle = array(gettext("Services"), gettext("NTP"), gettext("시리얼 GPS"));
 $pglinks = array("", "services_ntpd.php", "@self");
 $shortcut_section = "ntp";
 include("head.inc");
@@ -317,9 +322,9 @@ if ($changes_applied) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Settings"), false, "services_ntpd.php");
+$tab_array[] = array(gettext("설정"), false, "services_ntpd.php");
 $tab_array[] = array(gettext("ACLs"), false, "services_ntpd_acls.php");
-$tab_array[] = array(gettext("Serial GPS"), true, "services_ntpd_gps.php");
+$tab_array[] = array(gettext("시리얼 GPS"), true, "services_ntpd_gps.php");
 $tab_array[] = array(gettext("PPS"), false, "services_ntpd_pps.php");
 display_top_tabs($tab_array);
 
@@ -336,7 +341,7 @@ $section->addInput(new Form_StaticText(
 	' to minimize clock drift if the GPS data is not valid over time. Otherwise ntpd may only use values from the unsynchronized local clock when providing time to clients.'
 ));
 
-$gpstypes = array(gettext('Custom'), gettext('Default'), 'Generic', 'Garmin', 'MediaTek', 'SiRF', 'U-Blox', 'SureGPS');
+$gpstypes = array(gettext('커스텀'), gettext('기본'), 'Generic', 'Garmin', 'MediaTek', 'SiRF', 'U-Blox', 'SureGPS');
 
 $section->addInput(new Form_Select(
 	'gpstype',
@@ -678,9 +683,9 @@ events.push(function() {
 		hideClass('calculator', !showadvgps);
 
 		if (showadvgps) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 표시');?>";
 		}
 		$('#btnadvgps').html('<i class="fa fa-cog"></i> ' + text);
 	}
