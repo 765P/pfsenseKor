@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-trafficshaper
 ##|*NAME=Firewall: Traffic Shaper
@@ -38,7 +43,7 @@ if ($_GET['reset'] != "") {
 	exit;
 }
 
-$pgtitle = array(gettext("Firewall"), gettext("Traffic Shaper"), gettext("By Interface"));
+$pgtitle = array(gettext("Firewall"), gettext("트래픽 셰이퍼"), gettext("By 인터페이스"));
 $pglinks = array("", "@self", "@self");
 $shortcut_section = "trafficshaper";
 
@@ -126,7 +131,7 @@ if ($_GET) {
 				$retval = 0;
 				$retval |= filter_configure();
 			} else {
-				$no_write_config_msg = gettext("Unable to write config.xml (Access Denied?).");
+				$no_write_config_msg = gettext("config.xml (액세스 거부?)을 쓸 수 없습니다.");
 			}
 
 			$dfltmsg = true;
@@ -159,7 +164,7 @@ if ($_GET) {
 		} else if ($addnewaltq) {
 			$q = new altq_root_queue();
 		} else {
-			$input_errors[] = gettext("Could not create new queue/discipline! Any recent changes may need to be applied first.");
+			$input_errors[] = gettext("새 대기열/규율을 만들 수 없습니다! 최근 변경 사항을 먼저 적용해야 할 수 있습니다.");
 		}
 
 		if ($q) {
@@ -181,7 +186,7 @@ if ($_GET) {
 			if ($queue) {
 				$sform = $queue->build_form();
 			} else {
-				$input_errors[] = gettext("Queue not found!");
+				$input_errors[] = gettext("큐가 발견되지 않았습니다.");
 			}
 		break;
 		case "enable":
@@ -192,7 +197,7 @@ if ($_GET) {
 					mark_subsystem_dirty('shaper');
 				}
 			} else {
-				$input_errors[] = gettext("Queue not found!");
+				$input_errors[] = gettext("큐가 발견되지 않았습니다.");
 			}
 			break;
 		case "disable":
@@ -203,7 +208,7 @@ if ($_GET) {
 					mark_subsystem_dirty('shaper');
 				}
 			} else {
-				$input_errors[] = gettext("Queue not found!");
+				$input_errors[] = gettext("큐가 발견되지 않았습니다.");
 			}
 			break;
 		default:
@@ -269,7 +274,7 @@ if ($_POST) {
 			read_altq_config();
 			$sform = $tmp->build_form();
 		} else {
-			$input_errors[] = gettext("Could not add new queue.");
+			$input_errors[] = gettext("새 대기열을 추가 할 수 없습니다.");
 		}
 	} else if ($_POST['apply']) {
 		write_config();
@@ -363,14 +368,14 @@ if ($changes_applied) {
 }
 
 if (is_subsystem_dirty('shaper')) {
-	print_apply_box(gettext("The traffic shaper configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("트래픽 셰이퍼 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("By Interface"), true, "firewall_shaper.php");
-$tab_array[] = array(gettext("By Queue"), false, "firewall_shaper_queues.php");
-$tab_array[] = array(gettext("Limiters"), false, "firewall_shaper_vinterface.php");
-$tab_array[] = array(gettext("Wizards"), false, "firewall_shaper_wizards.php");
+$tab_array[] = array(gettext("인터페이스로부터"), true, "firewall_shaper.php");
+$tab_array[] = array(gettext("큐로부터"), false, "firewall_shaper_queues.php");
+$tab_array[] = array(gettext("리미터"), false, "firewall_shaper_vinterface.php");
+$tab_array[] = array(gettext("마법사"), false, "firewall_shaper_wizards.php");
 display_top_tabs($tab_array);
 
 ?>
@@ -389,7 +394,7 @@ if (count($altq_list_queues) > 0) {
 ?>
 					<a href="firewall_shaper.php?action=resetall" class="btn btn-sm btn-danger">
 						<i class="fa fa-trash icon-embed-btn"></i>
-						<?=gettext('Remove Shaper')?>
+						<?=gettext('셰이퍼 제거')?>
 					</a>
 <?php
 }
@@ -444,7 +449,7 @@ if (!$dfltmsg && $sform)  {
 <?php if (empty(get_interface_list_to_show()) && (!is_array($altq_list_queues) || (count($altq_list_queues) == 0))): ?>
 <div>
 	<div class="infoblock blockopen">
-		<?php print_info_box(gettext("This firewall does not have any interfaces assigned that are capable of using ALTQ traffic shaping."), 'danger', false); ?>
+		<?php print_info_box(gettext("이 방화벽에는 ALTQ 트래픽 쉐이핑을 사용할 수있는 인터페이스가 할당되어 있지 않습니다."), 'danger', false); ?>
 	</div>
 </div>
 <?php endif; ?>
