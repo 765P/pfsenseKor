@@ -51,7 +51,7 @@ if ($_POST['config']) {
 	fwrite($fd, $_POST['config']);
 	fclose($fd);
 	if (config_install("{$g['tmp_path']}/config.xml") == 0) {
-		echo gettext("OK")."\n";
+		echo gettext("")."\n";
 		system_reboot();
 	} else {
 		echo gettext("ERR 구성을 설치할 수 없습니다.")."\n";
