@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-openvpn-client
 ##|*NAME=OpenVPN: Clients
@@ -78,13 +83,13 @@ if ($_POST['act'] == "del") {
 	}
 	if (!empty($a_client[$id])) {
 		openvpn_delete('client', $a_client[$id]);
-		$wc_msg = sprintf(gettext('Deleted OpenVPN client to server %1$s:%2$s %3$s'), $a_client[$id]['server_addr'], $a_client[$id]['server_port'], $a_client[$id]['description']);
+		$wc_msg = sprintf(gettext('%1$s에 대한 OpenVPN 클라이언트 삭제:%2$s %3$s'), $a_client[$id]['server_addr'], $a_client[$id]['server_port'], $a_client[$id]['description']);
 	} else {
-		$wc_msg = gettext('Deleted empty OpenVPN client');
+		$wc_msg = gettext('비어있는 OpenVPN 클라이언트를 삭제하였습니다.');
 	}
 	unset($a_client[$id]);
 	write_config($wc_msg);
-	$savemsg = gettext("Client successfully deleted.");
+	$savemsg = gettext("클라이언트가 성공적으로 삭제되었습니다.");
 }
 
 if ($act == "new") {
@@ -200,25 +205,25 @@ if ($_POST['save']) {
 
 	$cipher_validation_list = array_keys(openvpn_get_cipherlist());
 	if (!in_array($pconfig['crypto'], $cipher_validation_list)) {
-		$input_errors[] = gettext("The selected Encryption Algorithm is not valid.");
+		$input_errors[] = gettext("선택한 암호화 알고리즘이 유효하지 않습니다.");
 	}
 
 	list($iv_iface, $iv_ip) = explode ("|", $pconfig['interface']);
 	if (is_ipaddrv4($iv_ip) && (stristr($pconfig['protocol'], "6") !== false)) {
-		$input_errors[] = gettext("Protocol and IP address families do not match. An IPv6 protocol and an IPv4 IP address cannot be selected.");
+		$input_errors[] = gettext("프로토콜 및 IP 주소 패밀리가 일치하지 않습니다. IPv6 프로토콜 및 IPv4 IP 주소를 선택할 수 없습니다.");
 	} elseif (is_ipaddrv6($iv_ip) && (stristr($pconfig['protocol'], "6") === false)) {
-		$input_errors[] = gettext("Protocol and IP address families do not match. An IPv4 protocol and an IPv6 IP address cannot be selected.");
+		$input_errors[] = gettext("프로토콜 및 IP 주소 패밀리가 일치하지 않습니다. IPv4 프로토콜 및 IPv6 IP 주소를 선택할 수 없습니다.");
 	} elseif ((stristr($pconfig['protocol'], "6") === false) && !get_interface_ip($iv_iface) && ($pconfig['interface'] != "any")) {
 		// If an underlying interface to be used by this client uses DHCP, then it may not have received an IP address yet.
 		// So in that case we do not report a problem.
 		if (!interface_has_dhcp($iv_iface, 4)) {
-			$input_errors[] = gettext("An IPv4 protocol was selected, but the selected interface has no IPv4 address.");
+			$input_errors[] = gettext("IPv4 프로토콜이 선택되었지만 선택한 인터페이스에는 IPv4 주소가 없습니다.");
 		}
 	} elseif ((stristr($pconfig['protocol'], "6") !== false) && !get_interface_ipv6($iv_iface) && ($pconfig['interface'] != "any")) {
 		// If an underlying interface to be used by this client uses DHCP6, then it may not have received an IP address yet.
 		// So in that case we do not report a problem.
 		if (!interface_has_dhcp($iv_iface, 6)) {
-			$input_errors[] = gettext("An IPv6 protocol was selected, but the selected interface has no IPv6 address.");
+			$input_errors[] = gettext("IPv6 프로토콜이 선택되었지만 선택한 인터페이스에는 IPv6 주소가 없습니다.");
 		}
 	}
 
@@ -237,7 +242,7 @@ if ($_POST['save']) {
 
 		$portused = openvpn_port_used($pconfig['protocol'], $pconfig['interface'], $pconfig['local_port'], $vpnid);
 		if (($portused != $vpnid) && ($portused != 0)) {
-			$input_errors[] = gettext("The specified 'Local port' is in use. Please select another value");
+			$input_errors[] = gettext("지정한 '로컬 포트'가 사용 중입니다. 다른 값을 선택하십시오.");
 		}
 	}
 
@@ -250,7 +255,7 @@ if ($_POST['save']) {
 	}
 
 	if (!array_key_exists($pconfig['topology'], $openvpn_topologies)) {
-		$input_errors[] = gettext("The field 'Topology' contains an invalid selection");
+		$input_errors[] = gettext("필드 '토폴로지'에 잘못된 선택 사항이 있습니다.");
 	}
 
 	if ($pconfig['proxy_addr']) {
@@ -265,11 +270,11 @@ if ($_POST['save']) {
 
 		if ($pconfig['proxy_authtype'] != "none") {
 			if (empty($pconfig['proxy_user']) || empty($pconfig['proxy_passwd'])) {
-				$input_errors[] = gettext("User name and password are required for proxy with authentication.");
+				$input_errors[] = gettext("인증을 사용하는 프록시에는 사용자 이름과 암호가 필요합니다.");
 			}
 
 			if ($pconfig['proxy_passwd'] != $pconfig['proxy_passwd_confirm']) {
-				$input_errors[] = gettext("Password and confirmation must match.");
+				$input_errors[] = gettext("암호가 서로 일치하지 않습니다.");
 			}
 		}
 	}
@@ -295,7 +300,7 @@ if ($_POST['save']) {
 	}
 
 	if (!empty($pconfig['use_shaper']) && (!is_numeric($pconfig['use_shaper']) || ($pconfig['use_shaper'] <= 0))) {
-		$input_errors[] = gettext("The bandwidth limit must be a positive numeric value.");
+		$input_errors[] = gettext("대역폭 제한은 양수 값이어야 합니다.");
 	}
 
 	if ($pconfig['autokey_enable']) {
@@ -305,22 +310,22 @@ if ($_POST['save']) {
 	if (!$tls_mode && !$pconfig['autokey_enable']) {
 		if (!strstr($pconfig['shared_key'], "-----BEGIN OpenVPN Static key V1-----") ||
 		    !strstr($pconfig['shared_key'], "-----END OpenVPN Static key V1-----")) {
-			$input_errors[] = gettext("The field 'Shared Key' does not appear to be valid");
+			$input_errors[] = gettext("'공유 키'필드가 유효하지 않은 것 같습니다.");
 		}
 	}
 
 	if ($tls_mode && $pconfig['tlsauth_enable'] && !$pconfig['autotls_enable']) {
 		if (!strstr($pconfig['tls'], "-----BEGIN OpenVPN Static key V1-----") ||
 		    !strstr($pconfig['tls'], "-----END OpenVPN Static key V1-----")) {
-			$input_errors[] = gettext("The field 'TLS Key' does not appear to be valid");
+			$input_errors[] = gettext("'TLS Key'필드가 유효하지 않은 것으로 나타납니다.");
 		}
 		if (!in_array($pconfig['tls_type'], array_keys($openvpn_tls_modes))) {
-			$input_errors[] = gettext("The field 'TLS Key Usage Mode' is not valid");
+			$input_errors[] = gettext("'TLS 키 사용 모드'필드가 유효하지 않습니다.");
 		}
 	}
 
 	if (($pconfig['mode'] == "p2p_shared_key") && strstr($pconfig['crypto'], "GCM")) {
-		$input_errors[] = gettext("GCM Encryption Algorithms cannot be used with Shared Key mode.");
+		$input_errors[] = gettext("GCM 암호화 알고리즘은 공유 키 모드와 함께 사용할 수 없습니다.");
 	}
 
 	/* If we are not in shared key mode, then we need the CA/Cert. */
@@ -328,26 +333,26 @@ if ($_POST['save']) {
 		if (($pconfig['ncp_enable'] != "disabled") && !empty($pconfig['ncp-ciphers']) && is_array($pconfig['ncp-ciphers'])) {
 			foreach ($pconfig['ncp-ciphers'] as $ncpc) {
 				if (!in_array(trim($ncpc), $cipher_validation_list)) {
-					$input_errors[] = gettext("One or more of the selected NCP Algorithms is not valid.");
+					$input_errors[] = gettext("선택한 NCP 알고리즘 중 하나 이상이 유효하지 않습니다.");
 				}
 			}
 		}
 		$reqdfields = explode(" ", "caref");
-		$reqdfieldsn = array(gettext("Certificate Authority"));
+		$reqdfieldsn = array(gettext("인증 기관"));
 	} elseif (!$pconfig['autokey_enable']) {
 		/* We only need the shared key filled in if we are in shared key mode and autokey is not selected. */
 		$reqdfields = array('shared_key');
-		$reqdfieldsn = array(gettext('Shared key'));
+		$reqdfieldsn = array(gettext('공유 키'));
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (($pconfig['mode'] != "p2p_shared_key") && empty($pconfig['certref']) && empty($pconfig['auth_user']) && empty($pconfig['auth_pass'])) {
-		$input_errors[] = gettext("If no Client Certificate is selected, a username and/or password must be entered.");
+		$input_errors[] = gettext("클라이언트 인증서를 선택하지 않으면 사용자 이름 and/or 암호를 입력해야합니다.");
 	}
 
 	if ($pconfig['auth_pass'] != $pconfig['auth_pass_confirm']) {
-		$input_errors[] = gettext("Password and confirmation must match.");
+		$input_errors[] = gettext("암호와 확인은 일치해야합니다.");
 	}
 
 	/* UDP Fast I/O is not compatible with TCP, so toss the option out when
@@ -361,14 +366,14 @@ if ($_POST['save']) {
 	if ($pconfig['udp_fast_io'] && (!empty($pconfig['use_shaper']))) {
 		/* Only warn if the user is set to UDP, otherwise it isn't relevant (See above) */
 		if (strtolower(substr($pconfig['protocol'], 0, 3)) == "udp") {
-			$input_errors[] = gettext("Limit Outgoing Bandwidth is not compatible with UDP Fast I/O.");
+			$input_errors[] = gettext("제한 송신 대역폭은 UDP 고속 I/O와 호환되지 않습니다.");
 		} else {
 			unset($pconfig['udp_fast_io']);
 		}
 	}
 
 	if (!empty($pconfig['sndrcvbuf']) && !array_key_exists($pconfig['sndrcvbuf'], openvpn_get_buffer_values())) {
-		$input_errors[] = gettext("The supplied Send/Receive Buffer size is invalid.");
+		$input_errors[] = gettext("제공된 보내기/받기 버퍼 크기가 잘못되었습니다.");
 	}
 
 	if (!$input_errors) {
@@ -461,10 +466,10 @@ if ($_POST['save']) {
 
 		if (isset($id) && $a_client[$id]) {
 			$a_client[$id] = $client;
-			$wc_msg = sprintf(gettext('Updated OpenVPN client to server %1$s:%2$s %3$s'), $client['server_addr'], $client['server_port'], $client['description']);
+			$wc_msg = sprintf(gettext('서버 %1$s에 OpenVPN 클라이언트 업데이트 됨:%2$s %3$s'), $client['server_addr'], $client['server_port'], $client['description']);
 		} else {
 			$a_client[] = $client;
-			$wc_msg = sprintf(gettext('Added OpenVPN client to server %1$s:%2$s %3$s'), $client['server_addr'], $client['server_port'], $client['description']);
+			$wc_msg = sprintf(gettext('서버 %1$s에 OpenVPN 클라이언트 추가:%2$s %3$s'), $client['server_addr'], $client['server_port'], $client['description']);
 		}
 
 		write_config($wc_msg);
@@ -483,7 +488,7 @@ $pgtitle = array(gettext("VPN"), gettext("OpenVPN"), gettext("Clients"));
 $pglinks = array("", "vpn_openvpn_server.php", "vpn_openvpn_client.php");
 
 if ($act=="new" || $act=="edit") {
-	$pgtitle[] = gettext('Edit');
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 $shortcut_section = "openvpn";
@@ -503,10 +508,10 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Servers"), false, "vpn_openvpn_server.php");
-$tab_array[] = array(gettext("Clients"), true, "vpn_openvpn_client.php");
-$tab_array[] = array(gettext("Client Specific Overrides"), false, "vpn_openvpn_csc.php");
-$tab_array[] = array(gettext("Wizards"), false, "wizard.php?xml=openvpn_wizard.xml");
+$tab_array[] = array(gettext("서버"), false, "vpn_openvpn_server.php");
+$tab_array[] = array(gettext("클라이언트"), true, "vpn_openvpn_client.php");
+$tab_array[] = array(gettext("클라이언트 별 재정의"), false, "vpn_openvpn_csc.php");
+$tab_array[] = array(gettext("마법사"), false, "wizard.php?xml=openvpn_wizard.xml");
 add_package_tabs("OpenVPN", $tab_array);
 display_top_tabs($tab_array);
 
@@ -749,8 +754,8 @@ if ($act=="new" || $act=="edit"):
 				'Encryption Algorithms from those selected in the NCP Algorithms list below.' .
 				'%1$s%2$s%3$s',
 				'<div class="infoblock">',
-				sprint_info_box(gettext('When both peers support NCP and have it enabled, NCP overrides the Encryption Algorithm above.') . '<br />' .
-					gettext('When disabled, only the selected Encryption Algorithm is allowed.'), 'info', false),
+				sprint_info_box(gettext('두 피어가 모두 NCP를 지원하고 활성화 된 경우 NCP는 위의 암호화 알고리즘을 무시합니다.') . '<br />' .
+					gettext('비활성화된 경우 선택한 암호화 알고리즘만 허용됩니다.'), 'info', false),
 				'</div>');
 
 	foreach (explode(",", $pconfig['ncp-ciphers']) as $cipher) {
@@ -979,14 +984,14 @@ if ($act=="new" || $act=="edit"):
 else:
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('OpenVPN Clients')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('OpenVPN 클라이언트')?></h2></div>
 		<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 			<thead>
 				<tr>
-					<th><?=gettext("Interface")?></th>
-					<th><?=gettext("Protocol")?></th>
-					<th><?=gettext("Server")?></th>
+					<th><?=gettext("인터페이스")?></th>
+					<th><?=gettext("프로토콜")?></th>
+					<th><?=gettext("서버")?></th>
 					<th><?=gettext("Description")?></th>
 					<th><?=gettext("Actions")?></th>
 				</tr>
@@ -1012,8 +1017,8 @@ else:
 						<?=htmlspecialchars($client['description'])?>
 					</td>
 					<td>
-						<a class="fa fa-pencil"	title="<?=gettext('Edit client')?>"	href="vpn_openvpn_client.php?act=edit&amp;id=<?=$i?>"></a>
-						<a class="fa fa-trash"	title="<?=gettext('Delete client')?>" href="vpn_openvpn_client.php?act=del&amp;id=<?=$i?>" usepost></a>
+						<a class="fa fa-pencil"	title="<?=gettext('클라이언트 편집')?>"	href="vpn_openvpn_client.php?act=edit&amp;id=<?=$i?>"></a>
+						<a class="fa fa-trash"	title="<?=gettext('클라이언트 삭제')?>" href="vpn_openvpn_client.php?act=del&amp;id=<?=$i?>" usepost></a>
 					</td>
 				</tr>
 <?php
@@ -1028,7 +1033,7 @@ else:
 <nav class="action-buttons">
 	<a href="vpn_openvpn_client.php?act=new" class="btn btn-sm btn-success">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 
