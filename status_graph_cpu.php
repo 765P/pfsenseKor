@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-cpuload
 ##|*NAME=Status: CPU load
@@ -30,21 +35,21 @@
 ##|*MATCH=status_graph_cpu.php*
 ##|-PRIV
 
-$pgtitle = array(gettext("Status"), gettext("CPU Load Graph"));
+$pgtitle = array(gettext("Status"), gettext("CPU로드 그래프"));
 require_once("guiconfig.inc");
 include("head.inc");
 
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("CPU Load Graph");?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("CPU로드 그래프");?></h2></div>
 	<div class="panel-body text-center">
 		<embed src="graph_cpu.php" type="image/svg+xml"
 			   width="550" height="275" pluginspage="http://www.adobe.com/svg/viewer/install/auto" />
 	</div>
 
 	<p class="text-center">
-		<strong><?=gettext("Note"); ?>:</strong>
-		<?=sprintf(gettext('If the graph cannot be seen, the %1$sAdobe SVG viewer%2$s may need to be installed'), '<a href="http://www.adobe.com/svg/viewer/install/" target="_blank">', '</a>')?>
+		<strong><?=gettext("알림"); ?>:</strong>
+		<?=sprintf(gettext('그래프가 보이지 않으면 %1$sAdobe SVG 뷰어%2$s 설치가 필요할 수 있습니다.'), '<a href="http://www.adobe.com/svg/viewer/install/" target="_blank">', '</a>')?>
 	</p>
 </div>
 
