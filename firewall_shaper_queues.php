@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-trafficshaper-queues
 ##|*NAME=Firewall: Traffic Shaper: Queues
@@ -177,7 +182,7 @@ if ($_POST['apply']) {
 	clear_subsystem_dirty('shaper');
 }
 
-$pgtitle = array(gettext("Firewall"), gettext("Traffic Shaper"), gettext("By Queue"));
+$pgtitle = array(gettext("방화벽"), gettext("트래픽 셰이퍼"), gettext("큐로부터"));
 $pglinks = array("", "firewall_shaper.php", "@self");
 $shortcut_section = "trafficshaper";
 
@@ -196,14 +201,14 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('shaper')) {
-	print_apply_box(gettext("The traffic shaper configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("트래픽 셰이퍼 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("By Interface"), false, "firewall_shaper.php");
-$tab_array[] = array(gettext("By Queue"), true, "firewall_shaper_queues.php");
-$tab_array[] = array(gettext("Limiters"), false, "firewall_shaper_vinterface.php");
-$tab_array[] = array(gettext("Wizards"), false, "firewall_shaper_wizards.php");
+$tab_array[] = array(gettext("인터페이스 별"), false, "firewall_shaper.php");
+$tab_array[] = array(gettext("큐 별"), true, "firewall_shaper_queues.php");
+$tab_array[] = array(gettext("리미터"), false, "firewall_shaper_vinterface.php");
+$tab_array[] = array(gettext("마법사"), false, "firewall_shaper_wizards.php");
 display_top_tabs($tab_array);
 
 ?>
@@ -227,7 +232,7 @@ display_top_tabs($tab_array);
 <?php if (empty(get_interface_list_to_show()) && (!is_array($altq_list_queues) || (count($altq_list_queues) == 0))): ?>
 <div>
 	<div class="infoblock blockopen">
-		<?php print_info_box(gettext("This firewall does not have any interfaces assigned that are capable of using ALTQ traffic shaping."), 'danger', false); ?>
+		<?php print_info_box(gettext("이 방화벽에는 AL. 트래픽 조절 기능을 사용할 수 있는 인터페이스가 할당되지 않았습니다."), 'danger', false); ?>
 	</div>
 </div>
 <?php endif; ?>
