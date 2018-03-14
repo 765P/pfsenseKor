@@ -21,6 +21,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dhcpv6relay
 ##|*NAME=Services: DHCPv6 Relay
@@ -76,7 +81,7 @@ if ($_POST) {
 	/* input validation */
 	if ($_POST['enable']) {
 		$reqdfields = explode(" ", "server interface");
-		$reqdfieldsn = array(gettext("Destination Server"), gettext("Interface"));
+		$reqdfieldsn = array(gettext("수신자 서버"), gettext("인터페이스"));
 
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -86,7 +91,7 @@ if ($_POST) {
 			foreach ($_POST['server'] as $checksrv => $srv) {
 				if (!empty($srv[0])) { // Filter out any empties
 					if (!is_ipaddrv6($srv[0])) {
-						$input_errors[] = sprintf(gettext("Destination Server IP address %s is not a valid IPv6 address."), $srv[0]);
+						$input_errors[] = sprintf(gettext("수신자 서버 IP주소 %s는 유효한 IPv6 주소가 아닙니다."), $srv[0]);
 					}
 
 					if (!empty($svrlist)) {
@@ -99,7 +104,7 @@ if ($_POST) {
 
 			// Check that the user input something in one of the Destination Server fields
 			if (empty($svrlist)) {
-				$input_errors[] = gettext("At least one Destination Server IP address must be specified.");
+				$input_errors[] = gettext("하나 이상의 대상 서버 IP주소를 지정해야 합니다.");
 			}
 		}
 	}
@@ -121,12 +126,12 @@ if ($_POST) {
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("DHCPv6 Relay"));
+$pgtitle = array(gettext("서비스"), gettext("DHCPv6 릴레이"));
 $shortcut_section = "dhcp6";
 include("head.inc");
 
 if ($dhcpd_enabled) {
-	print_info_box(gettext("DHCPv6 Server is currently enabled. Cannot enable the DHCPv6 Relay service while the DHCPv6 Server is enabled on any interface."), 'danger', false);
+	print_info_box(gettext("DHCPv6Server가 현재 활성화되어 있습니다. DHCPv6Server가 어떠한 인터페이스에서도 활성화되어 있으면 DHCPv6릴레이 서비스를 활성화할 수 없습니다."), 'danger', false);
 	include("foot.inc");
 	exit;
 }
@@ -141,7 +146,7 @@ if ($changes_applied) {
 
 $form = new Form;
 
-$section = new Form_Section('DHCPv6 Relay Configuration');
+$section = new Form_Section('DHCPv6릴레이 구성');
 
 $section->addInput(new Form_Checkbox(
 	'enable',
