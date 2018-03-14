@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-firewall-rules-edit
 ##|*NAME=Firewall: Rules: Edit
@@ -56,9 +61,9 @@ foreach ($icmptypes as $k => $v) {
 }
 
 $icmplookup = array(
-	'inet' => array('name' => 'IPv4', 'icmptypes' => $icmptypes4, 'helpmsg' => gettext('For ICMP rules on IPv4, one or more of these ICMP subtypes may be specified.')),
-	'inet6' => array('name' => 'IPv6', 'icmptypes' => $icmptypes6, 'helpmsg' => gettext('For ICMP rules on IPv6, one or more of these ICMP subtypes may be specified.')),
-	'inet46' => array('name' => 'IPv4+6', 'icmptypes' => $icmptypes46, 'helpmsg' => sprintf(gettext('For ICMP rules on IPv4+IPv6, one or more of these ICMP subtypes may be specified. (Other ICMP subtypes are only valid under IPv4 %1$sor%2$s IPv6, not both)'), '<i>', '</i>'))
+	'inet' => array('name' => 'IPv4', 'icmptypes' => $icmptypes4, 'helpmsg' => gettext('IPv4의 ICMP 규칙의 경우 이러한 ICMP 하위 유형 중 하나 이상을 지정할 수 있습니다.')),
+	'inet6' => array('name' => 'IPv6', 'icmptypes' => $icmptypes6, 'helpmsg' => gettext('IPv6의 ICMP 규칙의 경우 이러한 ICMP 하위 유형 중 하나 이상을 지정할 수 있습니다.')),
+	'inet46' => array('name' => 'IPv4+6', 'icmptypes' => $icmptypes46, 'helpmsg' => sprintf(gettext('IPv4+IPv6에 대한 ICMP 규칙의 경우 이러한 ICMP 하위 유형 중 하나 이상을 지정할 수 있습니다(다른 ICMP 하위 유형은 IPv4 %1$s아니면%2$s IPv6에서만 유효하며 두 가지 모두에서 유효하지 않습니다).'), '<i>', '</i>'))
 );
 
 if (isset($_POST['referer'])) {
@@ -322,7 +327,7 @@ if ($_POST['save']) {
 	unset($input_errors);
 
 	if (!array_key_exists($_POST['ipprotocol'], $icmplookup)) {
-		$input_errors[] = gettext("The IP protocol is not recognized.");
+		$input_errors[] = gettext("IP 프로토콜이 인식되지 않습니다.");
 		unset($_POST['ipprotocol']);
 	}
 
@@ -330,7 +335,7 @@ if ($_POST['save']) {
 
 	$valid = ($_POST['interface'] == "FloatingRules" || isset($_POST['floating'])) ? ['pass','block','reject', 'match'] : ['pass','block','reject'];
 	if (!(is_string($_POST['type'])  && in_array($_POST['type'], $valid))) {
-		$input_errors[] = gettext("A valid rule type is not selected.");
+		$input_errors[] = gettext("올바른 규칙 유형이 선택되지 않았습니다.");
 		unset($_POST['type']);
 	}
 
@@ -350,11 +355,11 @@ if ($_POST['save']) {
 			foreach ($config['gateways']['gateway_group'] as $gw_group) {
 				if ($gw_group['name'] == $_POST['gateway'] && $_POST['ipprotocol'] != $a_gatewaygroups[$_POST['gateway']]['ipprotocol']) {
 					if ($_POST['ipprotocol'] == "inet46") {
-						$input_errors[] = gettext("Gateways can not be assigned in a rule that applies to both IPv4 and IPv6.");
+						$input_errors[] = gettext("IPv4와 IPv6 모두에 적용되는 규칙에서는 게이트웨이를 할당 할 수 없습니다.");
 					} elseif ($_POST['ipprotocol'] == "inet6") {
-						$input_errors[] = gettext("An IPv4 gateway group can not be assigned in IPv6 rules.");
+						$input_errors[] = gettext("IPv4 규칙 그룹은 IPv6 규칙에서 할당 할 수 없습니다.");
 					} elseif ($_POST['ipprotocol'] == "inet") {
-						$input_errors[] = gettext("An IPv6 gateway group can not be assigned in IPv4 rules.");
+						$input_errors[] = gettext("IPv4 규칙에는 IPv6 게이트웨이 그룹을 할당 할 수 없습니다.");
 					}
 				}
 			}
@@ -362,13 +367,13 @@ if ($_POST['save']) {
 		if ($iptype = is_ipaddr(lookup_gateway_ip_by_name($_POST['gateway']))) {
 			// this also implies that  $_POST['gateway'] was set and not empty
 			if ($_POST['ipprotocol'] == "inet46") {
-				$input_errors[] = gettext("Gateways can not be assigned in a rule that applies to both IPv4 and IPv6.");
+				$input_errors[] = gettext("IPv4와 IPv6 모두에 적용되는 규칙에서는 게이트웨이를 할당 할 수 없습니다.");
 			}
 			if (($_POST['ipprotocol'] == "inet6") && ($iptype != 6)) {
-				$input_errors[] = gettext("An IPv4 gateway can not be assigned in IPv6 rules.");
+				$input_errors[] = gettext("IPv4 규칙을 IPv6 규칙에 할당 할 수 없습니다.");
 			}
 			if (($_POST['ipprotocol'] == "inet") && ($iptype != 4)) {
-				$input_errors[] = gettext("An IPv6 gateway can not be assigned in IPv4 rules.");
+				$input_errors[] = gettext("IPv4 규칙에는 IPv6 게이트웨이를 할당 할 수 없습니다.");
 			}
 		}
 	}
@@ -459,28 +464,28 @@ if ($_POST['save']) {
 	}
 	$reqdfieldsn = array(gettext("Type"), gettext("Protocol"));
 	if (isset($a_filter[$id]['associated-rule-id']) === false) {
-		$reqdfieldsn[] = gettext("Source");
-		$reqdfieldsn[] = gettext("Destination");
+		$reqdfieldsn[] = gettext("발신지");
+		$reqdfieldsn[] = gettext("수신지");
 	}
 
 	if ($_POST['statetype'] == "synproxy state") {
 		if ($_POST['proto'] != "tcp") {
-			$input_errors[] = sprintf(gettext("%s is only valid with protocol TCP."), $_POST['statetype']);
+			$input_errors[] = sprintf(gettext("%s은(는) TCP프로토콜에서만 유효합니다."), $_POST['statetype']);
 		}
 		if ($_POST['gateway'] != "") {
-			$input_errors[] = sprintf(gettext("%s is only valid if the gateway is set to 'default'."), $_POST['statetype']);
+			$input_errors[] = sprintf(gettext("%s는 게이트웨이가 '기본값'으로 설정된 경우에만 유효합니다."), $_POST['statetype']);
 		}
 	}
 
 	if (isset($a_filter[$id]['associated-rule-id']) === false &&
 	    (!(is_specialnet($_POST['srctype']) || ($_POST['srctype'] == "single")))) {
 		$reqdfields[] = "srcmask";
-		$reqdfieldsn[] = gettext("Source bit count");
+		$reqdfieldsn[] = gettext("발신지 비트카운트");
 	}
 	if (isset($a_filter[$id]['associated-rule-id']) === false &&
 	    (!(is_specialnet($_POST['dsttype']) || ($_POST['dsttype'] == "single")))) {
 		$reqdfields[] = "dstmask";
-		$reqdfieldsn[] = gettext("Destination bit count");
+		$reqdfieldsn[] = gettext("수신지 비트카운트");
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
@@ -495,16 +500,16 @@ if ($_POST['save']) {
 	}
 
 	if ($_POST['srcbeginport'] && !is_port_or_alias($_POST['srcbeginport'])) {
-		$input_errors[] = sprintf(gettext("%s is not a valid start source port. It must be a port alias or integer between 1 and 65535."), $_POST['srcbeginport']);
+		$input_errors[] = sprintf(gettext("%s은(는) 유효한 시작 발신지 포트가 아닙니다. 포트 별명 또는 1에서 65535 사이의 정수 여야합니다."), $_POST['srcbeginport']);
 	}
 	if ($_POST['srcendport'] && !is_port_or_alias($_POST['srcendport'])) {
-			$input_errors[] = sprintf(gettext("%s is not a valid end source port. It must be a port alias or integer between 1 and 65535."), $_POST['srcendport']);
+			$input_errors[] = sprintf(gettext("%s은(는) 유효한 최종 발신지 포트가 아닙니다. 포트 별명 또는 1에서 65535 사이의 정수 여야합니다."), $_POST['srcendport']);
 	}
 	if ($_POST['dstbeginport'] && !is_port_or_alias($_POST['dstbeginport'])) {
-			$input_errors[] = sprintf(gettext("%s is not a valid start destination port. It must be a port alias or integer between 1 and 65535."), $_POST['dstbeginport']);
+			$input_errors[] = sprintf(gettext("%s은(는) 유효한 시작 대상 포트가 아닙니다. 포트 별명 또는 1에서 65535 사이의 정수 여야합니다."), $_POST['dstbeginport']);
 	}
 	if ($_POST['dstendport'] && !is_port_or_alias($_POST['dstendport'])) {
-			$input_errors[] = sprintf(gettext("%s is not a valid end destination port. It must be a port alias or integer between 1 and 65535."), $_POST['dstendport']);
+			$input_errors[] = sprintf(gettext("%s은(는) 유효한 최종 도착지 포트가 아닙니다. 포트 별명 또는 1에서 65535 사이의 정수 여야합니다."), $_POST['dstendport']);
 	}
 	if (!$_POST['srcbeginport_cust'] && $_POST['srcendport_cust']) {
 		if (is_alias($_POST['srcendport_cust'])) {
@@ -545,45 +550,45 @@ if ($_POST['save']) {
 	/* if user enters an alias and selects "network" then disallow. */
 	if ($_POST['srctype'] == "network") {
 		if (is_alias($_POST['src'])) {
-			$input_errors[] = gettext("Alias entries must be a single host or alias.");
+			$input_errors[] = gettext("alias 항목은 단일 호스트 또는 alias여야합니다.");
 		}
 	}
 	if ($_POST['dsttype'] == "network") {
 		if (is_alias($_POST['dst'])) {
-			$input_errors[] = gettext("Alias entries must be a single host or alias.");
+			$input_errors[] = gettext("alias 항목은 단일 호스트 또는 alias여야합니다.");
 		}
 	}
 
 	if (!is_specialnet($_POST['srctype'])) {
 		if (($_POST['src'] && !is_ipaddroralias($_POST['src']))) {
-			$input_errors[] = sprintf(gettext("%s is not a valid source IP address or alias."), $_POST['src']);
+			$input_errors[] = sprintf(gettext("%s은(는) 유효한 원본 IP 주소 또는 별칭이 아닙니다."), $_POST['src']);
 		}
 		if (($_POST['srcmask'] && !is_numericint($_POST['srcmask']))) {
-			$input_errors[] = gettext("A valid source bit count must be specified.");
+			$input_errors[] = gettext("유효한 소스 비트 수를 지정해야합니다.");
 		}
 	}
 	if (!is_specialnet($_POST['dsttype'])) {
 		if (($_POST['dst'] && !is_ipaddroralias($_POST['dst']))) {
-			$input_errors[] = sprintf(gettext("%s is not a valid destination IP address or alias."), $_POST['dst']);
+			$input_errors[] = sprintf(gettext("%s은(는) 유효한 대상 IP 주소 또는 별칭이 아닙니다."), $_POST['dst']);
 		}
 		if (($_POST['dstmask'] && !is_numericint($_POST['dstmask']))) {
-			$input_errors[] = gettext("A valid destination bit count must be specified.");
+			$input_errors[] = gettext("유효한 대상 비트 수를 지정해야합니다.");
 		}
 	}
 	if ((is_ipaddr($_POST['src']) && is_ipaddr($_POST['dst']))) {
 		if (!validate_address_family($_POST['src'], $_POST['dst'])) {
-			$input_errors[] = gettext("The source and destination IP addresses must have the same family (IPv4 / IPv6).");
+			$input_errors[] = gettext("IP 주소에는 동일한 형식(IPv4 / IPv6)이 있어야합니다.");
 		}
 	}
 	if ((is_ipaddrv6($_POST['src']) || is_ipaddrv6($_POST['dst'])) && ($_POST['ipprotocol'] == "inet")) {
-		$input_errors[] = gettext("IPv6 addresses cannot be used in IPv4 rules (except within an alias).");
+		$input_errors[] = gettext("IPv6 주소는 IPv4 규칙에서 사용할 수 없습니다(alias 내 제외).");
 	}
 	if ((is_ipaddrv4($_POST['src']) || is_ipaddrv4($_POST['dst'])) && ($_POST['ipprotocol'] == "inet6")) {
-		$input_errors[] = gettext("IPv4 addresses can not be used in IPv6 rules (except within an alias).");
+		$input_errors[] = gettext("IPv4 주소는 IPv6 규칙 (별칭 내 제외)에서 사용할 수 없습니다.");
 	}
 
 	if ((is_ipaddr($_POST['src']) || is_ipaddr($_POST['dst'])) && ($_POST['ipprotocol'] == "inet46")) {
-		$input_errors[] = gettext("IPv4 and IPv6 addresses can not be used in rules that apply to both IPv4 and IPv6 (except within an alias).");
+		$input_errors[] = gettext("IPv4 및 IPv6 주소는 별칭 내에서 제외하고 IPv4 및 IPv6에 모두 적용되는 규칙에서 사용할 수 없습니다.");
 	}
 
 	if ($_POST['srcbeginport'] > $_POST['srcendport']) {
@@ -600,10 +605,10 @@ if ($_POST['save']) {
 	}
 	if ($_POST['os']) {
 		if ($_POST['proto'] != "tcp") {
-			$input_errors[] = gettext("OS detection is only valid with protocol TCP.");
+			$input_errors[] = gettext("OS 감지는 프로토콜 TCP에서만 유효합니다.");
 		}
 		if (!in_array($_POST['os'], $ostypes)) {
-			$input_errors[] = gettext("Invalid OS detection selection. Please select a valid OS.");
+			$input_errors[] = gettext("OS 감지 선택이 잘못되었습니다. 올바른 OS를 선택하십시오.");
 		}
 	}
 
@@ -611,7 +616,7 @@ if ($_POST['save']) {
 		$t =& $_POST['icmptype'];
 		if (isset($t) && !is_array($t)) {
 			// shouldn't happen but avoids making assumptions for data-sanitising
-			$input_errors[] = gettext("ICMP types expected to be a list if present, but is not.");
+			$input_errors[] = gettext("ICMP 유형이 존재하는 경우 목록으로 예상되지만 그렇지 않은 경우 예상됩니다.");
 		} elseif (!isset($t) || count($t) == 0) {
 			// not specified or none selected
 			unset($_POST['icmptype']);
@@ -630,7 +635,7 @@ if ($_POST['save']) {
 				}
 			}
 			if (count($bad_types) > 0) {
-				$input_errors[] = sprintf(gettext("Invalid ICMP subtype: %s can not be used with %s."), implode(';', $bad_types),  $t['name']);
+				$input_errors[] = sprintf(gettext("잘못된 ICMP 하위 유형: %s을 %s와(과) 사용할 수 없습니다."), implode(';', $bad_types),  $t['name']);
 			}
 		}
 	} else {
@@ -639,116 +644,116 @@ if ($_POST['save']) {
 
 	if ($_POST['ackqueue'] != "") {
 		if ($_POST['defaultqueue'] == "") {
-			$input_errors[] = gettext("A queue must be selected when an acknowledge queue is also selected.");
+			$input_errors[] = gettext("확인 큐가 선택되면 큐를 선택해야합니다.");
 		} else if ($_POST['ackqueue'] == $_POST['defaultqueue']) {
-			$input_errors[] = gettext("Acknowledge queue and Queue cannot be the same.");
+			$input_errors[] = gettext("Acknowledge queue와 Queue는 같을 수 없습니다.");
 		}
 	}
 	if (isset($_POST['floating']) && $_POST['pdnpipe'] != "" && (empty($_POST['direction']) || $_POST['direction'] == "any")) {
-		$input_errors[] = gettext("Limiters can not be used in Floating rules without choosing a direction.");
+		$input_errors[] = gettext("방향을 선택하지 않으면 플로팅 규칙에서 리미터를 사용할 수 없습니다.");
 	}
 	if (isset($_POST['floating']) && $_POST['gateway'] != "" && (empty($_POST['direction']) || $_POST['direction'] == "any")) {
-		$input_errors[] = gettext("Gateways can not be used in Floating rules without choosing a direction.");
+		$input_errors[] = gettext("방향을 선택하지 않으면 플로팅 규칙에서 게이트웨이를 사용할 수 없습니다.");
 	}
 	if ($_POST['pdnpipe'] && $_POST['pdnpipe'] != "") {
 		if ($_POST['dnpipe'] == "") {
-			$input_errors[] = gettext("A queue must be selected for the In direction before selecting one for Out too.");
+			$input_errors[] = gettext("대기 열을 선택해야 합니다.");
 		} else if ($_POST['pdnpipe'] == $_POST['dnpipe']) {
-			$input_errors[] = gettext("In and Out Queue cannot be the same.");
+			$input_errors[] = gettext("입력 및 출력 대기 열은 동일할 수 없습니다.");
 		} else if ($dnqlist[$_POST['pdnpipe']][0] == "?" && $dnqlist[$_POST['dnpipe']][0] <> "?") {
-			$input_errors[] = gettext("A queue and a virtual interface cannot be selected for IN and Out. Both must be from the same type.");
+			$input_errors[] = gettext("대기 열과 가상 인터페이스는 IN/Out용으로 선택할 수 없습니다. 둘 다 같은 유형이어야 합니다.");
 		} else if ($dnqlist[$_POST['dnpipe']][0] == "?" && $dnqlist[$_POST['pdnpipe']][0] <> "?") {
-			$input_errors[] = gettext("A queue and a virtual interface cannot be selected for IN and Out. Both must be from the same type.");
+			$input_errors[] = gettext("대기 열과 가상 인터페이스는 IN/Out용으로 선택할 수 없습니다. 둘 다 같은 유형이어야 합니다.");
 		}
 		if ($_POST['direction'] == "out" && empty($_POST['gateway'])) {
-			$input_errors[] = gettext("Please select a gateway, normally the interface selected gateway, so the limiters work correctly");
+			$input_errors[] = gettext("리미터가 올바르게 작동하도록 게이트웨이를 선택하십시오. 일반적으로 인터페이스가 게이트웨이를 선택했습니다.");
 		}
 	}
 	if (!empty($_POST['ruleid']) && !is_numericint($_POST['ruleid'])) {
-		$input_errors[] = gettext('ID must be an integer');
+		$input_errors[] = gettext('ID는 정수 여야합니다.');
 	}
 
 	if (!in_array($_POST['proto'], array("tcp", "tcp/udp"))) {
 		if (!empty($_POST['max-src-conn'])) {
-			$input_errors[] = gettext("The maximum number of established connections per host (advanced option) can only be specified for TCP protocol.");
+			$input_errors[] = gettext("호스트당 설정된 최대 연결 수(고급 옵션)는 TCP 프로토콜에 대해서만 지정할 수 있습니다.");
 		}
 		if (!empty($_POST['max-src-conn-rate']) || !empty($_POST['max-src-conn-rates'])) {
-			$input_errors[] = gettext("The maximum new connections per host / per second(s) (advanced option) can only be specified for TCP protocol.");
+			$input_errors[] = gettext("초당 최대 새로 연결 (고급 옵션)은 TCP 프로토콜에 대해서만 지정할 수 있습니다.");
 		}
 		if (!empty($_POST['statetimeout'])) {
-			$input_errors[] = gettext("The state timeout (advanced option) can only be specified for TCP protocol.");
+			$input_errors[] = gettext("상태 제한 시간 (고급 옵션)은 TCP 프로토콜에 대해서만 지정할 수 있습니다.");
 		}
 	}
 
 	if ($_POST['type'] <> "pass") {
 		if (!empty($_POST['max'])) {
-			$input_errors[] = gettext("The maximum state entries (advanced option) can only be specified for Pass type rules.");
+			$input_errors[] = gettext("최대 상태 항목 (고급 옵션)은 Pass 유형 규칙에만 지정할 수 있습니다.");
 		}
 		if (!empty($_POST['max-src-nodes'])) {
-			$input_errors[] = gettext("The maximum number of unique source hosts (advanced option) can only be specified for Pass type rules.");
+			$input_errors[] = gettext("고유한 소스 호스트 (고급 옵션)의 최대 수는 통과 유형 규칙에만 지정할 수 있습니다.");
 		}
 		if (!empty($_POST['max-src-conn'])) {
-			$input_errors[] = gettext("The maximum number of established connections per host (advanced option) can only be specified for Pass type rules.");
+			$input_errors[] = gettext("호스트당 설정된 최대 연결 수(고급 옵션)는 통과 유형 규칙에만 지정할 수 있습니다.");
 		}
 		if (!empty($_POST['max-src-states'])) {
-			$input_errors[] = gettext("The maximum state entries per host (advanced option) can only be specified for Pass type rules.");
+			$input_errors[] = gettext("호스트 당 최대 상태 항목 (고급 옵션)은 암호 유형 규칙에만 지정할 수 있습니다.");
 		}
 		if (!empty($_POST['max-src-conn-rate']) || !empty($_POST['max-src-conn-rates'])) {
-			$input_errors[] = gettext("The maximum new connections per host / per second(s) (advanced option) can only be specified for Pass type rules.");
+			$input_errors[] = gettext("초당 최대 새로 연결 (고급 옵션)은 TCP 프로토콜에 대해서만 지정할 수 있습니다.");
 		}
 		if (!empty($_POST['statetimeout'])) {
-			$input_errors[] = gettext("The state timeout (advanced option) can only be specified for Pass type rules.");
+			$input_errors[] = gettext("상태 제한 시간 (고급 옵션)은 통과 유형 규칙에만 지정할 수 있습니다.");
 		}
 	}
 
 	if ($_POST['statetype'] == "none") {
 		if (!empty($_POST['max'])) {
-			$input_errors[] = gettext("The maximum state entries (advanced option) cannot be specified if statetype is none.");
+			$input_errors[] = gettext("statetype이 none이면 최대 상태 항목(고급 옵션)을 지정할 수 없습니다.");
 		}
 		if (!empty($_POST['max-src-nodes'])) {
-			$input_errors[] = gettext("The maximum number of unique source hosts (advanced option) cannot be specified if statetype is none.");
+			$input_errors[] = gettext("statetype이 none 인 경우 고유 소스 호스트의 최대 수(고급 옵션)를 지정할 수 없습니다.");
 		}
 		if (!empty($_POST['max-src-conn'])) {
-			$input_errors[] = gettext("The maximum number of established connections per host (advanced option) cannot be specified if statetype is none.");
+			$input_errors[] = gettext("statetype이 none 인 경우 호스트 당 설정된 최대 연결 수(고급 옵션)를 지정할 수 없습니다.");
 		}
 		if (!empty($_POST['max-src-states'])) {
-			$input_errors[] = gettext("The maximum state entries per host (advanced option) cannot be specified if statetype is none.");
+			$input_errors[] = gettext("statetype이 none이면 호스트 당 최대 상태 항목 (고급 옵션)을 지정할 수 없습니다.");
 		}
 		if (!empty($_POST['max-src-conn-rate']) || !empty($_POST['max-src-conn-rates'])) {
-			$input_errors[] = gettext("The maximum new connections per host / per second(s) (advanced option) cannot be specified if statetype is none.");
+			$input_errors[] = gettext("statetype이 none 인 경우 호스트/초당 최대 새로 연결 (고급 옵션)을 지정할 수 없습니다.");
 		}
 		if (!empty($_POST['statetimeout'])) {
-			$input_errors[] = gettext("The state timeout (advanced option) cannot be specified if statetype is none.");
+			$input_errors[] = gettext("statetype이 none이면 state timeout (고급 옵션)을 지정할 수 없습니다.");
 		}
 	}
 
 	if (($_POST['max'] != "") && !is_posnumericint($_POST['max'])) {
-		$input_errors[] = gettext("Maximum state entries (advanced option) must be a positive integer");
+		$input_errors[] = gettext("최대 상태 항목 (고급 옵션)은 양의 정수 여야합니다.");
 	}
 
 	if (($_POST['max-src-nodes'] != "") && !is_posnumericint($_POST['max-src-nodes'])) {
-		$input_errors[] = gettext("Maximum number of unique source hosts (advanced option) must be a positive integer");
+		$input_errors[] = gettext("고유 소스 호스트의 최대 수 (고급 옵션)는 양의 정수 여야합니다");
 	}
 
 	if (($_POST['max-src-conn'] != "") && !is_posnumericint($_POST['max-src-conn'])) {
-		$input_errors[] = gettext("Maximum number of established connections per host (advanced option) must be a positive integer");
+		$input_errors[] = gettext("호스트 당 설정된 최대 연결 수 (고급 옵션)는 양의 정수 여야합니다");
 	}
 
 	if (($_POST['max-src-states'] != "") && !is_posnumericint($_POST['max-src-states'])) {
-		$input_errors[] = gettext("Maximum state entries per host (advanced option) must be a positive integer");
+		$input_errors[] = gettext("호스트 당 최대 상태 항목 (고급 옵션)은 양의 정수 여야합니다.");
 	}
 
 	if (($_POST['max-src-conn-rate'] != "") && !is_posnumericint($_POST['max-src-conn-rate'])) {
-		$input_errors[] = gettext("Maximum new connections per host / per second(s) (advanced option) must be a positive integer");
+		$input_errors[] = gettext("호스트/초당 최대 연결 수(고급 옵션)는 양의 정수 여야합니다.");
 	}
 
 	if (($_POST['statetimeout'] != "") && !is_posnumericint($_POST['statetimeout'])) {
-		$input_errors[] = gettext("State timeout (advanced option) must be a positive integer");
+		$input_errors[] = gettext("상태 제한 시간 (고급 옵션)은 양의 정수 여야합니다.");
 	}
 
 	if ((($_POST['max-src-conn-rate'] <> "" and $_POST['max-src-conn-rates'] == "")) ||
 	    (($_POST['max-src-conn-rate'] == "" and $_POST['max-src-conn-rates'] <> ""))) {
-		$input_errors[] = gettext("Both maximum new connections per host and the interval (per second(s)) must be specified");
+		$input_errors[] = gettext("호스트 당 최대 연결 수와 간격 (초당)을 모두 지정해야합니다.");
 	}
 
 	if (!$_POST['tcpflags_any']) {
@@ -763,7 +768,7 @@ if ($_POST['save']) {
 			}
 		}
 		if (empty($outoftcpflags) && !empty($settcpflags)) {
-			$input_errors[] = gettext("If TCP flags that should be set is specified, then out of which flags should be specified as well.");
+			$input_errors[] = gettext("설정해야하는 TCP 플래그가 지정되면 어떤 플래그도 지정해야합니다.");
 		}
 	}
 
@@ -1015,7 +1020,7 @@ if ($_POST['save']) {
 
 		filter_rules_sort();
 
-		if (write_config(gettext("Firewall: Rules - saved/edited a firewall rule."))) {
+		if (write_config(gettext("방화벽: 규칙 - 방화벽 규칙을 저장 / 편집했습니다."))) {
 			mark_subsystem_dirty('filter');
 		}
 
@@ -1064,7 +1069,7 @@ function build_flag_table() {
 
 	$flagtable .= '<input type="checkbox" name="tcpflags_any" id="tcpflags_any" value="on"';
 	$flagtable .= ($pconfig['tcpflags_any'] ? 'checked':'') . '/>';
-	$flagtable .= '<strong>' . gettext(" Any flags.") . '</strong>';
+	$flagtable .= '<strong>' . gettext(" 모든 플래그.") . '</strong>';
 
 	return($flagtable);
 }
@@ -1094,7 +1099,7 @@ function build_if_list() {
 	}
 
 	if (is_pppoe_server_enabled() && have_ruleint_access("pppoe")) {
-		$iflist['pppoe'] = gettext("PPPoE Server");
+		$iflist['pppoe'] = gettext("PPPoE 서버");
 	}
 
 	// add ipsec interfaces
@@ -1110,12 +1115,12 @@ function build_if_list() {
 	return($iflist);
 }
 
-$pgtitle = array(gettext("Firewall"), gettext("Rules"));
+$pgtitle = array(gettext("방화벽"), gettext("룰"));
 $pglinks = array("");
 
 if ($if == "FloatingRules" || isset($pconfig['floating'])) {
 	$pglinks[] = "firewall_rules.php?if=FloatingRules";
-	$pgtitle[] = gettext('Floating');
+	$pgtitle[] = gettext('부동적');
 	$pglinks[] = "firewall_rules.php?if=FloatingRules";
 } elseif (!empty($if)) {
 	$pglinks = array("", "firewall_rules.php?if=" . $if);
@@ -1123,7 +1128,7 @@ if ($if == "FloatingRules" || isset($pconfig['floating'])) {
 	$pglinks = array("", "firewall_rules.php");
 }
 
-$pgtitle[] = gettext("Edit");
+$pgtitle[] = gettext("편집");
 $pglinks[] = "@self";
 $shortcut_section = "firewall";
 
@@ -1173,13 +1178,13 @@ $form->addGlobal(new Form_Input(
 pfSense_handle_custom_code("/usr/local/pkg/firewall_rules/htmlphpearly");
 
 $values = array(
-	'pass' => gettext('Pass'),
-	'block' => gettext('Block'),
-	'reject' => gettext('Reject'),
+	'pass' => gettext('통과'),
+	'block' => gettext('차단'),
+	'reject' => gettext('거절'),
 );
 
 if ($if == "FloatingRules" || isset($pconfig['floating'])) {
-	$values['match'] = gettext('Match');
+	$values['match'] = gettext('매치');
 }
 
 $section->addInput(new Form_Select(
@@ -1217,7 +1222,7 @@ if ($edit_disabled) {
 	$extra = '';
 	foreach ($config['nat']['rule'] as $index => $nat_rule) {
 		if ($nat_rule['associated-rule-id'] === $pconfig['associated-rule-id']) {
-			$extra = '<br/><a href="firewall_nat_edit.php?id='. $index .'">'. gettext('View the NAT rule') .'</a>';
+			$extra = '<br/><a href="firewall_nat_edit.php?id='. $index .'">'. gettext('NAT 규칙보기') .'</a>';
 		}
 	}
 
@@ -1365,22 +1370,22 @@ foreach (['src' => gettext('Source'), 'dst' => gettext('Destination')] as $type 
 
 	$ruleValues = array(
 		'any' => gettext('any'),
-		'single' => gettext('Single host or alias'),
-		'network' => gettext('Network'),
+		'single' => gettext('단일 호스트 또는 alias'),
+		'network' => gettext('네트워크'),
 	);
 
 	if ($type == 'dst') {
-		$ruleValues['(self)'] = gettext("This firewall (self)");
+		$ruleValues['(self)'] = gettext("해당 방화벽(self)");
 	}
 
 	if (isset($a_filter[$id]['floating']) || $if == "FloatingRules") {
-		$ruleValues['(self)'] = gettext('This Firewall (self)');
+		$ruleValues['(self)'] = gettext('해당 방화벽(self)');
 	}
 	if (have_ruleint_access("pppoe")) {
-		$ruleValues['pppoe'] = gettext('PPPoE clients');
+		$ruleValues['pppoe'] = gettext('PPPoE 클라이언트');
 	}
 	if (have_ruleint_access("l2tp")) {
-		$ruleValues['l2tp'] = gettext('L2TP clients');
+		$ruleValues['l2tp'] = gettext('L2TP 클라이언트');
 	}
 
 	foreach ($ifdisp as $ifent => $ifdesc) {
@@ -1425,7 +1430,7 @@ foreach (['src' => gettext('Source'), 'dst' => gettext('Destination')] as $type 
 		$portValues[$port] = $portName.' ('. $port .')';
 	}
 
-	$group = new Form_Group($type == 'src' ? gettext('Source Port Range') : gettext('Destination Port Range'));
+	$group = new Form_Group($type == 'src' ? gettext('발신지 포트 범위') : gettext('수신지 포트 범위'));
 
 	$group->addClass($type . 'portrange');
 
@@ -1790,9 +1795,9 @@ events.push(function() {
 		}
 
 		if (showadvopts) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 		$('#btnadvopts').html('<i class="fa fa-cog"></i> ' + text);
 	}
@@ -1862,9 +1867,9 @@ events.push(function() {
 		hideClass('srcprtr', !srcportsvisible);
 
 		if (srcportsvisible) {
-			text = "<?=gettext('Hide Advanced');?>";
+			text = "<?=gettext('어드밴스드 숨기기');?>";
 		} else {
-			text = "<?=gettext('Display Advanced');?>";
+			text = "<?=gettext('어드밴스드 보이기');?>";
 		}
 
 		$('#btnsrctoggle').html('<i class="fa fa-cog"></i> ' + text);
