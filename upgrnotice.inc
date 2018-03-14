@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-copyright
 ##|*NAME=System: Upgrade notice
@@ -43,13 +48,13 @@ if (isset($user_settings['webgui']['logincss']) && strlen($user_settings['webgui
 
 			<div class="modal-body" style="background-color:<?=$logincssfile?>; color:white;">
 <?php
-			print("<div align=\"center\" style=\"font-size:24px;\"><strong>NOTICE</strong></div><br>");
+			print("<div align=\"center\" style=\"font-size:24px;\"><strong>주의</strong></div><br>");
 			print(file_get_contents("/tmp/package_ui_notice"));
 ?>
 			</div>
 			<div class="modal-footer" style="background-color:<?=$logincssfile?>; color:white;">
 				<button type="button" class="btn btn-xs btn-success" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">Accept</span>
+					<span aria-hidden="true">동의</span>
 				</button>
 			</div>
 		</div>
