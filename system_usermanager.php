@@ -25,6 +25,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.12
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-usermanager
 ##|*NAME=System: User Manager
@@ -89,7 +94,7 @@ if ($_POST['act'] == "deluser") {
 	}
 
 	if ($_POST['username'] == $_SESSION['Username']) {
-		$delete_errors[] = sprintf(gettext("Cannot delete user %s because you are currently logged in as that user."), $_POST['username']);
+		$delete_errors[] = sprintf(gettext("현재 사용자로 로그인 했으므로 %s 사용자를 삭제할 수 없습니다."), $_POST['username']);
 	} else {
 		local_user_del($a_user[$id]);
 		$userdeleted = $a_user[$id]['name'];
@@ -97,7 +102,7 @@ if ($_POST['act'] == "deluser") {
 		/* Reindex the array to avoid operating on an incorrect index https://redmine.pfsense.org/issues/7733 */
 		$a_user = array_values($a_user);
 		write_config();
-		$savemsg = sprintf(gettext("User %s successfully deleted."), $userdeleted);
+		$savemsg = sprintf(gettext("유저 %s 이(가) 성공적으로 삭제되었습니다."), $userdeleted);
 	}
 
 } else if ($act == "new") {
@@ -133,7 +138,7 @@ if (isset($_POST['dellall'])) {
 		foreach ($del_users as $userid) {
 			if (isset($a_user[$userid]) && $a_user[$userid]['scope'] != "system") {
 				if ($a_user[$userid]['name'] == $_SESSION['Username']) {
-					$delete_errors[] = sprintf(gettext("Cannot delete user %s because you are currently logged in as that user."), $a_user[$userid]['name']);
+					$delete_errors[] = sprintf(gettext("현재 사용자로 로그인 했으므로 %s를 삭제할 수 없습니다."), $a_user[$userid]['name']);
 				} else {
 					$deleted_users = $deleted_users . $comma . $a_user[$userid]['name'];
 					$comma = ", ";
@@ -142,15 +147,15 @@ if (isset($_POST['dellall'])) {
 					unset($a_user[$userid]);
 				}
 			} else {
-				$delete_errors[] = sprintf(gettext("Cannot delete user %s because it is a system user."), $a_user[$userid]['name']);
+				$delete_errors[] = sprintf(gettext("%s은(는) 시스템 유저이므로 삭제할 수 없습니다."), $a_user[$userid]['name']);
 			}
 		}
 
 		if ($deleted_count > 0) {
 			if ($deleted_count == 1) {
-				$savemsg = sprintf(gettext("User %s successfully deleted."), $deleted_users);
+				$savemsg = sprintf(gettext("사용자 %s이(가) 성공적으로 삭제되었습니다."), $deleted_users);
 			} else {
-				$savemsg = sprintf(gettext("Users %s successfully deleted."), $deleted_users);
+				$savemsg = sprintf(gettext("사용자 %s이(가) 성공적으로 삭제되었습니다."), $deleted_users);
 			}
 			/* Reindex the array to avoid operating on an incorrect index https://redmine.pfsense.org/issues/7733 */
 			$a_user = array_values($a_user);
@@ -171,7 +176,7 @@ if ($_POST['act'] == "delcert") {
 	unset($a_user[$id]['cert'][$_POST['certid']]);
 	write_config();
 	$_POST['act'] = "edit";
-	$savemsg = sprintf(gettext("Certificate %s association removed."), $certdeleted);
+	$savemsg = sprintf(gettext("인증서 %s 연관이 제거되었습니다."), $certdeleted);
 }
 
 if ($_POST['act'] == "delprivid") {
@@ -180,7 +185,7 @@ if ($_POST['act'] == "delprivid") {
 	local_user_set($a_user[$id]);
 	write_config();
 	$_POST['act'] = "edit";
-	$savemsg = sprintf(gettext("Privilege %s removed."), $privdeleted);
+	$savemsg = sprintf(gettext("권한 %s이(가) 제거되었습니다."), $privdeleted);
 }
 
 if ($_POST['save']) {
@@ -190,48 +195,48 @@ if ($_POST['save']) {
 	/* input validation */
 	if (isset($id) && ($a_user[$id])) {
 		$reqdfields = explode(" ", "usernamefld");
-		$reqdfieldsn = array(gettext("Username"));
+		$reqdfieldsn = array(gettext("유저이름"));
 	} else {
 		if (empty($_POST['name'])) {
 			$reqdfields = explode(" ", "usernamefld passwordfld1");
 			$reqdfieldsn = array(
-				gettext("Username"),
-				gettext("Password"));
+				gettext("유저이름"),
+				gettext("패스워드"));
 		} else {
 			$reqdfields = explode(" ", "usernamefld passwordfld1 name caref keylen lifetime");
 			$reqdfieldsn = array(
-				gettext("Username"),
-				gettext("Password"),
-				gettext("Descriptive name"),
-				gettext("Certificate authority"),
-				gettext("Key length"),
-				gettext("Lifetime"));
+				gettext("유저이름"),
+				gettext("패스워드"),
+				gettext("기술적인 이름"),
+				gettext("인증기관"),
+				gettext("키 길이"),
+				gettext("유효기간"));
 		}
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (preg_match("/[^a-zA-Z0-9\.\-_]/", $_POST['usernamefld'])) {
-		$input_errors[] = gettext("The username contains invalid characters.");
+		$input_errors[] = gettext("유저이름에 잘못된 문자가 있습니다.");
 	}
 
 	if (strlen($_POST['usernamefld']) > 32) {
-		$input_errors[] = gettext("The username is longer than 32 characters.");
+		$input_errors[] = gettext("유저이름이 32자를 초과합니다.");
 	}
 
 	if (($_POST['passwordfld1']) && ($_POST['passwordfld1'] != $_POST['passwordfld2'])) {
-		$input_errors[] = gettext("The passwords do not match.");
+		$input_errors[] = gettext("암호가 일치하지 않습니다.");
 	}
 
 	if (isset($_POST['ipsecpsk']) && !preg_match('/^[[:ascii:]]*$/', $_POST['ipsecpsk'])) {
-		$input_errors[] = gettext("IPsec Pre-Shared Key contains invalid characters.");
+		$input_errors[] = gettext("IPsec 사전 공유 키에 잘못된 문자가 있습니다.");
 	}
 
 	/* Check the POSTed groups to ensure they are valid and exist */
 	if (is_array($_POST['groups'])) {
 		foreach ($_POST['groups'] as $newgroup) {
 			if (empty(getGroupEntry($newgroup))) {
-				$input_errors[] = gettext("One or more invalid groups was submitted.");
+				$input_errors[] = gettext("하나 이상의 잘못된 그룹이 제출되었습니다.");
 			}
 		}
 	}
@@ -245,7 +250,7 @@ if ($_POST['save']) {
 	if (!$input_errors) {
 		foreach ($a_user as $userent) {
 			if ($userent['name'] == $_POST['usernamefld'] && $oldusername != $_POST['usernamefld']) {
-				$input_errors[] = gettext("Another entry with the same username already exists.");
+				$input_errors[] = gettext("동일한 사용자 이름을 가진 다른 항목이 이미 있습니다.");
 				break;
 			}
 		}
@@ -256,7 +261,7 @@ if ($_POST['save']) {
 		foreach ($system_users as $s_user) {
 			$ent = explode(":", $s_user);
 			if ($ent[0] == $_POST['usernamefld'] && $oldusername != $_POST['usernamefld']) {
-				$input_errors[] = gettext("That username is reserved by the system.");
+				$input_errors[] = gettext("해당 사용자 이름은 시스템에서 예약합니다.");
 				break;
 			}
 		}
@@ -276,14 +281,14 @@ if ($_POST['save']) {
 			//convert from any DateTime compatible date to MM/DD/YYYY
 			$_POST['expires'] = $expdate->format("m/d/Y");
 		} catch (Exception $ex) {
-			$input_errors[] = gettext("Invalid expiration date format; use MM/DD/YYYY instead.");
+			$input_errors[] = gettext("만료일 형식이 잘못되었습니다.; use MM/DD/YYYY instead.");
 		}
 	}
 
 	if (!empty($_POST['name'])) {
 		$ca = lookup_ca($_POST['caref']);
 		if (!$ca) {
-			$input_errors[] = gettext("Invalid internal Certificate Authority") . "\n";
+			$input_errors[] = gettext("인증기관이 잘못 지정되었습니다.") . "\n";
 		}
 	}
 
@@ -471,8 +476,8 @@ function build_priv_table() {
 	$privhtml .=	'<table class="table table-striped table-hover table-condensed">';
 	$privhtml .=		'<thead>';
 	$privhtml .=			'<tr>';
-	$privhtml .=				'<th>' . gettext('Inherited from') . '</th>';
-	$privhtml .=				'<th>' . gettext('Name') . '</th>';
+	$privhtml .=				'<th>' . gettext('에서 상속받음') . '</th>';
+	$privhtml .=				'<th>' . gettext('이름') . '</th>';
 	$privhtml .=				'<th>' . gettext('Description') . '</th>';
 	$privhtml .=				'<th>' . gettext('Action') . '</th>';
 	$privhtml .=			'</tr>';
@@ -493,13 +498,13 @@ function build_priv_table() {
 		$privhtml .=			'<td>' . htmlspecialchars($priv['name']) . '</td>';
 		$privhtml .=			'<td>' . htmlspecialchars($priv['descr']);
 		if (isset($priv['warn']) && ($priv['warn'] == 'standard-warning-root')) {
-			$privhtml .=			' ' . gettext('(admin privilege)');
+			$privhtml .=			' ' . gettext('(관리자 권한)');
 			$user_has_root_priv = true;
 		}
 		$privhtml .=			'</td>';
 		$privhtml .=			'<td>';
 		if (!$group) {
-			$privhtml .=			'<a class="fa fa-trash no-confirm icon-pointer" title="' . gettext('Delete Privilege') . '" id="delprivid' . $i . '"></a>';
+			$privhtml .=			'<a class="fa fa-trash no-confirm icon-pointer" title="' . gettext('권한 삭제') . '" id="delprivid' . $i . '"></a>';
 		}
 
 		$privhtml .=			'</td>';
@@ -513,7 +518,7 @@ function build_priv_table() {
 	if ($user_has_root_priv) {
 		$privhtml .=		'<tr>';
 		$privhtml .=			'<td colspan="3">';
-		$privhtml .=				'<b>' . gettext('Security notice: This user effectively has administrator-level access') . '</b>';
+		$privhtml .=				'<b>' . gettext('보안 공지 :이 사용자는 효과적으로 관리자 수준의 액세스 권한을가집니다.') . '</b>';
 		$privhtml .=			'</td>';
 		$privhtml .=			'<td>';
 		$privhtml .=			'</td>';
@@ -526,7 +531,7 @@ function build_priv_table() {
 	$privhtml .= '</div>';
 
 	$privhtml .= '<nav class="action-buttons">';
-	$privhtml .=	'<a href="system_usermanager_addprivs.php?userid=' . $id . '" class="btn btn-success"><i class="fa fa-plus icon-embed-btn"></i>' . gettext("Add") . '</a>';
+	$privhtml .=	'<a href="system_usermanager_addprivs.php?userid=' . $id . '" class="btn btn-success"><i class="fa fa-plus icon-embed-btn"></i>' . gettext("추가") . '</a>';
 	$privhtml .= '</nav>';
 
 	return($privhtml);
@@ -539,8 +544,8 @@ function build_cert_table() {
 	$certhtml .=	'<table class="table table-striped table-hover table-condensed">';
 	$certhtml .=		'<thead>';
 	$certhtml .=			'<tr>';
-	$certhtml .=				'<th>' . gettext('Name') . '</th>';
-	$certhtml .=				'<th>' . gettext('CA') . '</th>';
+	$certhtml .=				'<th>' . gettext('이름') . '</th>';
+	$certhtml .=				'<th>' . gettext('인증기관') . '</th>';
 	$certhtml .=				'<th></th>';
 	$certhtml .=			'</tr>';
 	$certhtml .=		'</thead>';
@@ -559,7 +564,7 @@ function build_cert_table() {
 			$certhtml .=		'<td>' . htmlspecialchars($ca['descr']) . '</td>';
 			$certhtml .=		'<td>';
 			$certhtml .=			'<a id="delcert' . $i .'" class="fa fa-trash no-confirm icon-pointer" title="';
-			$certhtml .=			gettext('Remove this certificate association? (Certificate will not be deleted)') . '"></a>';
+			$certhtml .=			gettext('인증서 연결을 제거 하시겠습니까? (인증서는 삭제되지 않습니다.)') . '"></a>';
 			$certhtml .=		'</td>';
 			$certhtml .=	'</tr>';
 			$i++;
@@ -572,17 +577,17 @@ function build_cert_table() {
 	$certhtml .= '</div>';
 
 	$certhtml .= '<nav class="action-buttons">';
-	$certhtml .=	'<a href="system_certmanager.php?act=new&amp;userid=' . $id . '" class="btn btn-success"><i class="fa fa-plus icon-embed-btn"></i>' . gettext("Add") . '</a>';
+	$certhtml .=	'<a href="system_certmanager.php?act=new&amp;userid=' . $id . '" class="btn btn-success"><i class="fa fa-plus icon-embed-btn"></i>' . gettext("추가") . '</a>';
 	$certhtml .= '</nav>';
 
 	return($certhtml);
 }
 
-$pgtitle = array(gettext("System"), gettext("User Manager"), gettext("Users"));
+$pgtitle = array(gettext("시스템"), gettext("유저 매니저"), gettext("유저"));
 $pglinks = array("", "system_usermanager.php", "system_usermanager.php");
 
 if ($act == "new" || $act == "edit" || $input_errors) {
-	$pgtitle[] = gettext('Edit');
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 
@@ -601,27 +606,27 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Users"), true, "system_usermanager.php");
-$tab_array[] = array(gettext("Groups"), false, "system_groupmanager.php");
-$tab_array[] = array(gettext("Settings"), false, "system_usermanager_settings.php");
-$tab_array[] = array(gettext("Authentication Servers"), false, "system_authservers.php");
+$tab_array[] = array(gettext("유저"), true, "system_usermanager.php");
+$tab_array[] = array(gettext("그룹"), false, "system_groupmanager.php");
+$tab_array[] = array(gettext("설정"), false, "system_usermanager_settings.php");
+$tab_array[] = array(gettext("인증서버"), false, "system_authservers.php");
 display_top_tabs($tab_array);
 
 if (!($act == "new" || $act == "edit" || $input_errors)) {
 ?>
 <form method="post">
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Users')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('유저')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 				<thead>
 					<tr>
 						<th>&nbsp;</th>
-						<th><?=gettext("Username")?></th>
-						<th><?=gettext("Full name")?></th>
-						<th><?=gettext("Status")?></th>
-						<th><?=gettext("Groups")?></th>
+						<th><?=gettext("유저이름")?></th>
+						<th><?=gettext("풀네임")?></th>
+						<th><?=gettext("상태")?></th>
+						<th><?=gettext("그룹")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
 				</thead>
@@ -645,12 +650,12 @@ foreach ($a_user as $i => $userent):
 							<?=htmlspecialchars($userent['name'])?>
 						</td>
 						<td><?=htmlspecialchars($userent['descr'])?></td>
-						<td><i class="fa fa-<?= (isset($userent['disabled'])) ? 'ban" title="' . gettext("Disabled") . '"' : 'check" title="' . gettext("Enabled") . '"' ; ?>><span style='display: none'><?= (isset($userent['disabled'])) ? gettext("Disabled") : gettext("Enabled") ; ?></span></i></td>
+						<td><i class="fa fa-<?= (isset($userent['disabled'])) ? 'ban" title="' . gettext("비활성화") . '"' : 'check" title="' . gettext("활성화") . '"' ; ?>><span style='display: none'><?= (isset($userent['disabled'])) ? gettext("Disabled") : gettext("Enabled") ; ?></span></i></td>
 						<td><?=implode(",", local_user_get_groups($userent))?></td>
 						<td>
-							<a class="fa fa-pencil" title="<?=gettext("Edit user"); ?>" href="?act=edit&amp;userid=<?=$i?>"></a>
+							<a class="fa fa-pencil" title="<?=gettext("유저편집"); ?>" href="?act=edit&amp;userid=<?=$i?>"></a>
 <?php if (($userent['scope'] != "system") && ($userent['name'] != $_SESSION['Username'])): ?>
-							<a class="fa fa-trash"	title="<?=gettext("Delete user")?>" href="?act=deluser&amp;userid=<?=$i?>&amp;username=<?=$userent['name']?>" usepost></a>
+							<a class="fa fa-trash"	title="<?=gettext("유저삭제")?>" href="?act=deluser&amp;userid=<?=$i?>&amp;username=<?=$userent['name']?>" usepost></a>
 <?php endif; ?>
 						</td>
 					</tr>
@@ -663,23 +668,22 @@ foreach ($a_user as $i => $userent):
 <nav class="action-buttons">
 	<a href="?act=new" class="btn btn-sm btn-success">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 
-	<button type="submit" class="btn btn-sm btn-danger" name="dellall" value="dellall" title="<?=gettext('Delete selected users')?>">
+	<button type="submit" class="btn btn-sm btn-danger" name="dellall" value="dellall" title="<?=gettext('선택한 사용자 삭제')?>">
 		<i class="fa fa-trash icon-embed-btn"></i>
-		<?=gettext("Delete")?>
+		<?=gettext("삭제")?>
 	</button>
 
 </nav>
 </form>
 <div class="infoblock">
 <?php
-	print_callout('<p>' . gettext("Additional users can be added here. User permissions for accessing " .
-		"the webConfigurator can be assigned directly or inherited from group memberships. " .
-		"Some system object properties can be modified but they cannot be deleted.") . '</p>' .
-		'<p>' . gettext("Accounts added here are also used for other parts of the system " .
-		"such as OpenVPN, IPsec, and Captive Portal.") . '</p>'
+	print_callout('<p>' . gettext("여기에 추가 사용자를 추가 할 수 있습니다. 웹 구성자에 액세스하기 " .
+		"위한 사용자 권한은 직접 할당하거나 그룹 구성원 자격에서 상속 할 수 있습니다. " .
+		"일부 시스템 오브젝트 특성은 수정할 수는 있지만 삭제할 수는 없습니다.") . '</p>' .
+		'<p>' . gettext("여기에 추가 된 계정은 OpenVPN, IPsec 및 Captive Portal과 같은 시스템의 다른 부분에도 사용됩니다.") . '</p>'
 	);
 
 ?></div>
