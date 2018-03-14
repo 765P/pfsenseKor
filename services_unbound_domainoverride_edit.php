@@ -25,6 +25,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dnsresolver-editdomainoverride
 ##|*NAME=Services: DNS Resolver: Edit Domain Override
@@ -54,7 +59,7 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "domain ip");
-	$reqdfieldsn = array(gettext("Domain"), gettext("IP address"));
+	$reqdfieldsn = array(gettext("도메인"), gettext("IP주소"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -65,20 +70,20 @@ if ($_POST['save']) {
 	if (String_Begins_With(_msdcs, $_POST['domain'])) {
 		$subdomainstr = substr($_POST['domain'], 7);
 		if ($subdomainstr && !is_domain($subdomainstr)) {
-			$input_errors[] = gettext("A valid domain must be specified after _msdcs.");
+			$input_errors[] = gettext("유효한 도메인은 _msks 다음에 지정되어야 합니다.");
 		}
 	} elseif ($_POST['domain'] && !is_domain($_POST['domain'])) {
-		$input_errors[] = gettext("A valid domain must be specified.");
+		$input_errors[] = gettext("올바른 도메인을 지정해야 합니다.");
 	}
 
 	if ($_POST['ip']) {
 		if (strpos($_POST['ip'], '@') !== false) {
 			$ip_details = explode("@", $_POST['ip']);
 			if (!is_ipaddr($ip_details[0]) || !is_port($ip_details[1])) {
-				$input_errors[] = gettext("A valid IP address and port must be specified, for example 192.168.100.10@5353.");
+				$input_errors[] = gettext("예를 들어 192.168.100.10@5353과 같이 올바른 IP주소와 포트를 지정해야 합니다.");
 			}
 		} else if (!is_ipaddr($_POST['ip'])) {
-			$input_errors[] = gettext("A valid IP address must be specified, for example 192.168.100.10.");
+			$input_errors[] = gettext("예를 들어 192.168.100.10과 같이 올바른 IP주소를 지정해야 합니다.");
 		}
 	}
 
@@ -96,14 +101,14 @@ if ($_POST['save']) {
 
 		mark_subsystem_dirty('unbound');
 
-		write_config(gettext("Domain override configured for DNS Resolver."));
+		write_config(gettext("DNS확인자에 대해 도메인 재정의가 구성되었습니다."));
 
 		header("Location: services_unbound.php");
 		exit;
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("DNS Resolver"), gettext("General Settings"), gettext("Edit Domain Override"));
+$pgtitle = array(gettext("Services"), gettext("DNS 확인자"), gettext("일반 설정"), gettext("도메인 재정의 편집"));
 $pglinks = array("", "services_unbound.php", "services_unbound.php", "@self");
 $shortcut_section = "resolver";
 include("head.inc");
@@ -149,11 +154,10 @@ if (isset($id) && $a_domainOverrides[$id]) {
 $section->addInput(new Form_StaticText(
 	'',
 	'<span class="help-block">' .
-	gettext("This page is used to specify domains for which the resolver's standard DNS lookup process will be overridden, " .
-	"and the resolver will query a different (non-standard) lookup server instead. It is possible to enter 'non-standard', 'invalid' " .
-	"and 'local' domains such as 'test', 'mycompany.localdomain', or '1.168.192.in-addr.arpa', as well as usual publicly resolvable " .
-	"domains such as 'org', 'info', or 'google.co.uk'.  The IP address entered will be treated as the IP address of an authoritative " .
-	"lookup server for the domain (including all of its subdomains), and other lookup servers will not be queried.") .
+	gettext("이 페이지는 해결 프로그램의 표준 DNS조회 프로세스가 재정의될 도메인을 지정하는 데 사용되며, 해결 프로그램에서 대신 다른(비표준)조회 서버를 쿼리 합니다. " .
+	"'test', 'mycompany.localdomain'또는 '1.168.192.in-addr.arpa'과 같은 'non-standard', 'invalid'및 'local'도메인은 물론 'org', 'info', " .
+	"'google.co.uk'과 같이 공개적으로 확인할 수있는 도메인을 입력 할 수도 있습니다. 입력 된 IP 주소는 도메인 (모든 하위 도메인 포함)의 " .
+	"신뢰할 수있는 조회 서버의 IP 주소로 취급되며 다른 조회 서버는 쿼리되지 않습니다.") .
 	'</span>'
 ));
 
