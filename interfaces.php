@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces
 ##|*NAME=Interfaces: WAN
@@ -418,7 +423,7 @@ $changes_applied = false;
 if ($_POST['apply']) {
 	unset($input_errors);
 	if (!is_subsystem_dirty('interfaces')) {
-		$input_errors[] = gettext("The settings have already been applied!");
+		$input_errors[] = gettext("설정이 이미 적용되었습니다.");
 	} else {
 		$retval = 0;
 		unlink_if_exists("{$g['tmp_path']}/config.cache");
@@ -504,7 +509,7 @@ if ($_POST['apply']) {
 		/* description unique? */
 		foreach ($ifdescrs as $ifent => $ifdescr) {
 			if ($if != $ifent && (strcasecmp($ifdescr, $_POST['descr']) == 0)) {
-				$input_errors[] = gettext("An interface with the specified description already exists.");
+				$input_errors[] = gettext("지정된 설명이있는 인터페이스가 이미 있습니다.");
 				break;
 			}
 		}
@@ -513,7 +518,7 @@ if ($_POST['apply']) {
 		if (is_array($config['aliases']['alias'])) {
 			foreach ($config['aliases']['alias'] as $alias) {
 				if (strcasecmp($alias['name'], $_POST['descr']) == 0) {
-					$input_errors[] = sprintf(gettext("Sorry, an alias with the name %s already exists."), $_POST['descr']);
+					$input_errors[] = sprintf(gettext("죄송합니다. %s란 이름의 alias가 이미 있습니다."), $_POST['descr']);
 				}
 			}
 		}
@@ -522,13 +527,13 @@ if ($_POST['apply']) {
 		if (is_array($config['ifgroups']['ifgroupentry'])) {
 			foreach ($config['ifgroups']['ifgroupentry'] as $ifgroupentry) {
 				if (strcasecmp($ifgroupentry['ifname'], $_POST['descr']) == 0) {
-					$input_errors[] = sprintf(gettext("Sorry, an interface group with the name %s already exists."), $_POST['descr']);
+					$input_errors[] = sprintf(gettext("죄송합니다. %s란 이름의 인터페이스 그룹이 이미 있습니다."), $_POST['descr']);
 				}
 			}
 		}
 
 		if (is_numeric($_POST['descr'])) {
-			$input_errors[] = gettext("The interface description cannot contain only numbers.");
+			$input_errors[] = gettext("인터페이스 설명에는 숫자만 사용할 수 없습니다.");
 		}
 
 		/*
@@ -537,76 +542,74 @@ if ($_POST['apply']) {
 		 * One namespace is shared by Interfaces, Interface Groups and Aliases.
 		 */
 		if (substr($_POST['descr'], 0, 4) == 'pkg_') {
-			$input_errors[] = gettext("The interface description cannot start with pkg_");
+			$input_errors[] = gettext("인터페이스 설명을 pkg_로 시작할 수 없습니다.");
 		}
 	}
 
 	if (isset($config['dhcpd']) && isset($config['dhcpd'][$if]['enable'])) {
 		if (!preg_match("/^staticv4/", $_POST['type'])) {
-			$input_errors[] = gettext("The DHCP Server is active " .
-			    "on this interface and it can be used only with " .
-			    "a static IP configuration. Please disable the " .
-			    "DHCP Server service on this interface first, " .
-			    "then change the interface configuration.");
+			$input_errors[] = gettext("DHCP 서버는 이 인터페이스에서 " .
+			    "활성화되어 있으며 정적 IP 구성에서만 사용할 수 있습니다. " .
+			    "이 인터페이스에서 DHCP 서버 서비스를 먼저 " .
+			    "비활성화 한 다음 인터페이스 구성을 변경하십시오.");
 		} elseif (!empty($_POST['subnet']) && $_POST['subnet'] >= 31) {
-			$input_errors[] = gettext("The DHCP Server is active " .
-			    "on this interface and it can be used only with " .
-			    "IPv4 subnet < 31. Please disable the " .
-			    "DHCP Server service on this interface first, " .
-			    "then change the interface configuration.");
+			$input_errors[] = gettext("DHCP 서버는 이 인터페이스에서 " .
+			    "활성화되어 있으며 정적 IP 구성에서만 사용할 수 있습니다. " .
+			    "이 인터페이스에서 DHCP 서버 서비스를 먼저 비활성화 " .
+			    "한 다음 인터페이스 구성을 변경하십시오.");
 		}
 	}
 	if (isset($config['dhcpdv6']) && isset($config['dhcpdv6'][$if]['enable']) && ($_POST['type6'] != "staticv6" && $_POST['type6'] != "track6")) {
-		$input_errors[] = gettext("The DHCP6 Server is active on this interface and it can be used only with a static IPv6 configuration. Please disable the DHCPv6 Server service on this interface first, then change the interface configuration.");
+		$input_errors[] = gettext("DHCP6 서버는 이 인터페이스에서 활성화되어 있으며 정적 IPv6 구성에서만 사용할 수 있습니다. 먼저이 인터페이스에서 DHCPv6 서버 서비스를 비활성화 한 다음 인터페이스 구성을 변경하십시오.");
 	}
 
 	switch (strtolower($_POST['type'])) {
 		case "staticv4":
 			$reqdfields = explode(" ", "ipaddr subnet gateway");
-			$reqdfieldsn = array(gettext("IPv4 address"), gettext("Subnet bit count"), gettext("Gateway"));
+			$reqdfieldsn = array(gettext("IPv4 주소"), gettext("서브넷 비트카운트"), gettext("게이트웨이"));
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
 		case "none":
 			if (is_array($config['virtualip']['vip'])) {
 				foreach ($config['virtualip']['vip'] as $vip) {
 					if (is_ipaddrv4($vip['subnet']) && $vip['interface'] == $if) {
-						$input_errors[] = gettext("This interface is referenced by IPv4 VIPs. Please delete those before setting the interface to 'none' configuration.");
+						$input_errors[] = gettext("이 인터페이스는 IPv4 VIP에서 참조합니다. 인터페이스를 'none'구성으로 설정하기 전에 해당 인터페이스를 삭제하십시오.");
 					}
 				}
 			}
 			break;
 		case "ppp":
 			$reqdfields = explode(" ", "port phone");
-			$reqdfieldsn = array(gettext("Modem Port"), gettext("Phone Number"));
+			$reqdfieldsn = array(gettext("모뎀 포트"), gettext("전화번호"));
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
 		case "pppoe":
 			if ($_POST['pppoe_dialondemand']) {
 				$reqdfields = explode(" ", "pppoe_username pppoe_password pppoe_dialondemand pppoe_idletimeout");
-				$reqdfieldsn = array(gettext("PPPoE username"), gettext("PPPoE password"), gettext("Dial on demand"), gettext("Idle timeout value"));
+				$reqdfieldsn = array(gettext("PPPoE 유저이름"), gettext("PPPoE 패스워드"), gettext("주문형 다이얼"), gettext("유휴 시간 초과 값"));
 			} else {
 				$reqdfields = explode(" ", "pppoe_username pppoe_password");
-				$reqdfieldsn = array(gettext("PPPoE username"), gettext("PPPoE password"));
+				$reqdfieldsn = array(gettext("PPPoE 유저이름"), gettext("PPPoE 패스워드"));
 			}
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
 		case "pptp":
 			if ($_POST['pptp_dialondemand']) {
 				$reqdfields = explode(" ", "pptp_username pptp_password pptp_local0 pptp_subnet0 pptp_remote0 pptp_dialondemand pptp_idletimeout");
-				$reqdfieldsn = array(gettext("PPTP username"), gettext("PPTP password"), gettext("PPTP local IP address"), gettext("PPTP subnet"), gettext("PPTP remote IP address"), gettext("Dial on demand"), gettext("Idle timeout value"));
+				$reqdfieldsn = array(gettext("PPTP 유저이름"), gettext("PPTP 패스워드"), gettext("PPTP 로컬 IP주소"), gettext("PPTP 서브넷"), gettext("PPTP 원격 IP 주소"), gettext("주문형 다이얼"), gettext("유휴 시간 초과 값"));
 			} else {
 				$reqdfields = explode(" ", "pptp_username pptp_password pptp_local0 pptp_subnet0 pptp_remote0");
-				$reqdfieldsn = array(gettext("PPTP username"), gettext("PPTP password"), gettext("PPTP local IP address"), gettext("PPTP subnet"), gettext("PPTP remote IP address"));
+				$reqdfieldsn = array(gettext("PPTP 유저이름"), gettext("PPTP 패스워드"), gettext("PPTP 로컬 IP 주소"), gettext("PPTP 서브넷"), gettext("PPTP 원격 IP 주소"));
 			}
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
 		case "l2tp":
 			if ($_POST['pptp_dialondemand']) {
 				$reqdfields = explode(" ", "pptp_username pptp_password pptp_remote0 pptp_dialondemand pptp_idletimeout");
-				$reqdfieldsn = array(gettext("L2TP username"), gettext("L2TP password"), gettext("L2TP remote IP address"), gettext("Dial on demand"), gettext("Idle timeout value"));
+				$reqdfieldsn = array(gettext("L2TP 유저이름"), gettext("L2TP 패스워드"), gettext("L2TP 원격 IP 주소"), gettext("주문형 다이얼"), gettext("유휴 시간 초과 값"));
 			} else {
 				$reqdfields = explode(" ", "pptp_username pptp_password pptp_remote0");
-				$reqdfieldsn = array(gettext("L2TP username"), gettext("L2TP password"), gettext("L2TP remote IP address"));
+				$reqdfieldsn = array(gettext("L2TP 유저이름"), gettext("L2TP 패스워드"), gettext("L2TP 원격 IP주소"));
 			}
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
@@ -614,69 +617,69 @@ if ($_POST['apply']) {
 	switch (strtolower($_POST['type6'])) {
 		case "staticv6":
 			$reqdfields = explode(" ", "ipaddrv6 subnetv6 gatewayv6");
-			$reqdfieldsn = array(gettext("IPv6 address"), gettext("Subnet bit count"), gettext("Gateway"));
+			$reqdfieldsn = array(gettext("IPv6 주소"), gettext("서브넷 비트카운트"), gettext("게이트웨이"));
 			do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 			break;
 		case "none":
 			if (is_array($config['virtualip']['vip'])) {
 				foreach ($config['virtualip']['vip'] as $vip) {
 					if (is_ipaddrv6($vip['subnet']) && $vip['interface'] == $if) {
-						$input_errors[] = gettext("This interface is referenced by IPv6 VIPs. Please delete those before setting the interface to 'none' configuration.");
+						$input_errors[] = gettext("이 인터페이스는 IPv6 VIP가 참조합니다. 인터페이스를 'none'구성으로 설정하기 전에 해당 인터페이스를 삭제하십시오.");
 					}
 				}
 			}
 			break;
 		case "dhcp6":
 			if (in_array($wancfg['ipaddrv6'], array())) {
-				$input_errors[] = sprintf(gettext("The interface must be reassigned to configure as %s."), $_POST['type6']);
+				$input_errors[] = sprintf(gettext("%s(으)로 구성하려면 인터페이스를 다시 할당해야합니다."), $_POST['type6']);
 			}
 			if ($_POST['dhcp6-ia-pd-send-hint'] && strtolower($_POST['dhcp6-ia-pd-len']) == 'none') {
-				$input_errors[] = gettext('DHCPv6 Prefix Delegation size must be provided when Send IPv6 prefix hint flag is checked');
+				$input_errors[] = gettext('DHCPv6 접두사 보내기 IPv6 접두어 힌트 플래그를 선택한 경우 위임 크기를 제공해야합니다.');
 			}
 			break;
 		case "6rd":
 			foreach ($ifdescrs as $ifent => $ifdescr) {
 				if ($if != $ifent && ($config[interfaces][$ifent]['ipaddrv6'] == $_POST['type6'])) {
 					if ($config[interfaces][$ifent]['prefix-6rd'] == $_POST['prefix-6rd']) {
-						$input_errors[] = gettext("Only one interface can be configured within a single 6rd prefix.");
+						$input_errors[] = gettext("단일 6번 접두어 내에서 하나의 인터페이스 만 구성 할 수 있습니다.");
 						break;
 					}
 				}
 			}
 			if (!is_ipaddrv4($_POST['gateway-6rd'])) {
-				$input_errors[] = gettext("6RD Border Relay must be an IPv4 address.");
+				$input_errors[] = gettext("6RD Border Relay는 IPv4 주소 여야합니다.");
 			}
 			if (in_array($wancfg['ipaddrv6'], array())) {
-				$input_errors[] = sprintf(gettext("The interface must be reassigned to configure as %s."), $_POST['type6']);
+				$input_errors[] = sprintf(gettext("%s(으)로 구성하려면 인터페이스를 다시 할당해야합니다."), $_POST['type6']);
 			}
 			break;
 		case "6to4":
 			foreach ($ifdescrs as $ifent => $ifdescr) {
 				if ($if != $ifent && ($config[interfaces][$ifent]['ipaddrv6'] == $_POST['type6'])) {
-					$input_errors[] = sprintf(gettext("Only one interface can be configured as 6to4."), $_POST['type6']);
+					$input_errors[] = sprintf(gettext("하나의 인터페이스 만 6to4로 구성 할 수 있습니다."), $_POST['type6']);
 					break;
 				}
 			}
 			if (in_array($wancfg['ipaddrv6'], array())) {
-				$input_errors[] = sprintf(gettext("The interface must be reassigned to configure as %s."), $_POST['type6']);
+				$input_errors[] = sprintf(gettext("%s(으)로 구성하려면 인터페이스를 다시 할당해야합니다."), $_POST['type6']);
 			}
 			break;
 		case "track6":
 			/* needs to check if $track6-prefix-id is used on another interface */
 			if (in_array($wancfg['ipaddrv6'], array())) {
-				$input_errors[] = sprintf(gettext("The interface must be reassigned to configure as %s."), $_POST['type6']);
+				$input_errors[] = sprintf(gettext("%s(으)로 구성하려면 인터페이스를 다시 할당해야합니다."), $_POST['type6']);
 			}
 
 			if (empty($_POST['track6-interface'])) {
-				$input_errors[] = gettext("A valid interface to track must be selected.");
+				$input_errors[] = gettext("유효한 추적 인터페이스를 선택해야합니다.");
 			}
 
 			if ($_POST['track6-prefix-id--hex'] != "" && !is_numeric("0x" . $_POST['track6-prefix-id--hex'])) {
-				$input_errors[] = gettext("A valid hexadecimal number must be entered for the IPv6 prefix ID.");
+				$input_errors[] = gettext("IPv6 접 두부 ID에 유효한 16진수를 입력해야합니다.");
 			} else {
 				$track6_prefix_id = intval($_POST['track6-prefix-id--hex'], 16);
 				if ($track6_prefix_id < 0 || $track6_prefix_id > $_POST['ipv6-num-prefix-ids-' . $_POST['track6-interface']]) {
-					$input_errors[] = gettext("The specified IPv6 Prefix ID is out of range.") .
+					$input_errors[] = gettext("지정된 IPv6 접두사 ID가 범위를 벗어났습니다.") .
 						" ({$_POST['track6-interface']}) - (0) - (" . sprintf('%x', $_POST['ipv6-num-prefix-ids-' . $_POST['track6-interface']]) . ")";
 				} else {
 					foreach ($ifdescrs as $ifent => $ifdescr) {
@@ -686,7 +689,7 @@ if ($_POST['apply']) {
 						if ($config['interfaces'][$ifent]['ipaddrv6'] == 'track6' &&
 						    $config['interfaces'][$ifent]['track6-interface'] == $_POST['track6-interface'] &&
 						    $config['interfaces'][$ifent]['track6-prefix-id'] == $track6_prefix_id) {
-							$input_errors[] = sprintf(gettext("This track6 prefix ID is already being used in %s."), $ifdescr);
+							$input_errors[] = sprintf(gettext("이 track6 프리픽스 ID는 이미 %s에서 사용 중입니다."), $ifdescr);
 						}
 					}
 				}
@@ -699,11 +702,11 @@ if ($_POST['apply']) {
 	$_POST['spoofmac'] = strtolower(str_replace("-", ":", $_POST['spoofmac']));
 	if (($_POST['type'] == 'staticv4') && $_POST['ipaddr']) {
 		if (!is_ipaddrv4($_POST['ipaddr'])) {
-			$input_errors[] = gettext("A valid IPv4 address must be specified.");
+			$input_errors[] = gettext("유효한 IPv4 주소를 지정해야합니다.");
 		} else {
 			$where_ipaddr_configured = where_is_ipaddr_configured($_POST['ipaddr'], $if, true, true, $_POST['subnet']);
 			if (count($where_ipaddr_configured)) {
-				$subnet_conflict_text = sprintf(gettext("IPv4 address %s is being used by or overlaps with:"), $_POST['ipaddr'] . "/" . $_POST['subnet']);
+				$subnet_conflict_text = sprintf(gettext("IPv4 주소 %s이(가) 다음과 같이 사용 중이거나 중복되었습니다.:"), $_POST['ipaddr'] . "/" . $_POST['subnet']);
 				foreach ($where_ipaddr_configured as $subnet_conflict) {
 					$subnet_conflict_text .= " " . convert_friendly_interface_to_friendly_descr($subnet_conflict['if']) . " (" . $subnet_conflict['ip_or_subnet'] . ")";
 				}
@@ -713,16 +716,16 @@ if ($_POST['apply']) {
 			/* Do not accept network or broadcast address, except if subnet is 31 or 32 */
 			if ($_POST['subnet'] < 31) {
 				if ($_POST['ipaddr'] == gen_subnet($_POST['ipaddr'], $_POST['subnet'])) {
-					$input_errors[] = gettext("This IPv4 address is the network address and cannot be used");
+					$input_errors[] = gettext("이 IPv4 주소는 네트워크 주소이며 사용할 수 없습니다.");
 				} else if ($_POST['ipaddr'] == gen_subnet_max($_POST['ipaddr'], $_POST['subnet'])) {
-					$input_errors[] = gettext("This IPv4 address is the broadcast address and cannot be used");
+					$input_errors[] = gettext("이 IPv4 주소는 브로드 캐스트 주소이므로 사용할 수 없습니다.");
 				}
 			}
 
 			foreach ($staticroutes as $route_subnet) {
 				list($network, $subnet) = explode("/", $route_subnet);
 				if ($_POST['subnet'] == $subnet && $network == gen_subnet($_POST['ipaddr'], $_POST['subnet'])) {
-					$input_errors[] = gettext("This IPv4 address conflicts with a Static Route.");
+					$input_errors[] = gettext("이 IPv4 주소는 정적 경로와 충돌합니다.");
 					break;
 				}
 				unset($network, $subnet);
@@ -733,14 +736,14 @@ if ($_POST['apply']) {
 		$_POST['ipaddrv6'] = addrtolower($_POST['ipaddrv6']);
 
 		if (!is_ipaddrv6($_POST['ipaddrv6'])) {
-			$input_errors[] = gettext("A valid IPv6 address must be specified.");
+			$input_errors[] = gettext("유효한 IPv6 주소를 지정해야합니다.");
 		} else {
 			if (ip_in_subnet($_POST['ipaddrv6'], "fe80::/10")) {
-				$input_errors[] = gettext("IPv6 link local addresses cannot be configured as an interface IP.");
+				$input_errors[] = gettext("IPv6 링크 로컬 주소는 인터페이스 IP로 구성 할 수 없습니다.");
 			}
 			$where_ipaddr_configured = where_is_ipaddr_configured($_POST['ipaddrv6'], $if, true, true, $_POST['subnetv6']);
 			if (count($where_ipaddr_configured)) {
-				$subnet_conflict_text = sprintf(gettext("IPv6 address %s is being used by or overlaps with:"), $_POST['ipaddrv6'] . "/" . $_POST['subnetv6']);
+				$subnet_conflict_text = sprintf(gettext("IPv6 주소 %s이(가) 다음과 같이 사용 중이거나 중복되었습니다.:"), $_POST['ipaddrv6'] . "/" . $_POST['subnetv6']);
 				foreach ($where_ipaddr_configured as $subnet_conflict) {
 					$subnet_conflict_text .= " " . convert_friendly_interface_to_friendly_descr($subnet_conflict['if']) . " (" . $subnet_conflict['ip_or_subnet'] . ")";
 				}
@@ -750,7 +753,7 @@ if ($_POST['apply']) {
 			foreach ($staticroutes as $route_subnet) {
 				list($network, $subnet) = explode("/", $route_subnet);
 				if ($_POST['subnetv6'] == $subnet && $network == gen_subnetv6($_POST['ipaddrv6'], $_POST['subnetv6'])) {
-					$input_errors[] = gettext("This IPv6 address conflicts with a Static Route.");
+					$input_errors[] = gettext("이 IPv6 주소는 정적 경로와 충돌합니다.");
 					break;
 				}
 				unset($network, $subnet);
@@ -758,19 +761,19 @@ if ($_POST['apply']) {
 		}
 	}
 	if (($_POST['subnet'] && !is_numeric($_POST['subnet']))) {
-		$input_errors[] = gettext("A valid subnet bit count must be specified.");
+		$input_errors[] = gettext("유효한 서브넷 비트 수를 지정해야합니다.");
 	}
 	if (($_POST['subnetv6'] && !is_numeric($_POST['subnetv6']))) {
-		$input_errors[] = gettext("A valid subnet bit count must be specified.");
+		$input_errors[] = gettext("유효한 서브넷 비트 수를 지정해야합니다.");
 	}
 	if (($_POST['alias-address'] && !is_ipaddrv4($_POST['alias-address']))) {
-		$input_errors[] = gettext("A valid alias IP address must be specified.");
+		$input_errors[] = gettext("유효한 alias IP 주소를 지정해야합니다.");
 	}
 	if (($_POST['alias-subnet'] && !is_numeric($_POST['alias-subnet']))) {
-		$input_errors[] = gettext("A valid alias subnet bit count must be specified.");
+		$input_errors[] = gettext("유효한 별명 서브넷 비트 수를 지정해야합니다.");
 	}
 	if ($_POST['dhcprejectfrom'] && !validate_ipv4_list($_POST['dhcprejectfrom'])) {
-		$input_errors[] = gettext("An invalid IP address was detected in the 'Reject leases from' field.");
+		$input_errors[] = gettext("'Reject leases from'필드에 유효하지 않은 IP 주소가 발견되었습니다.");
 	}
 
 	// Only check the IPv4 gateway already exists if it is not "none" and it is not a gateway that the user is adding
@@ -782,7 +785,7 @@ if ($_POST['apply']) {
 			}
 		}
 		if (!$match) {
-			$input_errors[] = gettext("A valid IPv4 gateway must be specified.");
+			$input_errors[] = gettext("유효한 IPv4 게이트웨이를 지정해야합니다.");
 		}
 	}
 	// Only check the IPv6 gateway already exists if it is not "none" and it is not a gateway that the user is adding
@@ -794,40 +797,40 @@ if ($_POST['apply']) {
 			}
 		}
 		if (!$match) {
-			$input_errors[] = gettext("A valid IPv6 gateway must be specified.");
+			$input_errors[] = gettext("유효한 IPv6 게이트웨이를 지정해야합니다.");
 		}
 	}
 	if (($_POST['provider'] && !is_domain($_POST['provider']))) {
-		$input_errors[] = gettext("The service name contains invalid characters.");
+		$input_errors[] = gettext("서비스 이름에 유효하지 않은 문자가 들어 있습니다.");
 	}
 	if (($_POST['pppoe_idletimeout'] != "") && !is_numericint($_POST['pppoe_idletimeout'])) {
-		$input_errors[] = gettext("The idle timeout value must be an integer.");
+		$input_errors[] = gettext("유휴 시간 초과 값은 정수 여야합니다.");
 	}
 	if ($_POST['pppoe_resethour'] != "" && !is_numericint($_POST['pppoe_resethour']) &&
 	    $_POST['pppoe_resethour'] >= 0 && $_POST['pppoe_resethour'] <=23) {
-		$input_errors[] = gettext("A valid PPPoE reset hour must be specified (0-23).");
+		$input_errors[] = gettext("유효한 PPPoE 재설정 시간을 지정해야합니다(0 에서 23).");
 	}
 	if ($_POST['pppoe_resetminute'] != "" && !is_numericint($_POST['pppoe_resetminute']) &&
 	    $_POST['pppoe_resetminute'] >= 0 && $_POST['pppoe_resetminute'] <=59) {
-		$input_errors[] = gettext("A valid PPPoE reset minute must be specified (0-59).");
+		$input_errors[] = gettext("유효한 PPPoE 재설정 분(minute)을 지정해야합니다.(0 에서 59).");
 	}
 	if ($_POST['pppoe_resetdate'] != "" && !is_numeric(str_replace("/", "", $_POST['pppoe_resetdate']))) {
-		$input_errors[] = gettext("A valid PPPoE reset date must be specified (mm/dd/yyyy).");
+		$input_errors[] = gettext("유효한 PPPoE 재설정 날짜를 지정해야합니다.(mm/dd/yyyy).");
 	}
 	if (($_POST['pptp_local0'] && !is_ipaddrv4($_POST['pptp_local0']))) {
-		$input_errors[] = gettext("A valid PPTP local IP address must be specified.");
+		$input_errors[] = gettext("유효한 PPTP 로컬 IP 주소를 지정해야합니다.");
 	}
 	if (($_POST['pptp_subnet0'] && !is_numeric($_POST['pptp_subnet0']))) {
-		$input_errors[] = gettext("A valid PPTP subnet bit count must be specified.");
+		$input_errors[] = gettext("유효한 PPTP 서브넷 비트 수를 지정해야합니다.");
 	}
 	if (($_POST['pptp_remote0'] && !is_ipaddrv4($_POST['pptp_remote0']) && !is_hostname($_POST['pptp_remote0']))) {
-		$input_errors[] = gettext("A valid PPTP remote IP address must be specified.");
+		$input_errors[] = gettext("유효한 PPTP 원격 IP 주소를 지정해야합니다.");
 	}
 	if (($_POST['pptp_idletimeout'] != "") && !is_numericint($_POST['pptp_idletimeout'])) {
-		$input_errors[] = gettext("The idle timeout value must be an integer.");
+		$input_errors[] = gettext("유휴 시간 초과 값은 정수 여야합니다.");
 	}
 	if (($_POST['spoofmac'] && !is_macaddr($_POST['spoofmac']))) {
-		$input_errors[] = gettext("A valid MAC address must be specified.");
+		$input_errors[] = gettext("유효한 MAC 주소를 지정해야합니다.");
 	}
 	if ($_POST['mtu']) {
 		if (!is_numericint($_POST['mtu'])) {
@@ -842,7 +845,7 @@ if ($_POST['apply']) {
 		}
 
 		if ($_POST['mtu'] < $min_mtu || $_POST['mtu'] > $max_mtu) {
-			$input_errors[] = sprintf(gettext("The MTU must be between %d and %d bytes."), $min_mtu, $max_mtu);
+			$input_errors[] = sprintf(gettext("MTU는 %d 바이트와 %d 바이트 사이 여야합니다."), $min_mtu, $max_mtu);
 		}
 
 		unset($min_mtu, $max_mtu);
@@ -858,7 +861,7 @@ if ($_POST['apply']) {
 			if ($mtu == 0)
 				$mtu = get_interface_mtu($parent_realhwif);
 			if ($_POST['mtu'] > $mtu)
-				$input_errors[] = gettext("The MTU of a VLAN cannot be greater than that of its parent interface.");
+				$input_errors[] = gettext("VLAN의 MTU는 상위 인터페이스의 MTU보다 클 수 없습니다.");
 		} else {
 			foreach ($config['interfaces'] as $idx => $ifdata) {
 				if (($idx == $if) || interface_is_vlan($ifdata['if']) == NULL) {
@@ -874,116 +877,116 @@ if ($_POST['apply']) {
 				}
 
 				if (isset($ifdata['mtu']) && $ifdata['mtu'] > $_POST['mtu']) {
-					$input_errors[] = sprintf(gettext("Interface %s (VLAN) has MTU set to a larger value."), $ifdata['descr']);
+					$input_errors[] = sprintf(gettext("인터페이스 %s(VLAN)에 MTU가 더 큰 값으로 설정되었습니다."), $ifdata['descr']);
 				}
 			}
 		}
 	}
 	if ($_POST['mss'] != '') {
 		if (!is_numericint($_POST['mss']) || ($_POST['mss'] < 576 || $_POST['mss'] > 65535)) {
-			$input_errors[] = gettext("The MSS must be an integer between 576 and 65535 bytes.");
+			$input_errors[] = gettext("MSS는 576에서 65535 바이트 사이의 정수 여야합니다.");
 		}
 	}
 	/* Wireless interface? */
 	if (isset($wancfg['wireless'])) {
-		$reqdfields = array("mode");
-		$reqdfieldsn = array(gettext("Mode"));
+		$reqdfields = array("모드");
+		$reqdfieldsn = array(gettext("모드"));
 		if ($_POST['mode'] == 'hostap') {
 			$reqdfields[] = "ssid";
 			$reqdfieldsn[] = gettext("SSID");
 			if (isset($_POST['channel']) && $_POST['channel'] == "0") {
 				// auto channel with hostap is broken, prevent this for now.
-				$input_errors[] = gettext("A specific channel, not auto, must be selected for Access Point mode.");
+				$input_errors[] = gettext("액세스 포인트 모드에서는 자동이 아닌 특정 채널을 선택해야합니다.");
 			}
 		}
 		if (stristr($_POST['standard'], '11n')) {
 			if (!($_POST['wme_enable'])) {
-				$input_errors[] = gettext("802.11n standards require enabling WME.");
+				$input_errors[] = gettext("802.11n 표준을 사용하려면 WME를 사용해야합니다.");
 			}
 		}
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 		check_wireless_mode();
 		if (isset($_POST['wpa_group_rekey']) && (!is_numericint($_POST['wpa_group_rekey']) || $_POST['wpa_group_rekey'] < 1 || $_POST['wpa_group_rekey'] > 9999)) {
-			$input_errors[] = gettext("Key Rotation must be an integer between 1 and 9999.");
+			$input_errors[] = gettext("키 순환은 1에서 9999 사이의 정수 여야합니다.");
 		}
 		if (isset($_POST['wpa_gmk_rekey']) && (!is_numericint($_POST['wpa_gmk_rekey']) || $_POST['wpa_gmk_rekey'] < 1 || $_POST['wpa_gmk_rekey'] > 9999)) {
-			$input_errors[] = gettext("Master Key Regeneration must be an integer between 1 and 9999.");
+			$input_errors[] = gettext("마스터 키 재생성은 1에서 9999 사이의 정수 여야합니다.");
 		}
 		if (isset($_POST['wpa_group_rekey']) && isset($_POST['wpa_gmk_rekey'])) {
 			if ($_POST['wpa_group_rekey'] > $_POST['wpa_gmk_rekey']) {
-				$input_errors[] = gettext("Master Key Regeneration must be greater than Key Rotation.");
+				$input_errors[] = gettext("마스터 키 재생성은 키 순환보다 커야합니다.");
 			}
 		}
 		if (!empty($_POST['auth_server_addr'])) {
 			if (!is_domain($_POST['auth_server_addr']) && !is_ipaddr($_POST['auth_server_addr'])) {
-				$input_errors[] = gettext("802.1X Authentication Server must be an IP or hostname.");
+				$input_errors[] = gettext("802.1X 인증 서버는 IP 또는 호스트 이름이어야합니다.");
 			}
 		}
 		if (!empty($_POST['auth_server_addr2'])) {
 			if (!is_domain($_POST['auth_server_addr2']) && !is_ipaddr($_POST['auth_server_addr2'])) {
-				$input_errors[] = gettext("Secondary 802.1X Authentication Server must be an IP or hostname.");
+				$input_errors[] = gettext("보조 802.1X 인증 서버는 IP 또는 호스트 이름이어야합니다.");
 			}
 		}
 		if (!empty($_POST['auth_server_port'])) {
 			if (!is_port($_POST['auth_server_port'])) {
-				$input_errors[] = gettext("802.1X Authentication Server Port must be a valid port number (1-65535).");
+				$input_errors[] = gettext("802.1X 인증 서버 포트는 유효한 포트 번호 여야합니다(1 에서 65535).");
 			}
 		}
 		if (!empty($_POST['auth_server_port2'])) {
 			if (!is_port($_POST['auth_server_port2'])) {
-				$input_errors[] = gettext("Secondary 802.1X Authentication Server Port must be a valid port number (1-65535).");
+				$input_errors[] = gettext("보조 802.1X 인증 서버 포트는 유효한 포트 번호 여야합니다(1 에서 65535).");
 			}
 		}
 		if (isset($_POST['channel']) && !is_numericint($_POST['channel'])) {
 			if (!is_numericint($_POST['channel'])) {
-				$input_errors[] = gettext("Invalid channel specified.");
+				$input_errors[] = gettext("유효하지 않은 채널이 지정되었습니다.");
 			} else {
 				if ($_POST['channel'] > 255 || $_POST['channel'] < 0) {
-					$input_errors[] = gettext("Channel must be between 0-255.");
+					$input_errors[] = gettext("채널은 0에서 255 사이 여야합니다.");
 				}
 			}
 		}
 		if (!empty($_POST['distance']) && !is_numericint($_POST['distance'])) {
-			$input_errors[] = gettext("Distance must be an integer.");
+			$input_errors[] = gettext("거리는 정수 여야합니다.");
 		}
 		if (isset($_POST['standard']) && (stristr($_POST['standard'], '11na') || stristr($_POST['standard'], '11a'))) {
 			if ($_POST['channel'] != 0 && $_POST['channel'] < 15) {
-				$input_errors[] = gettext("Channel selected is not valid for 802.11a or 802.11na.");
+				$input_errors[] = gettext("선택한 채널이 802.11a 또는 802.11na에 유효하지 않습니다.");
 			}
 		}
 		if (isset($_POST['standard']) && ($_POST['standard'] == "11b" || $_POST['standard'] == "11g")) {
 			if ($_POST['channel'] > 14) {
-				$input_errors[] = gettext("Channel selected is not valid for 802.11b or 802.11g.");
+				$input_errors[] = gettext("선택한 채널이 802.11b 또는 802.11g에 유효하지 않습니다.");
 			}
 		}
 		if (!empty($_POST['protmode']) && !in_array($_POST['protmode'], array("off", "cts", "rtscts"))) {
-			$input_errors[] = gettext("Invalid option chosen for OFDM Protection Mode");
+			$input_errors[] = gettext("OFDM 보호 모드에 대해 잘못된 옵션이 선택되었습니다.");
 		}
 
 		if ($_POST['passphrase']) {
 			$passlen = strlen($_POST['passphrase']);
 			if ($passlen < 8 || $passlen > 63) {
-				$input_errors[] = gettext("The WPA passphrase must be between 8 and 63 characters long.");
+				$input_errors[] = gettext("WPA 암호는 8 자에서 63 자 사이 여야합니다.");
 			}
 		}
 
 		if ($_POST['wpa_enable'] == "yes") {
 			if (empty($_POST['passphrase']) && stristr($_POST['wpa_key_mgmt'], "WPA-PSK")) {
-				$input_errors[] = gettext("A WPA Passphrase must be specified when WPA PSK is enabled.");
+				$input_errors[] = gettext("WPA PSK가 활성화되면 WPA 암호 문구를 지정해야합니다.");
 			}
 		}
 	}
 
 	if ($_POST['ppp_password'] != $_POST['ppp_password_confirm']) {
-		$input_errors[] = gettext("PPP Password and confirmed password must match!");
+		$input_errors[] = gettext("암호가 서로 일치하지않습니다!");
 	}
 
 	if ($_POST['pppoe_password'] != $_POST['pppoe_password_confirm']) {
-		$input_errors[] = gettext("PPPoE Password and confirmed password must match!");
+		$input_errors[] = gettext("암호가 서로 일치하지않습니다!");
 	}
 
 	if ($_POST['pptp_password'] != $_POST['pptp_password_confirm']) {
-		$input_errors[] = gettext("PTPP Password and confirmed password must match!");
+		$input_errors[] = gettext("암호가 서로 일치하지않습니다!");
 	}
 
 	if ($_POST['gatewayip4']) {
@@ -1720,11 +1723,11 @@ foreach ($mediaopts as $mediaopt) {
 	}
 }
 
-$pgtitle = array(gettext("Interfaces"), $wancfg['descr']);
+$pgtitle = array(gettext("인터페이스"), $wancfg['descr']);
 $shortcut_section = "interfaces";
 
-$types4 = array("none" => gettext("None"), "staticv4" => gettext("Static IPv4"), "dhcp" => gettext("DHCP"), "ppp" => gettext("PPP"), "pppoe" => gettext("PPPoE"), "pptp" => gettext("PPTP"), "l2tp" => gettext("L2TP"));
-$types6 = array("none" => gettext("None"), "staticv6" => gettext("Static IPv6"), "dhcp6" => gettext("DHCP6"), "slaac" => gettext("SLAAC"), "6rd" => gettext("6rd Tunnel"), "6to4" => gettext("6to4 Tunnel"), "track6" => gettext("Track Interface"));
+$types4 = array("none" => gettext("None"), "staticv4" => gettext("정적 IPv4"), "dhcp" => gettext("DHCP"), "ppp" => gettext("PPP"), "pppoe" => gettext("PPPoE"), "pptp" => gettext("PPTP"), "l2tp" => gettext("L2TP"));
+$types6 = array("none" => gettext("None"), "staticv6" => gettext("정적 IPv6"), "dhcp6" => gettext("DHCP6"), "slaac" => gettext("SLAAC"), "6rd" => gettext("6rd 터널"), "6to4" => gettext("6to4 터널"), "track6" => gettext("트랙 인터페이스"));
 
 // Get the MAC address
 $ip = $_SERVER['REMOTE_ADDR'];
@@ -1736,8 +1739,8 @@ $defgatewayname6 = $wancfg['descr'] . "GWv6";
 function build_mediaopts_list() {
 	global $mediaopts_list;
 
-	$list = [""	 =>	 gettext("Default (no preference, typically autoselect)"),
-			 " " =>	 gettext("------- Media Supported by this interface -------")
+	$list = [""	 =>	 gettext("기본값 (기본 설정 없음, 일반적으로 자동 선택)"),
+			 " " =>	 gettext("------- 이 인터페이스가 지원하는 미디어 -------")
 			];
 
 	foreach ($mediaopts_list as $mediaopt) {
@@ -1780,9 +1783,9 @@ if ($input_errors) {
 }
 
 if (is_subsystem_dirty('interfaces')) {
-	print_apply_box(sprintf(gettext("The %s configuration has been changed."), $wancfg['descr']) . "<br />" .
-					gettext("The changes must be applied to take effect.") . "<br />" .
-					gettext("Don't forget to adjust the DHCP Server range if needed after applying."));
+	print_apply_box(sprintf(gettext("%s 구성이 변경되었습니다."), $wancfg['descr']) . "<br />" .
+					gettext("변경사항을 저장하시면 적용됩니다.") . "<br />" .
+					gettext("신청 후에 필요한 경우 DHCP 서버 범위를 조정하는 것을 잊지 마십시오."));
 }
 
 if ($changes_applied) {
@@ -2752,7 +2755,7 @@ $section->addInput(new Form_Select(
 	'pppoe-reset-type',
 	'Periodic reset',
 	$pconfig['pppoe-reset-type'],
-	['' => gettext('Disabled'), 'custom' => gettext('Custom'), 'preset' => gettext('Pre-set')]
+	['' => gettext('비활성화'), 'custom' => gettext('커스텀'), 'preset' => gettext('사전 설정')]
 ))->setHelp('Select a reset timing type.');
 
 $group = new Form_Group('Custom reset');
@@ -3059,7 +3062,7 @@ if (isset($wancfg['wireless'])) {
 		'reglocation',
 		'Location',
 		$pconfig['reglocation'],
-		['' => gettext('Default'), 'indoor' => gettext('Indoor'), 'outdoor' => gettext('Outdoor'), 'anywhere' => gettext('Anywhere')]
+		['' => gettext('기본'), 'indoor' => gettext('내부'), 'outdoor' => gettext('외부'), 'anywhere' => gettext('Anywhere')]
 	))->setHelp('These settings may affect which channels are available and the maximum transmit power allowed on those channels. ' .
 				'Using the correct settings to comply with local regulatory requirements is recommended.%1$s' .
 				'All wireless networks on this interface will be temporarily brought down when changing regulatory settings.  ' .
