@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-loadbalancer-monitor-edit
 ##|*NAME=Services: Load Balancer: Monitor: Edit
@@ -76,23 +81,23 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "name type descr");
-	$reqdfieldsn = array(gettext("Name"), gettext("Type"), gettext("Description"));
+	$reqdfieldsn = array(gettext("이름"), gettext("타입"), gettext("Description"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	/* Ensure that our monitor names are unique */
 	for ($i = 0; isset($config['load_balancer']['monitor_type'][$i]); $i++) {
 		if (($_POST['name'] == $config['load_balancer']['monitor_type'][$i]['name']) && ($i != $id)) {
-			$input_errors[] = gettext("This monitor name has already been used.  Monitor names must be unique.");
+			$input_errors[] = gettext("이 모니터 이름은 이미 사용중입니다.");
 		}
 	}
 
 	if (preg_match('/[ \/]/', $_POST['name'])) {
-		$input_errors[] = gettext("Spaces or slashes cannot be used in the 'name' field.");
+		$input_errors[] = gettext("'이름'필드에는 공백이나 슬래시를 사용할 수 없습니다.");
 	}
 
 	if (strlen($_POST['name']) > 16) {
-		$input_errors[] = gettext("The 'name' field must be 16 characters or less.");
+		$input_errors[] = gettext("'이름'필드는 16 자 이하 여야합니다.");
 	}
 
 	switch ($_POST['type']) {
@@ -107,17 +112,17 @@ if ($_POST['save']) {
 			if (is_array($pconfig['options'])) {
 				if (isset($pconfig['options']['host']) && $pconfig['options']['host'] != "") {
 					if (!is_hostname($pconfig['options']['host'])) {
-						$input_errors[] = gettext("The hostname can only contain the characters A-Z, 0-9 and '-'.");
+						$input_errors[] = gettext("호스트 이름에는 문자 A-Z, 0-9 및 '-'만 사용할 수 있습니다.");
 					}
 				}
 				if (isset($pconfig['options']['code']) && $pconfig['options']['code'] != "") {
 					// Check code
 					if (!is_rfc2616_code($pconfig['options']['code'])) {
-						$input_errors[] = gettext("HTTP(s) codes must be from RFC2616.");
+						$input_errors[] = gettext("HTTP(s) 코드는 RFC2616에 있어야합니다.");
 					}
 				}
 				if (!isset($pconfig['options']['path']) || $pconfig['options']['path'] == "") {
-					$input_errors[] = gettext("The path to monitor must be set.");
+					$input_errors[] = gettext("모니터 할 경로를 설정해야합니다.");
 				}
 			}
 			break;
@@ -141,7 +146,7 @@ if ($_POST['save']) {
 			$monent = $a_monitor[$id];
 		}
 		if ($monent['name'] != "") {
-			$changedesc .= " " . sprintf(gettext("modified '%s' monitor:"), $monent['name']);
+			$changedesc .= " " . sprintf(gettext("수정 된 '%s'모니터 :"), $monent['name']);
 		}
 
 		update_if_changed("name", $monent['name'], $pconfig['name']);
@@ -192,12 +197,12 @@ if ($_POST['save']) {
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("Load Balancer"), gettext("Monitors"), gettext("Edit"));
+$pgtitle = array(gettext("Services"), gettext("로드 밸런서"), gettext("모니터"), gettext("편집"));
 $pglinks = array("", "load_balancer_pool.php", "load_balancer_monitor.php", "@self");
 $shortcut_section = "relayd";
 
 include("head.inc");
-$types = array("icmp" => gettext("ICMP"), "tcp" => gettext("TCP"), "http" => gettext("HTTP"), "https" => gettext("HTTPS"), "send" => gettext("Send/Expect"));
+$types = array("icmp" => gettext("ICMP"), "tcp" => gettext("TCP"), "http" => gettext("HTTP"), "https" => gettext("HTTPS"), "send" => gettext("전송/확인"));
 
 ?>
 
