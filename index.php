@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-login-logout
 ##|*NAME=System: Login / Logout / Dashboard
