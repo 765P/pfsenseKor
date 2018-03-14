@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-authservers
 ##|*NAME=System: Authentication Servers
@@ -52,7 +57,7 @@ if ($_REQUEST['ajax']) {
 	$ous = ldap_get_user_ous(true, $authcfg);
 
 	if (empty($ous)) {
-		print('<span class="text-danger">Could not connect to the LDAP server. Please check the LDAP configuration.</span>');
+		print('<span class="text-danger">LDAP 서버에 연결할 수 없습니다. LDAP 구성을 확인하십시오.</span>');
 	} else {
 		$modal = new Modal("Select LDAP containers for authentication", "containers", true);
 		$group = new Form_MultiCheckboxGroup('Containers');
@@ -133,7 +138,7 @@ if ($_POST['act'] == "del") {
 	unset($a_server[$_POST['id']]);
 	$a_server = array_values($a_server);
 
-	$savemsg = sprintf(gettext("Authentication Server %s deleted."), htmlspecialchars($serverdeleted));
+	$savemsg = sprintf(gettext("인증 서버 %s이(가) 삭제되었습니다."), htmlspecialchars($serverdeleted));
 	write_config($savemsg);
 }
 
@@ -221,74 +226,74 @@ if ($_POST['save']) {
 			"ldap_attr_user ldap_attr_group ldap_attr_member ldapauthcontainers");
 
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Type"),
-			gettext("Hostname or IP"),
-			gettext("Port value"),
-			gettext("Transport"),
-			gettext("Protocol version"),
-			gettext("Search level"),
-			gettext("User naming Attribute"),
-			gettext("Group naming Attribute"),
-			gettext("Group member attribute"),
-			gettext("Authentication container"));
+			gettext("기술적인 이름"),
+			gettext("타입"),
+			gettext("호스트이름 혹은 IP"),
+			gettext("포트값"),
+			gettext("트랜스포트"),
+			gettext("프로토콜 버전"),
+			gettext("레벨 검색"),
+			gettext("사용자 이름 지정 속성"),
+			gettext("그룹 이름 지정 속성"),
+			gettext("그룹멤버 속성"),
+			gettext("인증 컨테이너"));
 
 		if (!$pconfig['ldap_anon']) {
 			$reqdfields[] = "ldap_binddn";
 			$reqdfields[] = "ldap_bindpw";
-			$reqdfieldsn[] = gettext("Bind user DN");
-			$reqdfieldsn[] = gettext("Bind Password");
+			$reqdfieldsn[] = gettext("유저DN 바인딩");
+			$reqdfieldsn[] = gettext("패스워드 바인딩");
 		}
 	}
 
 	if ($pconfig['type'] == "radius") {
 		$reqdfields = explode(" ", "name type radius_protocol radius_host radius_srvcs");
 		$reqdfieldsn = array(
-			gettext("Descriptive name"),
-			gettext("Type"),
-			gettext("Radius Protocol"),
-			gettext("Hostname or IP"),
-			gettext("Services"));
+			gettext("기술적인 이름"),
+			gettext("타입"),
+			gettext("반경 프로토콜"),
+			gettext("호스트이름 혹은 IP"),
+			gettext("서비스"));
 
 		if ($pconfig['radius_srvcs'] == "both" ||
 			$pconfig['radius_srvcs'] == "auth") {
 			$reqdfields[] = "radius_auth_port";
-			$reqdfieldsn[] = gettext("Authentication port");
+			$reqdfieldsn[] = gettext("인증 포트");
 		}
 
 		if ($pconfig['radius_srvcs'] == "both" ||
 			$pconfig['radius_srvcs'] == "acct") {
 			$reqdfields[] = "radius_acct_port";
-			$reqdfieldsn[] = gettext("Accounting port");
+			$reqdfieldsn[] = gettext("회계 포트");
 		}
 
 		if (!isset($id)) {
 			$reqdfields[] = "radius_secret";
-			$reqdfieldsn[] = gettext("Shared Secret");
+			$reqdfieldsn[] = gettext("공유된 비밀");
 		}
 	}
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (preg_match("/[^a-zA-Z0-9\.\-_]/", $_POST['host'])) {
-		$input_errors[] = gettext("The host name contains invalid characters.");
+		$input_errors[] = gettext("호스트 이름에 잘못된 문자가 있습니다.");
 	}
 
 	if (auth_get_authserver($pconfig['name']) && !isset($id)) {
-		$input_errors[] = gettext("An authentication server with the same name already exists.");
+		$input_errors[] = gettext("같은 이름의 인증 서버가 이미 있습니다.");
 	}
 
 	if (($pconfig['type'] == "ldap") || ($pconfig['type'] == "radius")) {
 		$to_field = "{$pconfig['type']}_timeout";
 		if (isset($_POST[$to_field]) && !empty($_POST[$to_field]) && (!is_numeric($_POST[$to_field]) || (is_numeric($_POST[$to_field]) && ($_POST[$to_field] <= 0)))) {
-			$input_errors[] = sprintf(gettext("%s Timeout value must be numeric and positive."), strtoupper($pconfig['type']));
+			$input_errors[] = sprintf(gettext("%s 시간 초과 값은 숫자와 양수 여야합니다."), strtoupper($pconfig['type']));
 		}
 	}
 
 	// https://redmine.pfsense.org/issues/4154
 	if ($pconfig['type'] == "radius") {
 		if (is_ipaddrv6($_POST['radius_host'])) {
-			$input_errors[] = gettext("IPv6 does not work for RADIUS authentication, see Bug #4154.");
+			$input_errors[] = gettext("IPv6은 RADIUS 인증을 위해 작동하지 않습니다. 버그 # 4154를 참조하십시오.");
 		}
 	}
 
@@ -404,11 +409,11 @@ if ($_POST && $input_errors) {
 	$pconfig['ldap_template'] = $_POST['ldap_tmpltype'];
 }
 
-$pgtitle = array(gettext("System"), gettext("User Manager"), gettext("Authentication Servers"));
+$pgtitle = array(gettext("시스템"), gettext("유저 매니저"), gettext("인증 서버"));
 $pglinks = array("", "system_usermanager.php", "system_authservers.php");
 
 if ($act == "new" || $act == "edit" || $input_errors) {
-	$pgtitle[] = gettext('Edit');
+	$pgtitle[] = gettext('편집');
 	$pglinks[] = "@self";
 }
 $shortcut_section = "authentication";
@@ -423,24 +428,24 @@ if ($savemsg) {
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("Users"), false, "system_usermanager.php");
-$tab_array[] = array(gettext("Groups"), false, "system_groupmanager.php");
-$tab_array[] = array(gettext("Settings"), false, "system_usermanager_settings.php");
-$tab_array[] = array(gettext("Authentication Servers"), true, "system_authservers.php");
+$tab_array[] = array(gettext("유저"), false, "system_usermanager.php");
+$tab_array[] = array(gettext("그룹"), false, "system_groupmanager.php");
+$tab_array[] = array(gettext("설정"), false, "system_usermanager_settings.php");
+$tab_array[] = array(gettext("인증 서버"), true, "system_authservers.php");
 display_top_tabs($tab_array);
 
 if (!($act == "new" || $act == "edit" || $input_errors)) {
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('Authentication Servers')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('인증 서버')?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap table-rowdblclickedit" data-sortable>
 				<thead>
 					<tr>
-						<th><?=gettext("Server Name")?></th>
-						<th><?=gettext("Type")?></th>
-						<th><?=gettext("Host Name")?></th>
+						<th><?=gettext("서버 이름")?></th>
+						<th><?=gettext("타입")?></th>
+						<th><?=gettext("호스트이름")?></th>
 						<th><?=gettext("Actions")?></th>
 					</tr>
 				</thead>
@@ -452,8 +457,8 @@ if (!($act == "new" || $act == "edit" || $input_errors)) {
 						<td><?=htmlspecialchars($server['host'])?></td>
 						<td>
 						<?php if ($i < (count($a_server) - 1)): ?>
-							<a class="fa fa-pencil" title="<?=gettext("Edit server"); ?>" href="system_authservers.php?act=edit&amp;id=<?=$i?>"></a>
-							<a class="fa fa-trash"  title="<?=gettext("Delete server")?>" href="system_authservers.php?act=del&amp;id=<?=$i?>" usepost></a>
+							<a class="fa fa-pencil" title="<?=gettext("서버 편집"); ?>" href="system_authservers.php?act=edit&amp;id=<?=$i?>"></a>
+							<a class="fa fa-trash"  title="<?=gettext("서버 삭제")?>" href="system_authservers.php?act=del&amp;id=<?=$i?>" usepost></a>
 						<?php endif?>
 						</td>
 					</tr>
@@ -467,7 +472,7 @@ if (!($act == "new" || $act == "edit" || $input_errors)) {
 <nav class="action-buttons">
 	<a href="?act=new" class="btn btn-success btn-sm">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 <?php
@@ -813,14 +818,14 @@ events.push(function() {
 			document.getElementById("ldap_scope").value == '' ||
 			document.getElementById("ldap_basedn").value == '' ||
 			document.getElementById("ldapauthcontainers").value == '') {
-			alert("<?=gettext("Please fill the required values.");?>");
+			alert("<?=gettext("필수 값을 입력하십시오.");?>");
 			return;
 		}
 
 		if (!document.getElementById("ldap_anon").checked) {
 			if (document.getElementById("ldap_binddn").value == '' ||
 				document.getElementById("ldap_bindpw").value == '') {
-				alert("<?=gettext("Please fill the bind username/password.");?>");
+				alert("<?=gettext("바인드 사용자 이름과 암호를 입력하십시오.");?>");
 				return;
 			}
 		}
