@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 추가
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-gif-edit
 ##|*NAME=Interfaces: GIF: Edit
@@ -57,42 +62,42 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "if remote-addr tunnel-local-addr tunnel-remote-addr tunnel-remote-net");
-	$reqdfieldsn = array(gettext("Parent interface"), gettext("gif remote address"), gettext("gif tunnel local address"), gettext("gif tunnel remote address"), gettext("gif tunnel remote netmask"));
+	$reqdfieldsn = array(gettext("상위 인터페이스"), gettext("gif 원격 주소"), gettext("gif 터널 로컬 주소"), gettext("gif 터널 로컬 주소"), gettext("gif 터널 원격 주소"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ((!is_ipaddr($_POST['tunnel-local-addr']) || is_subnet($_POST['tunnel-local-addr'])) ||
 	    (!is_ipaddr($_POST['tunnel-remote-addr']) || is_subnet($_POST['tunnel-remote-addr'])) ||
 	    (!is_ipaddr($_POST['remote-addr']) || is_subnet($_POST['remote-addr']))) {
-		$input_errors[] = gettext("The tunnel local and tunnel remote fields must have valid IP addresses and must not contain CIDR masks or prefixes.");
+		$input_errors[] = gettext("터널 로컬 및 터널 원격 필드는 유효한 IP 주소를 가져야하며 CIDR 마스크 또는 접두사를 포함해서는 안됩니다.");
 	}
 
 	if (!is_numericint($_POST['tunnel-remote-net'])) {
-		$input_errors[] = gettext("The gif tunnel subnet must be an integer.");
+		$input_errors[] = gettext("GIF 터널 서브넷은 정수 여야합니다.");
 	}
 
 	if (is_ipaddrv4($_POST['tunnel-local-addr'])) {
 		if (!is_ipaddrv4($_POST['tunnel-remote-addr'])) {
-			$input_errors[] = gettext("The gif tunnel remote address must be IPv4 where tunnel local address is IPv4.");
+			$input_errors[] = gettext("GIF 터널 원격 주소는 터널 로컬 주소가 IPv4 인 IPv4 여야합니다.");
 		}
 		if ($_POST['tunnel-remote-net'] > 32 || $_POST['tunnel-remote-net'] < 1) {
-			$input_errors[] = gettext("The gif tunnel subnet must be an integer between 1 and 32.");
+			$input_errors[] = gettext("GIF 터널 서브넷은 1에서 32 사이의 정수 여야합니다.");
 		}
 	}
 
 	if (is_ipaddrv6($_POST['tunnel-local-addr'])) {
 		if (!is_ipaddrv6($_POST['tunnel-remote-addr'])) {
-			$input_errors[] = gettext("The gif tunnel remote address must be IPv6 where tunnel local address is IPv6.");
+			$input_errors[] = gettext("GIF 터널 원격 주소는 터널 로컬 주소가 IPv6 인 IPv6이어야합니다.");
 		}
 		if ($_POST['tunnel-remote-net'] > 128 || $_POST['tunnel-remote-net'] < 1) {
-			$input_errors[] = gettext("The gif tunnel subnet must be an integer between 1 and 128.");
+			$input_errors[] = gettext("GIF 터널 서브넷은 1에서 128 사이의 정수 여야합니다.");
 		}
 	}
 
 	$alias = strstr($_POST['if'], '|');
 	if ((is_ipaddrv4($alias) && !is_ipaddrv4($_POST['remote-addr'])) ||
 	    (is_ipaddrv6($alias) && !is_ipaddrv6($_POST['remote-addr']))) {
-		$input_errors[] = gettext("The alias IP address family has to match the family of the remote peer address.");
+		$input_errors[] = gettext("별칭 IP 주소 패밀리는 원격 피어 주소 패밀리와 일치해야합니다.");
 	}
 
 	foreach ($a_gifs as $gif) {
@@ -102,7 +107,7 @@ if ($_POST['save']) {
 
 		/* FIXME: needs to perform proper subnet checks in the future */
 		if (($gif['if'] == $interface) && ($gif['tunnel-remote-addr'] == $_POST['tunnel-remote-addr'])) {
-			$input_errors[] = sprintf(gettext("A gif with the network %s is already defined."), $gif['tunnel-remote-addr']);
+			$input_errors[] = sprintf(gettext("네트워크 %s이(가)있는 gif가 이미 정의되어 있습니다."), $gif['tunnel-remote-addr']);
 			break;
 		}
 	}
@@ -125,7 +130,7 @@ if ($_POST['save']) {
 		$gif['gifif'] = interface_gif_configure($gif);
 
 		if ($gif['gifif'] == "" || !stristr($gif['gifif'], "gif")) {
-			$input_errors[] = gettext("Error occurred creating interface, please retry.");
+			$input_errors[] = gettext("인터페이스를 생성하는 동안 오류가 발생했습니다. 다시 시도하십시오.");
 		} else {
 			if (isset($id) && $a_gifs[$id]) {
 				$a_gifs[$id] = $gif;
@@ -157,7 +162,7 @@ function build_parent_list() {
 	return($parentlist);
 }
 
-$pgtitle = array(gettext("Interfaces"), gettext("GIFs"), gettext("Edit"));
+$pgtitle = array(gettext("인터페이스"), gettext("GIFs"), gettext("편집"));
 $pglinks = array("", "interfaces_gif.php", "@self");
 $shortcut_section = "interfaces";
 include("head.inc");
