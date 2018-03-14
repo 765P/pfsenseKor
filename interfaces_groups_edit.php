@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-interfaces-groups-edit
 ##|*NAME=Interfaces: Groups: Edit
@@ -30,7 +35,7 @@
 require_once("guiconfig.inc");
 require_once("functions.inc");
 
-$pgtitle = array(gettext("Interfaces"), gettext("Interface Groups"), gettext("Edit"));
+$pgtitle = array(gettext("인터페이스"), gettext("인터페이스 그룹"), gettext("편집"));
 $pglinks = array("", "interfaces_groups.php", "@self");
 $shortcut_section = "interfaces";
 
@@ -49,8 +54,8 @@ if (isset($id) && $a_ifgroups[$id]) {
 
 $interface_list = get_configured_interface_with_descr();
 $interface_list_disabled = get_configured_interface_with_descr(true);
-$ifname_allowed_chars_text = gettext("Only letters (A-Z), digits (0-9) and '_' are allowed.");
-$ifname_no_digit_text = gettext("The group name cannot end with a digit.");
+$ifname_allowed_chars_text = gettext("글자(A-Z), 숫자(0-9) 및 '_'만 허용됩니다.");
+$ifname_no_digit_text = gettext("그룹 이름은 숫자로 끝날 수 없습니다.");
 
 
 if ($_POST['save']) {
@@ -59,22 +64,22 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "ifname");
-	$reqdfieldsn = array(gettext("Group Name"));
+	$reqdfieldsn = array(gettext("그룹 이름"));
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (!$input_errors) {
 		foreach ($a_ifgroups as $groupid => $groupentry) {
 			if ((!isset($id) || ($groupid != $id)) && ($groupentry['ifname'] == $_POST['ifname'])) {
-				$input_errors[] = gettext("Group name already exists!");
+				$input_errors[] = gettext("그룹 이름이 이미 있습니다!");
 			}
 		}
 
 		if (strlen($_POST['ifname']) > 16) {
-			$input_errors[] = gettext("Group name cannot have more than 16 characters.");
+			$input_errors[] = gettext("그룹 이름은 16자를 초과 할 수 없습니다.");
 		}
 
 		if (preg_match("/([^a-zA-Z0-9_])+/", $_POST['ifname'])) {
-			$input_errors[] = $ifname_allowed_chars_text . " " . gettext("Please choose another group name.");
+			$input_errors[] = $ifname_allowed_chars_text . " " . gettext("다른 그룹 이름을 설정하십시오.");
 		}
 
 		if (preg_match("/[0-9]$/", $_POST['ifname'])) {
@@ -86,12 +91,12 @@ if ($_POST['save']) {
 		 * namespace pkg_ for them
 		 */
 		if (substr($_POST['ifname'], 0, 4) == 'pkg_') {
-			$input_errors[] = gettext("Group name cannot start with pkg_");
+			$input_errors[] = gettext("그룹 이름은 pkg_로 시작할 수 없습니다.");
 		}
 
 		foreach ($interface_list_disabled as $gif => $gdescr) {
 			if ((strcasecmp($gdescr, $_POST['ifname']) == 0) || (strcasecmp($gif, $_POST['ifname']) == 0)) {
-				$input_errors[] = "The specified group name is already used by an interface. Please choose another name.";
+				$input_errors[] = "현재 지정된 그룹 이름은 이미 인터페이스에서 사용하고 있습니다. 다른 이름을 선택하십시오.";
 			}
 		}
 
@@ -99,7 +104,7 @@ if ($_POST['save']) {
 		if (is_array($config['aliases']['alias'])) {
 			foreach ($config['aliases']['alias'] as $alias) {
 				if ($alias['name'] == $_POST['ifname']) {
-					$input_errors[] = gettext("An alias with this name already exists.");
+					$input_errors[] = gettext("이 이름의 alias가 이미 있습니다.");
 				}
 			}
 		}
