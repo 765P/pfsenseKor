@@ -19,6 +19,10 @@
  * limitations under the License.
  */
 
+/*
+
+*/
+
 require_once("guiconfig.inc");
 require_once("includes/functions.inc.php");
 
