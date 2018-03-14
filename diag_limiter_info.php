@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-limiter-info
 ##|*NAME=Diagnostics: Limiter Info
@@ -28,19 +33,19 @@
 
 require_once("guiconfig.inc");
 
-$pgtitle = array(gettext("Diagnostics"), gettext("Limiter Info"));
+$pgtitle = array(gettext("진단"), gettext("리미터 정보"));
 $shortcut_section = "trafficshaper-limiters";
 
 if ($_REQUEST['getactivity']) {
 	$text = `/sbin/ipfw pipe show`;
 	if ($text == "") {
-		$text = gettext("No limiters were found on this system.");
+		$text = gettext("이 시스템에서 제한 장치를 찾을 수 없습니다.");
 	}
 	echo gettext("Limiters:") . "\n";
 	echo $text;
 	$text = `/sbin/ipfw queue show`;
 	if ($text != "") {
-		echo "\n\n" . gettext("Queues") . ":\n";
+		echo "\n\n" . gettext("큐") . ":\n";
 		echo $text;
 	}
 	exit;
@@ -77,9 +82,9 @@ if ($input_errors) {
 </script>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Limiter Information")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("리미터 정보")?></h2></div>
 	<div class="panel-body">
-		<pre id="xhrOutput"><?=gettext("Gathering Limiter information, please wait...")?></pre>
+		<pre id="xhrOutput"><?=gettext("제한 사항 정보를 수집하는 중입니다. 잠시 기다려 주십시오...")?></pre>
 	</div>
 </div>
 
