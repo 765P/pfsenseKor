@@ -25,6 +25,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dnsresolver-edithost
 ##|*NAME=Services: DNS Resolver: Edit host
@@ -69,26 +74,26 @@ if ($_POST['save']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "domain ip");
-	$reqdfieldsn = array(gettext("Domain"), gettext("IP address"));
+	$reqdfieldsn = array(gettext("도메인"), gettext("IP주소"));
 
 	do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if ($_POST['host']) {
 		if (!is_hostname($_POST['host'])) {
-			$input_errors[] = gettext("The hostname can only contain the characters A-Z, 0-9, '_' and '-'. It may not start or end with '-'.");
+			$input_errors[] = gettext("호스트 이름에는 A-Z, 0-9,'_'및'-'만 포함할 수 있습니다. '-'로 시작하거나 끝나지 않을 수 있습니다.");
 		} else {
 			if (!is_unqualified_hostname($_POST['host'])) {
-				$input_errors[] = gettext("A valid hostname is specified, but the domain name part should be omitted");
+				$input_errors[] = gettext("올바른 호스트 이름이 지정되었지만 도메인 이름 부분은 생략해야 합니다.");
 			}
 		}
 	}
 
 	if (($_POST['domain'] && !is_domain($_POST['domain']))) {
-		$input_errors[] = gettext("A valid domain must be specified.");
+		$input_errors[] = gettext("올바른 도메인을 지정해야 합니다.");
 	}
 
 	if (($_POST['ip'] && !is_ipaddr($_POST['ip']))) {
-		$input_errors[] = gettext("A valid IP address must be specified.");
+		$input_errors[] = gettext("올바른 IP주소를 지정해야 합니다.");
 	}
 
 	/* collect aliases */
@@ -122,15 +127,15 @@ if ($_POST['save']) {
 
 			if ($alias['host']) {
 				if (!is_hostname($alias['host'])) {
-					$input_errors[] = gettext("Hostnames in an alias list can only contain the characters A-Z, 0-9 and '-'. They may not start or end with '-'.");
+					$input_errors[] = gettext("not start or end with '-'.");
 				} else {
 					if (!is_unqualified_hostname($alias['host'])) {
-						$input_errors[] = gettext("A valid alias hostname is specified, but the domain name part should be omitted");
+						$input_errors[] = gettext("별칭 목록의 호스트 이름에는 A-Z, 0-9및'-'문자만 포함될 수 있습니다. '-'로 시작하거나 끝나지 않습니다.");
 					}
 				}
 			}
 			if (($alias['domain'] && !is_domain($alias['domain']))) {
-				$input_errors[] = gettext("A valid domain must be specified in alias list.");
+				$input_errors[] = gettext("별칭 목록에 올바른 도메인을 지정해야 합니다.");
 			}
 		}
 	}
@@ -144,11 +149,11 @@ if ($_POST['save']) {
 		if (($hostent['host'] == $_POST['host']) &&
 		    ($hostent['domain'] == $_POST['domain'])) {
 			if (is_ipaddrv4($hostent['ip']) && is_ipaddrv4($_POST['ip'])) {
-				$input_errors[] = gettext("This host/domain override combination already exists with an IPv4 address.");
+				$input_errors[] = gettext("이 호스트/도메인 재정의 조합이 IPv4주소와 함께 이미 있습니다.");
 				break;
 			}
 			if (is_ipaddrv6($hostent['ip']) && is_ipaddrv6($_POST['ip'])) {
-				$input_errors[] = gettext("This host/domain override combination already exists with an IPv6 address.");
+				$input_errors[] = gettext("이 호스트/도메인 재정의 조합이 IPv6주소와 함께 이미 있습니다.");
 				break;
 			}
 		}
@@ -171,14 +176,14 @@ if ($_POST['save']) {
 
 		mark_subsystem_dirty('unbound');
 
-		write_config(gettext("Host override configured for DNS Resolver."));
+		write_config(gettext("DNS확인자에 대해 구성된 호스트 재정의입니다."));
 
 		header("Location: services_unbound.php");
 		exit;
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("DNS Resolver"), gettext("General Settings"), gettext("Edit Host Override"));
+$pgtitle = array(gettext("Services"), gettext("DNS 확인자"), gettext("일반세팅"), gettext("호스트 오버라이드 편집"));
 $pglinks = array("", "services_unbound.php", "services_unbound.php", "@self");
 $shortcut_section = "resolver";
 include("head.inc");
@@ -233,12 +238,11 @@ if (isset($id) && $a_hosts[$id]) {
 $section->addInput(new Form_StaticText(
 	'',
 	'<span class="help-block">' .
-	gettext("This page is used to override the usual lookup process for a specific host. A host is defined by its name " .
-		"and parent domain (e.g., 'somesite.google.com' is entered as host='somesite' and parent domain='google.com'). Any " .
-		"attempt to lookup that host will automatically return the given IP address, and any usual external lookup server for " .
-		"the domain will not be queried. Both the name and parent domain can contain 'non-standard', 'invalid' and 'local' " .
-		"domains such as 'test', 'mycompany.localdomain', or '1.168.192.in-addr.arpa', as well as usual publicly resolvable names ".
-		"such as 'www' or 'google.co.uk'.") .
+	gettext("이 페이지는 특정 호스트에 대한 일반적인 검색 프로세스를 재정의하는 데 사용됩니다. 호스트는 이름과 상위 도메인에 의해 정의됩니다" .
+		"(예:'somesite.google.com'이 호스트='somesite'및 상위 도메인='google.com'으로 입력됨). " .
+		"해당 호스트를 검색하려고하면 지정된 IP 주소가 자동으로 반환되고 도메인의 일반적인 외부 조회 서버는 쿼리되지 않습니다. " .
+		"이름과 상위 도메인 모두 'test', 'mycompany.localdomain'또는 '1.168.192.in-addr.arpa'와 같은  " .
+		"'non-standard', 'invalid'및 'local'도메인뿐만 아니라 'www'또는 'google.co.uk'과 같이 공개적으로 확인할 수있는 이름을 포함 할 수 있습니다.") .
 	'</span>'
 ));
 
@@ -301,7 +305,7 @@ $form->addGlobal(new Form_Button(
 $section->addInput(new Form_StaticText(
 	'',
 	'<span class="help-block">'.
-	gettext("If the host can be accessed using multiple names, then enter any other names for the host which should also be overridden.") .
+	gettext("여러 이름을 사용하여 호스트에 액세스 할 수 있으면 대체해야하는 호스트의 다른 이름을 입력하십시오.") .
 	'</span>'
 ));
 
