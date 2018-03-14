@@ -31,8 +31,8 @@
 ##|-PRIV
 
 // Message to display if the session times out and an AJAX call is made
-$timeoutmessage = gettext("The dashboard web session has timed out.\\n" .
-	"It will not update until you refresh the page and log-in again.");
+$timeoutmessage = gettext("대시 보드 웹 세션 시간이 초과되었습니다.\\n" .
+	"페이지를 새로 고침하고 다시 로그인 할 때까지 업데이트되지 않습니다.");
 
 // Turn on buffering to speed up rendering
 ini_set('output_buffering', 'true');
@@ -78,11 +78,11 @@ if ($g['disablecrashreporter'] != true) {
 		}
 
 		if ($x > 0) {
-			$savemsg = sprintf(gettext("%s has detected a crash report or programming bug."), $g['product_name']) . " ";
+			$savemsg = sprintf(gettext("%s이(가) 프로그래밍 버그를 감지했습니다."), $g['product_name']) . " ";
 			if (isAllowedPage("/crash_reporter.php")) {
-				$savemsg .= sprintf(gettext('Click %1$shere%2$s for more information.'), '<a href="crash_reporter.php">', '</a>');
+				$savemsg .= sprintf(gettext('자세한 내용을 보려면 %1$s여기%2$s를 클릭하십시오.'), '<a href="crash_reporter.php">', '</a>');
 			} else {
-				$savemsg .= sprintf(gettext("Contact a firewall administrator for more information."));
+				$savemsg .= sprintf(gettext("자세한 정보는 방화벽 관리자에게 문의하십시오."));
 			}
 			$class = "warning";
 		}
@@ -236,10 +236,10 @@ if (file_exists('/conf/trigger_initial_wizard')) {
 			<div class="container">
 				<div class="col-sm-offset-3 col-sm-6 col-xs-12">
 					<font color="white">
-					<p><h3><?=sprintf(gettext("Welcome to %s!") . "\n", $g['product_name'])?></h3></p>
-					<p><?=gettext("One moment while the initial setup wizard starts.")?></p>
-					<p><?=gettext("Embedded platform users: Please be patient, the wizard takes a little longer to run than the normal GUI.")?></p>
-					<p><?=sprintf(gettext("To bypass the wizard, click on the %s logo on the initial page."), $g['product_name'])?></p>
+					<p><h3><?=sprintf(gettext("%s에 어서오십시오.") . "\n", $g['product_name'])?></h3></p>
+					<p><?=gettext("초기 설정 마법사가 시작되는 동안 잠시 기다려주십시오.")?></p>
+					<p><?=gettext("임베디드 플랫폼 사용자: 마법사는 일반적인 GUI보다 실행 시간이 약간 더 걸립니다.")?></p>
+					<p><?=sprintf(gettext("마법사를 건너 뛰려면 초기 페이지에서 %s 로고를 클릭하십시오."), $g['product_name'])?></p>
 					</font>
 				</div>
 			</div>
@@ -360,7 +360,7 @@ if ($dashboard_available_widgets_hidden) {
 }
 
 ## Set Page Title and Include Header
-$pgtitle = array(gettext("Status"), gettext("Dashboard"));
+$pgtitle = array(gettext("Status"), gettext("대시보드"));
 include("head.inc");
 
 if ($savemsg) {
@@ -373,7 +373,7 @@ pfSense_handle_custom_code("/usr/local/pkg/dashboard/pre_dashboard");
 
 <div class="panel panel-default collapse <?=$panel_state?>" id="widget-available">
 	<div class="panel-heading">
-		<h2 class="panel-title"><?=gettext("Available Widgets"); ?>
+		<h2 class="panel-title"><?=gettext("사용 가능한 위젯"); ?>
 			<span class="widget-heading-icon">
 				<a data-toggle="collapse" href="#widget-available_panel-body" id="widgets-available">
 					<i class="fa fa-plus-circle"></i>
@@ -400,7 +400,7 @@ foreach ($available as $widgetkey => $widgetconfig):
 endforeach;
 ?>
 			</div>
-<p style="text-align:center"><?=sprintf(gettext('Other dashboard settings are available from the <a href="%s">General Setup</a> page.'), '/system.php')?></p>
+<p style="text-align:center"><?=sprintf(gettext('기타 대시 보드 설정은 <a href="%s">일반 설정</a> 페이지에서 사용할 수 있습니다.'), '/system.php')?></p>
 		</div>
 	</div>
 </div>
@@ -653,7 +653,7 @@ events.push(function() {
 	// provide a warning message if the user tries to change page before saving
 	$(window).bind('beforeunload', function(){
 		if (dirty) {
-			return ("<?=gettext('One or more widgets have been moved but have not yet been saved')?>");
+			return ("<?=gettext('하나 이상의 위젯이 이동되었지만 아직 저장되지 않았습니다.')?>");
 		} else {
 			return undefined;
 		}
