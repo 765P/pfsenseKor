@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dnsresolver-advanced
 ##|*NAME=Services: DNS Resolver: Advanced
@@ -95,43 +100,43 @@ if ($_POST) {
 		$pconfig = $_POST;
 
 		if (isset($_POST['msgcachesize']) && !in_array($_POST['msgcachesize'], array('4', '10', '20', '50', '100', '250', '512'), true)) {
-			$input_errors[] = gettext("A valid value for Message Cache Size must be specified.");
+			$input_errors[] = gettext("메시지 캐시 크기에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['outgoing_num_tcp']) && !in_array($_POST['outgoing_num_tcp'], array('0', '10', '20', '30', '40', '50'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for Outgoing TCP Buffers.");
+			$input_errors[] = gettext("보내는 TCP 버퍼에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['incoming_num_tcp']) && !in_array($_POST['incoming_num_tcp'], array('0', '10', '20', '30', '40', '50'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for Incoming TCP Buffers.");
+			$input_errors[] = gettext("들어오는 TCP 버퍼에 유효한 값을 지정해야 합니다.");
 		}
 		if (isset($_POST['edns_buffer_size']) && !in_array($_POST['edns_buffer_size'], array('512', '1480', '4096'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for EDNS Buffer Size.");
+			$input_errors[] = gettext("EDNS 버퍼 크기에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['num_queries_per_thread']) && !in_array($_POST['num_queries_per_thread'], array('512', '1024', '2048'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for Number of Queries per Thread.");
+			$input_errors[] = gettext("스레드당 조회 수에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['jostle_timeout']) && !in_array($_POST['jostle_timeout'], array('100', '200', '500', '1000'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for Jostle Timeout.");
+			$input_errors[] = gettext("Jostle Timeout에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['cache_max_ttl']) && (!is_numericint($_POST['cache_max_ttl']) || ($_POST['cache_max_ttl'] < 0))) {
-			$input_errors[] = gettext("'Maximum TTL for RRsets and Messages' must be a positive integer.");
+			$input_errors[] = gettext("'RRsets 및 메시지의 최대 TTL'은 양의 정수 여야합니다.");
 		}
 		if (isset($_POST['cache_min_ttl']) && (!is_numericint($_POST['cache_min_ttl']) || ($_POST['cache_min_ttl'] < 0))) {
-			$input_errors[] = gettext("'Minimum TTL for RRsets and Messages' must be a positive integer.");
+			$input_errors[] = gettext("'RRsets 및 메시지에 대한 최소 TTL'은 양의 정수 여야합니다.");
 		}
 		if (isset($_POST['infra_host_ttl']) && !in_array($_POST['infra_host_ttl'], array('60', '120', '300', '600', '900'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for TTL for Host Cache Entries.");
+			$input_errors[] = gettext("호스트 캐시 항목의 경우 TTL에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['infra_cache_numhosts']) && !in_array($_POST['infra_cache_numhosts'], array('1000', '5000', '10000', '20000', '50000', '100000', '200000'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for Number of Hosts to Cache.");
+			$input_errors[] = gettext("캐시할 호스트 수에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['unwanted_reply_threshold']) && !in_array($_POST['unwanted_reply_threshold'], array('disabled', '5000000', '10000000', '20000000', '40000000', '50000000'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for Unwanted Reply Threshold.");
+			$input_errors[] = gettext("원하지 않는 응답 임계 값에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['log_verbosity']) && !in_array($_POST['log_verbosity'], array('0', '1', '2', '3', '4', '5'), true)) {
-			$input_errors[] = gettext("A valid value must be specified for Log Level.");
+			$input_errors[] = gettext("로그 레벨에 유효한 값을 지정해야합니다.");
 		}
 		if (isset($_POST['dnssecstripped']) && !isset($config['unbound']['dnssec'])) {
-			$input_errors[] = gettext("Harden DNSSEC Data option can only be enabled if DNSSEC support is enabled.");
+			$input_errors[] = gettext("DNSSEC 지원 강화가 설정된 경우에만 DNSSEC 데이터 강화 옵션을 사용할 수 있습니다.");
 		}
 
 		if (!$input_errors) {
@@ -196,14 +201,14 @@ if ($_POST) {
 				unset($config['unbound']['use_caps']);
 			}
 
-			write_config(gettext("DNS Resolver configured."));
+			write_config(gettext("DNS 확인자가 구성되었습니다."));
 
 			mark_subsystem_dirty('unbound');
 		}
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("DNS Resolver"), gettext("Advanced Settings"));
+$pgtitle = array(gettext("Services"), gettext("DNS 확인자"), gettext("어드밴스드 설정"));
 $pglinks = array("", "services_unbound.php", "@self");
 $shortcut_section = "resolver";
 include_once("head.inc");
@@ -217,18 +222,18 @@ if ($_POST['apply']) {
 }
 
 if (is_subsystem_dirty('unbound')) {
-	print_apply_box(gettext("The DNS resolver configuration has been changed.") . "<br />" . gettext("The changes must be applied for them to take effect."));
+	print_apply_box(gettext("DNS 확인자 구성이 변경되었습니다.") . "<br />" . gettext("변경사항을 저장하시면 적용됩니다."));
 }
 
 $tab_array = array();
-$tab_array[] = array(gettext("General Settings"), false, "services_unbound.php");
-$tab_array[] = array(gettext("Advanced Settings"), true, "services_unbound_advanced.php");
-$tab_array[] = array(gettext("Access Lists"), false, "/services_unbound_acls.php");
+$tab_array[] = array(gettext("일반 설정"), false, "services_unbound.php");
+$tab_array[] = array(gettext("고급 설정"), true, "services_unbound_advanced.php");
+$tab_array[] = array(gettext("액세스 리스트"), false, "/services_unbound_acls.php");
 display_top_tabs($tab_array, true);
 
 $form = new Form();
 
-$section = new Form_Section('Advanced Resolver Options');
+$section = new Form_Section('고급 확인자 옵션');
 
 $section->addInput(new Form_Checkbox(
 	'hideidentity',
@@ -359,7 +364,7 @@ $section->addInput(new Form_Select(
 			'and a warning is printed to the log file. This defensive action is to clear the RRSet and message caches, hopefully flushing away any poison. ' .
 			'The default is disabled, but if enabled a value of 10 million is suggested.');
 
-$lvl_word = gettext('Level %s');
+$lvl_word = gettext('%s ');
 $lvl_text = array(
 	'0' => 'No logging',
 	'1' => 'Basic operational information',
