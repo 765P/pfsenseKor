@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.14
+한글화 번역 시작
+*/
+
 /* Include authentication routines */
 /* THIS MUST BE ABOVE ALL OTHER CODE */
 header("X-Frame-Options: SAMEORIGIN");
@@ -130,8 +135,8 @@ $ldap_urltypes = array(
 	'SSL - Encrypted' => 636);
 
 $ldap_scopes = array(
-	'one' => gettext("One Level"),
-	'subtree' => gettext("Entire Subtree"));
+	'one' => gettext("원 레벨"),
+	'subtree' => gettext("전체 서브 트리"));
 
 $ldap_protvers = array(
 	2,
@@ -158,9 +163,9 @@ $ldap_templates = array(
 		'attr_member' => "uniqueMember"));
 
 $radius_srvcs = array(
-	'both' => gettext("Authentication and Accounting"),
-	'auth' => gettext("Authentication"),
-	'acct' => gettext("Accounting"));
+	'both' => gettext("인증 및 회계"),
+	'auth' => gettext("인증"),
+	'acct' => gettext("회계"));
 
 $radius_protocol = array(
 	'PAP' => "PAP",
@@ -226,9 +231,9 @@ $wkports = array(
 $tcpflags = array("fin", "syn", "rst", "psh", "ack", "urg", "ece", "cwr");
 
 $specialnets = array(
-	"(self)" => gettext("This Firewall"),
-	"pppoe" => gettext("PPPoE clients"),
-	"l2tp" => gettext("L2TP clients"));
+	"(self)" => gettext("해당 방화벽"),
+	"pppoe" => gettext("PPPoE 클라이언트"),
+	"l2tp" => gettext("L2TP 클라이언트"));
 
 $spiflist = get_configured_interface_with_descr(true);
 foreach ($spiflist as $ifgui => $ifdesc) {
@@ -238,41 +243,41 @@ foreach ($spiflist as $ifgui => $ifdesc) {
 
 $medias = array(
 	"auto" => gettext("autoselect"),
-	"100full" => gettext("100BASE-TX full-duplex"),
-	"100half" => gettext("100BASE-TX half-duplex"),
-	"10full" => gettext("10BASE-T full-duplex"),
-	"10half" => gettext("10BASE-T half-duplex"));
+	"100full" => gettext("100BASE-TX 풀 듀플렉스"),
+	"100half" => gettext("100BASE-TX 하프 듀플렉스"),
+	"10full" => gettext("10BASE-T 풀 듀플렉스"),
+	"10half" => gettext("10BASE-T 하프 듀플렉스"));
 
 $wlan_modes = array(
-	"bss" => gettext("Infrastructure (BSS)"),
-	"adhoc" => gettext("Ad-hoc (IBSS)"),
-	"hostap" => gettext("Access Point"));
+	"bss" => gettext("하부 구조 (BSS)"),
+	"adhoc" => gettext("애드훅 (IBSS)"),
+	"hostap" => gettext("액세스 지점"));
 
 function do_input_validation($postdata, $reqdfields, $reqdfieldsn, &$input_errors) {
 
 	/* check for bad control characters */
 	foreach ($postdata as $pn => $pd) {
 		if (is_string($pd) && preg_match("/[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]/", $pd)) {
-			$input_errors[] = sprintf(gettext("The field %s contains invalid characters."), $pn);
+			$input_errors[] = sprintf(gettext("필드 %s에 유효하지 않은 문자가 있습니다."), $pn);
 		}
 	}
 
 	for ($i = 0; $i < count($reqdfields); $i++) {
 		if ($postdata[$reqdfields[$i]] == "") {
-			$input_errors[] = sprintf(gettext("The field %s is required."), $reqdfieldsn[$i]);
+			$input_errors[] = sprintf(gettext("필드 %s이(가) 필요합니다."), $reqdfieldsn[$i]);
 		}
 	}
 }
 
 function print_input_errors($input_errors) {
 	echo '<div class="alert alert-danger input-errors">';
-	echo '<p>' . gettext('The following input errors were detected:') . '</p>';
+	echo '<p>' . gettext('다음과 같은 입력 오류가 감지되었습니다.:') . '</p>';
 	echo '<ul>';
 
 	foreach ($input_errors as $ierr) {
 		echo '<li>' . htmlspecialchars($ierr) . '</li>';
 	}
-
+ 
 	echo '</ul>';
 	echo '</div>';
 }
@@ -330,7 +335,7 @@ function print_info_box($msg, $class="alert-warning", $btnname = "close", $btnte
 }
 
 function print_apply_box($msg) {
-	print_info_box($msg, "warning", "apply", gettext("Apply Changes"), 'fa-check', 'success');
+	print_info_box($msg, "warning", "apply", gettext("변경 승인"), 'fa-check', 'success');
 }
 
 // Format and print a box reporting that changes have been applied
@@ -342,10 +347,10 @@ function print_apply_result_box($retval, $extra_text="") {
 	$result_msg = get_std_save_message($retval);
 	if ($retval === 0) {
 		// 0 is success
-		$severity = "success";
+		$severity = "성공";
 	} else {
 		// non-zero means there was some problem
-		$severity = "warning";
+		$severity = "경고";
 	}
 
 	if (strlen($extra_text) > 0) {
@@ -386,10 +391,10 @@ function get_std_save_message($retval) {
 	$filter_pages = array("firewall_aliases", "firewall_nat", "firewall_rules", "status_logs_filter");
 	if ($retval === 0) {
 		// 0 is success
-		$to_return = gettext("The changes have been applied successfully.");
+		$to_return = gettext("변경 사항이 성공적으로 적용되었습니다.");
 	} else {
 		// non-zero means there was some problem
-		$to_return = sprintf(gettext('There was a problem applying the changes. See the %1$sSystem Logs%2$s.'), '<a href=\"status_logs.php\">', '</a>');
+		$to_return = sprintf(gettext('변경 사항을 적용하는 중에 문제가 발생했습니다. %1$s시스템 로그%2$s를보십시오.'), '<a href=\"status_logs.php\">', '</a>');
 	}
 	foreach ($filter_pages as $fp) {
 		if (stristr($_SERVER['SCRIPT_FILENAME'], $fp)) {
@@ -397,8 +402,8 @@ function get_std_save_message($retval) {
 		}
 	}
 	if ($filter_related) {
-		$to_return .= " " . gettext("The firewall rules are now reloading in the background.") . "<br />" .
-		    sprintf(gettext('%1$sMonitor%2$s the filter reload progress.'), "<a href='status_filter_reload.php'>", "</a>");
+		$to_return .= " " . gettext("이제 방화벽 규칙이 백그라운드에서 다시 로드됩니다.") . "<br />" .
+		    sprintf(gettext('%1$s모니터%2$s는 필터 새로 고침 진행률입니다.'), "<a href='status_filter_reload.php'>", "</a>");
 	}
 	return $to_return;
 }
@@ -579,7 +584,7 @@ function genhtmltitle($title, $links=true) {
 
 function gen_customwidgettitle_div($widgettitle) {
 	$divstr = '<div class="form-group">';
-	$divstr .= '  <label for="descr" class="col-sm-4 control-label">' . gettext('Widget title'). '</label>';
+	$divstr .= '  <label for="descr" class="col-sm-4 control-label">' . gettext('위젯 타이틀'). '</label>';
 	$divstr .= '  <div class="col-sm-4">';
 	$divstr .= '    <input type="text" name="descr" id="descr" value="'. $widgettitle . '" class="form-control" />';
 	$divstr .= '  </div>';
@@ -626,9 +631,9 @@ function dump_clog_no_table($logfile, $tail, $withorig = true, $grepfor = "", $g
 		$grepline .= " | /usr/bin/egrep -v " . escapeshellarg(implode("|", $grepinvert));
 	}
 	if (is_dir($logfile)) {
-		$logarr = array(sprintf(gettext("File %s is a directory."), $logfile));
+		$logarr = array(sprintf(gettext("%s는 디렉토리입니다."), $logfile));
 	} elseif (file_exists($logfile) && filesize($logfile) == 0) {
-		$logarr = array(gettext("Log file started."));
+		$logarr = array(gettext("로그 파일이 시작되었습니다."));
 	} else {
 		if ($config['system']['disablesyslogclog']) {
 			exec("cat " . escapeshellarg($logfile) . "{$grepline} | /usr/bin/tail {$sor} -n " . escapeshellarg($tail), $logarr);
@@ -677,9 +682,9 @@ function dump_clog($logfile, $tail, $withorig = true, $grepfor = "", $grepinvert
 		$grepline .= " | /usr/bin/egrep -v " . escapeshellarg(implode("|", $grepinvert));
 	}
 	if (is_dir($logfile)) {
-		$logarr = array(sprintf(gettext("File %s is a directory."), $logfile));
+		$logarr = array(sprintf(gettext("%s는 디렉토리입니다."), $logfile));
 	} elseif (file_exists($logfile) && filesize($logfile) == 0) {
-		$logarr = array(gettext("Log file started."));
+		$logarr = array(gettext("로그 파일이 시작되었습니다."));
 	} else {
 		if ($config['system']['disablesyslogclog']) {
 			exec("cat " . escapeshellarg($logfile) . "{$grepline} | /usr/bin/tail {$sor} -n " . escapeshellarg($tail), $logarr);
@@ -1066,7 +1071,7 @@ function display_top_tabs(& $tab_array, $no_drop_down = false, $type = 'pills', 
 	// If the character count of the tab names is > 670
 	// then show a select item dropdown menubox.
 	if ($tabcharcount > $tab_array_char_limit) {
-		echo gettext("Currently viewing: ");
+		echo gettext("현재보고있는 항목 : ");
 		echo "<select name=\"TabSelect\" onchange=\"tabs_will_go(this)\">\n";
 
 		foreach ($tab_array as $ta) {
@@ -1164,7 +1169,7 @@ function alias_info_popup($alias_id) {
 
 		$content .= '<h5>'. $alias['url'] .'</h5><ul><li>'. implode('</li><li>', $alias_addresses) .'</li></ul>';
 		if ($counter > 10002) {
-			$content .= '<i>'. gettext("listing only first 10k items") .'</i>';
+			$content .= '<i>'. gettext("첫번째 10k항목만 나열") .'</i>';
 		}
 	} else {
 		$alias_addresses = explode (" ", $alias['address']);
@@ -1174,7 +1179,7 @@ function alias_info_popup($alias_id) {
 		$content .= "<table>\n";
 		$content .= "<thead>\n";
 		$content .= "<tr>\n";
-		$content .= "<th>" . gettext("Value") . "</th><th  style='padding-left: 10px;'>" . gettext("Description") . "</th></tr>\n";
+		$content .= "<th>" . gettext("요소") . "</th><th  style='padding-left: 10px;'>" . gettext("Description") . "</th></tr>\n";
 		$content .= "</thead>\n";
 		$content .= "<tbody>\n";
 
