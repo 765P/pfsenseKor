@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-filterreloadstatus
 ##|*NAME=Status: Filter Reload Status
@@ -30,7 +35,7 @@ require_once("globals.inc");
 require_once("guiconfig.inc");
 require_once("functions.inc");
 
-$pgtitle = array(gettext("Status"), gettext("Filter Reload"));
+$pgtitle = array(gettext("상태"), gettext("필터 리로드"));
 $shortcut_section = "firewall";
 
 if (file_exists("{$g['varrun_path']}/filter_reload_status")) {
@@ -56,14 +61,14 @@ include("head.inc");
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("Filter Reload");?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("필터 리로드");?></h2></div>
 	<div class="panel-body">
 		<div class="content">
 			<form action="status_filter_reload.php" method="post" name="filter">
-				<button type="submit" class="btn btn-success" value="<?=gettext("Reload Filter")?>" name="reloadfilter" id="reloadfilter"><i class="fa fa-refresh icon-embed-btn"></i><?=gettext("Reload Filter")?></button>
+				<button type="submit" class="btn btn-success" value="<?=gettext("필터 리로드")?>" name="reloadfilter" id="reloadfilter"><i class="fa fa-refresh icon-embed-btn"></i><?=gettext("필터 리로드")?></button>
 <?php
 if ($config['hasync'] && $config['hasync']["synchronizetoip"] != ""): ?>
-				<button type="submit" class="btn btn-info" value="<?=gettext("Force Config Sync")?>" name="syncfilter" id="syncfilter"><i class="fa fa-clone icon-embed-btn"></i><?=gettext("Force Config Sync")?></button>
+				<button type="submit" class="btn btn-info" value="<?=gettext("강제 구성 동기화")?>" name="syncfilter" id="syncfilter"><i class="fa fa-clone icon-embed-btn"></i><?=gettext("강제 구성 동기화")?></button>
 <?php
 endif;
 ?>
@@ -72,14 +77,14 @@ endif;
 			<div id="doneurl"></div>
 			<br />
 			<div class="panel panel-default">
-				<div class="panel-heading"><h2 class="panel-title"><?=gettext("Reload status")?></h2></div>
+				<div class="panel-heading"><h2 class="panel-title"><?=gettext("새로 고침 상태")?></h2></div>
 				<div class="panel-body" id="status">
 				</div>
 			</div>
 			<br/>
 
 <?php if (!$_REQUEST['user']) { ?>
-			<div id="reloadinfo"><?=gettext("This page will automatically refresh every 3 seconds until the filter is done reloading."); ?></div>
+			<div id="reloadinfo"><?=gettext("이 페이지는 필터가 다시로드 될 때까지 3 초마다 자동으로 새로 고침됩니다."); ?></div>
 <?php } ?>
 
 		</div>
@@ -101,13 +106,13 @@ function update_data(obj) {
 	if (result_text) {
 		$('#status').html('<pre>' + result_text + '</pre>');
 	} else {
-		$('#status').html('<pre>' + '<?=gettext("Obtaining filter status...");?>' + '</pre>');
+		$('#status').html('<pre>' + '<?=gettext("필터 상태 가져 오는 중...");?>' + '</pre>');
 	}
 
 	if (result_text.endsWith("Done\n")) {
 		$('#reloadinfo').css("visibility", "hidden");
 		$('#doneurl').css("visibility", "visible");
-		$('#doneurl').html("<p><a href='status_queues.php'><?=gettext("Queue Status");?><\/a><\/p>");
+		$('#doneurl').html("<p><a href='status_queues.php'><?=gettext("대기열 상태");?><\/a><\/p>");
 		$('#reloadinfo').html("");
 	}  else {
 		window.setTimeout('update_status_thread()', 1500);
