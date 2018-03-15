@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-captiveportal-vouchers
 ##|*NAME=Status: Captive Portal Vouchers
@@ -52,7 +57,7 @@ if (empty($cpzone)) {
 	exit;
 }
 
-$pgtitle = array(gettext("Status"), gettext("Captive Portal"), htmlspecialchars($a_cp[$cpzone]['zone']), gettext("Active Vouchers"));
+$pgtitle = array(gettext("Status"), gettext("Captive Portal"), htmlspecialchars($a_cp[$cpzone]['zone']), gettext("활성 바우처"));
 $pglinks = array("", "status_captiveportal.php", "status_captiveportal.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal-vouchers";
 
@@ -91,25 +96,25 @@ foreach ($a_roll as $rollent) {
 include("head.inc");
 
 $tab_array = array();
-$tab_array[] = array(gettext("Active Users"), false, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Active Vouchers"), true, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Voucher Rolls"), false, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Test Vouchers"), false, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Expire Vouchers"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("활성 유저"), false, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("활성 바우처"), true, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("바우처 롤"), false, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("테스트 바우처"), false, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("만료 바우처"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
 display_top_tabs($tab_array);
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=sprintf(gettext("Vouchers in Use (%d)"), count($db))?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=sprintf(gettext("바우처 사용 중(%d)"), count($db))?></h2></div>
 	<div class="panel-body table-responsive">
 		<table class="table table-striped table-hover table-condensed sortable-theme-bootstrap" data-sortable>
 			<thead>
 				<tr>
-					<th><?=gettext("Voucher"); ?></th>
-					<th><?=gettext("Roll"); ?></th>
-					<th><?=gettext("Activated at"); ?></th>
-					<th><?=gettext("Expires in"); ?></th>
-					<th><?=gettext("Expires at"); ?></th>
+					<th><?=gettext("바우처"); ?></th>
+					<th><?=gettext("롤"); ?></th>
+					<th><?=gettext("에서 활성화 됨"); ?></th>
+					<th><?=gettext("만료기간"); ?></th>
+					<th><?=gettext("에 만료함"); ?></th>
 				</tr>
 			</thead>
 			<tbody>
