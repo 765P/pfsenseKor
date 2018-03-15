@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-system-copyright
 ##|*NAME=System: Copyright notice
