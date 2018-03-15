@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-system-activity
 ##|*NAME=Diagnostics: System Activity
@@ -28,7 +33,7 @@
 
 require_once("guiconfig.inc");
 
-$pgtitle = array(gettext("Diagnostics"), gettext("System Activity"));
+$pgtitle = array(gettext("진단"), gettext("시스템 활동"));
 
 if ($_REQUEST['getactivity']) {
 	$text = `/usr/bin/top -aHS | /usr/bin/cut -c1-105`;
@@ -84,9 +89,9 @@ events.push(function() {
 </script>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext('CPU Activity')?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext('CPU 활동')?></h2></div>
 	<div class="panel panel-body">
-		<pre id="xhrOutput"><?=gettext("Gathering CPU activity, please wait...")?></pre>
+		<pre id="xhrOutput"><?=gettext("CPU 활동을 수집 중입니다. 잠시 기다려주십시오...")?></pre>
 	</div>
 </div>
 
