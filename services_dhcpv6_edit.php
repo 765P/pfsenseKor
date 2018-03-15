@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dhcpserverv6-editstaticmapping
 ##|*NAME=Services: DHCPv6 Server: Edit static mapping
@@ -104,34 +109,34 @@ if ($_POST['save']) {
 	if ($_POST['hostname']) {
 		preg_match("/\-\$/", $_POST['hostname'], $matches);
 		if ($matches) {
-			$input_errors[] = gettext("The hostname cannot end with a hyphen according to RFC952");
+			$input_errors[] = gettext("호스트 이름은 RFC952에 따라 하이픈으로 끝날 수 없습니다.");
 		}
 		if (!is_hostname($_POST['hostname'])) {
-			$input_errors[] = gettext("The hostname can only contain the characters A-Z, 0-9 and '-'.");
+			$input_errors[] = gettext("호스트 이름에는 문자 A-Z, 0-9 및 '-'만 사용할 수 있습니다.");
 		} else {
 			if (!is_unqualified_hostname($_POST['hostname'])) {
-				$input_errors[] = gettext("A valid hostname is specified, but the domain name part should be omitted");
+				$input_errors[] = gettext("유효한 호스트 이름이 지정되었지만 도메인 이름 부분은 생략해야합니다.");
 			}
 		}
 	}
 
 	if ($_POST['ipaddrv6']) {
 		if (!is_ipaddrv6($_POST['ipaddrv6'])) {
-			$input_errors[] = gettext("A valid IPv6 address must be specified.");
+			$input_errors[] = gettext("유효한 IPv6 주소를 지정해야합니다.");
 		} elseif ($config['interfaces'][$if]['ipaddrv6'] == 'track6') {
 			$trackifname = $config['interfaces'][$if]['track6-interface'];
 			$trackcfg = $config['interfaces'][$trackifname];
 			$pdlen = 64 - $trackcfg['dhcp6-ia-pd-len'];
 			if (!Net_IPv6::isInNetmask($_POST['ipaddrv6'], '::', $pdlen)) {
 				$input_errors[] = sprintf(gettext(
-				    'The prefix (upper %1$s bits) must be zero.  Use the form %2$s'),
+				    '접두어(상위 %1$s 비트)는 0이어야합니다. %2$s 양식 사용'),
 				    $pdlen, dhcpv6_pd_str_help($ifcfgsnv6));
 			}
 		}
 	}
 
 	if (empty($_POST['duid'])) {
-		$input_errors[] = gettext("A valid DUID must be specified.");
+		$input_errors[] = gettext("유효한 DUID를 지정해야합니다.");
 	}
 
 	/* check for overlaps */
@@ -141,7 +146,7 @@ if ($_POST['save']) {
 		}
 
 		if ((($mapent['hostname'] == $_POST['hostname']) && $mapent['hostname']) || ($mapent['duid'] == $_POST['duid'])) {
-			$input_errors[] = gettext("This Hostname, IP or DUID already exists.");
+			$input_errors[] = gettext("이 호스트 이름, IP 또는 DUID가 이미 있습니다.");
 			break;
 		}
 	}
@@ -191,7 +196,7 @@ $ifname = '';
 if (!empty($if) && isset($iflist[$if])) {
 	$ifname = $iflist[$if];
 }
-$pgtitle = array(gettext("Services"), htmlspecialchars(gettext("DHCPv6 Server & RA")), $ifname, gettext("DHCPv6 Server"), gettext("Edit Static Mapping"));
+$pgtitle = array(gettext("Services"), htmlspecialchars(gettext("DHCPv6 서버 & RA")), $ifname, gettext("DHCPv6 서버"), gettext("정적매핑 편집"));
 $pglinks = array("", "services_dhcpv6.php", "services_dhcpv6.php?if={$if}", "services_dhcpv6.php?if={$if}", "@self");
 $shortcut_section = "dhcp6";
 
