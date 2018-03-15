@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-status-captiveportal-voucher-rolls
 ##|*NAME=Status: Captive Portal Voucher Rolls
@@ -52,7 +57,7 @@ if (empty($cpzone)) {
 	exit;
 }
 
-$pgtitle = array(gettext("Status"), gettext("Captive Portal"), htmlspecialchars($a_cp[$cpzone]['zone']), gettext("Voucher Rolls"));
+$pgtitle = array(gettext("Status"), gettext("전속 포털"), htmlspecialchars($a_cp[$cpzone]['zone']), gettext("바우처 롤"));
 $pglinks = array("", "status_captiveportal.php", "status_captiveportal.php?zone=" . $cpzone, "@self");
 $shortcut_section = "captiveportal-vouchers";
 
@@ -65,11 +70,11 @@ $a_roll = &$config['voucher'][$cpzone]['roll'];
 include("head.inc");
 
 $tab_array = array();
-$tab_array[] = array(gettext("Active Users"), false, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Active Vouchers"), false, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Voucher Rolls"), true, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Test Vouchers"), false, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
-$tab_array[] = array(gettext("Expire Vouchers"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("활성 유저"), false, "status_captiveportal.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("활성 바우처"), false, "status_captiveportal_vouchers.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("바우처 롤"), true, "status_captiveportal_voucher_rolls.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("테스트 바우처"), false, "status_captiveportal_test.php?zone=" . htmlspecialchars($cpzone));
+$tab_array[] = array(gettext("만료 바우처"), false, "status_captiveportal_expire.php?zone=" . htmlspecialchars($cpzone));
 display_top_tabs($tab_array);
 ?>
 
@@ -78,12 +83,12 @@ display_top_tabs($tab_array);
 		<thead>
     			<tr>
     				<th><?=gettext("Roll#"); ?></th>
-    				<th><?=gettext("Minutes/Ticket"); ?></th>
-    				<th><?=gettext("# of Tickets"); ?></th>
-    				<th><?=gettext("Comment"); ?></th>
-    				<th><?=gettext("used"); ?></th>
-    				<th><?=gettext("active"); ?></th>
-    				<th><?=gettext("ready"); ?></th>
+    				<th><?=gettext("분/티켓"); ?></th>
+    				<th><?=gettext("# 의 티켓"); ?></th>
+    				<th><?=gettext("코멘트"); ?></th>
+    				<th><?=gettext("사용됨"); ?></th>
+    				<th><?=gettext("활성"); ?></th>
+    				<th><?=gettext("준비"); ?></th>
     			</tr>
 		</thead>
 		<tbody>
