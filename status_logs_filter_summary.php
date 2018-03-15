@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.15
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-logs-firewall-summary
 ##|*NAME=Status: System Logs: Firewall Log Summary
@@ -55,16 +60,16 @@ if (!$_REQUEST['logfile']) {
 	}
 }
 
-if ($view == 'normal')  { $view_title = gettext("Normal View"); }
-if ($view == 'dynamic') { $view_title = gettext("Dynamic View"); }
-if ($view == 'summary') { $view_title = gettext("Summary View"); }
+if ($view == 'normal')  { $view_title = gettext("일반 뷰"); }
+if ($view == 'dynamic') { $view_title = gettext("동적 뷰"); }
+if ($view == 'summary') { $view_title = gettext("요약 뷰"); }
 
 
 // Status Logs Common - Code
 status_logs_common_code();
 
 
-$pgtitle = array(gettext("Status"), gettext("System Logs"), gettext($allowed_logs[$logfile]["name"]), $view_title);
+$pgtitle = array(gettext("Status"), gettext("시스템 로그"), gettext($allowed_logs[$logfile]["name"]), $view_title);
 $pglinks = array("", "status_logs.php", "status_logs_filter.php", "@self");
 include("head.inc");
 
@@ -81,12 +86,12 @@ $filterlog = conv_log_filter($logfile_path, $lines, $lines);
 $gotlines = count($filterlog);
 $fields = array(
 	'act'	   => gettext("Actions"),
-	'interface' => gettext("Interfaces"),
-	'proto'	 => gettext("Protocols"),
-	'srcip'	 => gettext("Source IPs"),
-	'dstip'	 => gettext("Destination IPs"),
-	'srcport'	=> gettext("Source Ports"),
-	'dstport'	=> gettext("Destination Ports"));
+	'interface' => gettext("인터페이스"),
+	'proto'	 => gettext("프로토콜"),
+	'srcip'	 => gettext("발신지 IP"),
+	'dstip'	 => gettext("수신지 IP"),
+	'srcport'	=> gettext("발신지 포트"),
+	'dstport'	=> gettext("수신지 포트"));
 
 $segcolors = array("#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a");
 $numcolors = 10;
@@ -120,7 +125,7 @@ foreach ($filterlog as $fe) {
 }
 
 print("<br />");
-$infomsg = sprintf(gettext('This is a summary of the last %1$s lines of the firewall log (Max %2$s).'), $gotlines, $lines);
+$infomsg = sprintf(gettext('방화벽 로그의 마지막 %1$s초 라인 요약입니다(최대 %2$s).'), $gotlines, $lines);
 ?>
 <div>
 	<div class="infoblock blockopen">
@@ -163,7 +168,7 @@ function stat_block($summary, $stat, $num) {
 	uasort($summary[$stat] , 'cmp');
 	print('<div class="table-responsive">');
 	print('<table class="table table-striped table-hover table-condensed">');
-	print('<tr><th>' . $fields[$stat] . '</th>' . '<th>' . gettext("Data points") . '</th><th></th></tr>');
+	print('<tr><th>' . $fields[$stat] . '</th>' . '<th>' . gettext("데이터 포인트") . '</th><th></th></tr>');
 	$k = array_keys($summary[$stat]);
 	$total = 0;
 	$numentries = 0;
@@ -173,7 +178,7 @@ function stat_block($summary, $stat, $num) {
 			$numentries++;
 			$outstr = $k[$i];
 			if (is_ipaddr($outstr)) {
-				print('<tr><td>' . $outstr . '</td>' . '<td>' . $summary[$stat][$k[$i]] . '</td><td><a href="diag_dns.php?host=' . $outstr . '" class="btn btn-xs btn-primary" title="' . gettext("Reverse Resolve with DNS") . '"><i class="fa fa-search icon-embed-btn"></i>' . gettext("Lookup") . '</a></td></tr>');
+				print('<tr><td>' . $outstr . '</td>' . '<td>' . $summary[$stat][$k[$i]] . '</td><td><a href="diag_dns.php?host=' . $outstr . '" class="btn btn-xs btn-primary" title="' . gettext("DNS를 사용한 역 방향 해결") . '"><i class="fa fa-search icon-embed-btn"></i>' . gettext("Lookup") . '</a></td></tr>');
 
 			} elseif (substr_count($outstr, '/') == 1) {
 				list($proto, $port) = explode('/', $outstr);
