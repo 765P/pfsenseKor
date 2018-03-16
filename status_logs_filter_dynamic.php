@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.16
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-logs-firewall-dynamic
 ##|*NAME=Status: System Logs: Firewall (Dynamic View)
@@ -62,9 +67,9 @@ if (!$_REQUEST['logfile']) {
 	}
 }
 
-if ($view == 'normal')  { $view_title = gettext("Normal View"); }
-if ($view == 'dynamic') { $view_title = gettext("Dynamic View"); }
-if ($view == 'summary') { $view_title = gettext("Summary View"); }
+if ($view == 'normal')  { $view_title = gettext("노멀 뷰"); }
+if ($view == 'dynamic') { $view_title = gettext("동적 뷰"); }
+if ($view == 'summary') { $view_title = gettext("요약 뷰"); }
 
 
 // Log Filter Submit - Firewall
@@ -79,7 +84,7 @@ manage_log_code();
 status_logs_common_code();
 
 
-$pgtitle = array(gettext("Status"), gettext("System Logs"), gettext($allowed_logs[$logfile]["name"]), $view_title);
+$pgtitle = array(gettext("Status"), gettext("시스템 로그"), gettext($allowed_logs[$logfile]["name"]), $view_title);
 $pglinks = array("", "status_logs.php", "status_logs_filter.php", "@self");
 include("head.inc");
 
@@ -387,11 +392,11 @@ function toggleListDescriptions() {
 				<thead>
 					<tr class="text-nowrap">
 						<th><?=gettext("Action")?></th>
-						<th><?=gettext("Time")?></th>
-						<th><?=gettext("Interface")?></th>
-						<th><?=gettext("Source")?></th>
-						<th><?=gettext("Destination")?></th>
-						<th><?=gettext("Protocol")?></th>
+						<th><?=gettext("시간")?></th>
+						<th><?=gettext("인터페이스")?></th>
+						<th><?=gettext("발신지")?></th>
+						<th><?=gettext("수신지")?></th>
+						<th><?=gettext("프로토콜")?></th>
 					</tr>
 				</thead>
 				<tbody id="filter-log-entries">
@@ -449,7 +454,7 @@ function toggleListDescriptions() {
 
 	if (count($filterlog) == 0) {
 		print '<tr class="text-nowrap"><td colspan=6>';
-		print_info_box(gettext('No logs to display.'));
+		print_info_box(gettext('표시할 로그가 없습니다.'));
 		print '</td></tr>';
 	}
 ?>
@@ -474,7 +479,7 @@ if ($tcpcnt > 0) {
 <div class="infoblock">
 <?php
 	print_info_box('<a href="https://doc.pfsense.org/index.php/What_are_TCP_Flags">' .
-					gettext("TCP Flags") . '</a>: F - FIN, S - SYN, A or . - ACK, R - RST, P - PSH, U - URG, E - ECE, C - CWR.', 'info', false);
+					gettext("TCP 플래그") . '</a>: F - FIN, S - SYN, A or . - ACK, R - RST, P - PSH, U - URG, E - ECE, C - CWR.', 'info', false);
 ?>
 </div>
 <?php
