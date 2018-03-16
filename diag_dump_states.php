@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.16
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-showstates
 ##|*NAME=Diagnostics: Show States
@@ -52,7 +57,7 @@ if (isset($_POST['action']) && $_POST['action'] == "remove") {
 		$retval = pfSense_kill_states($_POST['srcip'], $_POST['dstip']);
 		echo htmlentities("|{$_POST['srcip']}|{$_POST['dstip']}|0|");
 	} else {
-		echo gettext("invalid input");
+		echo gettext("입력이 올바르지 않습니다.");
 	}
 	return;
 }
@@ -72,10 +77,10 @@ if (isset($_POST['filter']) && isset($_POST['killfilter'])) {
 	}
 }
 
-$pgtitle = array(gettext("Diagnostics"), gettext("States"), gettext("States"));
+$pgtitle = array(gettext("진단"), gettext("상태"), gettext("상태"));
 $pglinks = array("", "@self", "@self");
 include("head.inc");
-$delmsg = gettext("Are you sure you wish to delete this state?");
+$delmsg = gettext("이 상태를 삭제하시겠습니까?");
 ?>
 
 <script type="text/javascript">
@@ -108,11 +113,11 @@ events.push(function() {
 
 <?php
 $tab_array = array();
-$tab_array[] = array(gettext("States"), true, "diag_dump_states.php");
+$tab_array[] = array(gettext("상태"), true, "diag_dump_states.php");
 if (isset($config['system']['lb_use_sticky'])) {
-	$tab_array[] = array(gettext("Source Tracking"), false, "diag_dump_states_sources.php");
+	$tab_array[] = array(gettext("발신지 추적"), false, "diag_dump_states_sources.php");
 }
-$tab_array[] = array(gettext("Reset States"), false, "diag_resetstate.php");
+$tab_array[] = array(gettext("상태 리셋"), false, "diag_resetstate.php");
 display_top_tabs($tab_array);
 
 // Start of tab content
@@ -176,18 +181,18 @@ $form->add($section);
 print $form;
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title"><?=gettext("States")?></h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=gettext("상태")?></h2></div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-condensed table-hover sortable-theme-bootstrap" data-sortable>
 				<thead>
 					<tr>
-						<th><?=gettext("Interface")?></th>
-						<th><?=gettext("Protocol")?></th>
-						<th><?=gettext("Source (Original Source) -> Destination (Original Destination)")?></th>
+						<th><?=gettext("인터페이스")?></th>
+						<th><?=gettext("프로토콜")?></th>
+						<th><?=gettext("발신지 (Original Source) -> 수신지 (Original Destination)")?></th>
 						<th><?=gettext("State")?></th>
-						<th data-sortable="false"><?=gettext("Packets")?></th>
-						<th data-sortable="false"><?=gettext("Bytes")?></th>
+						<th data-sortable="false"><?=gettext("패킷")?></th>
+						<th data-sortable="false"><?=gettext("바이트")?></th>
 						<th data-sortable="false"></th> <!-- For the optional "Remove" button -->
 					</tr>
 				</thead>
@@ -255,7 +260,7 @@ print $form;
 
 						<td>
 							<a class="btn fa fa-trash no-confirm" data-entry="<?=$srcip?>|<?=$killdstip?>"
-								title="<?=sprintf(gettext('Remove all state entries from %1$s to %2$s'), $srcip, $killdstip);?>"></a>
+								title="<?=sprintf(gettext('%1$s에서 %2$s까지의 모든 상태 입력을 제거합니다.'), $srcip, $killdstip);?>"></a>
 						</td>
 					</tr>
 <?
@@ -270,12 +275,12 @@ print $form;
 
 if ($states == 0) {
 	if (isset($_POST['filter']) && !empty($_POST['filter'])) {
-		$errmsg = gettext('No states were found that match the current filter.');
+		$errmsg = gettext('현재 필터와 일치하는 상태를 찾을 수 없습니다.');
 	} else if (!isset($_POST['filter']) && isset($config['system']['webgui']['requirestatefilter'])) {
-		$errmsg = gettext('State display suppressed without filter submission. '.
+		$errmsg = gettext('필터를 제출하지 않을 경우 상태 표시가 제한됩니다. '.
 		'See System > General Setup, Require State Filter.');
 	} else {
-		$errmsg = gettext('No states were found.');
+		$errmsg = gettext('상태를 찾을 수 없습니다.');
 	}
 
 	print_info_box($errmsg, 'warning', false);
