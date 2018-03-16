@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.16
+한글화 번역 시작
+*/
+
 require_once("config.inc");
 require_once("interfaces.inc");
 require_once("util.inc");
