@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.16
+한글화 번역 시작
+*/
+
 require_once("config.inc");
 require_once("interfaces.inc");
 require_once("util.inc");
@@ -45,7 +50,7 @@ function step1_stepbeforeformdisplay() {
 		if ($field['name'] == 'numberofconnections') {
 			$field['value'] = ($wans < $lans ? $wans : $lans);
 			if (($wans == 0) && ($lans == 0)) {
-				$field['description'] .= sprint_info_box(gettext("This firewall does not have any interfaces assigned that are capable of using ALTQ traffic shaping."), 'danger', false);
+				$field['description'] .= sprint_info_box(gettext("이 방화벽에는 AL. 트래픽 조절을 사용할 수 있도록 할당된 인터페이스가 없습니다."), 'danger', false);
 			}
 		}
 }
@@ -54,12 +59,12 @@ function step1_submitphpaction() {
 	global $stepid, $savemsg;
 
 	if (!isset($_POST['numberofconnections'])) {
-		$savemsg=gettext("The number of connections must be specified.");
+		$savemsg=gettext("연결 수를 지정해야 합니다.");
 		$stepid--;
 		return;
 	}
 	if (intval($_POST['numberofconnections']) < 1) {
-		$savemsg=gettext("The number of connections should be greater than 1.");
+		$savemsg=gettext("연결 수는 1보다 커야 합니다.");
 		$stepid--;
 		return;
 	}
@@ -84,7 +89,7 @@ function step2_stepbeforeformdisplay() {
 	}
 	$numberofconnections = intval($config['ezshaper']['step1']['numberofconnections']);
 	if ($numberofconnections > ($wans < $lans ? $wans : $lans)) {
-		$savemsg=gettext("The specified number of connections is greater than the number of ALTQ-capable assigned interfaces!");
+		$savemsg=gettext("지정한 연결 수가 ALP지원 인터페이스의 수보다 많습니다!");
 		$stepid--;
 		return;
 	}
@@ -104,14 +109,14 @@ function step2_stepbeforeformdisplay() {
 		$field = array();
 		$linknum = $i+1;
 		$ifsel = ($i * 2);
-		$field['name'] = "Connection #{$linknum} parameters";
+		$field['name'] = "연결 #{$linknum} 파라미터";
 		$field['type'] = "listtopic";
 		$fields[] = $field;
 
 		$field = array();
-		$field['displayname'] = "Local interface";
-		$field['name'] = "local{$i}interface";
-		$field['type'] = "select";
+		$field['displayname'] = "로컬 인터페이스";
+		$field['name'] = "로컬 {$i} 인터페이스";
+		$field['type'] = "선택";
 		$field['options']['option'] = array();
 		$ifcnt = 0;
 		foreach ($iflist as $ifname => $ifdescr) {
@@ -137,7 +142,7 @@ function step2_stepbeforeformdisplay() {
 		$field['dontcombinecells'] = "true";
 		$field['name'] = "local{$i}downloadscheduler";
 		$field['type'] = "select";
-		$field['typehint'] = "Queueing discipline to apply on the download of this connection.";
+		$field['typehint'] = "이 연결의 다운로드에 적용할 부문 대기 중.";
 		$field['options']['option'] = array();
 		$opts = array();
 		$opts['name'] = "PRIQ";
@@ -155,7 +160,7 @@ function step2_stepbeforeformdisplay() {
 		$fields[] = $field;
 
 		$field = array();
-		$field['displayname'] = "WAN Interface";
+		$field['displayname'] = "WAN 인터페이스";
 		$field['name'] = "conn{$i}interface";
 		$field['type'] = "select";
 		$field['options']['option'] = array();
@@ -183,7 +188,7 @@ function step2_stepbeforeformdisplay() {
 		$field['dontdisplayname'] = "true";
 		$field['dontcombinecells'] = "true";
 		$field['type'] = "select";
-		$field['typehint'] = "Queueing discipline to apply on the upload of this connection.";
+		$field['typehint'] = "이 연결의 업로드에 적용할 대기 중인 규칙입니다.";
 		$field['options']['option'] = array();
 		$opts = array();
 		$opts['name'] = "PRIQ";
@@ -213,7 +218,7 @@ function step2_stepbeforeformdisplay() {
 		$field['dontdisplayname'] = "true";
 		$field['dontcombinecells'] = "true";
 		$field['name'] = "conn{$i}uploadspeed";
-		$field['typehint'] = "Upload bandwidth on this connection.";
+		$field['typehint'] = "이 연결에 대역 폭을 업로드합니다.";
 		$field['type'] = "select";
 		$field['options']['option'] = array();
 		$opts = array();
@@ -232,7 +237,7 @@ function step2_stepbeforeformdisplay() {
 		$fields[] = $field;
 
 		$field = array();
-		$field['displayname'] = "Download";
+		$field['displayname'] = "다운로드";
 		$field['name'] = "conn{$i}download";
 		$field['type'] = "input";
 		$field['bindstofieldnext'] = "ezshaper->step2->conn{$i}download";
@@ -244,7 +249,7 @@ function step2_stepbeforeformdisplay() {
 		$field['dontdisplayname'] = "true";
 		$field['dontcombinecells'] = "true";
 		$field['name'] = "conn{$i}downloadspeed";
-		$field['typehint'] = "Download bandwidth on this connection.";
+		$field['typehint'] = "이 연결에서 대역 폭을 다운로드합니다.";
 		$field['type'] = "select";
 		$field['options']['option'] = array();
 		$opts = array();
@@ -263,8 +268,8 @@ function step2_stepbeforeformdisplay() {
 		$fields[] = $field;
 	}
 	$field = array();
-	$field['name'] = "Next";
-	$field['type'] = "submit";
+	$field['name'] = "다음";
+	$field['type'] = "확인";
 	$fields[] = $field;
 }
 
@@ -278,36 +283,36 @@ function step2_stepsubmitphpaction() {
 	for ($i = 0; $i < $steps; $i++) {
 		for ($j = $i + 1; $j <= $steps; $j++) {
 			if ($_POST["conn{$i}interface"] == $_POST["conn{$j}interface"] || $_POST["conn{$i}interface"] == $_POST["local{$j}interface"]) {
-				$savemsg=gettext("The same interface cannot be selected for connections {$i} and {$j}.");
+				$savemsg=gettext("{$i}및 {$j}연결에 대해서는 동일한 인터페이스를 선택할 수 없습니다.");
 				$stepid--;
 				return;
 			}
 			if (trim($_POST["conn{$i}uploadscheduler"]) != "PRIQ") {
 				if (!is_numeric($_POST["conn{$i}upload"])) {
-					$savemsg = gettext("Upload bandwidth of connection {$i} is not valid.");
+					$savemsg = gettext("{$i} 연결의 업로드 대역 폭이 잘못되었습니다.");
 					$stepid--;
 					return;
 				}
 				if (!is_numeric($_POST["conn{$i}download"])) {
-					$savemsg = gettext("Download bandwidth of connection {$i} is not valid.");
+					$savemsg = gettext("연결 {$i} 는 대역 폭 다운로드가 잘못되었습니다.");
 					$stepid--;
 					return;
 				}
 				$upbw = $_POST["conn{$i}upload"];
 				$downbw = $_POST["conn{$i}download"];
 				if ($upbw < 1 || $downbw < 1) {
-					$savemsg = gettext("The specified bandwidth cannot be less than 1.");
+					$savemsg = gettext("지정한 대역 폭은 1보다 작을 수 없습니다.");
 					$stepid--;
 					return;
 				}
 				if (intval($upbw) < 128 && $_POST["conn{$i}uploadspeed"] == "Kb" && trim($_POST["conn{$i}uploadscheduler"]) == "CBQ") {
-					$savemsg=gettext("Uploads smaller than 128Kbit/s is not supported for connection {$i} on CBQ scheduler.");
+					$savemsg=gettext("CBQ스케줄러에서{$i}연결에 대해서는 128KB/bit/s보다 작은 업로드가 지원되지 않습니다.");
 					$stepid--;
 					return;
 				}
 			}
 			if ($_POST["local{$i}interface"] == $_POST["conn{$j}interface"] || $_POST["local{$i}interface"] == $_POST["local{$j}interface"]) {
-				$savemsg=gettext("The same interface cannot be selected for local and outside.");
+				$savemsg=gettext("로컬과 외부에 동일한 인터페이스를 선택할 수 없습니다.");
 				$stepid--;
 				return;
 			}
@@ -348,13 +353,13 @@ function step3_stepbeforeformdisplay() {
 	$field = array();
 	$field['name'] = "Enable";
 	$field['type'] = "checkbox";
-	$field['typehint'] = "Prioritize Voice over IP traffic.";
+	$field['typehint'] = "IP트래픽에 대해 음성 우선 순위를 지정합니다.";
 	$field['bindstofield'] = "ezshaper->step3->enable";
-	$field['descritpion'] = "This will raise the priority of VOIP traffic above all other traffic.";
+	$field['descritpion'] = "이렇게 하면 VOIP트래픽의 우선 순위가 다른 모든 트래픽보다 높아집니다.";
 	$voipfields[] = $field;
 
 	$field = array();
-	$field['name'] = "VOIP specific settings";
+	$field['name'] = "VOIP관련 설정";
 	$field['type'] = "listtopic";
 	$voipfields[] = $field;
 
@@ -362,7 +367,7 @@ function step3_stepbeforeformdisplay() {
 	$field['name'] = "Provider";
 	$enablefields[] = "Provider";
 	$field['type'] = "select";
-	$field['description'] = "Choose Generic if the provider isn't listed.";
+	$field['description'] = "제공자가 나열되지 않은 경우 일반을 선택합니다.";
 	$field['options']['option'] = array();
 	$opts = array();
 	$opts['name'] = "Generic (lowdelay)";
@@ -388,8 +393,8 @@ function step3_stepbeforeformdisplay() {
 	$field['name'] = "upstream_sip_server";
 	$enablefields[] = "upstream_sip_server";
 	$field['type'] = "inputalias";
-	$field['description'] = "(Optional) If this is chosen, the provider field will be overridden. This allows providing the IP address of the <strong>remote</strong> PBX or SIP Trunk to prioritize.  <br />NOTE: A Firewall Alias can also be used in this location.";
-	$field['message'] = "IP Address field is non-blank and doesn't look like an IP address.";
+	$field['description'] = "(선택 사항)이 옵션을 선택하면 공급 업체 필드가 재정의됩니다. 이를 통해 <strong>원격</strong> PBX또는 SIP트렁크의 IP주소를 제공하여 우선 순위를 정할 수 있습니다.  <br />참고:방화벽 별칭도 이 위치에서 사용할 수 있습니다.";
+	$field['message'] = "IP주소 필드는 비어 있지 않으며 IP주소와 다릅니다.";
 	$field['bindstofield'] = "ezshaper->step3->address";
 	$voipfields[] = $field;
 
@@ -486,7 +491,7 @@ function step3_stepsubmitphpaction() {
 	if ($_POST['upstream_sip_server']) {
 		if (!is_ipaddroralias($_POST['upstream_sip_server'])) {
 			/* item is not an ip or alias.  error out */
-			$savemsg=gettext("Address must be a valid IP address or Firewall Alias.  Please correct this value to continue.");
+			$savemsg=gettext("주소는 올바른 IP주소 또는 방화벽 별칭이어야 합니다. 계속하려면 이 값을 수정하십시오.");
 			$stepid--;
 			return;
 		}
@@ -496,13 +501,13 @@ function step3_stepsubmitphpaction() {
 	for ($i = 0; $i < $steps; $i++) {
 		if ($config['ezshaper']['step2']["conn{$i}uploadscheduler"] != "PRIQ") {
 			if (!is_numeric($_POST["conn{$i}upload"])) {
-				$savemsg = gettext("Upload bandwidth of connection {$i} is not valid.");
+				$savemsg = gettext("연결의 업로드 대역 폭{$i}이(가) 잘못되었습니다.");
 				$stepid--;
 				return;
 			}
 			if ($_POST["conn{$i}uploadspeed"] == "%") {
 				if (intval($_POST["conn{$i}upload"]) > 80) {
-					$savemsg=gettext("The VoIP upload bandwidth on connection {$i} cannot be set higher than 80% of the connection.");
+					$savemsg=gettext("연결{$i}의 VoIP업로드 대역 폭은 연결의 80%보다 크게 설정할 수 없다.");
 					$stepid--;
 					return;
 				}
@@ -512,7 +517,7 @@ function step3_stepsubmitphpaction() {
 				$factor = wizard_get_bandwidthtype_scale($_POST["conn{$i}uploadspeed"]);
 				$input_bw = $factor * floatval($_POST["conn{$i}upload"]);
 				if ((0.8 * $ifbw) < $input_bw) {
-					$savemsg=gettext("The VoIP upload bandwidth on connection {$i} cannot be set higher than 80% of the connection.");
+					$savemsg=gettext("연결{$i}의 VoIP업로드 대역 폭은 연결의 80%보다 크게 설정할 수 없다.");
 					$stepid--;
 					return;
 				}
@@ -521,13 +526,13 @@ function step3_stepsubmitphpaction() {
 
 		if ($config['ezshaper']['step2']["local{$i}downloadscheduler"] != "PRIQ") {
 			if (!is_numeric($_POST["local{$i}download"])) {
-				$savemsg = gettext("Download bandwidth of connection {$i} is not valid.");
+				$savemsg = gettext("연결의 다운로드 대역 폭{$i}이(가) 잘못되었습니다.");
 				$stepid--;
 				return;
 			}
 			if ($_POST["local{$i}downloadspeed"] == "%") {
 				if (intval($_POST["local{$i}download"]) > 80) {
-					$savemsg=gettext("The VoIP download bandwidth on connection {$i} cannot be set higher than 80% of the connection.");
+					$savemsg=gettext("{$i}연결의 VoIP다운로드 대역 폭을 연결의 80%이상으로 설정할 수 없습니다.");
 					$stepid--;
 					return;
 				}
@@ -537,7 +542,7 @@ function step3_stepsubmitphpaction() {
 				$factor = wizard_get_bandwidthtype_scale($_POST["local{$i}downloadspeed"]);
 				$input_bw = $factor * floatval($_POST["local{$i}download"]);
 				if ((0.8 * $ifbw) < $input_bw) {
-					$savemsg=gettext("The VoIP download bandwidth on connection {$i} cannot be set higher than 80% of the connection.");
+					$savemsg=gettext("연결{$i}의 VoIP다운로드 대역 폭은 연결의 80%보다 크게 설정할 수 없다.");
 					$stepid--;
 					return;
 				}
@@ -567,30 +572,30 @@ function step4_stepsubmitphpaction() {
 
 	if ( $_POST['enable'] ) {
 		if (!$_POST['bandwidth']) {
-			$savemsg="A value for bandwidth must be specified.";
+			$savemsg="대역 폭 값을 지정해야 합니다.";
 			$stepid--;
 			return;
 		}
 		if (!is_numeric($_POST['bandwidth'])) {
-			$savemsg="The posted value is not a valid bandwidth.";
+			$savemsg="게시된 값은 유효한 대역 폭이 아닙니다.";
 			$stepid--;
 			return;
 		}
 
 		if ($_POST['bandwidthspeed'] <> "%") {
-			$savemsg = gettext("Only percentage bandwidth specification is allowed.");
+			$savemsg = gettext("대역 폭 사양은 백분율만 허용됩니다.");
 			$stepid--;
 			return;
 		}
 		$bw = $_POST['bandwidth'];
 		if ($bw > 15 || $bw < 2) {
-			$savemsg="Values should be between 2% and 15%!";
+			$savemsg="값은 2%에서 15%사이여야 합니다.";
 			$stepid--;
 			return;
 		}
 		if ($_POST['address'] <> "" && !is_ipaddroralias($_POST['address'])) {
 			/* item is not an ip or alias.  error out */
-			$savemsg=gettext("Address must be a valid IP address or Firewall Alias.  Please correct this value to continue.");
+			$savemsg=gettext("주소는 올바른 IP주소 또는 방화벽 별칭이어야 합니다. 계속하려면 이 값을 수정하십시오.");
 			$stepid--;
 		}
 	}
@@ -602,18 +607,18 @@ function step5_stepsubmitphpaction() {
 	if ( $_POST['enable'] ) {
 		if ($_POST['p2pcatchall']) {
 			if (!is_numeric($_POST['bandwidth'])) {
-				$savemsg="Posted value is not a valid bandwidth.";
+				$savemsg="게시된 값이 올바른 대역 폭이 아닙니다.";
 				$stepid--;
 				return;
 			}
 			if ($_POST['bandwidthspeed'] <> "%") {
-				$savemsg = gettext("Only percentage bandwidth specification is allowed.");
+				$savemsg = gettext("대역 폭 사양의 백분율만 허용됩니다.");
 				$stepid--;
 				return;
 			}
 			$bw = $_POST['bandwidth'];
 			if ($bw > 15 || $bw < 2) {
-				$savemsg="Values should be between 2% and 15%!";
+				$savemsg="값은 2%에서 15%사이여야 합니다.";
 				$stepid--;
 				return;
 			}
@@ -769,7 +774,7 @@ function apply_all_chosen_items() {
 				$remainbw = round($remainbw / $upbw * 100, 2);
 
 				if (intval($remainbw) > 0 && intval($remainbw) > 30) {
-					$savemsg=gettext("Custom Bandwidths are greater than 30%. Please lower them for the wizard to continue.");
+					$savemsg=gettext("사용자 지정 대역 폭은 30%이상입니다. 마법사를 계속하려면 해당 기능을 낮추십시오.");
 					header("Location: wizard.php?xml=traffic_shaper_wizard_dedicated.xml&stepid=2&message={$savemsg}");
 					exit;
 				} else {
@@ -1159,7 +1164,7 @@ function apply_all_chosen_items() {
 		if ($sched != "PRIQ") {
 			$remainbw = round($remainbw / $downbw * 100, 2);
 			if (intval($remainbw) > 0 && intval($remainbw) > 40) {
-				$savemsg=gettext("Custom Bandwidths are greater than 40%. Please lower them for the wizard to continue.");
+				$savemsg=gettext("사용자 지정 대역 폭은 40%이상입니다. 마법사를 계속하려면 해당 기능을 낮추십시오.");
 				header("Location: wizard.php?xml=traffic_shaper_wizard_dedicated.xml&stepid=2&message={$savemsg}");
 				exit;
 			} else {
@@ -1465,14 +1470,14 @@ function apply_all_chosen_items() {
 			$rule = array();
 			$rule['type'] = "match";
 			$rule['interface'] = $interfacelist;
-			$rule['descr'] = gettext("Penalty Box");
+			$rule['descr'] = gettext("페널티 박스");
 			$rule['defaultqueue'] = "qOthersLow";
 			$rule['source']['address'] = $config['ezshaper']['step4']['address'];
 			$rule['destination']['any'] = TRUE;
 			$rule['floating'] = "yes";
 			$rule['wizard'] = "yes";
 			$rule['enabled'] = "on";
-			$rule['created'] = make_config_revision_entry(null, gettext("Traffic Shaper Wizard"));
+			$rule['created'] = make_config_revision_entry(null, gettext("트래픽 도형 마법사"));
 			$config['filter']['rule'][] = $rule;
 		}
 	}
@@ -1484,7 +1489,7 @@ function apply_all_chosen_items() {
 			$rule = array();
 			$rule['type'] = "match";
 			//$rule['interface'] = $interfacelist;
-			$rule['descr'] = gettext("Connections From Upstream SIP Server");
+			$rule['descr'] = gettext("업 스트림 SIP서버로부터의 연결");
 			$rule['protocol'] = "udp";
 			$rule['defaultqueue'] = "qVoIP";
 			$rule['source']['address'] = $config['ezshaper']['step3']['address'];
@@ -1492,13 +1497,13 @@ function apply_all_chosen_items() {
 			$rule['floating'] = "yes";
 			$rule['wizard'] = "yes";
 			$rule['enabled'] = "on";
-			$rule['created'] = make_config_revision_entry(null, gettext("Traffic Shaper Wizard"));
+			$rule['created'] = make_config_revision_entry(null, gettext("트래픽 도형 마법사"));
 			$config['filter']['rule'][] = $rule;
 
 			$rule = array();
 			$rule['type'] = "match";
 			//$rule['interface'] = $interfacelist;
-			$rule['descr'] = gettext("Connections To Upstream SIP Server");
+			$rule['descr'] = gettext("업 스트림 SIP서버에 대한 연결");
 			$rule['protocol'] = "udp";
 			$rule['defaultqueue'] = "qVoIP";
 			$rule['source']['any'] = TRUE;
@@ -1506,7 +1511,7 @@ function apply_all_chosen_items() {
 			$rule['floating'] = "yes";
 			$rule['wizard'] = "yes";
 			$rule['enabled'] = "on";
-			$rule['created'] = make_config_revision_entry(null, gettext("Traffic Shaper Wizard"));
+			$rule['created'] = make_config_revision_entry(null, gettext("트래픽 도형 마법사"));
 			$config['filter']['rule'][] = $rule;
 
 		} elseif ( $config['ezshaper']['step3']['provider'] == "Generic" ) {
@@ -1523,7 +1528,7 @@ function apply_all_chosen_items() {
 			$rule['floating'] = "yes";
 			$rule['wizard'] = "yes";
 			$rule['enabled'] = "on";
-			$rule['created'] = make_config_revision_entry(null, gettext("Traffic Shaper Wizard"));
+			$rule['created'] = make_config_revision_entry(null, gettext("트래픽 도형 마법사"));
 			$config['filter']['rule'][] = $rule;
 
 		} else {
@@ -1542,7 +1547,7 @@ function apply_all_chosen_items() {
 				$rule['destination']['port'] = $voip[2]."-".$voip[3];
 				if ($voip[1] != '')
 					$rule['protocol'] = $voip[1];
-				$rule['created'] = make_config_revision_entry(null, gettext("Traffic Shaper Wizard"));
+				$rule['created'] = make_config_revision_entry(null, gettext("트래픽 도형 마법사"));
 				$config['filter']['rule'][] = $rule;
 			}
 		}
@@ -1566,7 +1571,7 @@ function apply_all_chosen_items() {
 				$rule['destination']['port'] = $p2pclient[2]."-".$p2pclient[3];
 				if ($p2pclient[1] != '')
 					$rule['protocol'] = $p2pclient[1];
-				$rule['created'] = make_config_revision_entry(null, gettext("Traffic Shaper Wizard"));
+				$rule['created'] = make_config_revision_entry(null, gettext("트래픽 도형 마법사"));
 				$config['filter']['rule'][] = $rule;
 			}
 		}
@@ -1645,13 +1650,13 @@ function apply_all_chosen_items() {
 					}
 					if ($otherclient[1] != '')
 						$rule['protocol'] = $otherclient[1];
-					$rule['created'] = make_config_revision_entry(null, gettext("Traffic Shaper Wizard"));
+					$rule['created'] = make_config_revision_entry(null, gettext("트래픽 도형 마법사"));
 					$config['filter']['rule'][] = $rule;
 				}
 			}
 		}
 	}
-	write_config(gettext("Shaper configuration saved via pfSense traffic shaper wizard."));
+	write_config(gettext("LVMSense트래픽 셰이퍼 마법사를 통해 저장된 셰이퍼 구성입니다."));
 }
 
 function wizard_get_bandwidthtype_scale($type = "b") {
