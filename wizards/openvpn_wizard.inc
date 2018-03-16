@@ -19,6 +19,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.16 
+한글화 번역 시작
+*/
+
 require_once("auth.inc");
 require_once("certs.inc");
 require_once("config.inc");
@@ -99,19 +104,19 @@ function step3_submitphpaction() {
 			$config['ovpnserver']['step2']['port'] = 636;
 	} elseif (!is_port($_POST['port'])) {
 		$stepid--;
-		$savemsg = "Please enter a valid port number.";
+		$savemsg = "올바른 포트 번호를 입력하십시오.";
 	}
 
 	if (empty($_POST['name']) || empty($_POST['ip']) ||empty($_POST['transport']) ||
 	     empty($_POST['scope']) || empty($_POST['basedn']) || empty($_POST['authscope']) || empty($_POST['nameattr'])) {
 		$stepid--;
-		$savemsg = "Please enter all information for authentication server.";
+		$savemsg = "인증 서버에 대한 모든 정보를 입력하십시오.";
 	} else if (count(($authcfg = auth_get_authserver($_POST['name']))) > 0) {
 		$stepid--;
-		$savemsg = "Please choose a different name because an authentication server with this name already exists.";
+		$savemsg = "이 이름을 가진 인증 서버가 이미 있으므로 다른 이름을 선택하십시오.";
 	} elseif (!is_fqdn($_POST['ip']) && !is_ipaddr($_POST['ip'])) {
 		$stepid--;
-		$savemsg = "Please enter a valid IP address or hostname for the authentication server.";
+		$savemsg = "인증 서버의 올바른 IP주소 또는 호스트 이름을 입력하십시오.";
 	} else {
 		$config['ovpnserver']['step2']['uselist'] = "on";
 		$_POST['uselist'] = "on";
@@ -165,10 +170,10 @@ function step5_submitphpaction() {
 		$savemsg = "Please enter all information for authentication server.";
 	} else if (count(($authcfg = auth_get_authserver($_POST['name']))) > 0) {
 		$stepid--;
-		$savemsg = "Please choose a different name because an authentication server with this name already exists.";
+		$savemsg = "이 이름을 가진 인증 서버가 이미 있으므로 다른 이름을 선택하십시오.";
 	} elseif (!is_fqdn($_POST['ip']) && !is_ipaddr($_POST['ip'])) {
 		$stepid--;
-		$savemsg = "Please enter a valid IP address or hostname for the authentication server.";
+		$savemsg = "인증 서버에 올바른 IP주소 또는 호스트 이름을 입력하십시오.";
 	} else {
 		$config['ovpnserver']['step2']['uselist'] = "on";
 		$_POST['uselist'] = "on";
@@ -210,23 +215,23 @@ function step7_submitphpaction() {
 	}
 
 	if (preg_match("/[\?\>\<\&\/\\\"\']/", $_POST['descr'])) {
-		$input_errors[] = "The field 'Descriptive Name' contains invalid characters.";
+		$input_errors[] = "'Descriptive Name'필드에 잘못된 문자가 있습니다.";
 	}
 
 	if (empty($_POST['descr']) || empty($_POST['keylength']) || empty($_POST['lifetime']) ||
 	    empty($_POST['country']) || empty($_POST['state']) || empty($_POST['city']) ||
 	    empty($_POST['organization']) || empty($_POST['email'])) {
 		$stepid--;
-		$savemsg = "Please enter all information for the new Certificate Authority.";
+		$savemsg = "새 인증 기관에 대한 모든 정보를 입력하십시오.";
 	} elseif (!array_key_exists($_POST['country'], $dn_cc)) {
 		$stepid--;
 		$input_errors[] = "Please enter a valid country code.";
 	} elseif (in_array($_POST['descr'], $canames) || in_array($_POST['descr'], $cacns)) {
 		$stepid--;
-		$savemsg = "Please enter a different name for the Certificate Authority. A Certificate Authority with that name already exists.";
+		$savemsg = "인증 기관의 다른 이름을 입력하십시오. 해당 이름의 인증서 권한이 이미 있습니다.";
 	} elseif (strlen($_POST['country']) != 2) {
 		$stepid--;
-		$savemsg = "Please enter only a two-letter ISO country code";
+		$savemsg = "2문자 ISO국가 코드만 입력하십시오.";
 	} else {
 		$config['ovpnserver']['step6']['uselist'] = "on";
 		$_POST['uselist'] = "on";
@@ -312,23 +317,23 @@ function step9_submitphpaction() {
 	}
 
 	if (preg_match("/[\?\>\<\&\/\\\"\']/", $_POST['descr'])) {
-		$input_errors[] = "The field 'Descriptive Name' contains invalid characters.";
+		$input_errors[] = "'Descriptive Name'필드에 잘못된 문자가 포함되어 있습니다.";
 	}
 
 	if (empty($_POST['descr']) || empty($_POST['keylength']) || empty($_POST['lifetime']) ||
 	    empty($_POST['country']) || empty($_POST['state']) || empty($_POST['city']) ||
 	    empty($_POST['organization']) || empty($_POST['email'])) {
 		$stepid--;
-		$savemsg = "Please enter all information for the new certificate.";
+		$savemsg = "새 인증서에 대한 모든 정보를 입력하십시오.";
 	} elseif (!array_key_exists($_POST['country'], $dn_cc)) {
 		$stepid--;
-		$input_errors[] = "Please enter a valid country code.";
+		$input_errors[] = "올바른 국가 코드를 입력하십시오.";
 	} elseif (in_array($_POST['descr'], $certnames) || in_array($_POST['descr'], $certcns)) {
 		$stepid--;
-		$savemsg = "Please enter a different name for the Certificate. A Certificate with that name/common name already exists.";
+		$savemsg = "인증서의 다른 이름을 입력하십시오. 같은 이름의 인증서가 이미 있습니다.";
 	} elseif (strlen($_POST['country']) != 2) {
 		$stepid--;
-		$savemsg = "Please enter only a two-letter ISO country code";
+		$savemsg = "2문자 ISO국가 코드만 입력하십시오.";
 	} else {
 		$config['ovpnserver']['step9']['uselist'] = "on";
 		$_POST['uselist'] = "on";
@@ -408,37 +413,37 @@ function step10_submitphpaction() {
 
 	$portused = openvpn_port_used($_POST['protocol'], $_POST['interface'], $_POST['localport']);
 	if ($portused != 0)
-		$input_errors[] = "The specified 'Local port' is in use. Please enter a port not already in use.";
+		$input_errors[] = "지정한 '로컬 포트'가 사용 중입니다. 아직 사용하지 않는 포트를 입력하십시오.";
 
 	if (!isset($_POST['generatetlskey']) && isset($_POST['tlsauthentication']))
 		if (!strstr($_POST['tlssharedkey'], "-----BEGIN OpenVPN Static key V1-----") ||
 			!strstr($_POST['tlssharedkey'], "-----END OpenVPN Static key V1-----"))
-			$input_errors[] = "The field 'TLS Authentication Key' does not appear to be valid";
+			$input_errors[] = "'TLS인증 키'필드가 유효하지 않음";
 
 	if (!empty($_POST['dnsserver1']) && !is_ipaddr(trim($_POST['dnsserver1'])))
-		$input_errors[] = "The field 'DNS Server #1' must contain a valid IP address";
+		$input_errors[] = "'DNS서버#1'필드에는 올바른 IP주소가 포함되어 있어야 합니다.";
 	if (!empty($_POST['dnsserver2']) && !is_ipaddr(trim($_POST['dnsserver2'])))
-		$input_errors[] = "The field 'DNS Server #2' must contain a valid IP address";
+		$input_errors[] = "'DNS서버#2'필드에 올바른 IP주소가 포함되어 있어야 합니다.";
 	if (!empty($_POST['dnsserver3']) && !is_ipaddr(trim($_POST['dnsserver3'])))
-		$input_errors[] = "The field 'DNS Server #3' must contain a valid IP address";
+		$input_errors[] = "'DNS서버#3'필드에 올바른 IP주소가 포함되어 있어야 합니다.";
 	if (!empty($_POST['dnsserver4']) && !is_ipaddr(trim($_POST['dnsserver4'])))
-		$input_errors[] = "The field 'DNS Server #4' must contain a valid IP address";
+		$input_errors[] = "'DNS서버#4'필드에 올바른 IP주소가 포함되어 있어야 합니다.";
 
 	if (!empty($_POST['ntpserver1']) && !is_ipaddr(trim($_POST['ntpserver1'])))
-		$input_errors[] = "The field 'NTP Server #1' must contain a valid IP address";
+		$input_errors[] = "'NTP서버#1'필드에는 올바른 IP주소가 포함되어야 합니다.";
 	if (!empty($_POST['ntpserver2']) && !is_ipaddr(trim($_POST['ntpserver2'])))
-		$input_errors[] = "The field 'NTP Server #2' must contain a valid IP address";
+		$input_errors[] = "'NTP서버#2'필드에는 올바른 IP주소가 포함되어야 합니다.";
 
 	if (!empty($_POST['winsserver1']) && !is_ipaddr(trim($_POST['winsserver1'])))
-		$input_errors[] = "The field 'WINS Server #1' must contain a valid IP address";
+		$input_errors[] = "WINS서버#1'필드에 올바른 IP주소가 있어야 합니다.";
 	if (!empty($_POST['winsserver2']) && !is_ipaddr(trim($_POST['winsserver2'])))
-		$input_errors[] = "The field 'WINS Server #2' must contain a valid IP address";
+		$input_errors[] = "WINS서버#2'필드에 올바른 IP주소가 있어야 합니다2";
 
 	if ($_POST['concurrentcon'] && !is_numeric($_POST['concurrentcon']))
-		$input_errors[] = "The field 'Concurrent connections' must be numeric.";
+		$input_errors[] = "'Concurrentconnection(동시 연결)'필드는 숫자여야 합니다.";
 
 	if (empty($_POST['tunnelnet']))
-		$input_errors[] = "A 'Tunnel network' must be specified.";
+		$input_errors[] = "A '터널 네트워크'를 지정해야 합니다.";
 
 	if (count($input_errors) > 0) {
 		$savemsg = $input_errors[0];
@@ -494,11 +499,11 @@ function step12_submitphpaction() {
 
 		$config['system']['authserver'][] = $auth;
 	} else if (!isset($pconfig['step2']['uselist']) && empty($pconfig['step2']['authserv'])) {
-		$message = "Please choose an authentication server .";
+		$message = "인증 서버를 선택하십시오 .";
 		header("Location:wizard.php?xml=openvpn_wizard.xml&stepid=1&message={$message}");
 		exit;
 	} else if (!($auth = auth_get_authserver($pconfig['step2']['authserv']))) {
-		$message = "An invalid authentication server has been specified.";
+		$message = "잘못된 인증 서버가 지정되었습니다.";
 		header("Location:wizard.php?xml=openvpn_wizard.xml&stepid=1&message={$message}");
 		exit;
 	}
@@ -521,11 +526,11 @@ function step12_submitphpaction() {
 
 		$config['ca'][] = $ca;
 	} else if (!isset($pconfig['step6']['uselist']) && empty($pconfig['step6']['authcertca'])) {
-		$message = "Please choose a Certificate Authority.";
+		$message = "인증서 권한을 선택하십시오.";
 		header("Location:wizard.php?xml=openvpn_wizard.xml&stepid=5&message={$message}");
 		exit;
 	} else if (!($ca = lookup_ca($pconfig['step6']['authcertca']))) {
-		$message = "An invalid Certificate Authority has been specified.";
+		$message = "잘못된 인증서 권한이 지정되었습니다.";
 		header("Location:wizard.php?xml=openvpn_wizard.xml&stepid=5&message={$message}");
 		exit;
 	}
@@ -643,7 +648,7 @@ function step12_submitphpaction() {
 
 	if (isset($pconfig['step11']['ovpnrule'])) {
 		$rule = array();
-		$rule['descr'] = sprintf(gettext("OpenVPN %s wizard"),$server['description']);
+		$rule['descr'] = sprintf(gettext("OpenVPN %s 마법사"),$server['description']);
 		/* Ensure the rule descr is not too long for pf to handle */
 		if (strlen($rule['descr']) > 52)
 			$rule['descr'] = substr($rule['descr'], 0, 52);
@@ -655,7 +660,7 @@ function step12_submitphpaction() {
 		$rule['protocol'] = strtolower($server['protocol']);
 		$rule['type'] = "pass";
 		$rule['enabled'] = "on";
-		$rule['created'] = make_config_revision_entry(null, gettext("OpenVPN Wizard"));
+		$rule['created'] = make_config_revision_entry(null, gettext("OpenVPN 마법사"));
 		$config['filter']['rule'][] = $rule;
 	}
 	if (isset($pconfig['step11']['ovpnallow'])) {
@@ -670,7 +675,7 @@ function step12_submitphpaction() {
 		//$rule['protocol'] = $server['protocol'];
 		$rule['type'] = "pass";
 		$rule['enabled'] = "on";
-		$rule['created'] = make_config_revision_entry(null, gettext("OpenVPN Wizard"));
+		$rule['created'] = make_config_revision_entry(null, gettext("OpenVPN 마법사"));
 		$config['filter']['rule'][] = $rule;
 	}
 
@@ -680,7 +685,7 @@ function step12_submitphpaction() {
 	$config['openvpn']['openvpn-server'][] = $server;
 
 	openvpn_resync('server', $server);
-	write_config(gettext("OpenVPN configuration saved via OpenVPN Remote Access Server setup wizard."));
+	write_config(gettext("OpenVPN원격 액세스 서버 설정 마법사를 통해 저장되는 OpenVPN구성입니다."));
 	header("Location: vpn_openvpn_server.php");
 	exit;
 }
