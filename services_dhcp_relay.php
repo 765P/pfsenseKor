@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.16
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-services-dhcprelay
 ##|*NAME=Services: DHCP Relay
@@ -75,7 +80,7 @@ if ($_POST) {
 	/* input validation */
 	if ($_POST['enable']) {
 		$reqdfields = explode(" ", "interface");
-		$reqdfieldsn = array(gettext("Interface"));
+		$reqdfieldsn = array(gettext("인터페이스"));
 
 		do_input_validation($_POST, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -85,7 +90,7 @@ if ($_POST) {
 			if ($_POST['server' . $idx]) {
 				if (!empty($_POST['server' . $idx])) { // Filter out any empties
 					if (!is_ipaddrv4($_POST['server' . $idx])) {
-						$input_errors[] = sprintf(gettext("Destination Server IP address %s is not a valid IPv4 address."), $_POST['server' . $idx]);
+						$input_errors[] = sprintf(gettext("대상 서버 IP 주소 %s은(는) 유효한 IPv4 주소가 아닙니다."), $_POST['server' . $idx]);
 					}
 
 					if (!empty($svrlist)) {
@@ -99,7 +104,7 @@ if ($_POST) {
 
 		// Check that the user input something in one of the Destination Server fields
 		if (empty($svrlist)) {
-			$input_errors[] = gettext("At least one Destination Server IP address must be specified.");
+			$input_errors[] = gettext("하나 이상의 대상 서버 IP 주소를 지정해야합니다.");
 		}
 	}
 
@@ -121,12 +126,12 @@ if ($_POST) {
 	}
 }
 
-$pgtitle = array(gettext("Services"), gettext("DHCP Relay"));
+$pgtitle = array(gettext("서비스"), gettext("DHCP 릴레이"));
 $shortcut_section = "dhcp";
 include("head.inc");
 
 if ($dhcpd_enabled) {
-	print_info_box(gettext("DHCP Server is currently enabled. Cannot enable the DHCP Relay service while the DHCP Server is enabled on any interface."), 'danger', false);
+	print_info_box(gettext("DHCP 서버가 현재 활성화되어 있습니다. 인터페이스에서 DHCP 서버가 활성화되어있는 동안 DHCP 릴레이 서비스를 활성화할 수 없습니다."), 'danger', false);
 	include("foot.inc");
 	exit;
 }
@@ -170,7 +175,7 @@ $section->addInput(new Form_Checkbox(
 
 $counter = 0;
 foreach (explode(',', $pconfig['server']) as $server) {
-	$group = new Form_Group($counter == 0 ? gettext("*Destination server"):'');
+	$group = new Form_Group($counter == 0 ? gettext("*수신지 서버"):'');
 	$group->addClass('repeatable');
 
 	$group->add(new Form_IpAddress(
