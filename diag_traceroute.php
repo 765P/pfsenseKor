@@ -24,6 +24,11 @@
  * limitations under the License.
  */
 
+/*
+2018.03.16
+한글화 번역 시작
+*/
+
 ##|+PRIV
 ##|*IDENT=page-diagnostics-traceroute
 ##|*NAME=Diagnostics: Traceroute
@@ -34,7 +39,7 @@
 require_once("guiconfig.inc");
 
 $allowautocomplete = true;
-$pgtitle = array(gettext("Diagnostics"), gettext("Traceroute"));
+$pgtitle = array(gettext("진단"), gettext("Traceroute"));
 include("head.inc");
 
 /* Max TTL of both traceroute and traceroute6 is 255, but in practice more than
@@ -55,19 +60,19 @@ if ($_POST || $_REQUEST['host']) {
 
 	/* input validation */
 	$reqdfields = explode(" ", "host ttl");
-	$reqdfieldsn = array(gettext("Host"), gettext("ttl"));
+	$reqdfieldsn = array(gettext("호스트"), gettext("ttl"));
 	do_input_validation($_REQUEST, $reqdfields, $reqdfieldsn, $input_errors);
 
 	if (($_REQUEST['ttl'] < 1) || ($_REQUEST['ttl'] > MAX_TTL)) {
-		$input_errors[] = sprintf(gettext("Maximum number of hops must be between 1 and %s"), MAX_TTL);
+		$input_errors[] = sprintf(gettext("홉의 최대 수는 1에서%s사이여야 합니다."), MAX_TTL);
 	}
 	$host = trim($_REQUEST['host']);
 	$ipproto = $_REQUEST['ipproto'];
 	if (($ipproto == "ipv4") && is_ipaddrv6($host)) {
-		$input_errors[] = gettext("When using IPv4, the target host must be an IPv4 address or hostname.");
+		$input_errors[] = gettext("IPv4를 사용하는 경우 대상 호스트는 IPv4주소 또는 호스트 이름이어야 합니다.");
 	}
 	if (($ipproto == "ipv6") && is_ipaddrv4($host)) {
-		$input_errors[] = gettext("When using IPv6, the target host must be an IPv6 address or hostname.");
+		$input_errors[] = gettext("IPv6을 사용하는 경우 대상 호스트는 IPv6주소 또는 호스트 이름이어야 합니다.");
 	}
 
 	$sourceip = $_REQUEST['sourceip'];
@@ -112,7 +117,7 @@ if ($do_traceroute) {
 	$result = shell_exec($cmd);
 
 	if (!$result) {
-		print_info_box(sprintf(gettext('Error: %s could not be traced/resolved'), $host));
+		print_info_box(sprintf(gettext('오류:%s을(를)추적할 수 없습니다. 해결되었습니다.'), $host));
 	}
 }
 
@@ -158,7 +163,7 @@ $section->addInput(new Form_Checkbox(
 
 $section->addInput(new Form_Checkbox(
 	'useicmp',
-	gettext("Use ICMP"),
+	gettext("ICMP 사용"),
 	'',
 	$useicmp
 ))->setHelp('By default, traceroute uses UDP but that may be blocked by some routers. Check this box to use ICMP instead, which may succeed. ');
@@ -178,7 +183,7 @@ print $form;
 if ($do_traceroute && $result) {
 ?>
 	<div class="panel panel-default">
-		<div class="panel-heading"><h2 class="panel-title"><?=gettext('Results')?></h2></div>
+		<div class="panel-heading"><h2 class="panel-title"><?=gettext('결과')?></h2></div>
 		<div class="panel-body">
 <?php
 	print('<pre>' . $result . '</pre>');
