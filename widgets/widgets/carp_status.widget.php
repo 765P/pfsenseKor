@@ -32,9 +32,9 @@ $carp_enabled = get_carp_status();
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th><?=gettext("CARP Interface")?></th>
-			<th><?=gettext("IP Address")?></th>
-			<th><?=gettext("Status")?></th>
+			<th><?=gettext("CARP 인터페이스")?></th>
+			<th><?=gettext("IP 주소")?></th>
+			<th><?=gettext("상태")?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -86,7 +86,7 @@ $carp_enabled = get_carp_status();
 		}
 	} else {
 ?>
-		<tr><td colspan="3"><?=gettext('No CARP Interfaces Defined.')?> <?=sprintf(gettext('Click %1$shere%2$s to configure CARP.'), '<a href="status_carp.php">', '</a>')?></td></tr>
+		<tr><td colspan="3"><?=gettext('CARP인터페이스가 정의되지 않았습니다.')?> <?=sprintf(gettext('%1$s이곳%2$s에서 CARP를 구성하실 수 있습니다..'), '<a href="status_carp.php">', '</a>')?></td></tr>
 <?php
 	}
 ?>
