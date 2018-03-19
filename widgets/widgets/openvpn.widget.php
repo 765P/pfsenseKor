@@ -49,8 +49,8 @@ if (!function_exists('printPanel')) {
 		$opstring .=		"<table class=\"table table-striped table-hover table-condensed sortable-theme-bootstrap\" data-sortable>";
 		$opstring .=			"<thead>";
 		$opstring .=				"<tr>";
-		$opstring .=					"<th>" . gettext('Name/Time') . "</th>";
-		$opstring .=					"<th>" . gettext('Real/Virtual IP') . "</th>";
+		$opstring .=					"<th>" . gettext('이름/시간') . "</th>";
+		$opstring .=					"<th>" . gettext('실제/가상 IP') . "</th>";
 		$opstring .=					"<th></th>";
 		$opstring .=				"</tr>";
 		$opstring .=			"</thead>";
@@ -73,7 +73,7 @@ if (!function_exists('printPanel')) {
 		$opstring .=							"onclick=\"killClient('" . $server['mgmt'] . "', '" . $conn['remote_host'] . "');\" ";
 		$opstring .=							"style=\"cursor:pointer;\" ";
 		$opstring .=							"name=\"" . "i:" . $server['mgmt'] . ":" . $conn['remote_host'] . "\" ";
-		$opstring .=							"title=\"" . sprintf(gettext('Kill client connection from %s'), $conn['remote_host']) . "\">";
+		$opstring .=							"title=\"" . sprintf(gettext('%s에서 클라이언트 연결 종료'), $conn['remote_host']) . "\">";
 		$opstring .=						"</i>";
 		$opstring .=					"</td>";
 		$opstring .=				"</tr>";
@@ -117,13 +117,13 @@ if (!function_exists('printPanel')) {
 
 		$opstring = "";
 		$opstring .= "<div class=\"widget panel panel-default\">";
-		$opstring .=	"<div class=\"panel-heading\"><h2 class=\"panel-title\">" . gettext("Peer to Peer Server Instance Statistics") . "</h2></div>";
+		$opstring .=	"<div class=\"panel-heading\"><h2 class=\"panel-title\">" . gettext("피어 투 피어 서버 인스턴스 통계") . "</h2></div>";
 		$opstring .=	"<div class=\"table-responsive\">";
 		$opstring .=		"<table class=\"table table-striped table-hover table-condensed sortable-theme-bootstrap\" data-sortable>";
 		$opstring .=			"<thead>";
 		$opstring .=				"<tr>";
-		$opstring .=					"<th>" . gettext('Name/Time') . "</th>";
-		$opstring .=					"<th>" . gettext('Remote/Virtual IP') . "</th>";
+		$opstring .=					"<th>" . gettext('이름/시간') . "</th>";
+		$opstring .=					"<th>" . gettext('원격/가상 IP') . "</th>";
 		$opstring .=					"<th></th>";
 		$opstring .=				"</tr>";
 		$opstring .=			"</thead>";
@@ -194,13 +194,13 @@ if (!function_exists('printPanel')) {
 		$opstring = "";
 
 		$opstring .= "<div class=\"widget panel panel-default\">";
-		$opstring .=	"<div class=\"panel-heading\"><h2 class=\"panel-title\">" . gettext("Client Instance Statistics") . "</h2></div>";
+		$opstring .=	"<div class=\"panel-heading\"><h2 class=\"panel-title\">" . gettext("클라이언트 인스턴스 통계") . "</h2></div>";
 		$opstring .=	"<div class=\"table-responsive\">";
 		$opstring .=		"<table class=\"table table-striped table-hover table-condensed sortable-theme-bootstrap\" data-sortable>";
 		$opstring .=			"<thead>";
 		$opstring .=				"<tr>";
-		$opstring .=					"<th>" . gettext('Name/Time') . "</th>";
-		$opstring .=					"<th>" . gettext('Remote/Virtual IP') . "</th>";
+		$opstring .=					"<th>" . gettext('이름/시간') . "</th>";
+		$opstring .=					"<th>" . gettext('원격/가상 IP') . "</th>";
 		$opstring .=					"<th></th>";
 		$opstring .=				"</tr>";
 		$opstring .=			"</thead>";
@@ -256,9 +256,9 @@ if (!function_exists('printPanel')) {
 		endif;
 
 		if ((empty($clients)) && (empty($servers)) && (empty($sk_servers))) {
-			$none_to_display_text = gettext("No OpenVPN instances defined");
+			$none_to_display_text = gettext("정의된 OpenVPN 인스턴스가 없습니다.");
 		} else if (!$got_ovpn_server && !$got_sk_server && !$got_ovpn_client) {
-			$none_to_display_text = gettext("All OpenVPN instances are hidden");
+			$none_to_display_text = gettext("모든 OpenVPN 인스턴스가 숨겨져 있습니다.");
 		} else {
 			$none_to_display_text = "";
 		}
@@ -278,7 +278,7 @@ if ($_GET['action']) {
 			$retval = openvpn_kill_client($port, $remipp);
 			echo htmlentities("|{$port}|{$remipp}|{$retval}|");
 		} else {
-			echo gettext("invalid input");
+			echo gettext("잘못된 입력");
 		}
 		exit;
 	}
@@ -314,7 +314,7 @@ if ($_REQUEST && $_REQUEST['ajax']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['filter'] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved OpenVPN Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 OpenVPN 필터."));
 	header("Location: /index.php");
 }
 
@@ -341,7 +341,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Name")?></th>
+							<th><?=gettext("이름")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -384,7 +384,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
