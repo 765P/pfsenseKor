@@ -132,7 +132,7 @@ if ($_REQUEST['getdyndnsstatus']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['filter'] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved Dynamic DNS Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 동적 DNS 필터."));
 	header("Location: /index.php");
 }
 
@@ -175,9 +175,9 @@ if (!function_exists('get_dyndns_service_text')) {
 	<thead>
 	<tr>
 		<th style="width:5%;"><?=gettext("Int.");?></th>
-		<th style="width:20%;"><?=gettext("Service");?></th>
-		<th style="width:25%;"><?=gettext("Hostname");?></th>
-		<th style="width:25%;"><?=gettext("Cached IP");?></th>
+		<th style="width:20%;"><?=gettext("서비스");?></th>
+		<th style="width:25%;"><?=gettext("호스트이름");?></th>
+		<th style="width:25%;"><?=gettext("캐시된 IP");?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -211,13 +211,13 @@ if (!function_exists('get_dyndns_service_text')) {
 		<td><?=htmlspecialchars(get_dyndns_service_text($dyndns['type']));?></td>
 		<?php endif;?>
 		<td><?=insert_word_breaks_in_domain_name(htmlspecialchars(get_dyndns_hostname_text($dyndns)));?></td>
-		<td><div id="dyndnsstatus<?= $rowid;?>"><?= gettext("Checking ...");?></div></td>
+		<td><div id="dyndnsstatus<?= $rowid;?>"><?= gettext("체크중...");?></div></td>
 	</tr>
 	<?php endforeach;?>
 	<?php if ($rowid == -1):?>
 	<tr>
 		<td colspan="4" class="text-center">
-			<?=gettext('All Dyn DNS entries are hidden.');?>
+			<?=gettext('Dyn DNS항목이 모두 숨겨집니다.');?>
 		</td>
 	</tr>
 	<?php endif;?>
@@ -236,9 +236,9 @@ if (!function_exists('get_dyndns_service_text')) {
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Interface")?></th>
-							<th><?=gettext("Service")?></th>
-							<th><?=gettext("Hostname")?></th>
+							<th><?=gettext("인터페이스")?></th>
+							<th><?=gettext("서비스")?></th>
+							<th><?=gettext("호스트이름")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -272,7 +272,7 @@ if (!function_exists('get_dyndns_service_text')) {
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
