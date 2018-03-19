@@ -42,17 +42,17 @@ if ($_POST['save'] == 'No') {
 	exit;
 }
 
-$pgtitle = array(gettext("Diagnostics"), gettext("Halt System"));
+$pgtitle = array(gettext("진단"), gettext("시스템 정지"));
 include('head.inc');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 	<meta http-equiv="refresh" content="70;url=/">
 <?php
-	print_info_box(gettext("The system is halting now. This may take one minute or so."), 'success', false);
+	print_info_box(gettext("시스템이 지금 정지 중입니다. 1 분 정도 걸릴 수 있습니다."), 'success', false);
 
 	if (DEBUG) {
-	   printf(gettext("Not actually halting (DEBUG is set true)%s"), "<br />");
+	   printf(gettext("실제로 멈추지 않음(DEBUG가 true로 설정 됨)%s"), "<br />");
 	} else {
 		print('<pre>');
 		system_halt();
@@ -63,19 +63,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h2 class="panel-title"><?=gettext('System Halt Confirmation')?></h2>
+		<h2 class="panel-title"><?=gettext('시스템 정지 확인')?></h2>
 	</div>
 	<div class="panel-body">
 		<div class="content">
-			<p><?=gettext('Click "Halt" to halt the system immediately, or "Cancel" to go to the system dashboard. (There will be a brief delay before the dashboard appears.)')?></p>
+			<p><?=gettext('시스템을 즉시 중지하려면 "중지"를 클릭하고, 시스템 대시 보드로 이동하려면 "취소"를 클릭하십시오. 대시 보드가 표시되기까지 잠깐 지연 될 것입니다.')?></p>
 			<form action="diag_halt.php" method="post">
-				<button type="submit" class="btn btn-danger pull-center" name="save" value="<?=gettext("Halt")?>" title="<?=gettext("Halt the system and power off")?>">
+				<button type="submit" class="btn btn-danger pull-center" name="save" value="<?=gettext("중지")?>" title="<?=gettext("시스템 정지 및 전원 끄기")?>">
 					<i class="fa fa-stop-circle"></i>
-					<?=gettext("Halt")?>
+					<?=gettext("중지")?>
 				</button>
 				<a href="/" class="btn btn-info">
 					<i class="fa fa-undo"></i>
-					<?=gettext("Cancel")?>
+					<?=gettext("취소")?>
 				</a>
 			</form>
 		</div>
