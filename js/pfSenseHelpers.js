@@ -397,7 +397,7 @@ function add_row() {
 		} else if ($(this).hasClass("nowarn")) {
 			clearRow0();
 		} else {
-			alert('The last row may not be deleted.');
+			alert('마지막 행을 삭제할 수 없습니다.');
 		}
 	});
 }
@@ -420,7 +420,7 @@ $('[id^=delete]').click(function(event) {
 		} else if ($(this).hasClass("nowarn")) {
 			clearRow0();
 		} else {
-			alert('The last row may not be deleted.');
+			alert('마지막 행을 삭제할 수 없습니다.');
 		}
 });
 
