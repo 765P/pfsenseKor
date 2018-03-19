@@ -182,9 +182,9 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 
 if (isset($config['ipsec']['phase1'])) {
 	$tab_array = array();
-	$tab_array[] = array(gettext("Overview"), true, htmlspecialchars($widgetkey_nodash) . "-Overview");
-	$tab_array[] = array(gettext("Tunnels"), false, htmlspecialchars($widgetkey_nodash) . "-tunnel");
-	$tab_array[] = array(gettext("Mobile"), false, htmlspecialchars($widgetkey_nodash) . "-mobile");
+	$tab_array[] = array(gettext("개요"), true, htmlspecialchars($widgetkey_nodash) . "-Overview");
+	$tab_array[] = array(gettext("터널"), false, htmlspecialchars($widgetkey_nodash) . "-tunnel");
+	$tab_array[] = array(gettext("모바일"), false, htmlspecialchars($widgetkey_nodash) . "-mobile");
 
 	display_widget_tabs($tab_array);
 }
@@ -197,13 +197,13 @@ if (isset($config['ipsec']['phase2'])): ?>
 	<table class="table table-striped table-hover">
 		<thead>
 		<tr>
-			<th><?=gettext("Active Tunnels")?></th>
-			<th><?=gettext("Inactive Tunnels")?></th>
-			<th><?=gettext("Mobile Users")?></th>
+			<th><?=gettext("활성 터널")?></th>
+			<th><?=gettext("비활성 터널")?></th>
+			<th><?=gettext("모바일 유저")?></th>
 		</tr>
 		</thead>
 		<tbody>
-			<tr><td colspan="3"><?=gettext("Retrieving overview data ")?><i class="fa fa-cog fa-spin"></i></td></tr>
+			<tr><td colspan="3"><?=gettext("개요 데이터 검색 ")?><i class="fa fa-cog fa-spin"></i></td></tr>
 		</tbody>
 	</table>
 </div>
@@ -211,14 +211,14 @@ if (isset($config['ipsec']['phase2'])): ?>
 	<table class="table table-striped table-hover">
 	<thead>
 	<tr>
-		<th><?=gettext("Source")?></th>
-		<th><?=gettext("Destination")?></th>
+		<th><?=gettext("발신지")?></th>
+		<th><?=gettext("수신지")?></th>
 		<th><?=gettext("Description")?></th>
 		<th><?=gettext("Status")?></th>
 	</tr>
 	</thead>
 	<tbody>
-		<tr><td colspan="4"><?=gettext("Retrieving tunnel data ")?><i class="fa fa-cog fa-spin"></i></td></tr>
+		<tr><td colspan="4"><?=gettext("터널 데이터 검색 중 ")?><i class="fa fa-cog fa-spin"></i></td></tr>
 	</tbody>
 	</table>
 </div>
@@ -228,18 +228,18 @@ if (isset($config['ipsec']['phase2'])): ?>
 <?php if (is_array($mobile['pool'])): ?>
 		<thead>
 		<tr>
-			<th><?=gettext("User")?></th>
+			<th><?=gettext("사용자")?></th>
 			<th><?=gettext("IP")?></th>
-			<th><?=gettext("Status")?></th>
+			<th><?=gettext("상태")?></th>
 		</tr>
 		</thead>
 		<tbody>
-			<tr><td colspan="3"><?=gettext("Retrieving mobile data ")?><i class="fa fa-cog fa-spin"></i></td></tr>
+			<tr><td colspan="3"><?=gettext("모바일 데이터 검색 ")?><i class="fa fa-cog fa-spin"></i></td></tr>
 		</tbody>
 <?php else:?>
 		<thead>
 			<tr>
-				<th colspan="3" class="text-danger"><?=gettext("No mobile tunnels have been configured")?></th>
+				<th colspan="3" class="text-danger"><?=gettext("모바일 터널이 구성되지 않았습니다.")?></th>
 			</tr>
 		</thead>
 <?php endif;?>
@@ -248,8 +248,8 @@ if (isset($config['ipsec']['phase2'])): ?>
 
 <?php else: ?>
 	<div>
-		<h5 style="padding-left:10px;"><?=gettext("There are no configured IPsec Tunnels")?></h5>
-		<p  style="padding-left:10px;"><?=gettext('IPsec can be configured <a href="vpn_ipsec.php">here</a>.')?></p>
+		<h5 style="padding-left:10px;"><?=gettext("구성된 IPsec터널이 없음")?></h5>
+		<p  style="padding-left:10px;"><?=gettext('<a href="vpn_ipsec.php">여기</a>에서 IPsec을 구성할 수 있습니다.')?></p>
 	</div>
 <?php endif;
 
