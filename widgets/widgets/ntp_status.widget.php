@@ -146,17 +146,17 @@ if ($_REQUEST['updateme']) {
 
 <table id="ntp_status_widget" class="table table-striped table-hover">
 	<tr>
-		<th><?=gettext('Server Time')?></th>
+		<th><?=gettext('서버시간')?></th>
 		<td id="ClockTime">
 			<!-- will be replaced by javascript -->
 			<span id="ntpStatusClock"></span>
 		</td>
 	</tr>
 	<tr>
-		<th><?=gettext('Sync Source')?></th>
+		<th><?=gettext('소스 동기화')?></th>
 		<td>
 		<?php if ($ntpq_counter == 0): ?>
-			<i><?=gettext('No active peers available')?></i>
+			<i><?=gettext('사용 가능한 활성 피어가 없음')?></i>
 		<?php else: ?>
 			<?=$syncsource;?>
 		<?php endif; ?>
@@ -164,7 +164,7 @@ if ($_REQUEST['updateme']) {
 	</tr>
 	<?php if (($gps_ok) && ($gps_lat) && ($gps_lon)): ?>
 		<tr>
-			<th><?=gettext('Clock location')?></th>
+			<th><?=gettext('시각위치')?></th>
 			<td>
 				<a target="_gmaps" href="http://maps.google.com/?q=<?=$gps_lat;?>,<?=$gps_lon;?>">
 				<?php
@@ -178,9 +178,9 @@ if ($_REQUEST['updateme']) {
 				<th><?=gettext('Satellites')?></th>
 				<td>
 				<?php
-				if (isset($gps_satview)) {echo gettext('in view') . ' ' . intval($gps_satview);}
+				if (isset($gps_satview)) {echo gettext('보기') . ' ' . intval($gps_satview);}
 				if (isset($gps_sat) && isset($gps_satview)) {echo ', ';}
-				if (isset($gps_sat)) {echo gettext('in use') . ' ' . $gps_sat;}
+				if (isset($gps_sat)) {echo gettext('사용') . ' ' . $gps_sat;}
 				?>
 				</td>
 			</tr>
@@ -224,7 +224,7 @@ setInterval(function() {
 	<tbody>
 		<tr>
 			<td>
-				<?=gettext('Updating...')?>
+				<?=gettext('업데이트중...')?>
 			</td>
 		</tr>
 	</tbody>
