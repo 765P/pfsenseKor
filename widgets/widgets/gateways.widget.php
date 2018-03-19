@@ -105,42 +105,42 @@ if (!function_exists('compose_table_body_contents')) {
 
 			if ($gateways_status[$gname]) {
 				if (stristr($gateways_status[$gname]['status'], "force_down")) {
-					$online = gettext("Offline (forced)");
+					$online = gettext("오프라인 (forced)");
 					$bgcolor = "danger";  // lightcoral
 				} elseif (stristr($gateways_status[$gname]['status'], "down")) {
-					$online = gettext("Offline");
+					$online = gettext("오프라인");
 					$bgcolor = "danger";  // lightcoral
 				} elseif (stristr($gateways_status[$gname]['status'], "highloss")) {
-					$online = gettext("Packetloss");
+					$online = gettext("패킷손실");
 					$bgcolor = "danger";  // lightcoral
 				} elseif (stristr($gateways_status[$gname]['status'], "loss")) {
-					$online = gettext("Packetloss");
+					$online = gettext("패킷손실");
 					$bgcolor = "warning";  // khaki
 				} elseif (stristr($gateways_status[$gname]['status'], "highdelay")) {
-					$online = gettext("Latency");
+					$online = gettext("지연 시간");
 					$bgcolor = "danger";  // lightcoral
 				} elseif (stristr($gateways_status[$gname]['status'], "delay")) {
-					$online = gettext("Latency");
+					$online = gettext("지연 시간");
 					$bgcolor = "warning";  // khaki
 				} elseif ($gateways_status[$gname]['status'] == "none") {
 					if ($gateways_status[$gname]['monitor_disable'] || ($gateways_status[$gname]['monitorip'] == "none")) {
-						$online = gettext("Online <br/>(unmonitored)");
+						$online = gettext("온라인 <br/>(unmonitored)");
 					} else {
-						$online = gettext("Online");
+						$online = gettext("온라인");
 					}
 					$bgcolor = "success";  // lightgreen
 				} elseif ($gateways_status[$gname]['status'] == "") {
-					$online = gettext("Pending");
+					$online = gettext("미결정");
 					$bgcolor = "info";  // lightgray
 				}
 			} else {
-				$online = gettext("Unknown");
+				$online = gettext("알수없음");
 				$bgcolor = "info";  // lightblue
 			}
 
-			$rtnstr .= 	"<td>" . ($gateways_status[$gname] ? ($gateways_status[$gname]['delay'] ? htmlspecialchars(number_format((float)rtrim($gateways_status[$gname]['delay'], "ms"), 1)) . "ms" : '') : gettext("Pending")) . "</td>\n";
-			$rtnstr .= 	"<td>" . ($gateways_status[$gname] ? ($gateways_status[$gname]['stddev'] ? htmlspecialchars(number_format((float)rtrim($gateways_status[$gname]['stddev'], "ms"), 1)) . "ms" : '') : gettext("Pending")) . "</td>\n";
-			$rtnstr .= 	"<td>" . ($gateways_status[$gname] ? htmlspecialchars($gateways_status[$gname]['loss']) : gettext("Pending")) . "</td>\n";
+			$rtnstr .= 	"<td>" . ($gateways_status[$gname] ? ($gateways_status[$gname]['delay'] ? htmlspecialchars(number_format((float)rtrim($gateways_status[$gname]['delay'], "ms"), 1)) . "ms" : '') : gettext("미결정")) . "</td>\n";
+			$rtnstr .= 	"<td>" . ($gateways_status[$gname] ? ($gateways_status[$gname]['stddev'] ? htmlspecialchars(number_format((float)rtrim($gateways_status[$gname]['stddev'], "ms"), 1)) . "ms" : '') : gettext("미결정")) . "</td>\n";
+			$rtnstr .= 	"<td>" . ($gateways_status[$gname] ? htmlspecialchars($gateways_status[$gname]['loss']) : gettext("미결정")) . "</td>\n";
 			$rtnstr .= '<td class="bg-' . $bgcolor . '">' . $online . "</td>\n";
 			$rtnstr .= "</tr>\n";
 		}
@@ -149,9 +149,9 @@ if (!function_exists('compose_table_body_contents')) {
 			$rtnstr .= '<tr>';
 			$rtnstr .= 	'<td colspan="5" class="text-center">';
 			if (count($a_gateways)) {
-				$rtnstr .= gettext('All gateways are hidden.');
+				$rtnstr .= gettext('모든 게이트웨이가 숨겨집니다.');
 			} else {
-				$rtnstr .= gettext('No gateways found.');
+				$rtnstr .= gettext('게이트웨이가 없습니다.');
 			}
 			$rtnstr .= '</td>';
 			$rtnstr .= '</tr>';
@@ -190,7 +190,7 @@ if ($_POST['widgetkey']) {
 		$user_settings["widgets"][$_POST['widgetkey']]["gatewaysfilter"] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Updated gateways widget settings via dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 게이트 웨이 위젯 설정을 업데이트했습니다."));
 	header("Location: /");
 	exit(0);
 }
@@ -204,10 +204,10 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 	<table class="table table-striped table-hover table-condensed">
 		<thead>
 			<tr>
-				<th><?=gettext("Name")?></th>
+				<th><?=gettext("이름")?></th>
 				<th>RTT</th>
 				<th>RTTsd</th>
-				<th><?=gettext("Loss")?></th>
+				<th><?=gettext("손실")?></th>
 				<th><?=gettext("Status")?></th>
 			</tr>
 		</thead>
@@ -223,7 +223,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 <form action="/widgets/widgets/gateways.widget.php" method="post" class="form-horizontal">
 	<?=gen_customwidgettitle_div($widgetconfig['title']); ?>
 	<div class="form-group">
-		<label class="col-sm-4 control-label"><?=gettext('Display')?></label>
+		<label class="col-sm-4 control-label"><?=gettext('표시')?></label>
 <?php
 			$display_type_gw_ip = "checked";
 			$display_type_monitor_ip = "";
@@ -247,10 +247,10 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 ?>
 		<div class="col-sm-6">
 			<div class="radio">
-				<label><input name="display_type" type="radio" id="display_type_gw_ip" value="gw_ip" <?=$display_type_gw_ip;?> /> <?=gettext('Gateway IP')?></label>
+				<label><input name="display_type" type="radio" id="display_type_gw_ip" value="gw_ip" <?=$display_type_gw_ip;?> /> <?=gettext('게이트웨이 IP')?></label>
 			</div>
 			<div class="radio">
-				<label><input name="display_type" type="radio" id="display_type_monitor_ip" value="monitor_ip" <?=$display_type_monitor_ip;?> /><?=gettext('Monitor IP')?></label>
+				<label><input name="display_type" type="radio" id="display_type_monitor_ip" value="monitor_ip" <?=$display_type_monitor_ip;?> /><?=gettext('모니터 IP')?></label>
 			</div>
 			<div class="radio">
 				<label><input name="display_type" type="radio" id="display_type_both_ip" value="both_ip" <?=$display_type_both_ip;?> /><?=gettext('Both')?></label>
@@ -267,7 +267,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Gateway")?></th>
+							<th><?=gettext("게이트웨이")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -294,7 +294,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
