@@ -98,9 +98,9 @@ if ($_REQUEST && $_REQUEST['ajax']) {
 		}
 
 		if (!$an_interface_is_selected) {
-			print("<th>" . gettext('All interfaces are hidden.') . "</th>");
+			print("<th>" . gettext('모든 인터페이스가 숨겨집니다.') . "</th>");
 		} else if (!$an_interface_is_displayed) {
-			print("<th>" . gettext('All selected interfaces are down.') . "</th>");
+			print("<th>" . gettext('선택한 모든 인터페이스가 중단되었습니다.') . "</th>");
 		}
 	} else {
 		// Put stats item names as column headings
@@ -109,7 +109,7 @@ if ($_REQUEST && $_REQUEST['ajax']) {
 		}
 
 		if (!$an_ifstat_is_displayed) {
-			print("<th>" . gettext('All statistics are hidden.') . "</th>");
+			print("<th>" . gettext('모든 통계가 숨겨집니다.') . "</th>");
 		}
 	}
 
@@ -131,7 +131,7 @@ if ($_REQUEST && $_REQUEST['ajax']) {
 		}
 
 		if (!$an_ifstat_is_displayed) {
-			print("<tr><td><b>" . gettext('All statistics are hidden.') . "</b></td></tr>");
+			print("<tr><td><b>" . gettext('모든 통계가 숨겨져 있습니다.') . "</b></td></tr>");
 		}
 	} else {
 		//Construct the table with interfaces as rows and stats as columns
@@ -147,9 +147,9 @@ if ($_REQUEST && $_REQUEST['ajax']) {
 		}
 
 		if (!$an_interface_is_selected) {
-			print("<tr><td><b>" . gettext('All interfaces are hidden.') . "</b></td></tr>");
+			print("<tr><td><b>" . gettext('모든 인터페이스가 숨겨집니다.') . "</b></td></tr>");
 		} else if (!$an_interface_is_displayed) {
-			print("<tr><td><b>" . gettext('All selected interfaces are down.') . "</b></td></tr>");
+			print("<tr><td><b>" . gettext('선택한 모든 인터페이스가 중단되었습니다.') . "</b></td></tr>");
 		}
 	}
 
@@ -186,7 +186,7 @@ if ($_REQUEST && $_REQUEST['ajax']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['ifstatsfilter'] = implode(',', $validStats);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved Interface Statistics Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 인터페이스 통계 필터."));
 	header("Location: /index.php");
 }
 
@@ -204,7 +204,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 <form action="/widgets/widgets/interface_statistics.widget.php" method="post" class="form-horizontal">
 	<?=gen_customwidgettitle_div($widgetconfig['title']); ?>
 	<div class="form-group">
-		<label class="col-sm-3 control-label"><?=gettext('Orientation')?></label>
+		<label class="col-sm-3 control-label"><?=gettext('방향')?></label>
 		<?php
 			$orientation_type_if_columns = "checked";
 			$orientation_type_if_rows = "";
@@ -221,10 +221,10 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 ?>
 		<div class="col-sm-6">
 			<div class="radio">
-				<label><input name="orientation_type" type="radio" id="orientation_type_if_columns" value="if_columns" <?=$orientation_type_if_columns;?> /> <?=gettext('Each interface in a column')?></label>
+				<label><input name="orientation_type" type="radio" id="orientation_type_if_columns" value="if_columns" <?=$orientation_type_if_columns;?> /> <?=gettext('열에 있는 각 인터페이스')?></label>
 			</div>
 			<div class="radio">
-				<label><input name="orientation_type" type="radio" id="orientation_type_if_rows" value="if_rows" <?=$orientation_type_if_rows;?> /><?=gettext('Each interface in a row')?></label>
+				<label><input name="orientation_type" type="radio" id="orientation_type_if_rows" value="if_rows" <?=$orientation_type_if_rows;?> /><?=gettext('한줄에 각 인터페이스 수')?></label>
 			</div>
 		</div>
 	</div>
@@ -236,7 +236,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Interface")?></th>
+							<th><?=gettext("인터페이스")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -261,7 +261,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Stats Item")?></th>
+							<th><?=gettext("상태 항목")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -287,7 +287,7 @@ $widgetkey_nodash = str_replace("-", "", $widgetkey);
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
