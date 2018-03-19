@@ -25,10 +25,10 @@
 	<totalsteps>9</totalsteps>
 	<step>
 		<id>1</id>
-		<title>pfSense Traffic Shaper</title>
+		<title>pfSense 트래픽 셰이퍼</title>
 		<disableheader>true</disableheader>
-		<description>This wizard will provide guidance through setting up the pfSense traffic shaper.&lt;br/&gt;&lt;br/&gt; The wizard may be stopped at any time by clicking the logo image at the top of the screen.
-			&lt;br/&gt;&lt;br/&gt; Please be aware that Custom Bandwidths should not exceed 30% of the interface/link bandwidth. Keep this in mind during the wizard.
+		<description>이 마법사는 pfSense 트래픽 셰이 퍼를 설정하여 지침을 제공합니다.&lt;br/&gt;&lt;br/&gt; 마법사는 화면 상단의 로고 이미지를 클릭하여 언제든지 중지 할 수 있습니다.
+			&lt;br/&gt;&lt;br/&gt; 맞춤 대역폭은 인터페이스 / 링크 대역폭의 30 %를 넘지 않아야합니다. 마법사 중에이 사실을 명심하십시오.
 		</description>
 		<fields>
 			<field>
@@ -36,11 +36,11 @@
 				<name>Traffic shaper Wizard</name>
 			</field>
 			<field>
-				<displayname>Enter number of WAN type connections</displayname>
+				<displayname>WAN 유형 연결 수 입력</displayname>
 				<name>numberofconnections</name>
 				<type>input</type>
 				<validate>^[0-9]+$</validate>
-				<description>Number of WAN-type connections (Gateway selected on their interface settings, or dynamic assignment.)</description>
+				<description>WAN 유형 연결 수 (인터페이스 설정에서 선택한 게이트웨이 또는 동적 할당)</description>
 				<bindstofield>ezshaper->step1->numberofconnections</bindstofield>
 			</field>
 			<field>
@@ -54,8 +54,8 @@
 	</step>
 	<step>
 		<id>2</id>
-		<title>Shaper configuration</title>
-		<description>Shaper configuration</description>
+		<title>셰이퍼 구성</title>
+		<description>셰이퍼 구성</description>
 		<javascriptafterformdisplay/>
 		<stepbeforeformdisplay>step2_stepbeforeformdisplay();</stepbeforeformdisplay>
 		<stepsubmitphpaction>step2_stepsubmitphpaction();</stepsubmitphpaction>
@@ -69,14 +69,14 @@
 	</step>
 	<step>
 		<id>3</id>
-		<title>Voice over IP</title>
-		<description>Voice over IP</description>
+		<title>VOIP</title>
+		<description>VOIP</description>
 		<fields>
 			<field>
 				<name>Enable</name>
 				<type>checkbox</type>
 				<typehint>Prioritize Voice over IP traffic</typehint>
-				<description>This will raise the priority of VOIP traffic above all other traffic.</description>
+				<description>이렇게하면 다른 모든 트래픽보다 VoIP 트래픽의 우선 순위가 높아집니다.</description>
 				<bindstofield>ezshaper-&gt;step3-&gt;enable</bindstofield>
 			</field>
 			<field>
@@ -86,7 +86,7 @@
 			<field>
 				<name>Provider</name>
 				<type>select</type>
-				<description>Choose Generic if the provider isn't listed.</description>
+				<description>공급자가 목록에없는 경우 일반을 선택하십시오.</description>
 				<bindstofield>ezshaper-&gt;step3-&gt;provider</bindstofield>
 				<options>
 					<option>
@@ -108,18 +108,18 @@
 				</options>
 			</field>
 			<field>
-				<displayname>Upstream SIP Server</displayname>
+				<displayname>Upstream SIP 서버</displayname>
 				<name>upstream_sip_server</name>
 				<type>inputalias</type>
-				<description>(Optional) If this is chosen, the provider field will be overridden.  This allows providing the IP address of the &lt;strong&gt;remote&lt;/strong&gt; PBX or SIP Trunk to prioritize.  &lt;br /&gt;NOTE: A Firewall Alias can also be used in this location.</description>
+				<description>(선택사항)이 옵션을 선택하면 공급자 필드가 재정의됩니다.이렇게하면 우선 순위를 부여 할 &lt;strong&gt;원격&lt;/strong&gt; PBX 또는 SIP 트렁크의 IP 주소를 제공 할 수 있습니다.&lt;br /&gt;NOTE: 이 위치에서 방화벽 별칭을 사용할 수도 있습니다.</description>
 				<bindstofield>ezshaper-&gt;step3-&gt;address</bindstofield>
-				<message>IP Address field is non-blank and doesn't look like an IP address.</message>
+				<message>IP 주소 필드는 공백이 아니며 IP 주소처럼 보이지 않습니다.</message>
 			</field>
 			<field>
 				<name>Bandwidth</name>
 				<type>input</type>
 				<validate>^[0-9]*$</validate>
-				<description>Total bandwidth in percentage(%)(should be between 5 and 40) guarantee for VOIP traffic.</description>
+				<description>총 대역폭 (%) (5 ~ 40 사이 여야 함)은 VOIP 트래픽을 보장합니다.</description>
 				<bindstofield>ezshaper-&gt;step3-&gt;bandwidth</bindstofield>
 			</field>
 			<field>
@@ -133,8 +133,8 @@
 	</step>
 	<step>
 		<id>4</id>
-		<title>Penalty Box</title>
-		<description>Penalty Box</description>
+		<title>패널티 박스</title>
+		<description>패널티 박스</description>
 		<disableallfieldsbydefault>true</disableallfieldsbydefault>
 		<fields>
 			<field>
@@ -142,7 +142,7 @@
 				<name>Enable</name>
 				<type>checkbox</type>
 				<typehint>Penalize IP or Alias</typehint>
-				<description>This will lower the priority of traffic from this IP or alias.</description>
+				<description>이렇게 하면 이 IP 또는 별칭의 트래픽 우선 순위가 낮아집니다.</description>
 				<enablefields>Address,Bandwidth,BandwidthSpeed</enablefields>
 				<bindstofield>ezshaper-&gt;step4-&gt;enable</bindstofield>
 			</field>
@@ -153,15 +153,15 @@
 			<field>
 				<name>Address</name>
 				<type>inputalias</type>
-				<description>This allows just providing the IP address of the computer(s) to penalize. NOTE: A Firewall Alias can also be used in this location.</description>
+				<description>이렇게 하면 페널티를 받을 컴퓨터의 IP 주소를 제공 할 수 있습니다. Note :이 위치에서 방화벽 별칭을 사용할 수도 있습니다.</description>
 				<bindstofield>ezshaper-&gt;step4-&gt;address</bindstofield>
-				<message>IP Address field is non-blank and doesn't look like an IP address.</message>
+				<message>IP 주소 필드는 공백이 아니며 IP 주소처럼 보이지 않습니다.</message>
 			</field>
 			<field>
 				<name>Bandwidth</name>
 				<type>input</type>
 				<validate>^[0-9]*$</validate>
-				<message>Speed must be numerical.</message>
+				<message>속도는 숫자 여야합니다.</message>
 				<bindstofield>ezshaper-&gt;step4-&gt;bandwidth</bindstofield>
 				<combinefieldsbegin>true</combinefieldsbegin>
 			</field>
@@ -172,7 +172,7 @@
 				<donotdisable>true</donotdisable>
 				<displayname>Units</displayname>
                 <name>BandwidthSpeed</name>
-				<description>The desired limit to apply.</description>
+				<description>적용 할 원하는 한도.</description>
                 <type>select</type>
 				<options>
 				<option>
@@ -217,7 +217,7 @@
 				<name>Enable</name>
 				<type>checkbox</type>
 				<typehint>Lower priority of Peer-to-Peer traffic</typehint>
-				<description>This will lower the priority of P2P traffic below all other traffic.  Please check the items to prioritize lower than normal traffic.</description>
+				<description>이렇게하면 다른 모든 트래픽보다 P2P 트래픽의 우선 순위가 낮아집니다. 정상적인 트래픽보다 우선 순위가 낮은 항목을 확인하십시오.</description>
 				<enablefields>p2pCatchAll,Bandwidth,BandwidthSpeed,Aimster,BitTorrent,BuddyShare,CuteMX,DCplusplus,dcc,DirectConnect,DirectFileExpress,EDonkey2000,FastTrack,Gnutella,grouper,hotComm,HotlineConnect,iMesh,Napster,OpenNap,Scour,Shareaza,SongSpy,WinMX</enablefields>
 				<bindstofield>ezshaper-&gt;step5-&gt;enable</bindstofield>
 			</field>
@@ -414,13 +414,13 @@
 		<id>6</id>
 		<title>Network Games</title>
 		<disableallfieldsbydefault>true</disableallfieldsbydefault>
-		<description>Network Games</description>
+		<description>네트워크 게임</description>
 		<fields>
 			<field>
 				<name>Enable</name>
 				<type>checkbox</type>
 				<typehint>Prioritize network gaming traffic</typehint>
-				<description>This will raise the priority of gaming traffic to higher than most traffic.</description>
+				<description>이렇게하면 게임 트래픽의 우선 순위가 대부분의 트래픽보다 높아집니다.</description>
 				<enablefields>BattleNET,EAOrigin,GameForWindowsLive,PlayStationConsoles,Steam,WiiConsoles,XboxConsoles,ARMA2,ARMA3,Battlefield2,Battlefield3,BattlefieldBC2,Borderlands,CallOfDuty,Counterstrike,Crysis2,Crysis3,DeltaForce,DeadSpace2,DeadSpace3,Dirt3,DOOM3,DragonAge2,EmpireEarth,EveOnline,Everquest,Everquest2,FarCry,FarCry2,FarCry3,GunZOnline,HalfLife,LeagueofLegends,Lineage2,MassEffect3,MechwarriorOnline,Minecraft,OperationFlashpointDR,PlanetSide,PlanetSide2,QuakeIII,QuakeIV,StarWarsTOR,TigerWoods2004PS2,TribesAscend,UnrealTournament,WolfensteinEnemyTerritory,WorldOfWarcraft</enablefields>
 				<donotdisable>true</donotdisable>
 				<bindstofield>ezshaper-&gt;step6-&gt;enable</bindstofield>
@@ -730,15 +730,15 @@
 	</step>
 	<step>
 		<id>7</id>
-		<title>Raise or lower other Applications</title>
+		<title>다른 응용 프로그램 높이기 또는 낮추기</title>
 		<disableallfieldsbydefault>true</disableallfieldsbydefault>
-		<description>Raise or lower other Applications</description>
+		<description>다른 응용 프로그램 높이기 또는 낮추기</description>
 		<fields>
 			<field>
 				<name>Enable</name>
 				<type>checkbox</type>
 				<typehint>Other networking protocols</typehint>
-				<description>This will help raise or lower the priority of other protocols higher than most traffic.</description>
+				<description>이렇게하면 대부분의 트래픽보다 높은 다른 프로토콜의 우선 순위를 높이거나 낮출 수 있습니다.</description>
 				<enablefields>AppleRemoteDesktop,MSRDP,PCAnywhere,VNC,AIM,Facetime,GoogleHangouts,ICQ,IRC,Jabber,MSN,TeamSpeak,TeamSpeak3,Ventrilo,PPTP,IPSEC,iTunesRadio,StreamingMP3,RTSP,RTMP,HTTP,IMAP,LotusNotes,POP3,SMTP,BattleNETDownloader,SteamDownloader,APNS,AppleMobileSync,CrashPlan,CVSUP,DNS,GIT,HBCI,ICMP,MySqlServer,NNTP,Slingbox,SMB,SNMP,Subversion</enablefields>
 				<donotdisable>true</donotdisable>
 				<bindstofield>ezshaper-&gt;step7-&gt;enable</bindstofield>
@@ -1604,12 +1604,12 @@
 	</step>
 	<step>
 		<id>8</id>
-		<title>Reload profile</title>
+		<title>프로필 새로고침</title>
 		<field>
 			<name>Reload profile notice</name>
 			<type>listtopic</type>
 		</field>
-		<description>    After pressing Finish the system will load the new profile.&lt;br/&gt;    Please note that this may take a moment.&lt;br/&gt;    Also note that the traffic shaper is stateful meaning that only new connections will be shaped.&lt;br/&gt;    If this is an issue please reset the state table after loading the profile.&lt;br/&gt;</description>
+		<description>    마침을 누르면 시스템이 새 프로파일을로드합니다.&lt;br/&gt;    이 작업에는 다소 시간이 걸릴 수 있습니다.&lt;br/&gt;    또한 트래픽 셰이퍼는 새로운 연결 만 형성된다는 점을 의미하는 상태 정보입니다.&lt;br/&gt;    문제가 발생하면 프로필을 로드 한 후 상태 표를 재설정하십시오.&lt;br/&gt;</description>
 		<fields>
 			<field>
 				<name>Finish</name>
