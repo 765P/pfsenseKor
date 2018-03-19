@@ -47,7 +47,7 @@ function gmirrorStatusUpdateFromServer() {
 			$('[id="gmirror_status"]').html(data);
 		},
 		error: function(){
-			$('[id="gmirror_status"]').html("<div class=\"alert alert-danger\"><?=gettext('Unable to retrieve status'); ?></div>");
+			$('[id="gmirror_status"]').html("<div class=\"alert alert-danger\"><?=gettext('상태를 검색할 수 없습니다.'); ?></div>");
 		}
 	});
 }
