@@ -60,8 +60,8 @@ $(function() {
 	{
 		var groups = $('div.form-group.user-duplication-horiz');
 		var controlsContainer = $('<div class="col-sm-2"></div>');
-		var plus = $('<a class="btn btn-sm btn-success"><i class="fa fa-plus icon-embed-btn"></i>Add</a>');
-		var minus = $('<a class="btn btn-sm btn-warning"><i class="fa fa-trash icon-embed-btn"></i>Delete</a>');
+		var plus = $('<a class="btn btn-sm btn-success"><i class="fa fa-plus icon-embed-btn"></i>추가</a>');
+		var minus = $('<a class="btn btn-sm btn-warning"><i class="fa fa-trash icon-embed-btn"></i>삭제</a>');
 
 		minus.on('click', function(){
 			$(this).parents('div.form-group').remove();
@@ -119,8 +119,8 @@ $(function() {
 		var groups = $('div.form-listitem.user-duplication');
 		var fg = $('<div class="form-group"></div>');
 		var controlsContainer = $('<div class="col-sm-10 col-sm-offset-2 controls"></div>');
-		var plus = $('<a class="btn btn-xs btn-success"><i class="fa fa-plus icon-embed-btn"></i>Add</a>');
-		var minus = $('<a class="btn btn-xs btn-warning"><i class="fa fa-trash icon-embed-btn"></i>Delete</a>');
+		var plus = $('<a class="btn btn-xs btn-success"><i class="fa fa-plus icon-embed-btn"></i>추가</a>');
+		var minus = $('<a class="btn btn-xs btn-warning"><i class="fa fa-trash icon-embed-btn"></i>삭제</a>');
 
 		minus.on('click', function(){
 			var groups = $('div.form-listitem.user-duplication');
@@ -211,7 +211,7 @@ $(function() {
 
 	// Add toggle-all when there are multiple checkboxes
 	$('.control-label + .checkbox.multi').each(function() {
-		var a = $('<a name="btntoggleall" class="btn btn-xs btn-info"><i class="fa fa-check-square-o icon-embed-btn"></i>Toggle All</a>');
+		var a = $('<a name="btntoggleall" class="btn btn-xs btn-info"><i class="fa fa-check-square-o icon-embed-btn"></i>전체토글</a>');
 
 		a.on('click', function() {
 			var wrap = $(this).parents('.form-group').find('.checkbox.multi'),
@@ -231,7 +231,7 @@ $(function() {
 	// Hide advanced inputs by default
 	if ($('.auto-advanced').length > 0)
 	{
-		var advButt = $('<a id="toggle-advanced" class="btn btn-default">toggle advanced options</a>');
+		var advButt = $('<a id="toggle-advanced" class="btn btn-default">토글 고급 옵션</a>');
 		advButt.on('click', function() {
 			$('.advanced').parents('.form-group').collapse('toggle');
 		});
