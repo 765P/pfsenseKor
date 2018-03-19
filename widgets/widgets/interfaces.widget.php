@@ -44,7 +44,7 @@ if ($_POST['widgetkey'] && !$_REQUEST['ajax']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['iffilter'] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved Interfaces Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 인터페이스 필터."));
 	header("Location: /index.php");
 }
 
@@ -142,7 +142,7 @@ if (!$interface_is_displayed):
 ?>
 	<tr>
 		<td class="text-center">
-			<?=gettext('All interfaces are hidden.');?>
+			<?=gettext('모든 인터페이스가 숨겨져 있습니다.');?>
 		</td>
 	</tr>
 
@@ -164,7 +164,7 @@ endif;
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Interface")?></th>
+							<th><?=gettext("인터페이스")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
