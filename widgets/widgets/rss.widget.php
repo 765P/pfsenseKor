@@ -29,7 +29,7 @@ if ($_POST['widgetkey']) {
 	$user_settings['widgets'][$_POST['widgetkey']]['rssmaxitems'] = str_replace("\n", ",", htmlspecialchars($_POST['rssmaxitems'], ENT_QUOTES | ENT_HTML401));
 	$user_settings['widgets'][$_POST['widgetkey']]['rsswidgetheight'] = htmlspecialchars($_POST['rsswidgetheight'], ENT_QUOTES | ENT_HTML401);
 	$user_settings['widgets'][$_POST['widgetkey']]['rsswidgettextlength'] = htmlspecialchars($_POST['rsswidgettextlength'], ENT_QUOTES | ENT_HTML401);
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved RSS Widget feed via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 RSS위젯 피드."));
 	header("Location: /");
 }
 
@@ -128,7 +128,7 @@ if ($user_settings['widgets'][$widgetkey]['rssfeed']) {
 	<input type="hidden" name="widgetkey" value="<?=htmlspecialchars($widgetkey); ?>">
 	<?=gen_customwidgettitle_div($widgetconfig['title']); ?>
 	<div class="form-group">
-		<label for="rssfeed" class="col-sm-4 control-label"><?=gettext('Feeds')?></label>
+		<label for="rssfeed" class="col-sm-4 control-label"><?=gettext('피드')?></label>
 		<div class="col-sm-6">
 			<textarea id="rssfeed" name="rssfeed" class="form-control"><?=$textarea_txt;?></textarea>
 		</div>
@@ -142,14 +142,14 @@ if ($user_settings['widgets'][$widgetkey]['rssfeed']) {
 	</div>
 
 	<div class="form-group">
-		<label for="rsswidgetheight" class="col-sm-4 control-label"><?=gettext('Widget height')?></label>
+		<label for="rsswidgetheight" class="col-sm-4 control-label"><?=gettext('위젯 높이')?></label>
 		<div class="col-sm-6">
 			<input type="number" id="rsswidgetheight" name="rsswidgetheight" value="<?=$rsswidgetheight?>" min="100" max="2500" step="100" class="form-control" />
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="rsswidgettextlength" class="col-sm-4 control-label"><?=gettext('Content limit')?></label>
+		<label for="rsswidgettextlength" class="col-sm-4 control-label"><?=gettext('콘텐츠 제한')?></label>
 		<div class="col-sm-6">
 			<input type="number" id="rsswidgettextlength" name="rsswidgettextlength" value="<?=$rsswidgettextlength?>" min="100" max="5000" step="10" class="form-control" />
 		</div>
@@ -157,7 +157,7 @@ if ($user_settings['widgets'][$widgetkey]['rssfeed']) {
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 		</div>
 	</div>
 </form>
