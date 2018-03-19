@@ -75,11 +75,11 @@ foreach ($a_cp as $cpzone => $cp) {
 	<table class="table table-condensed sortable-theme-bootstrap" data-sortable>
 		<thead>
 		<tr>
-			<th><?=gettext("IP address");?></th>
-			<th><?=gettext("MAC address");?></th>
-			<th><?=gettext("Username");?></th>
-			<th><?=gettext("Session start");?></th>
-			<th><?=gettext("Last activity");?></th>
+			<th><?=gettext("IP주소");?></th>
+			<th><?=gettext("MAC주소");?></th>
+			<th><?=gettext("유저이름");?></th>
+			<th><?=gettext("세션시작");?></th>
+			<th><?=gettext("마지막활동");?></th>
 			<th>&nbsp;</th>
 		</tr>
 		</thead>
