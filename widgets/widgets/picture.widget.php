@@ -49,7 +49,7 @@ if ($_POST['widgetkey']) {
 		fclose($fd_pic);
 		if (!$data) {
 			log_error("Warning, could not read file " . $_FILES['pictfile']['tmp_name']);
-			die("Could not read temporary file");
+			die("임시 파일을 읽을 수 없습니다.");
 		} else {
 			// Make sure they upload an image and not some other file
 			$img_info =getimagesize($_FILES['pictfile']['tmp_name']);
@@ -65,7 +65,7 @@ if ($_POST['widgetkey']) {
 		}
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Picture widget saved via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Dashboard를 통해 저장된 그림 위젯."));
 	header("Location: /index.php");
 	exit;
 }
@@ -85,14 +85,14 @@ if($user_settings['widgets'][$widgetkey]["picturewidget"] != null){?>
 	<input type="hidden" name="widgetkey" value="<?=htmlspecialchars($widgetkey); ?>">
 	<?=gen_customwidgettitle_div($widgetconfig['title']); ?>
 	<div class="form-group">
-		<label for="pictfile" class="col-sm-4 control-label"><?=gettext('New picture:')?> </label>
+		<label for="pictfile" class="col-sm-4 control-label"><?=gettext('새 그림:')?> </label>
 		<div class="col-sm-6">
 			<input id="pictfile" name="pictfile" type="file" class="form-control" accept="image/*"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 		</div>
 	</div>
 </form>
