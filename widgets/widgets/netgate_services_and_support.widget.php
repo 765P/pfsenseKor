@@ -152,7 +152,7 @@ print("</div>");
 				},
 
 				error: function(e){
-			//		alert("Error: " + e);
+			//		alert("에러: " + e);
 
 				}
 			});
