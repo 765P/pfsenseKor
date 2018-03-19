@@ -39,14 +39,14 @@ function get_pkg_stats() {
 	});
 
 	if (empty($installed_packages)) {
-		print_info_box(gettext("No packages installed."), 'warning', false);
+		print_info_box(gettext("설치된 패키지가 없습니다."), 'warning', false);
 		return;
 	}
 
 	print("<thead>\n");
 	print(	"<tr>\n");
-	print(		"<th>" . gettext("Name")     . "</th>\n");
-	print(		"<th>" . gettext("Version")  . "</th>\n");
+	print(		"<th>" . gettext("이름")     . "</th>\n");
+	print(		"<th>" . gettext("버전")  . "</th>\n");
 	print(		"<th>" . gettext("Actions")  . "</th>\n");
 	print(	"</tr>\n");
 	print("</thead>\n");
@@ -65,17 +65,17 @@ function get_pkg_stats() {
 		if (isset($pkg['broken'])) {
 			$txtcolor = "text-danger";
 			$missing = true;
-			$status = gettext('Package is configured, but not installed!');
+			$status = gettext('패키지가 구성되었지만 설치되지 않았습니다!');
 		} else if (isset($pkg['installed_version']) && isset($pkg['version'])) {
 			$version_compare = pkg_version_compare(
 			    $pkg['installed_version'], $pkg['version']);
 			if ($version_compare == '>') {
 				// we're running a newer version of the package
-				$status = sprintf(gettext('Newer than available (%s)'), $pkg['version']);
+				$status = sprintf(gettext('최신 버전(%s)'), $pkg['version']);
 				$statusicon = 'exclamation';
 			} else if ($version_compare == '<') {
 				// we're running an older version of the package
-				$status = sprintf(gettext('Upgrade available to %s'), $pkg['version']);
+				$status = sprintf(gettext('%s에 사용 가능한 업그레이드'), $pkg['version']);
 				$statusicon = 'plus-circle';
 				$txtcolor = "text-warning";
 				$upgradeavail = true;
@@ -83,15 +83,15 @@ function get_pkg_stats() {
 				    '&amp;to=' . $pkg['version'];
 			} else if ($version_compare == '=') {
 				// we're running the current version
-				$status = gettext('ok');
+				$status = gettext('예');
 				$statusicon = 'check';
 			} else {
-				$status = gettext('Error comparing version');
+				$status = gettext('버전 비교 중 오류 발생');
 				$statusicon = 'exclamation';
 			}
 		} else {
 			// unknown available package version
-			$status = gettext('Unknown');
+			$status = gettext('알수없음');
 			$statusicon = 'question';
 		}
 
@@ -101,7 +101,7 @@ function get_pkg_stats() {
 		print(			'<i title="' . $status . '" class="fa fa-' . $statusicon . '"></i> ');
 
 		if (!$g['disablepackagehistory']) {
-			print('<a target="_blank" title="' . gettext("View changelog") . '" href="' . htmlspecialchars($pkg['changeloglink']) . '">');
+			print('<a target="_blank" title="' . gettext("변경내역보기") . '" href="' . htmlspecialchars($pkg['changeloglink']) . '">');
 		}
 
 		print(			htmlspecialchars($pkg['installed_version']));
@@ -112,16 +112,16 @@ function get_pkg_stats() {
 
 		print(	"</td>\n");
 		print(	"<td>\n");
-		print(		'<a title="' . gettext("Remove") . '" href="pkg_mgr_install.php?mode=delete&amp;pkg=' . $pkg['name'] . '"><i class="fa fa-trash"></i></a>'."\n");
+		print(		'<a title="' . gettext("삭제") . '" href="pkg_mgr_install.php?mode=delete&amp;pkg=' . $pkg['name'] . '"><i class="fa fa-trash"></i></a>'."\n");
 
 		if ($upgradeavail) {
-			print(	'<a title="' . gettext("Update") . '" href="pkg_mgr_install.php?mode=reinstallpkg&amp;pkg=' . $pkg['name'] . $vergetstr . '"><i class="fa fa-refresh"></i></a>'."\n");
+			print(	'<a title="' . gettext("업데이트") . '" href="pkg_mgr_install.php?mode=reinstallpkg&amp;pkg=' . $pkg['name'] . $vergetstr . '"><i class="fa fa-refresh"></i></a>'."\n");
 		} else {
-			print(	'<a title="' . gettext("Reinstall") . '" href="pkg_mgr_install.php?mode=reinstallpkg&amp;pkg=' . $pkg['name'] . '"><i class="fa fa-retweet"></i></a>'."\n");
+			print(	'<a title="' . gettext("재설치") . '" href="pkg_mgr_install.php?mode=reinstallpkg&amp;pkg=' . $pkg['name'] . '"><i class="fa fa-retweet"></i></a>'."\n");
 		}
 
 		if (!isset($g['disablepackageinfo']) && $pkg['www'] != 'UNKNOWN') {
-			print(	'<a target="_blank" title="' . gettext("View more information") . '" href="' . htmlspecialchars($pkg['www']) . '"><i class="fa fa-info"></i></a>'."\n");
+			print(	'<a target="_blank" title="' . gettext("더 많은 정보보기") . '" href="' . htmlspecialchars($pkg['www']) . '"><i class="fa fa-info"></i></a>'."\n");
 		}
 
 		print(	"</td>\n");
@@ -140,5 +140,5 @@ function get_pkg_stats() {
 </div>
 
 <p class="text-center">
-	<?=gettext("Packages may be added/managed here: ")?> <a href="pkg_mgr_installed.php"><?=gettext("System")?> -&gt; <?=gettext("Packages")?></a>
+	<?=gettext("여기에 패키지를 추가 및 관리 할 수 있습니다.")?> <a href="pkg_mgr_installed.php"><?=gettext("시스템")?> -&gt; <?=gettext("Packages")?></a>
 </p>
