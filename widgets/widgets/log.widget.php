@@ -66,7 +66,7 @@ if ($_REQUEST['widgetkey'] && !$_REQUEST['ajax']) {
 		unset($user_settings['widgets'][$_POST['widgetkey']]['filterlogentriesinterval']);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved Filter Log Entries via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 필터 로그 항목."));
 	Header("Location: /");
 	exit(0);
 }
@@ -114,8 +114,8 @@ if (!$_REQUEST['ajax']) {
 			<th><?=gettext("Act");?></th>
 			<th><?=gettext("Time");?></th>
 			<th><?=gettext("IF");?></th>
-			<th><?=gettext("Source");?></th>
-			<th><?=gettext("Destination");?></th>
+			<th><?=gettext("발신지");?></th>
+			<th><?=gettext("수신지");?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -148,17 +148,17 @@ if (!$_REQUEST['ajax']) {
 		<tr>
 			<td><a href="#" onclick="javascript:getURL('status_logs_filter.php?getrulenum=<?php echo "{$filterent['rulenum']},{$filterent['tracker']},{$filterent['act']}"; ?>', outputrule);"
 			role="button" data-toggle="popover" data-trigger="hover"
-				data-title="<?=gettext("Rule that triggered this action")?>"
+				data-title="<?=gettext("이 작업을 트리거 한 규칙")?>"
 				data-content="<?=htmlspecialchars($rule)?>"> <i
 					class="fa fa-<?=$iconfn?>"></i>
 			</a></td>
 			<td title="<?=htmlspecialchars($filterent['time'])?>"><?=substr(htmlspecialchars($filterent['time']),0,-3)?></td>
 			<td><?=htmlspecialchars($filterent['interface']);?></td>
 			<td><a href="diag_dns.php?host=<?=$filterent['srcip']?>"
-				title="<?=gettext("Reverse Resolve with DNS");?>"><?=$srcIP?></a>
+				title="<?=gettext("DNS를 사용하여 역 방향 해결");?>"><?=$srcIP?></a>
 			</td>
 			<td><a href="diag_dns.php?host=<?=$filterent['dstip']?>"
-				title="<?=gettext("Reverse Resolve with DNS");?>"><?=$dstIP?></a><?php
+				title="<?=gettext("DNS를 사용한 역 방향 해결");?>"><?=$dstIP?></a><?php
 				if ($filterent['dstport']) {
 					print ':' . htmlspecialchars($filterent['dstport']);
 				}
@@ -170,7 +170,7 @@ if (!$_REQUEST['ajax']) {
 
 	if (count($filterlog) == 0) {
 		print '<tr class="text-nowrap"><td colspan=5 class="text-center">';
-		print gettext('No logs to display');
+		print gettext('표시할 로그가 없습니다.');
 		print '</td></tr>';
 	}
 ?>
@@ -234,7 +234,7 @@ $pconfig['nentriesinterval'] = isset($user_settings['widgets'][$widgetkey]['filt
 		<?=gen_customwidgettitle_div($widgetconfig['title']); ?>
 
 		<div class="form-group">
-			<label for="filterlogentries" class="col-sm-4 control-label"><?=gettext('Number of entries')?></label>
+			<label for="filterlogentries" class="col-sm-4 control-label"><?=gettext('항목 번호')?></label>
 			<div class="col-sm-6">
 				<input type="number" name="filterlogentries" id="filterlogentries" value="<?=$pconfig['nentries']?>" placeholder="5"
 					min="1" max="20" class="form-control" />
@@ -247,22 +247,22 @@ $pconfig['nentriesinterval'] = isset($user_settings['widgets'][$widgetkey]['filt
 			<?php $include_acts = explode(" ", strtolower($nentriesacts)); ?>
 			<label><input name="actpass" type="checkbox" value="Pass"
 				<?=(in_array('pass', $include_acts) ? 'checked':'')?> />
-				<?=gettext('Pass')?>
+				<?=gettext('통과')?>
 			</label>
 			<label><input name="actblock" type="checkbox" value="Block"
 				<?=(in_array('block', $include_acts) ? 'checked':'')?> />
-				<?=gettext('Block')?>
+				<?=gettext('차단')?>
 			</label>
 			<label><input name="actreject" type="checkbox" value="Reject"
 				<?=(in_array('reject', $include_acts) ? 'checked':'')?> />
-				<?=gettext('Reject')?>
+				<?=gettext('거부')?>
 			</label>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="filterlogentriesinterfaces" class="col-sm-4 control-label">
-				<?=gettext('Filter interface')?>
+				<?=gettext('필터 인터페이스')?>
 			</label>
 			<div class="col-sm-6 checkbox">
 				<select name="filterlogentriesinterfaces" id="filterlogentriesinterfaces" class="form-control">
@@ -275,17 +275,17 @@ $pconfig['nentriesinterval'] = isset($user_settings['widgets'][$widgetkey]['filt
 		</div>
 
 		<div class="form-group">
-			<label for="filterlogentriesinterval" class="col-sm-4 control-label"><?=gettext('Update interval')?></label>
+			<label for="filterlogentriesinterval" class="col-sm-4 control-label"><?=gettext('업데이트 간격')?></label>
 			<div class="col-sm-4">
 				<input type="number" name="filterlogentriesinterval" id="filterlogentriesinterval" value="<?=$pconfig['nentriesinterval']?>" placeholder="60"
 					min="1" class="form-control" />
 			</div>
-			<?=gettext('Seconds');?>
+			<?=gettext('초');?>
 		</div>
 
 		<div class="form-group">
 			<div class="col-sm-offset-4 col-sm-6">
-				<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+				<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			</div>
 		</div>
 	</form>
