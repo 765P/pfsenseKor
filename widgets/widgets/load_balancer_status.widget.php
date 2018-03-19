@@ -55,8 +55,8 @@ if (!$nentries) {
 <table class="table">
 <thead>
 	<tr>
-		<th><?=gettext('Server')?></th>
-		<th><?=gettext('Pool')?></th>
+		<th><?=gettext('서버')?></th>
+		<th><?=gettext('풀')?></th>
 		<th><?=gettext('Description')?></th>
 	</tr>
 </thead>
@@ -67,15 +67,15 @@ if (!$nentries) {
 		switch (trim($rdr_a[$vsent['name']]['status'])) {
 			case 'active':
 				$bgcolor = "success";
-				$rdr_a[$vsent['name']]['status'] = gettext("Active");
+				$rdr_a[$vsent['name']]['status'] = gettext("활성");
 				break;
 			case 'down':
 				$bgcolor = "danger";
-				$rdr_a[$vsent['name']]['status'] = gettext("Down");
+				$rdr_a[$vsent['name']]['status'] = gettext("다운");
 				break;
 			default:
 				$bgcolor = "info";
-				$rdr_a[$vsent['name']]['status'] = gettext('Unknown - relayd not running?');
+				$rdr_a[$vsent['name']]['status'] = gettext('알수없음 - relayd not running?');
 		}
 		?>
 		<td>
