@@ -61,7 +61,7 @@ if ($_POST['widgetkey']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['filter'] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved Service Status Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 서비스 상태 필터."));
 	header("Location: /index.php");
 }
 
@@ -71,7 +71,7 @@ if ($_POST['widgetkey']) {
 		<thead>
 			<tr>
 				<th></th>
-				<th><?=gettext('Service')?></th>
+				<th><?=gettext('서비스')?></th>
 				<th><?=gettext('Description')?></th>
 				<th><?=gettext('Action')?></th>
 			</tr>
@@ -107,10 +107,10 @@ if (count($services) > 0) {
 	}
 
 	if (!$service_is_displayed) {
-		echo "<tr><td colspan=\"4\" class=\"text-center\">" . gettext("All services are hidden") . ". </td></tr>\n";
+		echo "<tr><td colspan=\"4\" class=\"text-center\">" . gettext("모든 서비스가 숨겨짐") . ". </td></tr>\n";
 	}
 } else {
-	echo "<tr><td colspan=\"4\" class=\"text-center\">" . gettext("No services found") . ". </td></tr>\n";
+	echo "<tr><td colspan=\"4\" class=\"text-center\">" . gettext("서비스가 없습니다.") . ". </td></tr>\n";
 }
 ?>
 		</tbody>
@@ -128,7 +128,7 @@ if (count($services) > 0) {
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Service")?></th>
+							<th><?=gettext("서비스")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -156,7 +156,7 @@ if (count($services) > 0) {
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
