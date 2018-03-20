@@ -51,7 +51,7 @@ if ($_POST['widgetkey']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['filter'] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved SMART Status Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 SMART 상태 필터."));
 	header("Location: /index.php");
 }
 
@@ -62,7 +62,7 @@ if ($_POST['widgetkey']) {
 	<thead>
 		<tr>
 			<th></th>
-			<th><?=gettext("Drive")?></th>
+			<th><?=gettext("드라이브")?></th>
 			<th><?=gettext("Ident")?></th>
 			<th><?=gettext("S.M.A.R.T. Status")?></th>
 		</tr>
@@ -89,7 +89,7 @@ if (count($devs) > 0)  {
 				$icon = "fa-check";
 				break;
 			case "":
-				$dev_state = gettext("Unknown");
+				$dev_state = gettext("알수없음");
 				$color = "text-info";
 				$icon = "fa-times-circle";
 				break;
@@ -112,7 +112,7 @@ if (count($devs) > 0)  {
 ?>
 		<tr>
 			<td colspan="4" class="text-center">
-				<?=gettext('All SMART drives are hidden.');?>
+				<?=gettext('모든 SMART 드라이브는 숨겨져 있습니다.');?>
 			</td>
 		</tr>
 <?php
@@ -134,7 +134,7 @@ if (count($devs) > 0)  {
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Drive")?></th>
+							<th><?=gettext("드라이브")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -157,7 +157,7 @@ if (count($devs) > 0)  {
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
