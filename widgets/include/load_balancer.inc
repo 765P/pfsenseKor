@@ -19,6 +19,6 @@
  * limitations under the License.
  */
 
-$load_balancer_status_title = gettext("Load Balancer Status");
+$load_balancer_status_title = gettext("로드 밸런서 상태");
 $load_balancer_status_title_link = "status_lb_pool.php";
 ?>
