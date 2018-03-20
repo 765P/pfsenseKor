@@ -168,7 +168,7 @@ $pgtitle = array(gettext("Services"), gettext("DNS 확인자"), gettext("액세�
 $pglinks = array("", "services_unbound.php", "@self");
 
 if ($act == "new" || $act == "edit") {
-	$pgtitle[] = gettext('Edit');
+	$pgtitle[] = gettext('편집');
 }
 $shortcut_section = "resolver";
 include("head.inc");
@@ -216,7 +216,7 @@ if ($act == "new" || $act == "edit") {
 		'Access List name',
 		'text',
 		$pconfig['aclname']
-	))->setHelp('Provide an Access List name.');
+	))->setHelp('액세스 목록 이름을 제공하십시오.');
 
 	$section->addInput(new Form_Select(
 		'aclaction',
@@ -326,7 +326,7 @@ if ($act == "new" || $act == "edit") {
 <nav class="action-buttons">
 	<a href="services_unbound_acls.php?act=new" class="btn btn-sm btn-success">
 		<i class="fa fa-plus icon-embed-btn"></i>
-		<?=gettext("Add")?>
+		<?=gettext("추가")?>
 	</a>
 </nav>
 
