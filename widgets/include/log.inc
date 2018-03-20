@@ -20,7 +20,7 @@
  */
 
 //set variable for custom title
-$log_title = gettext("Firewall Logs");
+$log_title = gettext("방화벽 로그");
 $log_title_link = "status_logs_filter.php";
 $log_allow_multiple_widget_copies = true;
 
