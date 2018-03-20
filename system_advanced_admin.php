@@ -345,7 +345,7 @@ $group->add(new Form_Checkbox(
 ))->displayAsRadio();
 
 if (!$certs_available) {
-	$group->setHelp('No Certificates have been defined. A certificate is required before SSL can be enabled. %1$s Create or Import %2$s a Certificate.',
+	$group->setHelp('인증서가 정의되지 않았습니다. SSL을 사용하려면 인증서가 있어야합니다. %1$s인증서를%2$s 만들거나 가져옵니다.',
 		'<a href="system_certmanager.php">', '</a>');
 }
 
@@ -369,57 +369,54 @@ $section->addInput(new Form_Input(
 	'number',
 	$config['system']['webgui']['port'],
 	['min' => 1, 'max' => 65535]
-))->setHelp('Enter a custom port number for the webConfigurator '.
-	'above to override the default (80 for HTTP, 443 for HTTPS). '.
-	'Changes will take effect immediately after save.');
+))->setHelp('위의 webConfigurator에 대한 사용자 정의 포트 번호를 '.
+	'입력하여 기본값 (HTTP의 경우 80, HTTPS의 경우 443)을  '.
+	'대체하십시오. 변경 사항은 저장 직후에 적용됩니다.');
 
 $section->addInput(new Form_Input(
 	'max_procs',
 	'Max Processes',
 	'number',
 	$pconfig['max_procs']
-))->setHelp('Enter the number of webConfigurator processes to run. '.
-	'This defaults to 2. Increasing this will allow more '.
-	'users/browsers to access the GUI concurrently.');
+))->setHelp('실행할 WebConfigurator 프로세스 수를 입력하십시오. 이 값을 '.
+	'2로 설정하면 더 많은 사용자/ 브라우저가 동시에 GUI에 액세스 '.
+	'할 수 있습니다.');
 
 $section->addInput(new Form_Checkbox(
 	'webgui-redirect',
 	'WebGUI redirect',
 	'Disable webConfigurator redirect rule',
 	$pconfig['disablehttpredirect']
-))->setHelp('When this is unchecked, access to the webConfigurator '.
-	'is always permitted even on port 80, regardless of the listening port configured. '.
-	'Check this box to disable this automatically added redirect rule.');
+))->setHelp('이 옵션을 선택하지 않으면 구성된 수신 대기 포트와 상관없이 포트 '.
+	'80에서도 항상 WebConfigurator에 대한 액세스가 허용됩니다. '.
+	'자동 추가 된 리디렉션 규칙을 사용하지 않으려면이 상자를 선택하십시오.');
 
 $section->addInput(new Form_Checkbox(
 	'webgui-hsts',
 	'HSTS',
 	'Disable HTTP Strict Transport Security',
 	$pconfig['disablehsts']
-))->setHelp('When this is unchecked, Strict-Transport-Security HTTPS response header '.
-	'is sent by the webConfigurator to the browser. This will force the browser to use '.
+))->setHelp('이 옵션을 선택하지 않으면 Strict-Transport-Security HTTPS 응답 헤더가 webConfigurator에서 브라우저로 전송됩니다. '.
+	'이렇게하면 브라우저가 방화벽 FQDN에 대한 이후 요청에 HTTPS 만 사용하게됩니다. HSTS를 사용하지 않으려면이 상자를 '.
 	'only HTTPS for future requests to the firewall FQDN. Check this box to disable HSTS. '.
-	'(NOTE: Browser-specific steps are required for disabling to take effect when the browser '.
-	'already visited the FQDN while HSTS was enabled.)');
+	'선택하십시오. (참고 : HSTS가 활성화되어있는 동안 브라우저가 이미 FQDN을 방문했을 때 비활성화하려면 브라우저 별 단계가 '.
+	'필요합니다.)');
 
 $section->addInput(new Form_Checkbox(
 	'loginautocomplete',
 	'WebGUI Login Autocomplete',
 	'Enable webConfigurator login autocomplete',
 	$pconfig['loginautocomplete']
-))->setHelp('When this is checked, login credentials for the webConfigurator may '.
-	'be saved by the browser. While convenient, some security standards require this '.
-	'to be disabled. Check this box to enable autocomplete on the login form so that '.
-	'browsers will prompt to save credentials (NOTE: Some browsers do not respect '.
-	'this option).');
+))->setHelp('이 옵션을 선택하면 브라우저에서 WebConfigurator의 로그인 자격 증명을 저장할 수 있습니다. 편리하지만 일부 보안 '.
+	'표준에서는이 기능을 비활성화해야합니다. 브라우저가 자격 증명을 저장할지 묻는 메시지를 표시하도록 로그인 양식에서 자동 완성을 '.
+	'사용하려면이 확인란을 선택하십시오 (참고 : 일부 브라우저는이 옵션을 고려하지 않습니다).');
 
 $section->addInput(new Form_Checkbox(
 	'webgui-login-messages',
 	'WebGUI login messages',
 	'Disable logging of webConfigurator successful logins',
 	$pconfig['quietlogin']
-))->setHelp('When this is checked, successful logins to the webConfigurator will '.
-	'not be logged.');
+))->setHelp('이 옵션을 선택하면 webConfigurator에 성공적으로 로그인 할 수 없습니다.');
 
 if ($config['interfaces']['lan']) {
 	$lockout_interface = "LAN";
@@ -432,12 +429,11 @@ $section->addInput(new Form_Checkbox(
 	'Anti-lockout',
 	'Disable webConfigurator anti-lockout rule',
 	$pconfig['noantilockout']
-))->setHelp('When this is '.
-	'unchecked, access to the webConfigurator on the %1$s interface is always '.
-	'permitted, regardless of the user-defined firewall rule set. Check this box to '.
-	'disable this automatically added rule, so access to the webConfigurator is '.
-	'controlled by the user-defined firewall rules (ensure a firewall rule is '.
-	'in place that allows access, to avoid being locked out!) %2$sHint: the &quot;Set interface(s) IP address&quot; '.
+))->setHelp('이 옵션을 선택 취소하면 '.
+	'사용자 정의 방화벽 규칙 집합과 관계없이 %1$s 인터페이스의 webConfigurator에 대한 액세스가 항상 '.
+	'허용됩니다. 자동으로 추가 된이 규칙을 사용하지 않으려면이 상자를 선택하십시오. 따라서 '.
+	'따라서 WebConfigurator에 대한 액세스는 사용자 정의 방화벽 규칙에 의해 제어됩니다(액세스를 허용하는 방화벽 규칙이 잠겨 있지 않도록하십시오!).'.
+	'%2$sHint: the &quot;인터페이스 IP 주소 설정&quot; '.
 	'option in the console menu resets this setting as well.%3$s', $lockout_interface, '<em>', '</em>');
 
 $section->addInput(new Form_Checkbox(
@@ -445,10 +441,9 @@ $section->addInput(new Form_Checkbox(
 	'DNS Rebind Check',
 	'Disable DNS Rebinding Checks',
 	$pconfig['nodnsrebindcheck']
-))->setHelp('When this is unchecked, the system is protected against %1$sDNS Rebinding attacks%2$s. '.
-	'This blocks private IP responses from the configured DNS servers. Check this '.
-	'box to disable this protection if it interferes with webConfigurator access or '.
-	'name resolution in the environment.',
+))->setHelp('이 옵션을 선택 취소하면 시스템이 %1$sDNS Rebinding %2$s 공격으로부터 보호됩니다. '.
+	'이렇게하면 구성된 DNS 서버의 개인 IP 응답이 차단됩니다. 환경의 webConfigurator 액세스 또는 이름 확인을 '.
+	'방해하는 경우이 보호를 비활성화하려면이 상자를 선택합니다.',
 	'<a href="http://en.wikipedia.org/wiki/DNS_rebinding">', '</a>');
 
 $section->addInput(new Form_Input(
@@ -456,20 +451,17 @@ $section->addInput(new Form_Input(
 	'Alternate Hostnames',
 	'text',
 	htmlspecialchars($pconfig['althostnames'])
-))->setHelp('Alternate Hostnames for DNS Rebinding and HTTP_REFERER Checks. '.
-	'Specify alternate hostnames by which the router may be queried, to '.
-	'bypass the DNS Rebinding Attack checks. Separate hostnames with spaces.');
+))->setHelp('DNS Rebinding 및 HTTP_REFERER 검사를위한 대체 호스트 이름. 라우터가 질의 될 수있는 대체 호스트 이름을 지정하여 DNS  '.
+	'Rebinding Attack 검사를 건너 뜁니다. 호스트 이름은 공백으로 구분하십시오.');
 
 $section->addInput(new Form_Checkbox(
 	'nohttpreferercheck',
 	'Browser HTTP_REFERER enforcement',
 	'Disable HTTP_REFERER enforcement check',
 	$pconfig['nohttpreferercheck']
-))->setHelp('When this is unchecked, access to the webConfigurator is protected '.
-	'against HTTP_REFERER redirection attempts. Check this box to disable this '.
-	'protection if it interferes with webConfigurator access in certain '.
-	'corner cases such as using external scripts to interact with this system. More '.
-	'information on HTTP_REFERER is available from %1$sWikipedia%2$s',
+))->setHelp('이 옵션을 선택하지 않으면 HTTP_REFERER 리디렉션 시도에 대해 webConfigurator에 대한 액세스가 보호됩니다. 이 시스템과 '.
+	'상호 작용하기 위해 외부 스크립트를 사용하는 경우와 같은 특정 경우에 webConfigurator 액세스를 방해하는 경우이 보호를 '.
+	'사용하지 않으려면이 상자를 선택하십시오. HTTP_REFERER에 대한 자세한 내용은 %1$s위키 백과%2$s에서 볼 수 있습니다.',
 	'<a target="_blank" href="http://en.wikipedia.org/wiki/HTTP_referrer">', '</a>.');
 
 gen_pagenamefirst_field($section, $pconfig['pagenamefirst']);
@@ -489,9 +481,8 @@ $section->addInput(new Form_Checkbox(
 	'Authentication Method',
 	'Disable password login for Secure Shell (RSA/DSA key only)',
 	$pconfig['sshdkeyonly']
-))->setHelp('When enabled, authorized keys need to be configured for each '.
-	'%1$suser%2$s that has been granted secure shell '.
-	'access.', '<a href="system_usermanager.php">', '</a>');
+))->setHelp('사용하도록 설정하면 보안 쉘 액세스 권한이 부여 된 '.
+	'%1$suser%2$s마다 권한 부여 된 키를 구성해야합니다.', '<a href="system_usermanager.php">', '</a>');
 
 $section->addInput(new Form_Input(
 	'sshport',
@@ -499,7 +490,7 @@ $section->addInput(new Form_Input(
 	'number',
 	$pconfig['sshport'],
 	['min' => 1, 'max' => 65535, 'placeholder' => 22]
-))->setHelp('Note: Leave this blank for the default of 22.');
+))->setHelp('Note: 기본값 인 22로 비워 두십시오.');
 
 
 $form->add($section);
@@ -511,10 +502,9 @@ if (!$g['enableserial_force']) {
 		'Serial Terminal',
 		'Enables the first serial port with 115200/8/N/1 by default, or another speed selectable below.',
 		isset($pconfig['enableserial'])
-	))->setHelp('Note:	This will redirect the console output and messages to '.
-		'the serial port. The console menu can still be accessed from the internal video '.
-		'card/keyboard. A %1$snull modem%2$s serial cable or adapter is required to use the '.
-		'serial console.', '<b>', '</b>');
+	))->setHelp('Note:	그러면 콘솔 출력과 메시지가 직렬 포트로 리디렉션됩니다. '.
+		'콘솔 메뉴는 내부 비디오 카드/키보드에서 계속 액세스 할 수 있습니다. '.
+		'직렬 콘솔을 사용하려면 %1$snull모뎀%2$s 직렬 케이블 또는 어댑터가 필요합니다.', '<b>', '</b>');
 }
 
 $section->addInput(new Form_Select(
@@ -522,7 +512,7 @@ $section->addInput(new Form_Select(
 	'Serial Speed',
 	$pconfig['serialspeed'],
 	array_combine(array(115200, 57600, 38400, 19200, 14400, 9600), array(115200, 57600, 38400, 19200, 14400, 9600))
-))->setHelp('Allows selection of different speeds for the serial console port.');
+))->setHelp('직렬 콘솔 포트에 대해 서로 다른 속도를 선택할 수 있습니다.');
 
 if (!$g['enableserial_force'] && !$g['primaryconsole_force']) {
 	$section->addInput(new Form_Select(
@@ -530,12 +520,12 @@ if (!$g['enableserial_force'] && !$g['primaryconsole_force']) {
 		'Primary Console',
 		$pconfig['primaryconsole'],
 		array(
-			'serial' => gettext('Serial Console'),
-			'video' => gettext('VGA Console'),
+			'serial' => gettext('시리얼 콘솔'),
+			'video' => gettext('VGA 콘솔'),
 		)
-	))->setHelp('Select the preferred console if multiple consoles are present. '.
-		'The preferred console will show pfSense boot script output. All consoles '.
-		'display OS boot messages, console messages, and the console menu.');
+	))->setHelp('여러 개의 콘솔이있는 경우 기본 콘솔을 선택하십시오. 기본 콘솔에 pfSense 부팅 '.
+		'스크립트 출력이 표시됩니다. 모든 콘솔은 OS 부팅 메시지, 콘솔 메시지 '.
+		'및 콘솔 메뉴를 표시합니다.');
 }
 
 $form->add($section);
