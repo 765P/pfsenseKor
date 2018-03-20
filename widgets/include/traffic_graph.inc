@@ -19,6 +19,6 @@
  * limitations under the License.
  */
 
-$traffic_graphs_title = gettext("Traffic Graphs");
+$traffic_graphs_title = gettext("트래픽 그래프");
 $traffic_graphs_title_link = "status_graph.php";
 ?>
