@@ -384,7 +384,7 @@ $tab_array[] = array(gettext("어드민 엑세스"), false, "system_advanced_adm
 $tab_array[] = array(htmlspecialchars(gettext("방화벽 & NAT")), true, "system_advanced_firewall.php");
 $tab_array[] = array(gettext("네트워킹"), false, "system_advanced_network.php");
 $tab_array[] = array(gettext("Miscellaneous"), false, "system_advanced_misc.php");
-$tab_array[] = array(gettext("System Tunables"), false, "system_advanced_sysctl.php");
+$tab_array[] = array(gettext("시스템 터널링"), false, "system_advanced_sysctl.php");
 $tab_array[] = array(gettext("Notifications"), false, "system_advanced_notifications.php");
 display_top_tabs($tab_array);
 
@@ -398,20 +398,16 @@ $section->addInput(new Form_Checkbox(
 	'IP Do-Not-Fragment compatibility',
 	'Clear invalid DF bits instead of dropping the packets',
 	isset($config['system']['scrubnodf'])
-))->setHelp('This allows for communications with hosts that generate fragmented '.
-	'packets with the don\'t fragment (DF) bit set. Linux NFS is known to do this. '.
-	'This will cause the filter to not drop such packets but instead clear the don\'t '.
-	'fragment bit.');
+))->setHelp('이렇게하면 단편화 된 패킷을 생성하는 호스트와 DF 비트 세트로 통신 할 수 있습니다. '.
+	'이렇게하면 필터가 그러한 패킷을 삭제하지 않고 대신 조각 비트를 지우게됩니다.');
 
 $section->addInput(new Form_Checkbox(
 	'scrubrnid',
 	'IP Random id generation',
 	'Insert a stronger ID into IP header of packets passing through the filter.',
 	isset($config['system']['scrubrnid'])
-))->setHelp('Replaces the IP identification field of packets with random values to '.
-	'compensate for operating systems that use predictable values. This option only '.
-	'applies to packets that are not fragmented after the optional packet '.
-	'reassembly.');
+))->setHelp('패킷의 IP 식별 필드를 임의의 값으로 대체하여 예측 가능한 값을 사용하는 운영 체제를 보완합니다. 이 옵션은 선택적 패킷 재 '.
+	'조립 후에 조각화되지 않은 패킷에만 적용됩니다.');
 
 $section->addInput($input = new Form_Select(
 	'optimization',
@@ -419,20 +415,19 @@ $section->addInput($input = new Form_Select(
 	$config['system']['optimization'],
 	array(
 		'normal' => 'Normal',
-		'high-latency' => gettext('High-latency'),
+		'high-latency' => gettext('높은대기시간'),
 		'aggressive' => gettext('Aggressive'),
 		'conservative' => gettext('Conservative'),
 	)
-))->setHelp('Select the type of state table optimization to use');
+))->setHelp('사용할 상태 테이블 최적화 유형 선택하십시오.');
 
 $section->addInput(new Form_Checkbox(
 	'disablefilter',
 	'Disable Firewall',
 	'Disable all packet filtering.',
 	isset($config['system']['disablefilter'])
-))->setHelp('Note: This converts %1$s into a routing only platform!%2$s'.
-	'Note: This will also turn off NAT! To only disable NAT, '.
-	'and not firewall rules, visit the %3$sOutbound NAT%4$s page.', $g["product_name"], '<br/>', '<a href="firewall_nat_out.php">', '</a>');
+))->setHelp('Note: 이것은 %1$s을 라우팅 전용 플랫폼으로 변환합니다! %2$s'.
+	'Note: NAT를 해제합니다! 방화벽 규칙이 아닌 NAT 만 사용 중지하려면 %3$sOutbound NAT %4$s 페이지를 방문하십시오.', $g["product_name"], '<br/>', '<a href="firewall_nat_out.php">', '</a>');
 
 $section->addInput(new Form_Checkbox(
 	'disablescrub',
@@ -449,10 +444,8 @@ $group->add(new Form_Input(
 	'number',
 	$pconfig['adaptivestart'],
 	['min' => 0]
-))->setHelp('When the number of state entries exceeds this value, adaptive '.
-	'scaling begins.  All timeout values are scaled linearly with factor '.
-	'(adaptive.end - number of states) / (adaptive.end - adaptive.start). '.
-	'Defaults to 60% of the Firewall Maximum States value');
+))->setHelp('상태 항목 수가이 값을 초과하면 적응 형 배율이 시작됩니다. 모든 타임 아웃 값은 인수 (adaptive.end - 상태 수) / ('.
+	'adaptive.end - adaptive.start)로 선형 적으로 조정됩니다. 방화벽 최대 상태 값의 기본값은 60 %입니다.');
 
 $group->add(new Form_Input(
 	'adaptiveend',
@@ -460,15 +453,12 @@ $group->add(new Form_Input(
 	'number',
 	$pconfig['adaptiveend'],
 	['min' => 0]
-))->setHelp('When reaching this number of state entries, all timeout values '.
-	'become zero, effectively purging all state entries immediately.  This '.
-	'value is used to define the scale factor, it should not actually be '.
-	'reached (set a lower state limit, see below). '.
-	'Defaults to 120% of the Firewall Maximum States value');
+))->setHelp('이 수의 상태 항목에 도달하면 모든 시간 초과 값은 0이되어 효과적으로 모든 상태 항목을 즉시 제거합니다. 이 값은 축척 비율을 '.
+	'정의하는 데 사용되며 실제로 도달하지 않아야합니다 (낮은 상태 제한 설정, 아래 참조). 방화벽 최대 상태 값의 기본값은 120'.
+	'%입니다.');
 
-$group->setHelp('Timeouts for states can be scaled adaptively as the number of '.
-	'state table entries grows. Leave blank to use default values, set to '.
-	'0 to disable Adaptive Timeouts.');
+$group->setHelp('상태에 대한 시간 초과는 상태 테이블 항목의 수가 증가함에 따라 적응 적으로 조정될 수 있습니다. 기본 값을 사용하려면 '.
+	'비워두고, 적응 시간 초과를 비활성화하려면 0으로 설정하십시오.');
 
 $section->add($group);
 
@@ -478,9 +468,8 @@ $section->addInput(new Form_Input(
 	'number',
 	$pconfig['maximumstates'],
 	['min' => 1, 'placeholder' => pfsense_default_state_size()]
-))->setHelp('Maximum number of connections to hold in the firewall state table. %1$s'.
-	'Note: Leave this blank for the default. On this system the default '.
-	'size is: %2$d', '<br/>', pfsense_default_state_size());
+))->setHelp('방화벽 상태 테이블에 보관할 최대 연결 수입니다. %1$s참고 : '.
+	'기본값으로 비워 두십시오. 이 시스템에서 기본 크기는 % 2 $ d입니다.', '<br/>', pfsense_default_state_size());
 
 $section->addInput(new Form_Input(
 	'maximumtableentries',
@@ -488,9 +477,8 @@ $section->addInput(new Form_Input(
 	'text',
 	$pconfig['maximumtableentries'],
 	['placeholder' => pfsense_default_table_entries_size()]
-))->setHelp('Maximum number of table entries for systems such as aliases, '.
-	'sshlockout, snort, etc, combined.%1$sNote: Leave this blank for the '.
-	'default. On this system the default size is: %2$d',
+))->setHelp('별칭, sshlockout, snort 등과 같은 시스템의 최대 테이블 항목 수입니다. %1$s참고 : 기본값으로 비워 두십시오. 이 '.
+	'시스템에서 기본 크기는 %2$d입니다.',
 	'<br/>',
 	pfsense_default_table_entries_size());
 
@@ -499,43 +487,39 @@ $section->addInput(new Form_Input(
 	'Firewall Maximum Fragment Entries',
 	'text',
 	$pconfig['maximumfrags']
-))->setHelp('Maximum number of packet fragments to hold for reassembly by scrub rules. Leave this blank for the default (5000)');
+))->setHelp('스크럽 규칙에 따라 재 조립할 때 보유 할 최대 패킷 조각 수입니다. 기본(5000) 값으로 비워 두십시오.');
 
 $section->addInput(new Form_Checkbox(
 	'bypassstaticroutes',
 	'Static route filtering',
 	'Bypass firewall rules for traffic on the same interface',
 	$pconfig['bypassstaticroutes']
-))->setHelp('This option only applies if one or more static routes have been defined. '.
-	'If it is enabled, traffic that enters and leaves through the same '.
-	'interface will not be checked by the firewall. This may be desirable in some '.
-	'situations where multiple subnets are connected to the same interface.');
+))->setHelp('이 옵션은 하나 이상의 고정 경로가 정의 된 경우에만 적용됩니다. 이 기능을 사용하면 동일한 인터페이스를 통해 들어오고 나가는 '.
+	'트래픽이 방화벽에 의해 검사되지 않습니다. 이는 여러 서브넷이 동일한 인터페이스에 연결된 일부 상황에서 바람직 할 수 있습니다.');
 
 $section->addInput(new Form_Checkbox(
 	'disablevpnrules',
 	'Disable Auto-added VPN rules',
 	'Disable all auto-added VPN rules.',
 	isset($config['system']['disablevpnrules'])
-))->setHelp('Note: This disables automatically added rules for IPsec.');
+))->setHelp('Note: 이렇게하면 IPsec에 대해 자동으로 추가 된 규칙이 비활성화됩니다.');
 
 $section->addInput(new Form_Checkbox(
 	'disablereplyto',
 	'Disable reply-to',
 	'Disable reply-to on WAN rules',
 	$pconfig['disablereplyto']
-))->setHelp('With Multi-WAN it is generally desired to ensure traffic leaves the same '.
-	'interface it arrives on, hence reply-to is added automatically by default. When '.
-	'using bridging, this behavior must be disabled if the WAN gateway IP is '.
-	'different from the gateway IP of the hosts behind the bridged interface.');
+))->setHelp('다중 WAN의 경우 일반적으로 트래픽이 도착하는 동일한 인터페이스를 떠나지 않도록해야하므로 기본적으로 reply-to가 자동으로  '.
+	'추가됩니다. 브리징을 사용할 때 WAN 게이트웨이 IP가 브리지 인터페이스 뒤에있는 호스트의 게이트웨이 IP와 다른 경우이 동작을 '.
+	'사용하지 않아야합니다.');
 
 $section->addInput(new Form_Checkbox(
 	'disablenegate',
 	'Disable Negate rules',
 	'Disable Negate rule on policy routing rules',
 	$pconfig['disablenegate']
-))->setHelp('With Multi-WAN it is generally desired to ensure traffic reaches directly '.
-	'connected networks and VPN networks when using policy routing. This can be disabled '.
-	'for special purposes but it requires manually creating rules for these networks.');
+))->setHelp('다중 WAN의 경우 정책 라우팅을 사용할 때 트래픽이 직접 연결된 네트워크 및 VPN 네트워크에 도달하도록하는 것이 일반적입니다. '.
+	'특수 목적으로는 비활성화 할 수 있지만 이러한 네트워크에 대한 규칙을 수동으로 만들어야합니다.');
 
 $section->addInput(new Form_Input(
 	'aliasesresolveinterval',
@@ -543,17 +527,14 @@ $section->addInput(new Form_Input(
 	'text',
 	$pconfig['aliasesresolveinterval'],
 	['placeholder' => '300']
-))->setHelp('Interval, in seconds, that will be used to resolve hostnames '.
-	'configured on aliases. %1$sNote:	 Leave this blank for the default '.
-	'(300s).', '<br/>');
+))->setHelp('별칭에 구성된 호스트 이름을 확인하는 데 사용되는 간격 (초)입니다. %1$s참고 : 기본값 (300 초)의 경우이 항목을 비워 둡니다.', '<br/>');
 
 $section->addInput(new Form_Checkbox(
 	'checkaliasesurlcert',
 	'Check certificate of aliases URLs',
 	'Verify HTTPS certificates when downloading alias URLs',
 	$pconfig['checkaliasesurlcert']
-))->setHelp('Make sure the certificate is valid for all HTTPS addresses on '.
-	'aliases. If it\'s not valid or is revoked, do not download it.');
+))->setHelp('별명에있는 모든 HTTPS 주소에 대해 인증서가 유효한지 확인하십시오. 유효하지 않거나 취소 된 경우 다운로드하지 마십시오.');
 
 $form->add($section);
 $section = new Form_Section('Bogon Networks');
@@ -588,25 +569,17 @@ if (count($config['interfaces']) > 1) {
 		'NAT Reflection mode for port forwards',
 		$value,
 		array(
-			'disable' => gettext('disabled'),
+			'disable' => gettext('비활성화'),
 			'proxy' => gettext('NAT + proxy'),
 			'purenat' => gettext('Pure NAT'),
 		)
-	))->setHelp('%1$sThe pure NAT mode uses a set of NAT rules to direct '.
-		'packets to the target of the port forward. It has better scalability, '.
-		'but it must be possible to accurately determine the interface and '.
-		'gateway IP used for communication with the target at the time the '.
-		'rules are loaded. There are no inherent limits to the number of ports '.
-		'other than the limits of the protocols.  All protocols available for '.
-		'port forwards are supported.%2$sThe NAT + proxy mode uses a '.
-		'helper program to send packets to the target of the port forward. '.
-		'It is useful in setups where the interface and/or gateway IP used '.
-		'for communication with the target cannot be accurately determined at '.
-		'the time the rules are loaded. Reflection rules are not created for '.
-		'ranges larger than 500 ports and will not be used for more than 1000 '.
-		'ports total between all port forwards. Only TCP and UDP protocols are '.
-		'supported.%3$sIndividual rules may be configured to override '.
-		'this system setting on a per-rule basis.',
+	))->setHelp('%1$s순수 NAT 모드는 NAT 규칙 세트를 사용하여 패킷을 포트 대상으로 전달합니다. 그것은 더 나은 확장 성을 가지고 있지만 '.
+		'규칙이 로드 될 때 대상과의 통신에 사용되는 인터페이스와 게이트웨이 IP를 정확하게 결정할 수 있어야합니다. 프로토콜의 한계 '.
+		'이외의 포트 수에는 고유 한 제한이 없습니다. 포트 전달에 사용할 수있는 모든 프로토콜이 지원됩니다. %2$s NAT + 프록시 '.
+		'모드는 도우미 프로그램을 사용하여 패킷을 대상 포트로 전달합니다. 이는 규칙이로드 될 때 대상과의 통신에 사용되는 인터페이스 '.
+		'및 / 또는 게이트웨이 IP를 정확하게 결정할 수없는 설정에서 유용합니다. 리플렉션 규칙은 500 포트보다 큰 범위에 대해서는 '.
+		'생성되지 않으며 모든 포트 전달간에 총 1000 포트 이상에 대해서는 사용되지 않습니다. TCP 및 UDP 프로토콜 만 지원됩니다. '.
+		'%3$s개별 규칙이 규칙에 따라이 시스템 설정을 무시하도록 구성 될 수 있습니다.',
 		'</span><ul class="help-block"><li>', '</li><li>', '</li></ul><span class="help-block">');
 
 	$section->addInput(new Form_Input(
@@ -615,29 +588,25 @@ if (count($config['interfaces']) > 1) {
 		'number',
 		$config['system']['reflectiontimeout'],
 		['min' => 1]
-	))->setHelp('Enter value for Reflection timeout in seconds.%1$sNote: Only '.
-		'applies to Reflection on port forwards in NAT + proxy mode.', '<br/>');
+	))->setHelp('Reflection timeout의 값을 초 단위로 입력하십시오. %1$sNote : NAT + 프록시 모드에서 포트 포워드의 리플렉션에만 적용됩니다.', '<br/>');
 
 	$section->addInput(new Form_Checkbox(
 		'enablebinatreflection',
 		'Enable NAT Reflection for 1:1 NAT',
 		'Automatic creation of additional NAT redirect rules from within the internal networks.',
 		isset($config['system']['enablebinatreflection'])
-	))->setHelp('Note: Reflection on 1:1 mappings is only for the inbound component of '.
-		'the 1:1 mappings. This functions the same as the pure NAT mode for port '.
-		'forwards. For more details, refer to the pure NAT mode description '.
-		'above. Individual rules may be configured to override this system setting on a '.
-		'per-rule basis.');
+	))->setHelp('참고 : 1:1 매핑의 리플렉션은 1:1 매핑의 인바운드 구성 요소에만 적용됩니다. 이 기능은 포트 포워드의 순수 NAT 모드와 '.
+		'동일합니다. 자세한 내용은 위의 순수 NAT 모드 설명을 참조하십시오. 개별 규칙은 규칙에 따라이 시스템 설정을 무시하도록 구성 '.
+		' 수 있습니다.');
 
 	$section->addInput(new Form_Checkbox(
 		'enablenatreflectionhelper',
 		'Enable automatic outbound NAT for Reflection',
 		'Automatic create outbound NAT rules that direct traffic back out to the same subnet it originated from.',
 		isset($config['system']['enablenatreflectionhelper'])
-	))->setHelp('Required for full functionality of the pure NAT mode of NAT '.
-		'Reflection for port forwards or NAT Reflection for 1:1 NAT. Note: This only works '.
-		'for assigned interfaces.  Other interfaces require manually creating the '.
-		'outbound NAT rules that direct the reply packets back through the router.');
+	))->setHelp('1:1 NAT에 대한 포트 전달 또는 NAT 반영을위한 NAT Reflection의 순수 NAT 모드의 모든 기능에 필요합니다. Note : '.
+		'이것은 지정된 인터페이스에서만 작동합니다. 다른 인터페이스는 라우터를 통해 응답 패킷을 되돌려 보내는 아웃 바운드 NAT 규칙을 '.
+		'수동으로 만들어야합니다.');
 
 	$section->addInput(new Form_Select(
 		'tftpinterface',
@@ -645,7 +614,7 @@ if (count($config['interfaces']) > 1) {
 		$pconfig['tftpinterface'],
 		get_configured_interface_with_descr(),
 		true
-	))->setHelp('Choose the interfaces on which to enable TFTP proxy helper.');
+	))->setHelp('TFTP 프록시 도우미를 사용할 인터페이스를 선택하십시오.');
 
 	$form->add($section);
 }
