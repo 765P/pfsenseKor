@@ -20,7 +20,7 @@
  */
 
 //set variable for custom title
-$interfaces_title = gettext("Interfaces");
+$interfaces_title = gettext("인터페이스");
 $interfaces_title_link = "status_interfaces.php";
 $interfaces_allow_multiple_widget_copies = true;
 
