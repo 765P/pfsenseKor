@@ -19,6 +19,6 @@
  * limitations under the License.
  */
 
-$gmirror_status_title = gettext("GEOM Mirror Status");
+$gmirror_status_title = gettext("GEOM 미러 상태");
 $gmirror_status_title_link = "diag_gmirror.php";
 ?>
