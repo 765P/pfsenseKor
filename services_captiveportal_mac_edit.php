@@ -203,7 +203,7 @@ $section->addInput(new Form_Select(
 	'*Action',
 	strtolower($pconfig['action']),
 	array('pass' => gettext('통과'), 'block' => gettext('Block'))
-))->setHelp('Choose what to do with packets coming from this MAC address.');
+))->setHelp('이 MAC 주소에서 오는 패킷으로 수행 할 작업을 선택하십시오.');
 
 $macaddress = new Form_Input(
 	'mac',
@@ -225,7 +225,7 @@ $btnmymac->setAttribute('type','button')->removeClass('btn-primary')->addClass('
 $group = new Form_Group('*MAC Address');
 $group->add($macaddress);
 $group->add($btnmymac);
-$group->setHelp('6 hex octets separated by colons');
+$group->setHelp('콜론으로 구분된 6개의 16진수');
 $section->add($group);
 
 $section->addInput(new Form_Input(
@@ -233,21 +233,21 @@ $section->addInput(new Form_Input(
 	'Description',
 	'text',
 	$pconfig['descr']
-))->setHelp('A description may be entered here for administrative reference (not parsed)');
+))->setHelp('관리 참조(구문 분석되지 않음)에 대한 설명을 여기에 입력 할 수 있습니다.');
 
 $section->addInput(new Form_Input(
 	'bw_up',
 	'Bandwidth up',
 	'text',
 	$pconfig['bw_up']
-))->setHelp('Enter an upload limit to be enforced on this MAC in Kbit/s');
+))->setHelp('이 MAC에 시행 할 업로드 제한을 Kbit/s로 입력하십시오.');
 
 $section->addInput(new Form_Input(
 	'bw_down',
 	'Bandwidth down',
 	'text',
 	$pconfig['bw_down']
-))->setHelp('Enter a download limit to be enforced on this MAC in Kbit/s');
+))->setHelp('이 MAC에 시행 할 다운로드 제한을 Kbit/s로 입력하십시오.');
 
 $section->addInput(new Form_Input(
 	'zone',
