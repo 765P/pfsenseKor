@@ -211,17 +211,15 @@ $section->addInput(new Form_Checkbox(
 	'Allow IPv6',
 	'All IPv6 traffic will be blocked by the firewall unless this box is checked',
 	$pconfig['ipv6allow']
-))->setHelp('NOTE: This does not disable any IPv6 features on the firewall, it only '.
-	'blocks traffic.');
+))->setHelp('NOTE: 이렇게하면 방화벽에서 IPv6 기능이 비활성화되지 않고 트래픽만 차단됩니다.');
 
 $section->addInput(new Form_Checkbox(
 	'ipv6nat_enable',
 	'IPv6 over IPv4 Tunneling',
 	'Enable IPv6 over IPv4 tunneling',
 	$pconfig['ipv6nat_enable']
-))->setHelp('These options create an RFC 2893 compatible mechanism for IPv4 NAT encapsulation of IPv6 packets, ' .
-	'that can be used to tunnel IPv6 packets over IPv4 routing infrastructures. ' .
-	'IPv6 firewall rules are %1$salso required%2$s, to control and pass encapsulated traffic.', '<a href="firewall_rules.php">', '</a>');
+))->setHelp('이러한 옵션은 IPv4 패킷 라우팅을 통해 IPv6 패킷을 터널링하는 데 사용할 수있는 IPv6 패킷의 IPv4 NAT 캡슐화를위한 RFC ' .
+	'2893 호환 메커니즘을 만듭니다. 캡슐화 된 트래픽을 제어하고 전달하기 위해 IPv6 %1$s방화벽 규칙도%2$s 필요합니다.', '<a href="firewall_rules.php">', '</a>');
 
 $section->addInput(new Form_Input(
 	'ipv6nat_ipaddr',
@@ -235,18 +233,17 @@ $section->addInput(new Form_Checkbox(
 	'Prefer IPv4 over IPv6',
 	'Prefer to use IPv4 even if IPv6 is available',
 	$pconfig['prefer_ipv4']
-))->setHelp('By default, if IPv6 is configured and a hostname resolves IPv6 and IPv4 addresses, '.
-	'IPv6 will be used. If this option is selected, IPv4 will be preferred over IPv6.');
+))->setHelp('기본적으로 IPv6이 구성되고 호스트 이름이 IPv6 및 IPv4 주소를 확인하면 IPv6이 사용됩니다. 이 옵션을 선택하면 IPv6보다 '.
+	'IPv4가 우선 적용됩니다.');
 
 $section->addInput(new Form_Checkbox(
 	'ipv6dontcreatelocaldns',
 	'IPv6 DNS entry',
 	'Do not generate local IPv6 DNS entries for LAN interfaces',
 	$pconfig['ipv6dontcreatelocaldns']
-))->setHelp('If a LAN interface\'s IPv6 configuration is set to Track, and the tracked interface loses connectivity, '.
-	'it can cause connections to this firewall that were established via hostname to fail. This can happen '.
-	'unintentionally when accessing the firewall by hostname, since by default both IPv4 and IPv6 entries are added '.
-	'to the system\'s DNS. Enabling this option prevents those IPv6 records from being created.');
+))->setHelp('LAN 인터페이스의 IPv6 구성이 Track으로 설정되고 추적 된 인터페이스의 연결이 끊어지면 hostname을 통해 설정된이 방화벽에 '.
+	'대한 연결이 실패 할 수 있습니다. 기본적으로 IPv4 및 IPv6 항목이 모두 시스템의 DNS에 추가되므로 호스트 이름별로 방화벽에 '.
+	'액세스 할 때 실수로 이러한 일이 발생할 수 있습니다. 이 옵션을 사용하면 해당 IPv6 레코드가 생성되지 않습니다.');
 
 $section->addInput(new Form_Select(
 	'ipv6duidtype',
@@ -258,11 +255,11 @@ $section->addInput(new Form_Select(
 		'3' => gettext('DUID-LL: 링크 계층 주소 기준'),
 		'4' => gettext('DUID-UUID: 범용 고유 식별자를 기반으로 함')
 	)
-))->setHelp('A DHCPv6 Unique Identifier (DUID) is used by the firewall when requesting an IPv6 address.%1$s%1$s' .
-		'By default, the firewall automatically creates a dynamic DUID-LLT which is not saved in the firewall configuration. '.
-		'To ensure that the same DUID is retained by the firewall at all times, enter a DUID in this section. ' .
-		'The new DUID will take effect after a reboot or when the WAN interface(s) are reconfigured by the firewall.%1$s%1$s' .
-		'If the firewall is configured to use a RAM disk for /var, the best practice is to store a DUID here; otherwise, the DUID will change on each reboot.', '<br />');
+))->setHelp('DHCPv6 고유 식별자 (DUID)는 IPv6 주소를 요청할 때 방화벽에서 사용됩니다.%1$s%1$s 기본적으로 방화벽은 방화벽 구성에 ' .
+		'저장되지 않는 동적 DUID-LLT를 자동으로 만듭니다. 동일한 DUID가 항상 방화벽에 보관되도록하려면이 섹션에 DUID를 '.
+		'입력하십시오. 새 DUID는 재부팅 후 또는 WAN 인터페이스가 방화벽에 의해 재구성 된 후에 적용됩니다. 방화벽이 / var에 RAM ' .
+		'디스크를 사용하도록 구성된 경우 여기에 DUID를 저장하는 것이 가장 좋습니다.%1$s%1$s 그렇지 않으면 DUID가 재부팅 할 ' .
+		'때마다 변경됩니다.', '<br />');
 
 $group = new Form_Group('Raw DUID');
 
@@ -282,7 +279,7 @@ $btncopyduid = new Form_Button(
 $btncopyduid->setAttribute('type','button')->removeClass('btn-primary')->addClass('btn-success btn-sm');
 $group->add($btncopyduid);
 
-$group->setHelp('You may use the Copy DUID button to copy the system detected DUID shown in the placeholder.');
+$group->setHelp('DUID 복사 버튼을 사용하여 자리 표시 자에 표시된 시스템에서 감지 한 DUID를 복사 할 수 있습니다.');
 
 $section->add($group);
 
@@ -293,7 +290,7 @@ $group->add(new Form_Input(
 	'DUID-LLT',
 	'text',
 	$ipv6duidllt_time
-))->setHelp('Time (seconds) since midnight, Jan 1, 2000 UTC');
+))->setHelp('자정 (2000년 1월 1일 자정)이후의 시간(초)');
 
 $group->add(new Form_Input(
 	'ipv6duidllt_ll',
@@ -301,7 +298,7 @@ $group->add(new Form_Input(
 	'text',
 	$ipv6duidllt_ll,
 	[ 'placeholder' => 'xx:xx:xx:xx:xx:xx' ]
-))->setHelp('Link-layer address');
+))->setHelp('Link-layer 주소');
 
 $section->add($group);
 
@@ -313,13 +310,13 @@ $group->add(new Form_Input(
 	'number',
 	$ipv6duiden_en,
 	[ 'placeholder' => 'Enterprise Number' ]
-))->setHelp('IANA Private Enterprise Number');
+))->setHelp('IANA 개인 기업 번호');
 
 $group->add(new Form_Textarea(
 	'ipv6duiden_id',
 	'Identifier',
 	$ipv6duiden_id
-))->setHelp('Identifier (variable length)');
+))->setHelp('식별자 (가변 길이)');
 
 $section->add($group);
 
@@ -329,7 +326,7 @@ $section->addInput(new Form_Input(
 	'text',
 	$ipv6duidll,
 	[ 'placeholder' => 'xx:xx:xx:xx:xx:xx' ]
-))->setHelp('Link-layer address');
+))->setHelp('Link-layer 주소');
 
 $section->addInput(new Form_Input(
 	'ipv6duiduuid',
@@ -337,7 +334,7 @@ $section->addInput(new Form_Input(
 	'text',
 	$ipv6duiduuid,
 	[ 'placeholder' => '00000000-0000-0000-0000-000000000000' ]
-))->setHelp('Universally Unique Identifier');
+))->setHelp('범용 고유 식별자');
 
 $form->add($section);
 $section = new Form_Section('네트워크 인터페이스');
@@ -347,39 +344,33 @@ $section->addInput(new Form_Checkbox(
 	'Hardware Checksum Offloading',
 	'Disable hardware checksum offload',
 	isset($config['system']['disablechecksumoffloading'])
-))->setHelp('Checking this option will disable hardware checksum offloading.%1$s'.
-	'Checksum offloading is broken in some hardware, particularly some Realtek cards. '.
-	'Rarely, drivers may have problems with checksum offloading and some specific '.
-	'NICs. This will take effect after a machine reboot or re-configure of each '.
-	'interface.', '<br/>');
+))->setHelp('이 옵션을 선택하면 하드웨어 체크섬 오프 로딩이 비활성화됩니다. %1$s일부 하드웨어, 특히 일부 Realtek 카드에서는 체크섬 '.
+	'오프 로딩이 해제됩니다. 드물게 드라이버는 체크섬 오프로드 및 일부 특정 NIC에 문제가있을 수 있습니다. 이것은 컴퓨터를 '.
+	'재부팅하거나 각 인터페이스를 다시 구성한 후에 적용됩니다.', '<br/>');
 
 $section->addInput(new Form_Checkbox(
 	'disablesegmentationoffloading',
 	'Hardware TCP Segmentation Offloading',
 	'Disable hardware TCP segmentation offload',
 	isset($config['system']['disablesegmentationoffloading'])
-))->setHelp('Checking this option will disable hardware TCP segmentation '.
-	'offloading (TSO, TSO4, TSO6). This offloading is broken in some hardware '.
-	'drivers, and may impact performance with some specific NICs. This will take '.
-	'effect after a machine reboot or re-configure of each interface.');
+))->setHelp('이 옵션을 선택하면 하드웨어 TCP 세그먼트 오프로드 (TSO, TSO4, TSO6)가 사용 불가능하게됩니다. 이 오프로드는 일부 '.
+	'하드웨어 드라이버에서 손상되어 일부 특정 NIC의 성능에 영향을 줄 수 있습니다. 이것은 컴퓨터를 재부팅하거나 각 인터페이스를 '.
+	'다시 구성한 후에 적용됩니다.');
 
 $section->addInput(new Form_Checkbox(
 	'disablelargereceiveoffloading',
 	'Hardware Large Receive Offloading',
 	'Disable hardware large receive offload',
 	isset($config['system']['disablelargereceiveoffloading'])
-))->setHelp('Checking this option will disable hardware large receive offloading '.
-	'(LRO). This offloading is broken in some hardware drivers, and may impact '.
-	'performance with some specific NICs. This will take effect after a machine reboot '.
-	'or re-configure of each interface.');
+))->setHelp('이 옵션을 선택하면 하드웨어 큰 수신 오프 로딩 (LRO)이 비활성화됩니다. 이 오프로드는 일부 하드웨어 드라이버에서 손상되어 '.
+	'일부 특정 NIC의 성능에 영향을 줄 수 있습니다. 이것은 컴퓨터를 재부팅하거나 각 인터페이스를 다시 구성한 후에 적용됩니다.');
 
 $section->addInput(new Form_Checkbox(
 	'sharednet',
 	'ARP Handling',
 	'Suppress ARP messages',
 	isset($pconfig['sharednet'])
-))->setHelp('This option will suppress ARP log messages when multiple interfaces '.
-	'reside on the same broadcast domain.');
+))->setHelp('이 옵션은 여러 인터페이스가 동일한 브로드 캐스트 도메인에있을 때 ARP 로그 메시지를 표시하지 않습니다.');
 
 $section->addInput(new Form_Checkbox(
 	'ip_change_kill_states',
