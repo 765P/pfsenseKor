@@ -19,6 +19,6 @@
  * limitations under the License.
  */
 
-$system_information_title = gettext("System Information");
+$system_information_title = gettext("시스템 정보");
 $system_information_allow_multiple_widget_copies = true;
 ?>
