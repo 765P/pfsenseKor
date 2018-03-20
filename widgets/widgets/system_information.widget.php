@@ -31,28 +31,28 @@ require_once('system.inc');
 include_once("includes/functions.inc.php");
 
 $sysinfo_items = array(
-	'name' => gettext('Name'),
-	'system' => gettext('System'),
+	'name' => gettext('이름'),
+	'system' => gettext('시스템'),
 	'bios' => gettext('BIOS'),
-	'version' => gettext('Version'),
-	'cpu_type' => gettext('CPU Type'),
-	'hwcrypto' => gettext('Hardware Crypto'),
+	'version' => gettext('버전'),
+	'cpu_type' => gettext('CPU 타입'),
+	'hwcrypto' => gettext('하드웨어 암호화'),
 	'uptime' => gettext('Uptime'),
-	'current_datetime' => gettext('Current Date/Time'),
-	'dns_servers' => gettext('DNS Server(s)'),
-	'last_config_change' => gettext('Last Config Change'),
-	'state_table_size' => gettext('State Table Size'),
-	'mbuf_usage' => gettext('MBUF Usage'),
-	'temperature' => gettext('Temperature'),
-	'load_average' => gettext('Load Average'),
-	'cpu_usage' => gettext('CPU Usage'),
-	'memory_usage' => gettext('Memory Usage'),
-	'swap_usage' => gettext('Swap Usage'),
-	'disk_usage' => gettext('Disk Usage')
+	'current_datetime' => gettext('현재 날짜 / 시간'),
+	'dns_servers' => gettext('DNS 서버'),
+	'last_config_change' => gettext('마지막 구성변경'),
+	'state_table_size' => gettext('위치테이블 크기'),
+	'mbuf_usage' => gettext('MBUF 사용'),
+	'temperature' => gettext('온도'),
+	'load_average' => gettext('로드 평균'),
+	'cpu_usage' => gettext('CPU 사용량'),
+	'memory_usage' => gettext('메모리 사용'),
+	'swap_usage' => gettext('Swap 사용'),
+	'disk_usage' => gettext('디스크 사용')
 	);
 
 // Declared here so that JavaScript can access it
-$updtext = sprintf(gettext("Obtaining update status %s"), "<i class='fa fa-cog fa-spin'></i>");
+$updtext = sprintf(gettext("업데이트 상태 %s 얻음"), "<i class='fa fa-cog fa-spin'></i>");
 
 if ($_REQUEST['getupdatestatus']) {
 	require_once("pkg-utils.inc");
@@ -68,7 +68,7 @@ if ($_REQUEST['getupdatestatus']) {
 	    ($_REQUEST['getupdatestatus'] == 1));
 
 	if ($system_version === false) {
-		print(gettext("<i>Unable to check for updates</i>"));
+		print(gettext("<i>업데이트를 확인할 수 없습니다.</i>"));
 		exit;
 	}
 
@@ -83,30 +83,30 @@ if ($_REQUEST['getupdatestatus']) {
 	case '<':
 ?>
 		<div>
-			<?=gettext("Version ")?>
-			<span class="text-success"><?=$system_version['version']?></span> <?=gettext("is available.")?>
+			<?=gettext("버전 ")?>
+			<span class="text-success"><?=$system_version['version']?></span> <?=gettext("을(를) 사용할 수 있습니다.")?>
 			<a class="fa fa-cloud-download fa-lg" href="/pkg_mgr_install.php?id=firmware"></a>
 		</div>
 <?php
 		break;
 	case '=':
 		printf('<span class="text-success">%s</span>' . "\n",
-		    gettext("The system is on the latest version."));
+		    gettext("시스템은 최신 버전입니다."));
 		break;
 	case '>':
 		printf("%s\n", gettext(
-		    "The system is on a later version than official release."));
+		    "이 시스템은 공식 릴리스보다 최신 버전입니다."));
 		break;
 	default:
 		printf("<i>%s</i>\n", gettext(
-		    "Error comparing installed with latest version available"));
+		    "설치된 버전과 최신 버전을 비교하는 중 오류가 발생했습니다."));
 		break;
 	}
 
 	if (file_exists($cache_file)):
 ?>
 	<div>
-		<?printf("%s %s", gettext("Version information updated at"),
+		<?printf("%s %s", gettext("에서 업데이트 된 버전 정보"),
 		    date("D M j G:i:s T Y", filemtime($cache_file)));?>
 		    &nbsp;
 		    <a id="updver" href="#" class="fa fa-refresh"></a>
@@ -130,7 +130,7 @@ if ($_REQUEST['getupdatestatus']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['filter'] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved System Information Widget Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시 보드를 통해 저장된 시스템 정보 위젯 필터."));
 	header("Location: /index.php");
 }
 
@@ -150,7 +150,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("Name");?></th>
+			<th><?=gettext("이름");?></th>
 			<td><?php echo htmlspecialchars($config['system']['hostname'] . "." . $config['system']['domain']); ?></td>
 		</tr>
 <?php
@@ -159,19 +159,19 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("System");?></th>
+			<th><?=gettext("시스템");?></th>
 			<td>
 <?php
 				$platform = system_identify_specific_platform();
 				if (isset($platform['descr'])) {
 					echo $platform['descr'];
 				} else {
-					echo gettext('Unknown system');
+					echo gettext('알수없는 시스템');
 				}
 
 				$serial = system_get_serial();
 				if (!empty($serial)) {
-					print("<br />" . gettext("Serial:") .
+					print("<br />" . gettext("시리얼:") .
 					    " <strong>{$serial}</strong>\n");
 				}
 
@@ -179,7 +179,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 				$uniqueid = system_get_uniqueid();
 				if (!empty($uniqueid)) {
 					print("<br />" .
-					    gettext("Netgate Device ID:") .
+					    gettext("Netgate 디바이스 ID:") .
 					    " <strong>{$uniqueid}</strong>");
 				}
 ?>
@@ -202,13 +202,13 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 			<th><?=gettext("BIOS");?></th>
 			<td>
 			<?php if (!empty($biosvendor[0])): ?>
-				<?=gettext("Vendor: ");?><strong><?=$biosvendor[0];?></strong><br/>
+				<?=gettext("공급 업체: ");?><strong><?=$biosvendor[0];?></strong><br/>
 			<?php endif; ?>
 			<?php if (!empty($biosversion[0])): ?>
-				<?=gettext("Version: ");?><strong><?=$biosversion[0];?></strong><br/>
+				<?=gettext("버전: ");?><strong><?=$biosversion[0];?></strong><br/>
 			<?php endif; ?>
 			<?php if (!empty($biosdate[0])): ?>
-				<?=gettext("Release Date: ");?><strong><?= date("D M j Y ",strtotime($biosdate[0]));?></strong><br/>
+				<?=gettext("릴리즈 날짜: ");?><strong><?= date("D M j Y ",strtotime($biosdate[0]));?></strong><br/>
 			<?php endif; ?>
 			</td>
 		</tr>
@@ -219,7 +219,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("Version");?></th>
+			<th><?=gettext("버전");?></th>
 			<td>
 				<strong><?=$g['product_version_string']?></strong>
 				(<?php echo php_uname("m"); ?>)
@@ -241,7 +241,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("CPU Type");?></th>
+			<th><?=gettext("CPU 구성");?></th>
 			<td><?=htmlspecialchars(get_single_sysctl("hw.model"))?>
 				<div id="cpufreq"><?= get_cpufreq(); ?></div>
 		<?php
@@ -263,7 +263,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 ?>
 		<?php if ($hwcrypto): ?>
 		<tr>
-			<th><?=gettext("Hardware crypto");?></th>
+			<th><?=gettext("하드웨어 암호화");?></th>
 			<td><?=htmlspecialchars($hwcrypto);?></td>
 		</tr>
 		<?php endif; ?>
@@ -282,7 +282,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("Current date/time");?></th>
+			<th><?=gettext("현재 시간/날짜");?></th>
 			<td><div id="datetime"><?= date("D M j G:i:s T Y"); ?></div></td>
 		</tr>
 <?php
@@ -291,7 +291,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("DNS server(s)");?></th>
+			<th><?=gettext("DNS 서버");?></th>
 			<td>
 				<ul style="margin-bottom:0px">
 				<?php
@@ -310,7 +310,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 ?>
 		<?php if ($config['revision']): ?>
 		<tr>
-			<th><?=gettext("Last config change");?></th>
+			<th><?=gettext("마지막 구성변경");?></th>
 			<td><?= htmlspecialchars(date("D M j G:i:s T Y", intval($config['revision']['time'])));?></td>
 		</tr>
 		<?php endif; ?>
@@ -320,7 +320,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("State table size");?></th>
+			<th><?=gettext("위치 테이블 크기");?></th>
 			<td>
 				<?php
 					$pfstatetext = get_pfstate();
@@ -339,7 +339,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("MBUF Usage");?></th>
+			<th><?=gettext("MBUF 사용");?></th>
 			<td>
 				<?php
 					get_mbuf($mbufstext, $mbufusage);
@@ -358,7 +358,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 ?>
 		<?php if ($temp_deg_c = get_temp()): ?>
 		<tr>
-			<th><?=gettext("Temperature");?></th>
+			<th><?=gettext("온도");?></th>
 			<td>
 				<?php $display_temp = ($temp_use_f) ? $temp_deg_c * 1.8 + 32 : $temp_deg_c; ?>
 				<div class="progress">
@@ -377,7 +377,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		<tr>
 			<th><?=gettext("Load average");?></th>
 			<td>
-				<div id="load_average" title="<?=gettext('Last 1, 5 and 15 minutes')?>"><?= get_load_average(); ?></div>
+				<div id="load_average" title="<?=gettext('지난 1, 5, 15 분')?>"><?= get_load_average(); ?></div>
 			</td>
 		</tr>
 <?php
@@ -386,13 +386,13 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("CPU usage");?></th>
+			<th><?=gettext("CPU 사용");?></th>
 			<td>
 				<div class="progress">
 					<div id="cpuPB" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
 					</div>
 				</div>
-				<span id="cpumeter"><?=sprintf(gettext("Retrieving CPU data %s"), "<i class=\"fa fa-gear fa-spin\"></i>")?></span>
+				<span id="cpumeter"><?=sprintf(gettext("CPU 데이터 %s 검색중"), "<i class=\"fa fa-gear fa-spin\"></i>")?></span>
 			</td>
 		</tr>
 <?php
@@ -401,7 +401,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		$rows_displayed = true;
 ?>
 		<tr>
-			<th><?=gettext("Memory usage");?></th>
+			<th><?=gettext("메모리 사용");?></th>
 			<td>
 				<?php $memUsage = mem_usage(); ?>
 
@@ -419,7 +419,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 ?>
 		<?php if ($showswap == true): ?>
 		<tr>
-			<th><?=gettext("SWAP usage");?></th>
+			<th><?=gettext("SWAP 사용");?></th>
 			<td>
 				<?php $swapusage = swap_usage(); ?>
 				<div class="progress">
@@ -442,7 +442,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 		<tr>
 			<th>
 				<?php if ($first): ?>
-					<?=gettext("Disk usage:");?>
+					<?=gettext("디스크 사용:");?>
 					<br/>
 				<?php endif; ?>
 				&nbsp;&nbsp;&nbsp;&nbsp;
@@ -468,7 +468,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 ?>
 		<tr>
 			<td class="text-center">
-				<?=gettext('All System Information items are hidden.');?>
+				<?=gettext('모든 시스템 정보 항목이 숨겨져 있습니다.');?>
 			</td>
 		</tr>
 <?php
@@ -489,7 +489,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th><?=gettext("Item")?></th>
+							<th><?=gettext("항목")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
 					</thead>
@@ -512,7 +512,7 @@ $temp_use_f = (isset($user_settings['widgets']['thermal_sensors-0']) && !empty($
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
