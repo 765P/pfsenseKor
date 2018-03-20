@@ -53,7 +53,7 @@ function loadThermalSensorsContainer (thermalSensorsContent, widgetKey) {
 		//load generated graph (or raw data) into thermalSensorsContainer (thermalSensorsContainer DIV defined in "thermal_sensors.widget.php")
 		$('#thermalSensorsContainer-' + widgetKey).html(thermalSensorsContent);
 	} else {
-		$('#thermalSensorsContainer-' + widgetKey).html("No Thermal Sensors data available.");
+		$('#thermalSensorsContainer-' + widgetKey).html("열 센서 데이터를 사용할 수 없습니다.");
 	}
 }
 
