@@ -19,6 +19,6 @@
  * limitations under the License.
  */
 
-$captive_portal_status_title = gettext("Captive Portal Status");
+$captive_portal_status_title = gettext("전속 포털 상태");
 $captive_portal_status_title_link = "status_captiveportal.php";
 ?>
