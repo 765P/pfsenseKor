@@ -229,32 +229,29 @@ $section->addInput(new Form_Checkbox(
 	'Disable SMTP',
 	'Disable SMTP Notifications',
 	$pconfig['disable_smtp']
-))->setHelp('Check this option to disable SMTP notifications but preserve the '.
-	'settings below. Some other mechanisms, such as packages, may need these settings '.
-	'in place to function.');
+))->setHelp('SMTP 알림을 비활성화하지만 아래 설정을 유지하려면이 옵션을 선택하십시오. '.
+	'패키지와 같은 다른 메커니즘은 기능을 수행하기 위해 이러한 설정을 필요로 할 수 있습니다.');
 
 $section->addInput(new Form_Input(
 	'smtpipaddress',
 	'E-Mail server',
 	'text',
 	$pconfig['smtpipaddress']
-))->setHelp('This is the FQDN or IP address of the SMTP E-Mail server to '.
-	'which notifications will be sent.');
+))->setHelp('알림을 보낼 SMTP 전자 메일 서버의 FQDN 또는 IP 주소입니다.');
 
 $section->addInput(new Form_Input(
 	'smtpport',
 	'SMTP Port of E-Mail server',
 	'number',
 	$pconfig['smtpport']
-))->setHelp('This is the port of the SMTP E-Mail server, typically 25, 587 '.
-	'(submission) or 465 (smtps).');
+))->setHelp('SMTP 전자 메일 서버의 포트이며 일반적으로 25, 587 (제출) 또는 465 (smtps)입니다.');
 
 $section->addInput(new Form_Input(
 	'smtptimeout',
 	'Connection timeout to E-Mail server',
 	'number',
 	$pconfig['smtptimeout']
-))->setHelp('This is how many seconds it will wait for the SMTP server to connect. Default is 20s.');
+))->setHelp('SMTP 서버가 연결될 때까지 기다리는 시간 (초)입니다. 기본값은 20 초입니다.');
 
 $group = new Form_Group('Secure SMTP Connection');
 $group->add(new Form_Checkbox(
@@ -271,14 +268,14 @@ $section->addInput(new Form_Input(
 	'From e-mail address',
 	'text',
 	$pconfig['smtpfromaddress']
-))->setHelp('This is the e-mail address that will appear in the from field.');
+))->setHelp('보낸 사람 필드에 표시 될 전자 메일 주소입니다.');
 
 $section->addInput(new Form_Input(
 	'smtpnotifyemailaddress',
 	'Notification E-Mail address',
 	'text',
 	$pconfig['smtpnotifyemailaddress']
-))->setHelp('Enter the e-mail address to send email notifications to.');
+))->setHelp('이메일 알림을 보낼 전자 메일 주소를 입력하십시오.');
 
 // This name prevents the browser from auto-filling the field. We change it on submit
 $section->addInput(new Form_Input(
@@ -287,29 +284,29 @@ $section->addInput(new Form_Input(
 	'text',
 	$pconfig['smtpusername'],
 	['autocomplete' => 'off']
-))->setHelp('Enter the e-mail address username for SMTP authentication.');
+))->setHelp('SMTP 인증을위한 전자 메일 주소 사용자 이름을 입력하십시오.');
 
 $section->addPassword(new Form_Input(
 	'smtppassword',
 	'Notification E-Mail auth password',
 	'password',
 	$pconfig['smtppassword']
-))->setHelp('Enter the e-mail account password for SMTP authentication.');
+))->setHelp('SMTP 인증을위한 전자 메일 계정 암호를 입력하십시오.');
 
 $section->addInput(new Form_Select(
 	'smtpauthmech',
 	'Notification E-Mail auth mechanism',
 	$pconfig['smtpauthmech'],
 	$smtp_authentication_mechanisms
-))->setHelp('Select the authentication mechanism used by the SMTP server. Most work with PLAIN, some servers like Exchange or Office365 might require LOGIN. ');
+))->setHelp('SMTP 서버가 사용하는 인증 메커니즘을 선택하십시오. PLAIN의 경우 대부분 Exchange 또는 Office365와 같은 일부 서버에서는 LOGIN이 필요할 수 있습니다. ');
 
 $section->addInput(new Form_Button(
 	'test-smtp',
 	'Test SMTP Settings',
 	null,
 	'fa-send'
-))->addClass('btn-info')->setHelp('A test notification will be sent even if the service is '.
-	'marked as disabled.  The last SAVED values will be used, not necessarily the values entered here.');
+))->addClass('btn-info')->setHelp('서비스가 사용 안 함으로 표시된 경우에도 테스트 알림이 전송됩니다. '.
+	'마지막 SAVED 값이 사용되며 여기에 입력 한 값이 반드시 필요하지는 않습니다.');
 
 $form->add($section);
 
@@ -320,8 +317,7 @@ $section->addInput(new Form_Checkbox(
 	'Startup/Shutdown Sound',
 	'Disable the startup/shutdown beep',
 	$pconfig['disablebeep']
-))->setHelp('When this is checked, startup and shutdown sounds will no longer '.
-	'play.');
+))->setHelp('이 옵션을 선택하면 시작 및 종료 소리가 더 이상 재생되지 않습니다.');
 
 $form->add($section);
 
@@ -332,8 +328,7 @@ $section->addInput(new Form_Checkbox(
 	'Disable Growl',
 	'Disable Growl Notifications',
 	$pconfig['disable_growl']
-))->setHelp('Check this option to disable growl notifications but preserve the '.
-	'settings below.');
+))->setHelp('알림을 비활성화하지만 아래 설정을 유지하려면이 옵션을 선택하십시오.');
 
 $section->addInput(new Form_Input(
 	'name',
@@ -341,7 +336,7 @@ $section->addInput(new Form_Input(
 	'text',
 	$pconfig['name'],
 	['placeholder' => 'pfSense-Growl']
-))->setHelp('Enter the name to register with the Growl server.');
+))->setHelp('Growl 서버에 등록 할 이름을 입력하십시오.');
 
 $section->addInput(new Form_Input(
 	'notification_name',
@@ -350,29 +345,28 @@ $section->addInput(new Form_Input(
 	$pconfig['notification_name'],
 	['placeholder' => $g["product_name"].' growl alert']
 
-))->setHelp('Enter a name for the Growl notifications.');
+))->setHelp('Growl 알림의 이름을 입력하십시오.');
 
 $section->addInput(new Form_Input(
 	'ipaddress',
 	'IP Address',
 	'text',
 	$pconfig['ipaddress']
-))->setHelp('This is the IP address to send growl notifications to.');
+))->setHelp('이것은 통지를 보낼 IP 주소입니다.');
 
 $section->addPassword(new Form_Input(
 	'password',
 	'Password',
 	'text',
 	$pconfig['password']
-))->setHelp('Enter the password of the remote growl notification device.');
+))->setHelp('원격 Growl 알림 장치의 비밀번호를 입력하십시오.');
 
 $section->addInput(new Form_Button(
 	'test-growl',
 	'Test Growl Settings',
 	null,
 	'fa-rss'
-))->addClass('btn-info')->setHelp('A test notification will be sent even if the service is '.
-	'marked as disabled.');
+))->addClass('btn-info')->setHelp('서비스가 사용 안 함으로 표시된 경우에도 테스트 알림이 전송됩니다.');
 
 $form->add($section);
 print($form);
