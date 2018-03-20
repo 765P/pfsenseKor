@@ -75,7 +75,7 @@ if ($_POST) {
 		$user_settings["widgets"]["traffic_graphs"]["filter"] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Updated traffic graphs widget settings via dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("업데이트 된 트래픽은 대시 보드를 통해 위젯 설정을 그래프로 나타냅니다."));
 	header("Location: /");
 	exit(0);
 }
@@ -146,7 +146,7 @@ $tg_displayed_realifsarray = [];
 
 	if (!$tg_displayed) {
 		echo '<div id="traffic-chartnone" class="d3-chart traffic-widget-chart">';
-		echo gettext('All traffic graphs are hidden.');
+		echo gettext('모든 트래픽 그래프가 숨겨져 있습니다.');
 		echo '</div>';
 	}
 ?>
@@ -158,7 +158,7 @@ $tg_displayed_realifsarray = [];
 
 	<form action="/widgets/widgets/traffic_graphs.widget.php" method="post" class="form-horizontal">
 		<div class="form-group">
-			<label for="traffic-graph-interval" class="col-sm-3 control-label"><?=gettext('Refresh Interval')?></label>
+			<label for="traffic-graph-interval" class="col-sm-3 control-label"><?=gettext('새로 고침 간격')?></label>
 			<div class="col-sm-9">
 				<input type="number" id="refreshinterval" name="refreshinterval" value="<?=htmlspecialchars($tg_refreshinterval)?>" min="1" max="10" class="form-control" />
 			</div>
@@ -182,7 +182,7 @@ $tg_displayed_realifsarray = [];
 		</div>
 
 		<div class="form-group">
-			<label for="size" class="col-sm-3 control-label"><?=gettext('Unit Size')?></label>
+			<label for="size" class="col-sm-3 control-label"><?=gettext('유닛 사이즈')?></label>
 			<div class="col-sm-9">
 				<select class="form-control" id="size" name="size">
 				<?php
@@ -199,16 +199,16 @@ $tg_displayed_realifsarray = [];
 		</div>
 
 		<div class="form-group">
-			<label for="backgroundupdate" class="col-sm-3 control-label"><?=gettext('Background updates')?></label>
+			<label for="backgroundupdate" class="col-sm-3 control-label"><?=gettext('백그라운드 업데이트')?></label>
 			<div class="col-sm-9">
 				<select class="form-control" id="backgroundupdate" name="backgroundupdate">
 				<?php
 					if ($tg_backgroundupdate === "true") {
-						echo '<option value="true" selected>Keep graphs updated on inactive tab. (increases cpu usage)</option>';
-						echo '<option value="false">Clear graphs when not visible.</option>';
+						echo '<option value="true" selected>비활성 탭에서 그래프를 업데이트 된 상태로 유지하십시오.(increases cpu usage)</option>';
+						echo '<option value="false">표시되지 않는 경우 그래프를 지웁니다.</option>';
 					} else {
-						echo '<option value="true">Keep graphs updated on inactive tab. (increases cpu usage)</option>';
-						echo '<option value="false" selected>Clear graphs when not visible.</option>';
+						echo '<option value="true">비활성 탭에서 그래프를 업데이트 된 상태로 유지하십시오. (increases cpu usage)</option>';
+						echo '<option value="false" selected>표시되지 않는 경우 그래프를 지웁니다.</option>';
 					}
 				?>
 				</select>
@@ -216,7 +216,7 @@ $tg_displayed_realifsarray = [];
 		</div>
 
 		<div class="form-group">
-			<label for="smoothfactor" class="col-sm-3 control-label"><?=gettext('Graph Smoothing')?></label>
+			<label for="smoothfactor" class="col-sm-3 control-label"><?=gettext('그래프 평활')?></label>
 			<div class="col-sm-9">
 				<input type='range' id="smoothfactor" name='smoothfactor' class='form-control' min='0' max='5'value="<?= htmlspecialchars($tg_smoothfactor) ?>"/>
 			</div>
@@ -228,7 +228,7 @@ $tg_displayed_realifsarray = [];
 					<table class="table table-striped table-hover table-condensed">
 						<thead>
 							<tr>
-								<th><?=gettext("Interface")?></th>
+								<th><?=gettext("인터페이스")?></th>
 								<th><?=gettext("Show")?></th>
 							</tr>
 						</thead>
@@ -253,7 +253,7 @@ $tg_displayed_realifsarray = [];
 
 		<div class="form-group">
 			<div class="col-sm-offset-3 col-sm-6">
-				<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+				<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 				<button id="showalltgitems" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 			</div>
 		</div>
