@@ -51,7 +51,7 @@ if ($_POST['widgetkey']) {
 		$user_settings['widgets'][$_POST['widgetkey']]['filter'] = implode(',', $validNames);
 	}
 
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved Wake on LAN Filter via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시보드를 통해 Wake on LAN Filter를 저장했습니다."));
 	header("Location: /index.php");
 }
 
@@ -60,8 +60,8 @@ if ($_POST['widgetkey']) {
 <table class="table table-hover table-striped table-condensed">
 	<thead>
 		<tr>
-			<th class="widgetsubheader"><?=gettext("Device")?></th>
-			<th class="widgetsubheader"><?=gettext("Interface")?></th>
+			<th class="widgetsubheader"><?=gettext("디바이스")?></th>
+			<th class="widgetsubheader"><?=gettext("인터페이스")?></th>
 			<th class="widgetsubheader"><?=gettext("Status")?></th>
 			<th class="widgetsubheader"><?=gettext("Wake")?></th>
 		</tr>
@@ -92,11 +92,11 @@ if (count($wolcomputers) > 0):
 			</td>
 			<td>
 		<?php if ($status == 'expires'): ?>
-				<i class="fa fa-arrow-up text-success" data-toggle="tooltip" title="<?= gettext("Online") ?>"></i>
+				<i class="fa fa-arrow-up text-success" data-toggle="tooltip" title="<?= gettext("온라인") ?>"></i>
 		<?php elseif ($status == 'permanent'): ?>
-				<i class="fa fa-arrow-up text-success" data-toggle="tooltip" title="<?= gettext("Static ARP") ?>"></i>
+				<i class="fa fa-arrow-up text-success" data-toggle="tooltip" title="<?= gettext("정적 ARP") ?>"></i>
 		<?php else: ?>
-				<i class="fa fa-arrow-down text-danger" data-toggle="tooltip" title="<?= gettext("Offline") ?>"></i>
+				<i class="fa fa-arrow-down text-danger" data-toggle="tooltip" title="<?= gettext("오프라인") ?>"></i>
 		<?php endif; ?>
 			</td>
 			<td>
@@ -109,12 +109,12 @@ if (count($wolcomputers) > 0):
 	endforeach;
 	if (!$wol_entry_is_displayed):
 ?>
-		<tr><td colspan="4" class="text-center"><?=gettext("All WoL entries are hidden.")?></td></tr>
+		<tr><td colspan="4" class="text-center"><?=gettext("모든 WoL 항목이 숨겨져 있습니다.")?></td></tr>
 <?php
 	endif;
 else:
 ?>
-	<tr><td colspan="4" class="text-center"><?= gettext("No saved WoL addresses") ?></td></tr>
+	<tr><td colspan="4" class="text-center"><?= gettext("저장된 WoL 주소가 없습니다.") ?></td></tr>
 <?php
 endif;
 ?>
@@ -132,7 +132,7 @@ if (is_array($config['dhcpd'])) {
 }
 ?>
 <?php if ($dhcpd_enabled): ?>
-	<p class="text-center"><a href="status_dhcp_leases.php" class="navlink"><?=gettext('DHCP Leases Status')?></a></p>
+	<p class="text-center"><a href="status_dhcp_leases.php" class="navlink"><?=gettext('DHCP 임대 상태')?></a></p>
 <?php endif; ?>
 </div>
 <!-- close the body we're wrapped in and add a configuration-panel -->
@@ -148,7 +148,7 @@ if (is_array($config['dhcpd'])) {
 					<thead>
 						<tr>
 							<th><?=gettext("Description")?></th>
-							<th><?=gettext("Interface")?></th>
+							<th><?=gettext("인터페이스")?></th>
 							<th><?=gettext("MAC")?></th>
 							<th><?=gettext("Show")?></th>
 						</tr>
@@ -177,7 +177,7 @@ if (is_array($config['dhcpd'])) {
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			<button id="<?=$widget_showallnone_id?>" type="button" class="btn btn-info"><i class="fa fa-undo icon-embed-btn"></i><?=gettext('All')?></button>
 		</div>
 	</div>
