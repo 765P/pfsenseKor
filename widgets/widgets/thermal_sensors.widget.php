@@ -130,7 +130,7 @@ if ($_POST['widgetkey']) {
 	saveGraphDisplaySettings($user_settings, $_POST, "thermal_sensors_widget_show_fahrenheit");
 
 	//write settings to config file
-	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("Saved thermal_sensors_widget settings via Dashboard."));
+	save_widget_settings($_SESSION['Username'], $user_settings["widgets"], gettext("대시보드를 통해 저장된 thermal_sensors_widget 설정."));
 	header("Location: ../../index.php");
 }
 
@@ -229,7 +229,7 @@ if ($thermal_sensors_widget_showFahrenheit) {
 ?>
 <div style="padding: 5px">
 	<div id="thermalSensorsContainer-<?=htmlspecialchars($widgetkey)?>" class="listr">
-		<?=gettext('(Updating...)')?><br /><br />
+		<?=gettext('(업데이트중...)')?><br /><br />
 	</div>
 </div>
 </div>
@@ -246,49 +246,49 @@ if ($thermal_sensors_widget_showFahrenheit) {
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-4 control-label"><?=gettext('Zone Warning')?></label>
+			<label class="col-sm-4 control-label"><?=gettext('Zone 경고')?></label>
 			<div class="col-sm-4">
 				<input type="text" name="thermal_sensors_widget_zone_warning_threshold" id="thermal_sensors_widget_zone_warning_threshold" value="<?= $thermal_sensors_widget_zoneWarningTempThreshold; ?>" class="form-control" />
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-4 control-label"><?=gettext('Zone Critical')?></label>
+			<label class="col-sm-4 control-label"><?=gettext('Zone 치명적오류')?></label>
 			<div class="col-sm-4">
 				<input type="text" name="thermal_sensors_widget_zone_critical_threshold" id="thermal_sensors_widget_zone_critical_threshold" value="<?= $thermal_sensors_widget_zoneCriticalTempThreshold; ?>" class="form-control" />
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-4 control-label"><?=gettext('Core Warning')?></label>
+			<label class="col-sm-4 control-label"><?=gettext('Core 경고')?></label>
 			<div class="col-sm-4">
 				<input type="text" name="thermal_sensors_widget_core_warning_threshold" id="thermal_sensors_widget_core_warning_threshold" value="<?= $thermal_sensors_widget_coreWarningTempThreshold; ?>" class="form-control" />
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-4 control-label"><?=gettext('Core Critical')?></label>
+			<label class="col-sm-4 control-label"><?=gettext('Core 치명적오류')?></label>
 			<div class="col-sm-4">
 				<input type="text" name="thermal_sensors_widget_core_critical_threshold" id="thermal_sensors_widget_core_critical_threshold" value="<?= $thermal_sensors_widget_coreCriticalTempThreshold; ?>" class="form-control" />
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-6 control-label"><?=gettext('Display settings:')?></label>
+			<label class="col-sm-6 control-label"><?=gettext('설정 보기:')?></label>
 		</div>
 
 		<div class="form-group">
-			<label for="thermal_sensors_widget_show_raw_output" class="col-sm-4 control-label"><?=gettext('Show raw output')?></label>
+			<label for="thermal_sensors_widget_show_raw_output" class="col-sm-4 control-label"><?=gettext('Show 출력 표시')?></label>
 			<div class="col-sm-6 checkbox">
 				<label>
 					<input type="checkbox" name="thermal_sensors_widget_show_raw_output" id="thermal_sensors_widget_show_raw_output" value="<?= $thermal_sensors_widget_showRawOutput; ?>" <?= ($thermal_sensors_widget_showRawOutput) ? " checked" : ""; ?>/>
-					<?=gettext('(no graph)')?>
+					<?=gettext('(그래프 없음)')?>
 				</label>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="thermal_sensors_widget_show_full_sensor_name" class="col-sm-4 control-label"><?=gettext('Show full sensor name')?></label>
+			<label for="thermal_sensors_widget_show_full_sensor_name" class="col-sm-4 control-label"><?=gettext('센서 풀네임 표시')?></label>
 			<div class="col-sm-6 checkbox">
 				<label>
 					<input type="checkbox" name="thermal_sensors_widget_show_full_sensor_name" id="thermal_sensors_widget_show_full_sensor_name" value="<?= $thermal_sensors_widget_showFullSensorName; ?>" <?= ($thermal_sensors_widget_showFullSensorName) ? " checked" : ""; ?>/>
@@ -297,7 +297,7 @@ if ($thermal_sensors_widget_showFahrenheit) {
 		</div>
 
 		<div class="form-group">
-			<label for="thermal_sensors_widget_show_fahrenheit" class="col-sm-4 control-label"><?=gettext('Show temperature in Fahrenheit')?></label>
+			<label for="thermal_sensors_widget_show_fahrenheit" class="col-sm-4 control-label"><?=gettext('화씨 온도를 표시하십시오.')?></label>
 			<div class="col-sm-6 checkbox">
 				<label>
 					<input type="checkbox" name="thermal_sensors_widget_show_fahrenheit" id="thermal_sensors_widget_show_fahrenheit" value="<?= $thermal_sensors_widget_showFahrenheit; ?>" <?= ($thermal_sensors_widget_showFahrenheit) ? " checked" : ""; ?>/>
@@ -307,12 +307,12 @@ if ($thermal_sensors_widget_showFahrenheit) {
 
 		<div class="form-group">
 			<div class="col-sm-offset-4 col-sm-6">
-				<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('Save')?></button>
+				<button type="submit" class="btn btn-primary"><i class="fa fa-save icon-embed-btn"></i><?=gettext('저장')?></button>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<span><?=gettext('* A proper Thermal Sensor / Module can be configured under')?> <br />
-			&nbsp;&nbsp;&nbsp;<a href="system_advanced_misc.php"><?=gettext('System')?> &gt; <?=gettext('Advanced')?> &gt; <?=gettext('Miscellaneous')?> : <?=gettext('Thermal Sensors')?> <?=gettext('section')?></a>.</span>
+			<span><?=gettext('* 적절한 온도 센서 / 모듈은 아래에 구성 할 수 있습니다.')?> <br />
+			&nbsp;&nbsp;&nbsp;<a href="system_advanced_misc.php"><?=gettext('시스템')?> &gt; <?=gettext('어드밴스드')?> &gt; <?=gettext('Miscellaneous')?> : <?=gettext('열 센서')?> <?=gettext('section')?></a>.</span>
 		</div>
 	</form>
