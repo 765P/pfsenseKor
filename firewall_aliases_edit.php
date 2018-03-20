@@ -538,13 +538,13 @@ if ($_POST['save']) {
 include("head.inc");
 
 $section_str = array(
-	'network' => gettext("Network(s)"),
-	'host'	=> gettext("Host(s)"),
-	'port' => gettext("Port(s)"),
+	'network' => gettext("네트워크"),
+	'host'	=> gettext("호스트"),
+	'port' => gettext("포트"),
 	'url' => gettext("URL (IPs)"),
 	'url_ports' => gettext("URL (Ports)"),
-	'urltable' => gettext("URL Table (IPs)"),
-	'urltable_ports' => gettext("URL Table (Ports)")
+	'urltable' => gettext("URL 테이블 (IPs)"),
+	'urltable_ports' => gettext("URL 테이블 (Ports)")
 );
 
 $btn_str = array(
@@ -558,13 +558,13 @@ $btn_str = array(
 );
 
 $label_str = array(
-	'network' => gettext("Network or FQDN"),
+	'network' => gettext("네트워크 or FQDN"),
 	'host'	=> gettext("IP or FQDN"),
 	'port' => gettext("포트"),
 	'url' => gettext("URL (IPs)"),
 	'url_ports' => gettext("URL (Ports)"),
-	'urltable' => gettext("URL Table (IPs)"),
-	'urltable_ports' => gettext("URL Table (Ports)")
+	'urltable' => gettext("URL 테이블 (IPs)"),
+	'urltable_ports' => gettext("URL 테이블 (Ports)")
 );
 
 $special_cidr_usage_text = gettext("\"/\"다음의 값은 업데이트 빈도입니다.");
@@ -618,13 +618,13 @@ $placeholder_str = array(
 );
 
 $types = array(
-	'host'	=> gettext("Host(s)"),
-	'network' => gettext("Network(s)"),
-	'port' => gettext("Port(s)"),
+	'host'	=> gettext("호스트"),
+	'network' => gettext("네트워크"),
+	'port' => gettext("포트"),
 	'url' => gettext("URL (IPs)"),
 	'url_ports' => gettext("URL (Ports)"),
-	'urltable' => gettext("URL Table (IPs)"),
-	'urltable_ports' => gettext("URL Table (Ports)"),
+	'urltable' => gettext("URL 테이블 (IPs)"),
+	'urltable_ports' => gettext("URL 테이블 (Ports)"),
 );
 
 if ($input_errors) {
@@ -665,15 +665,14 @@ $section->addInput(new Form_Input(
 	'*Name',
 	'text',
 	$pconfig['name']
-))->setPattern('[a-zA-Z0-9_]+')->setHelp('The name of the alias may only consist '.
-	'of the characters "a-z, A-Z, 0-9 and _".');
+))->setPattern('[a-zA-Z0-9_]+')->setHelp('별명의 이름은 "a-z, A-Z, 0-9 및 _"문자로만 구성 될 수 있습니다.');
 
 $section->addInput(new Form_Input(
 	'descr',
 	'Description',
 	'text',
 	$pconfig['descr']
-))->setHelp('A description may be entered here for administrative reference (not parsed).');
+))->setHelp('관리 참조(구문 분석되지 않음)를 위해 여기에 설명을 입력 할 수 있습니다.');
 
 $section->addInput(new Form_Select(
 	'type',
