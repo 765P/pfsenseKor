@@ -21,7 +21,7 @@
 
 
 //set variable for custom title
-$dyn_dns_status_title = gettext("Dynamic DNS Status");
+$dyn_dns_status_title = gettext("동적 DNS 상태");
 $dyn_dns_status_title_link = "services_dyndns.php";
 $dyn_dns_status_allow_multiple_widget_copies = true;
 
