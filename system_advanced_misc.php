@@ -302,7 +302,7 @@ if ($_POST) {
 	}
 }
 
-$pgtitle = array(gettext("System"), gettext("Advanced"), gettext("Miscellaneous"));
+$pgtitle = array(gettext("시스템"), gettext("어드밴스드"), gettext("Miscellaneous"));
 $pglinks = array("", "system_advanced_admin.php", "@self");
 include("head.inc");
 
@@ -331,30 +331,29 @@ $section->addInput(new Form_Input(
 	'Proxy URL',
 	'text',
 	$pconfig['proxyurl']
-))->setHelp('Hostname or IP address of proxy server this system will '.
-	'use for its outbound Internet access.');
+))->setHelp('이 시스템이 아웃 바운드 인터넷 액세스에 사용할 프록시 서버의 호스트 이름 또는 IP 주소입니다.');
 
 $section->addInput(new Form_Input(
 	'proxyport',
 	'Proxy Port',
 	'text',
 	$pconfig['proxyport']
-))->setHelp('Port where proxy server is listening.');
+))->setHelp('프록시 서버가 수신 대기중인 포트입니다.');
 
 $section->addInput(new Form_Input(
 	'proxyuser',
 	'Proxy Username',
 	'text',
 	$pconfig['proxyuser']
-))->setHelp('Username for authentication to proxy server. Optional, '.
-	'leave blank to not use authentication.');
+))->setHelp('프록시 서버 인증을위한 사용자 이름. 선택 사항으로 인증을 '.
+	'사용하지 않으려면 비워 두십시오.');
 
 $section->addPassword(new Form_Input(
 	'proxypass',
 	'Proxy Password',
 	'password',
 	$pconfig['proxypass']
-))->setHelp('Password for authentication to proxy server.');
+))->setHelp('프록시 서버 인증용 비밀번호.');
 
 $form->add($section);
 $section = new Form_Section('Load Balancing');
@@ -366,13 +365,9 @@ $group->add(new Form_Checkbox(
 	'Use sticky connections',
 	'Use sticky connections',
 	$pconfig['lb_use_sticky']
-))->setHelp('Successive connections will be redirected to the servers in a '.
-	'round-robin manner with connections from the same source being sent to the '.
-	'same web server. This "sticky connection" will exist as long as there are '.
-	'states that refer to this connection. Once the states expire, so will the '.
-	'sticky connection. Further connections from that host will be redirected '.
-	'to the next web server in the round robin. Changing this option will '.
-	'restart the Load Balancing service.');
+))->setHelp('연속적인 연결은 동일한 소스의 연결이 동일한 웹 서버로 전송되는 라운드 로빈 방식으로 서버로 재 지정됩니다. 이 "고정 '.
+	'연결"은이 연결을 참조하는 상태가있는 한 존재합니다. 상태가 만료되면 끈적 거리는 연결도 끊깁니다. 해당 호스트의 추가 연결은 '.
+	'라운드 로빈의 다음 웹 서버로 리디렉션됩니다. 이 옵션을 변경하면로드 균형 조정 서비스가 다시 시작됩니다.');
 
 $group->add(new Form_Input(
 	'srctrack',
@@ -380,10 +375,8 @@ $group->add(new Form_Input(
 	'number',
 	$pconfig['srctrack'],
 	["placeholder" => "0"]
-))->setHelp('Set the source tracking timeout for sticky connections. By default '.
-	'this is 0, so source tracking is removed as soon as the state expires. '.
-	'Setting this timeout higher will cause the source/destination relationship '.
-	'to persist for longer periods of time.');
+))->setHelp('고정 연결에 대한 소스 추적 제한 시간을 설정하십시오. 기본적으로이 값은 0이므로 상태가 만료되면 소스 추적이 제거됩니다. 이 '.
+	'시간 초과를 더 높게 설정하면 소스/대상 관계가 더 오랜 시간 지속됩니다.');
 
 $section->add($group);
 
@@ -392,9 +385,8 @@ $section->addInput(new Form_Checkbox(
 	'Default gateway switching',
 	'Enable default gateway switching',
 	$pconfig['gw_switch_default']
-))->setHelp('If the default gateway goes down, switch the default gateway to '.
-	'another available one. This is not enabled by default, as it\'s unnecessary in '.
-	'most all scenarios, which instead use gateway groups.');
+))->setHelp('기본 게이트웨이가 다운되면 기본 게이트웨이를 다른 사용 가능한 게이트웨이로 전환하십시오. '.
+	'이는 게이트웨이 그룹을 사용하는 대부분의 모든 시나리오에서 불필요하므로 기본적으로 활성화되지 않습니다.');
 
 $form->add($section);
 $section = new Form_Section('Power Savings');
@@ -405,24 +397,19 @@ $section->addInput(new Form_Checkbox(
 	'Enable PowerD',
 	$pconfig['powerd_enable']
 ))->setHelp('The powerd utility monitors '.
-	'the system state and sets various power control options accordingly.  It offers '.
-	'four modes (maximum, minimum, adaptive and hiadaptive) that can be individually '.
-	'selected while on AC power or batteries. The modes maximum, minimum, adaptive '.
-	'and hiadaptive may be abbreviated max, min, adp, hadp.	 Maximum mode chooses the '.
-	'highest performance values.  Minimum mode selects the lowest performance values '.
-	'to get the most power savings. Adaptive mode attempts to strike a balance by '.
-	'degrading performance when the system appears idle and increasing it when the '.
-	'system is busy.  It offers a good balance between a small performance loss for '.
-	'greatly increased power savings.  Hiadaptive mode is alike adaptive mode, but '.
-	'tuned for systems where performance and interactivity are more important than '.
-	'power consumption.	 It raises frequency faster, drops slower and keeps twice '.
-	'lower CPU load.');
+	'powerd 유틸리티는 시스템 상태를 모니터링하고 이에 따라 다양한 전원 제어 옵션을 설정합니다. AC 전원이나 배터리를 사용하는 '.
+	'동안 개별적으로 선택할 수있는 4 가지 모드 (최대, 최소, 적응 및 고 적응)를 제공합니다. 최대, 최소, 적응 형 및 고주파 형은 '.
+	'max, min, adp, hadp로 축약 될 수 있습니다. 최대 모드는 최고 성능 값을 선택합니다. 최소 모드는 가장 낮은 성능 값을 '.
+	'선택하여 절전 효과를 극대화합니다. 적응 형 모드는 시스템이 유휴 상태 일 때 성능을 저하시키고 시스템이 사용 중일 때 성능을 '.
+	'저하시킴으로써 균형을 유지하려고 시도합니다. 작은 성능 손실 사이의 균형을 잘 유지하여 전력을 크게 절감 할 수 있습니다. '.
+	'Hiadaptive 모드는 유사 적응 형 모드이지만 성능과 상호 작용이 전력 소비보다 더 중요한 시스템에 맞게 조정됩니다. 주파수를 '.
+	'더 빨리 올리고 속도를 줄이며 CPU 부하를 두 배로 줄입니다.');
 
 $modes = array(
 	'hadp' => gettext('Hiadaptive'),
 	'adp' => gettext('Adaptive'),
-	'min' => gettext('Minimum'),
-	'max' => gettext('Maximum'),
+	'min' => gettext('최소'),
+	'max' => gettext('최대'),
 );
 
 $section->addInput(new Form_Select(
@@ -454,25 +441,19 @@ $section->addInput(new Form_Select(
 	'Cryptographic Hardware',
 	$pconfig['crypto_hardware'],
 	['' => gettext('None')] + $crypto_modules
-))->setHelp('A cryptographic accelerator module will use hardware support to speed up some cryptographic '.
-	'functions on systems which have the chip. '.
-	'Loading the BSD Crypto Device module will allow access to acceleration devices using drivers '.
-	'built into the kernel, such as Hifn or ubsec chipsets. '.
-	'If the firewall does not contain a crypto chip, this option will have no effect. '.
-	'To unload the selected module, set this option to "none" and then reboot.');
+))->setHelp('암호화 가속기 모듈은 하드웨어 지원을 사용하여 칩이있는 시스템에서 일부 암호화 기능을 가속화합니다. BSD Crypto Device '.
+	'모듈을로드하면 Hifn 또는 ubsec 칩셋과 같이 커널에 내장 된 드라이버를 사용하여 가속 장치에 액세스 할 수 있습니다. '.
+	'방화벽에 암호 칩이 포함되어 있지 않으면이 옵션이 적용되지 않습니다. 선택한 모듈을 언로드하려면이 옵션을 "none"으로 설정 한 '.
+	'다음 재부팅하십시오.');
 
 $section->addInput(new Form_Select(
 	'thermal_hardware',
 	'Thermal Sensors',
 	$pconfig['thermal_hardware'],
 	array('' => 'None/ACPI') + $thermal_hardware_modules
-))->setHelp('With a '.
-	'supported CPU, selecting a thermal sensor will load the appropriate driver to '.
-	'read its temperature. Setting this to "None" will attempt to read the '.
-	'temperature from an ACPI-compliant motherboard sensor instead, if one is '.
-	'present. If there is not a supported thermal sensor chip in the system, this '.
-	'option will have no effect. To unload the selected module, set this option to '.
-	'"none" and then reboot.');
+))->setHelp('지원되는 CPU를 사용하면 온도 센서를 선택하면 해당 드라이버를로드하여 온도를 읽을 수 있습니다. 이 값을 "None"으로 설정하면 '.
+	'ACPI 호환 마더 보드 센서가있는 경우 온도를 읽으려고 시도합니다. 시스템에 지원되는 온도 센서 칩이 없으면이 옵션이 적용되지 '.
+	'않습니다. 선택한 모듈을 언로드하려면이 옵션을 "none"으로 설정 한 다음 재부팅하십시오.');
 
 $form->add($section);
 $section = new Form_Section('Schedules');
@@ -482,9 +463,8 @@ $section->addInput(new Form_Checkbox(
 	'Schedule States',
 	'Do not kill connections when schedule expires',
 	$pconfig['schedule_states']
-))->setHelp('By default, when a schedule expires, connections permitted by that '.
-	'schedule are killed. This option overrides that behavior by not clearing states '.
-	'for existing connections.');
+))->setHelp('기본적으로 일정이 만료되면 해당 일정에서 허용하는 연결이 끊어집니다. 이 옵션은 기존 연결에 대한 상태를 지우지 않음으로써 '.
+	'해당 동작을 재정의합니다.');
 
 $form->add($section);
 $section = new Form_Section('Gateway Monitoring');
@@ -494,17 +474,15 @@ $section->addInput(new Form_Checkbox(
 	'State Killing on Gateway Failure',
 	'Flush all states when a gateway goes down',
 	$pconfig['gw_down_kill_states']
-))->setHelp('The monitoring process will flush all states when a gateway goes down '.
-	'if this box is checked.');
+))->setHelp('이 상자를 선택하면 게이트웨이가 다운 될 때 모니터링 프로세스가 모든 상태를 플러시합니다.');
 
 $section->addInput(new Form_Checkbox(
 	'skip_rules_gw_down',
 	'Skip rules when gateway is down',
 	'Do not create rules when gateway is down',
 	$pconfig['skip_rules_gw_down']
-))->setHelp('By default, when a rule has a gateway specified and this gateway is '.
-	'down, the rule is created omitting the gateway. This option overrides that '.
-	'behavior by omitting the entire rule instead.');
+))->setHelp('기본적으로 룰에 지정된 게이트웨이가 있고이 게이트웨이가 작동 중지되면 게이트웨이를 생략하여 룰이 작성됩니다. 이 옵션은 대신 '.
+	'전체 규칙을 생략하여 해당 동작을 재정의합니다.');
 
 $form->add($section);
 $section = new Form_Section('RAM Disk Settings (Reboot to Apply Changes)');
@@ -514,10 +492,9 @@ $section->addInput(new Form_Checkbox(
 	'Use RAM Disks',
 	'Use memory file system for /tmp and /var',
 	$pconfig['use_mfs_tmpvar']
-))->setHelp('Set this to use /tmp and /var as RAM disks (memory file '.
-	'system disks) on a full install rather than use the hard disk. Setting this will '.
-	'cause the data in /tmp and /var to be lost. RRD, '.
-	'DHCP leases and log directory will be retained. Changing this setting will cause the firewall to reboot after clicking "Save".');
+))->setHelp('하드 디스크를 사용하지 말고 전체 설치시 RAM 디스크 (메모리 파일 시스템 디스크)로 /tmp 및 /var를 사용하도록 '.
+	'설정하십시오. 이를 설정하면 /tmp 및 /var에있는 데이터가 손실됩니다. RRD, DHCP 임대 및 로그 디렉토리가 유지됩니다. 이 '.
+	'설정을 변경하면 "저장"을 클릭 한 후 방화벽이 재부팅됩니다.');
 
 $group = new Form_Group('RAM Disk Size');
 
@@ -527,7 +504,7 @@ $group->add(new Form_Input(
 	'number',
 	$pconfig['use_mfs_tmp_size'],
 	['placeholder' => 40]
-))->setHelp('/tmp RAM Disk<br />Do not set lower than 40.');
+))->setHelp('/tmp RAM 디스크<br />40보다 낮게 설정하지 마십시오.');
 
 $group->add(new Form_Input(
 	'use_mfs_var_size',
@@ -535,9 +512,9 @@ $group->add(new Form_Input(
 	'number',
 	$pconfig['use_mfs_var_size'],
 	['placeholder' => 60]
-))->setHelp('/var RAM Disk<br />Do not set lower than 60.');
+))->setHelp('/var RAM 디스크<br />60보다 낮게 설정하지 마십시오.');
 
-$group->setHelp('Sets the size, in MiB, for the RAM disks.');
+$group->setHelp('RAM 디스크의 크기를 MiB 단위로 설정합니다.');
 
 $section->add($group);
 
@@ -565,11 +542,10 @@ $group->add(new Form_Input(
 	'number',
 	$config['system']['logsbackup'],
 	['min' => 0, 'max' => 24, 'placeholder' => '1 to 24 hours']
-))->setHelp('Log Directory');
+))->setHelp('로그 디렉토리');
 
-$group->setHelp('Sets the interval, in hours, to periodically backup these portions of RAM disk data so '.
-	'they can be restored automatically on the next boot. Keep in mind that the more '.
-	'frequent the backup, the more writes will happen to the media.');
+$group->setHelp('RAM 디스크 데이터의 이러한 부분을 정기적으로 백업하여 다음 부팅시 자동으로 복원 할 수 있도록 간격을 시간 단위로 '.
+	'설정합니다. 백업 빈도가 높을수록 미디어에 더 많은 쓰기 작업이 수행됩니다.');
 
 $section->add($group);
 
@@ -584,9 +560,9 @@ $section->addInput(new Form_Select(
 	'harddiskstandby',
 	'Hard disk standby time',
 	$pconfig['harddiskstandby'],
-	['' => gettext("Always on")] + array_combine($opts, $vals)
-))->setHelp('Puts the hard disk into standby mode when the selected number of minutes has elapsed since the last access.%1$s' .
-			'%2$sDo not set this for CF cards.%3$s', '<br />', '<strong>', '</strong>');
+	['' => gettext("항상 켜기")] + array_combine($opts, $vals)
+))->setHelp('마지막 액세스 이후 선택한 시간(분)이 경과하면 하드 디스크를 대기 모드로 전환합니다. %1$s%2$sCF 카드에는 이것을 설정하지 ' .
+			'마십시오.%3$s', '<br />', '<strong>', '</strong>');
 
 $form->add($section);
 
@@ -597,7 +573,7 @@ $section->addInput(new Form_Checkbox(
 	'Netgate Device ID',
 	'Do NOT send Netgate Device ID with user agent',
 	$pconfig['do_not_send_uniqueid']
-))->setHelp('Enable this option to not send Netgate Device ID to pfSense as part of User-Agent header.');
+))->setHelp('이 옵션을 사용하면 User-Agent 헤더의 일부로 Netgate 장치 ID를 pfSense에 보내지 않습니다.');
 
 $form->add($section);
 
