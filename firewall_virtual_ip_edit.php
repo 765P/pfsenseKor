@@ -34,6 +34,7 @@
 ##|*NAME=Firewall: Virtual IP Address: Edit
 ##|*DESCR=Allow access to the 'Firewall: Virtual IP Address: Edit' page.
 ##|*MATCH=firewall_virtual_ip_edit.php*
+##|*MATCH=firewall_virtual_ip_edit_2.php*
 ##|-PRIV
 
 require_once("guiconfig.inc");
